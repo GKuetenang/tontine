@@ -1,0 +1,111 @@
+npm run build
+
+
+## Structure des branches Git
+
+Structure recommandée :
+
+
+main
+develop
+feature/tontines
+feature/memberships
+feature/sessions
+feature/draws
+feature/contributions
+feature/loans
+
+
+Créer une nouvelle branche :
+
+
+git checkout -b feature/memberships
+
+
+## Première publication Git
+
+Initialiser Git si nécessaire :
+
+
+git init
+
+
+Ajouter les fichiers :
+
+
+git add .
+
+
+Créer le premier commit :
+
+
+git commit -m "chore: initialize Laravel tontine management project"
+
+
+Définir la branche principale :
+
+
+git branch -M main
+
+
+Ajouter le dépôt distant :
+
+
+git remote add origin <URL_DU_DEPOT>
+
+
+Envoyer le projet :
+
+
+git push -u origin main
+
+
+## Conventions de commits
+
+Le projet peut suivre Conventional Commits :
+
+
+feat: nouvelle fonctionnalité
+fix: correction d’un problème
+refactor: restructuration sans changement fonctionnel
+docs: modification de la documentation
+test: ajout ou modification de tests
+chore: maintenance et configuration
+
+
+Exemples :
+
+
+git commit -m "feat: add tontine creation module"
+git commit -m "feat: add unique tontine slug validation"
+git commit -m "docs: add project README"
+
+
+## État actuel
+
+* [x] Initialisation de Laravel avec Breeze
+* [x] Configuration de React et Inertia.js
+* [x] Création du module Tontine
+* [x] Validation du nom et du slug
+* [x] Gestion des tontines publiques et actives
+* [ ] Création du module Membership
+* [ ] Configuration complète des rôles et permissions
+* [ ] Création des cycles et sessions
+* [ ] Création du module de tirage
+* [ ] Création des cotisations
+* [ ] Création des sanctions
+* [ ] Création des prêts et remboursements
+* [ ] Création du journal financier
+* [ ] Ajout des rapports
+
+## Sécurité
+
+* Les fichiers .env ne doivent jamais être ajoutés au dépôt Git.
+* Les autorisations doivent être vérifiées avec des policies et permissions.
+* Toutes les opérations financières devront être exécutées dans des transactions SQL.
+* Les montants doivent utiliser des colonnes decimal et non float.
+* Les transactions financières confirmées ne doivent pas être supprimées directement.
+
+## Licence
+
+Ce projet est privé. Toute utilisation, reproduction ou distribution nécessite l’autorisation de son propriétaire.
