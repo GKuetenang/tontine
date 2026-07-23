@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
             $table->boolean('is_public')->default(false);
+            $table->boolean('is_verified')->default(false);
             $table->string('currency', 3)->default('XAF');
             $table->softDeletes();
             $table->timestamps();
@@ -26,6 +27,7 @@ return new class extends Migration {
             $table->unique(['user_id', 'slug']);
             $table->index(['user_id', 'is_active']);
             $table->index(['is_public', 'is_active']);
+            $table->index(['is_public', 'is_verified']);
         });
     }
 
