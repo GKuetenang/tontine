@@ -15,11 +15,11 @@ class UserSeeder extends Seeder
     {
         User::firstOrCreate(
             [
-                'email' => 'gustave@figuil.com'
+                'email' => 'gustaveckt@gmail.com'
             ],
             [
                 'name' => 'Gustave Kuetenang',
-                'email' => 'gustave@figuil.com',
+                'email' => 'gustaveckt@gmail.com',
                 'password' => Hash::make('secret'),
                 'username' => 'gkuetenang',
             ]
@@ -27,11 +27,11 @@ class UserSeeder extends Seeder
 
         User::firstOrCreate(
             [
-                'email' => 'debiangtk@figuil.com'
+                'email' => 'debiangtk@gmail.com'
             ],
             [
                 'name' => 'Debian GTK',
-                'email' => 'debiangtk@figuil.com',
+                'email' => 'debiangtk@gmail.com',
                 'password' => Hash::make('secret'),
                 'username' => 'debiangtk',
             ]
