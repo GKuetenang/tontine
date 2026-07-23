@@ -36,6 +36,9 @@ class User extends Authenticatable implements PasskeyUser
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable, HasRoles;
 
+    /**
+     * @return HasMany<Tontine>
+     */
     public function tontines(): HasMany
     {
         return $this->hasMany(Tontine::class);

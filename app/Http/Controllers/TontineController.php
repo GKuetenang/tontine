@@ -5,18 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FormTontineRequest;
 use App\Http\Resources\TontineDetailedResource;
 use App\Http\Resources\TontineResource;
-use App\Models\Enum\TontineUnit;
 use App\Models\Tontine;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class TontineController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $query = Tontine::query()
             ->with('media')
@@ -39,9 +40,8 @@ class TontineController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(FormTontineRequest $request)
+    public function store(FormTontineRequest $request): RedirectResponse
     {
-//        dd(Auth::user()->tontines);
         $tontine = auth()->user()->tontines()->create($request->validated());
         $this->handleFormRequest($request, $tontine);
 
@@ -51,7 +51,7 @@ class TontineController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         $tontine = new Tontine([
         ]);
@@ -62,15 +62,14 @@ class TontineController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Tontine $tontine)
+    public function edit(Tontine $tontine): Response
     {
-
         return Inertia::render('tontines/form', [
             'tontine' => new TontineDetailedResource($tontine),
         ]);
     }
 
-    private function handleFormRequest(FormTontineRequest $request, Tontine $tontine)
+    private function handleFormRequest(FormTontineRequest $request, Tontine $tontine): void
     {
         $image = $request->validated('image');
 
@@ -83,7 +82,7 @@ class TontineController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(FormTontineRequest $request, Tontine $tontine)
+    public function update(FormTontineRequest $request, Tontine $tontine): RedirectResponse
     {
         $tontine->update($request->validated());
         $this->handleFormRequest($request, $tontine);
@@ -94,7 +93,7 @@ class TontineController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tontine $tontine)
+    public function destroy(Tontine $tontine): RedirectResponse
     {
         $tontine->delete();
         return to_route('tontines.index')->with('success', 'Successfully deleted tontine.');

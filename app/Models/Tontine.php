@@ -31,6 +31,9 @@ class Tontine extends Model implements HasMedia
         'updated_at' => 'immutable_datetime',
     ];
 
+    /**
+     * @return BelongsTo<User>
+     */
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class);
