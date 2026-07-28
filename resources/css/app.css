@@ -175,8 +175,16 @@
         @apply border-border;
     }
 
+    html {
+        font-size: 100%;
+        text-size-adjust: 100%;
+    }
+
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground text-base antialiased;
+        font-family: var(--font-sans);
+        line-height: 1.5;
+        min-height: 100vh;
     }
 
     button {

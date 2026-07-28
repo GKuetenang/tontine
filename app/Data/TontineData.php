@@ -73,8 +73,14 @@ class TontineData extends Data
     /**
      * Determine if the user is authorized to make this request.
      */
-    public static function authorize(): bool
+    public static function authorize(Request $request): bool
     {
-        return true;
+        $tontine = $request->route('tontine');
+
+        if ($tontine instanceof Tontine) {
+            return $request->user()->can('update', $tontine);
+        }
+
+        return $request->user()->can('create', Tontine::class);
     }
 }

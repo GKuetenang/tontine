@@ -12,7 +12,7 @@ class TontinePolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,7 +28,7 @@ class TontinePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -36,7 +36,7 @@ class TontinePolicy
      */
     public function update(User $user, Tontine $tontine): bool
     {
-        return false;
+        return $user->id === $tontine->user_id;
     }
 
     /**
@@ -44,7 +44,7 @@ class TontinePolicy
      */
     public function delete(User $user, Tontine $tontine): bool
     {
-        return false;
+        return $user->id === $tontine->user_id;
     }
 
     /**
@@ -52,7 +52,7 @@ class TontinePolicy
      */
     public function restore(User $user, Tontine $tontine): bool
     {
-        return false;
+        return $user->id === $tontine->user_id;
     }
 
     /**
@@ -60,6 +60,6 @@ class TontinePolicy
      */
     public function forceDelete(User $user, Tontine $tontine): bool
     {
-        return false;
+        return $user->id === $tontine->user_id;
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Data\TontineData;
-use App\Http\Requests\FormTontineRequest;
 use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +12,11 @@ use Inertia\Response;
 
 class TontineController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Tontine::class, 'tontine');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -32,7 +36,7 @@ class TontineController extends Controller
             $query->paginate(10)->withQueryString(),
         );
 
-//        dd($resCollection, $collection);
+        //        dd($resCollection, $collection);
         return Inertia::render('tontines/index', [
             'collection' => $collection,
             'q' => $search_query,
@@ -42,10 +46,12 @@ class TontineController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(FormTontineRequest $request): RedirectResponse
+    public function store(TontineData $data): RedirectResponse
     {
-        $tontine = auth()->user()->tontines()->create($request->validated());
-        $this->handleFormRequest($request, $tontine);
+        $fillable = (new Tontine())->getFillable();
+
+        $tontine = auth()->user()->tontines()->create($data->only(...$fillable)->toArray());
+        $this->handleFormRequest($data, $tontine);
 
         return to_route('tontines.index')->with('success', 'Successfully created tontine.');
     }
@@ -67,7 +73,8 @@ class TontineController extends Controller
     public function edit(Tontine $tontine)
     {
         $tontine->load('media');
-//        dd(TontineData::fromModel($tontine)->toArray());
+
+        //        dd(TontineData::fromModel($tontine)->toArray());
         return Inertia::render('tontines/form', [
             'tontine' => TontineData::fromModel($tontine),
         ]);
@@ -102,6 +109,7 @@ class TontineController extends Controller
     public function destroy(Tontine $tontine): RedirectResponse
     {
         $tontine->delete();
+
         return to_route('tontines.index')->with('success', 'Successfully deleted tontine.');
     }
 }
