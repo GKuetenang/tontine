@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Memberships\CreateMembershipAction;
+use App\Actions\Tontines\CreateTontineAction;
 use App\Data\TontineData;
 use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
@@ -14,6 +16,7 @@ class TontineController extends Controller
 {
     public function __construct()
     {
+
         $this->authorizeResource(Tontine::class, 'tontine');
     }
 
@@ -24,7 +27,7 @@ class TontineController extends Controller
     {
         $query = Tontine::query()
             ->with('media')
-            ->where('user_id', auth()->id())
+            ->where('user_id', $request->user()->id)
             ->orderFromRequest($request);
         $search_query = $request->input('q');
 
@@ -46,11 +49,15 @@ class TontineController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TontineData $data): RedirectResponse
-    {
-        $fillable = (new Tontine())->getFillable();
-
-        $tontine = auth()->user()->tontines()->create($data->only(...$fillable)->toArray());
+    public function store(
+        Request $request,
+        TontineData $data,
+        CreateTontineAction $createTontineAction
+    ): RedirectResponse {
+        $tontine = $createTontineAction->execute(
+            $data,
+            $request->user()
+        );
         $this->handleFormRequest($data, $tontine);
 
         return to_route('tontines.index')->with('success', 'Successfully created tontine.');
@@ -61,22 +68,19 @@ class TontineController extends Controller
      */
     public function create(): Response
     {
-        $tontine = new Tontine([
+        return Inertia::render('tontines/form', [
+            'tontine' => TontineData::empty(),
         ]);
-
-        return $this->edit($tontine);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Tontine $tontine)
+    public function edit(Tontine $tontine): Response
     {
         $tontine->load('media');
-
-        //        dd(TontineData::fromModel($tontine)->toArray());
         return Inertia::render('tontines/form', [
-            'tontine' => TontineData::fromModel($tontine),
+            'tontine' => TontineData::from($tontine),
         ]);
     }
 
@@ -85,9 +89,20 @@ class TontineController extends Controller
         $image = $data->image_file;
 
         if ($image instanceof UploadedFile) {
-            $tontine->addMedia($image)->toMediaCollection('image');
-        }
+            $extension = $image->getClientOriginalExtension();
 
+            $filename = sprintf(
+                '%s-%s.%s',
+                $tontine->slug,
+                \Str::uuid(),
+                strtolower($extension)
+            );
+
+            $tontine
+                ->addMedia($image)
+                ->usingFileName($filename)
+                ->toMediaCollection('image');
+        }
     }
 
     /**
@@ -97,7 +112,8 @@ class TontineController extends Controller
     {
 
         $fillable = $tontine->getFillable();
-        $tontine->update($data->only(...$fillable)->toArray());
+        $updateData = $data->only(...$fillable)->toArray();
+        $tontine->update($updateData);
         $this->handleFormRequest($data, $tontine);
 
         return to_route('tontines.index')->with('success', 'Successfully updated tontine.');
@@ -108,7 +124,7 @@ class TontineController extends Controller
      */
     public function destroy(Tontine $tontine): RedirectResponse
     {
-        $tontine->delete();
+        $tontine->deleteOrFail();
 
         return to_route('tontines.index')->with('success', 'Successfully deleted tontine.');
     }

@@ -21,8 +21,9 @@ trait HasSortable
             'sort' => ['nullable', Rule::in($this->sortable)],
         ]);
 
-        if (!($validated['sort'] ?? null)) {
+        if (! ($validated['sort'] ?? null)) {
             $builder->orderByDesc('created_at');
+
             return;
         }
 

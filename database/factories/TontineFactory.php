@@ -25,8 +25,9 @@ class TontineFactory extends Factory
         return [
             'user_id' => $user->id,
             'name' => $name,
+            'member_number_prefix' => 'MEM',
             'slug' => Str::slug($name) . '-' . Str::random(10),
-            'description' => $this->faker->text()
+            'description' => $this->faker->text(),
         ];
     }
 

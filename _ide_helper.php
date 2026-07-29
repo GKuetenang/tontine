@@ -18951,6 +18951,16 @@ namespace Illuminate\Support\Facades {
             return \Illuminate\Routing\Router::inertia($uri, $component, $props);
         }
 
+        /**
+         * @see \LaravelLang\Routes\ServiceProvider::registerGroup()
+         * @param \Closure $callback
+         * @static
+         */
+        public static function localizedGroup($callback)
+        {
+            return \Illuminate\Routing\Router::localizedGroup($callback);
+        }
+
             }
     /**
      * @method static \Illuminate\Console\Scheduling\PendingEventAttributes withoutOverlapping(int $expiresAt = 1440, bool $releaseOnTerminationSignals = true)
@@ -25279,6 +25289,16 @@ namespace Illuminate\Routing {
         public static function inertia($uri, $component, $props = [])
         {
             return \Illuminate\Routing\Router::inertia($uri, $component, $props);
+        }
+
+        /**
+         * @see \LaravelLang\Routes\ServiceProvider::registerGroup()
+         * @param \Closure $callback
+         * @static
+         */
+        public static function localizedGroup($callback)
+        {
+            return \Illuminate\Routing\Router::localizedGroup($callback);
         }
 
             }

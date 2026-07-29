@@ -17,7 +17,7 @@ class TypeScriptTransformerServiceProvider extends BaseTypeScriptTransformerServ
             ->transformer(LaravelAttributedClassTransformer::class)
             ->transformer(EnumTransformer::class)
             ->transformDirectories(app_path())
-            ->writer(new ModuleWriter())
+            ->writer(new ModuleWriter)
             ->formatter(PrettierFormatter::class)
             ->outputDirectory(resource_path('/js/types/generated'));
     }

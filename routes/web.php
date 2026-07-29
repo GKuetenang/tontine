@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\TontineController;
 use Illuminate\Support\Facades\Route;
 
@@ -10,5 +11,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('tontines', TontineController::class)->except('show');
 
 });
+
+Route::middleware(['auth', 'verified', 'tontine.team'])
+    ->scopeBindings()
+    ->group(function () {
+        Route::post('tontines/{tontine}/memberships', [MembershipController::class, 'store'])
+            ->name('tontines.memberships.store');
+        Route::delete('tontines/{tontine}/memberships/{membership}', [MembershipController::class, 'destroy'])
+            ->name('tontines.memberships.destroy');
+    });
 
 require __DIR__.'/settings.php';

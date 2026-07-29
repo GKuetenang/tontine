@@ -1,5 +1,3 @@
-import { Form, Link } from '@inertiajs/react';
-import { EditIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import { SortableTableHead } from '@/components/sortable-table-head';
 import { TopActions } from '@/components/top-actions';
@@ -16,6 +14,8 @@ import {
 import { withAppLayout } from '@/layouts/app-layout';
 import tontines from '@/routes/tontines';
 import type { BreadcrumbItem, PaginatedCollection, Tontine } from '@/types';
+import { Form, Link } from '@inertiajs/react';
+import { EditIcon, PlusIcon, TrashIcon } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -53,6 +53,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                     <TableRow>
                         <SortableTableHead field="id">ID</SortableTableHead>
                         <SortableTableHead field="name">Nom</SortableTableHead>
+                        <SortableTableHead field="member_number_prefix">Préfixe</SortableTableHead>
                         <SortableTableHead field="slug">Slug</SortableTableHead>
                         <TableHead className="text-end">Actions</TableHead>
                     </TableRow>
@@ -96,6 +97,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                     </Link>
                                 </div>
                             </TableCell>
+                            <TableCell>{item.member_number_prefix}</TableCell>
                             <TableCell>{item.slug}</TableCell>
                             <TableCell>
                                 <div className="flex items-center justify-end gap-2">

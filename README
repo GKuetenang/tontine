@@ -88,14 +88,32 @@ git commit -m "docs: add project README"
 * [x] Création du module Tontine
 * [x] Validation du nom et du slug
 * [x] Gestion des tontines publiques et actives
+
+## Feuille de route technique
+
+### Phase 1 - Socle d'appartenance
+
 * [ ] Création du module Membership
-* [ ] Configuration complète des rôles et permissions
+* [ ] Gestion des rôles par tontine avec Spatie teams
+* [ ] Middleware de tontine active et isolation d'accès
+* [ ] Protection du dernier président
+
+### Phase 2 - Cycle de vie de la tontine
+
 * [ ] Création des cycles et sessions
 * [ ] Création du module de tirage
+
+### Phase 3 - Opérations métier
+
 * [ ] Création des cotisations
 * [ ] Création des sanctions
 * [ ] Création des prêts et remboursements
-* [ ] Création du journal financier
+* [ ] Création des dons et dépenses
+
+### Phase 4 - Comptabilité et reporting
+
+* [ ] Création du journal financier central
+* [ ] Calcul des soldes et du fonds de caisse
 * [ ] Ajout des rapports
 
 ## Sécurité

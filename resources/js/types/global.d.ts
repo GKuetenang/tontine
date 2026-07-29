@@ -19,6 +19,7 @@ declare module '@inertiajs/core' {
                 error?: string;
                 warning?: string;
             };
+            translations: Record<string, Record<string, string>>;
         };
     }
 }

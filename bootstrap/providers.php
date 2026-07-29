@@ -1,8 +1,13 @@
 <?php
 
+use App\Providers\AppServiceProvider;
+use App\Providers\FortifyServiceProvider;
+use App\Providers\TypeScriptTransformerServiceProvider;
+use Spatie\Permission\PermissionServiceProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
-    App\Providers\FortifyServiceProvider::class,
-    App\Providers\TypeScriptTransformerServiceProvider::class,
-    Spatie\Permission\PermissionServiceProvider::class,
+    AppServiceProvider::class,
+    FortifyServiceProvider::class,
+    TypeScriptTransformerServiceProvider::class,
+    PermissionServiceProvider::class,
 ];

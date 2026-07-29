@@ -35,6 +35,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $locale = app()->getLocale();
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -48,6 +50,40 @@ class HandleInertiaRequests extends Middleware
             ],
             'query' => $request->query->all(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'translations' => fn(): array => $this->getTranslations(),
         ];
+    }
+
+    private function getTranslations(): array
+    {
+        $locale = app()->getLocale();
+
+        $loader = function () use ($locale): array {
+            $translations = [];
+
+            foreach (glob(lang_path("{$locale}/*.php")) ?: [] as $file) {
+                $group = basename($file, '.php');
+
+                $translations[$group] = require $file;
+            }
+
+            $jsonTranslationsPath = lang_path("{$locale}.json");
+            if (file_exists($jsonTranslationsPath)) {
+                $jsonTranslations = json_decode(file_get_contents($jsonTranslationsPath), true);
+
+                $translations = array_merge($jsonTranslations, $translations);
+            }
+
+            return $translations;
+        };
+
+        if (app()->isLocal()) {
+            return $loader();
+        }
+
+        return cache()->rememberForever(
+            "translations.{$locale}",
+            $loader
+        );
     }
 }

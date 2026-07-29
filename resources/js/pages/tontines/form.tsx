@@ -1,5 +1,3 @@
-import { Form } from '@inertiajs/react';
-import { SaveIcon } from 'lucide-react';
 import { FormField } from '@/components/form-field';
 import { TopActions } from '@/components/top-actions';
 import { Button } from '@/components/ui/button';
@@ -10,6 +8,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { withAppLayout } from '@/layouts/app-layout';
 import tontines from '@/routes/tontines';
 import type { BreadcrumbItem, Tontine } from '@/types';
+import { Form } from '@inertiajs/react';
+import { SaveIcon } from 'lucide-react';
 
 type Props = {
     tontine: Tontine;
@@ -72,6 +72,19 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
                                 name="slug"
                                 defaultValue={tontine.slug}
                                 aria-invalid={!!errors['slug']}
+                            />
+                        </FormField>
+                        <FormField
+                            error={errors['member_number_prefix']}
+                            label="Préfixe du numéro de membre"
+                            htmlFor="member_number_prefix"
+                            help="Le préfixe du numéro de membre est utilisé pour identifier les membres de la tontine."
+                        >
+                            <Input
+                                id="member_number_prefix"
+                                name="member_number_prefix"
+                                defaultValue={tontine.member_number_prefix}
+                                aria-invalid={!!errors['member_number_prefix']}
                             />
                         </FormField>
                         <FormField
