@@ -8,10 +8,13 @@ use App\Models\Tontine;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use Spatie\Permission\Models\Role;
 
 class CreateMembershipAction
 {
+    public function __construct(
+        private readonly UpdateMembershipAction $updateMembership,
+    ) {}
+
     public function execute(
         Tontine $tontine,
         User $user,
@@ -26,57 +29,94 @@ class CreateMembershipAction
             $invitedBy,
             $status,
         ): Membership {
-            /*
-             * Lock the tontine record to prevent race conditions 
-             * when creating memberships and generating member numbers.
-             * 
-             * This ensures that two concurrent requests 
-             * cannot create memberships for the same tontine at the same
-             */
             $lockedTontine = Tontine::query()
                 ->lockForUpdate()
-                ->findOrFail($tontine->getKey());
+                ->findOrFail($tontine->id);
 
             $existingMembership = Membership::query()
                 ->withTrashed()
                 ->where('tontine_id', $lockedTontine->id)
                 ->where('user_id', $user->id)
+                ->lockForUpdate()
                 ->first();
 
             if ($existingMembership !== null) {
-                throw ValidationException::withMessages([
-                    'user_id' => __('Cet utilisateur appartient déjà à cette tontine.'),
-                ]);
+                return $this->handleExistingMembership(
+                    membership: $existingMembership,
+                    tontine: $lockedTontine,
+                    user: $user,
+                    roleName: $roleName,
+                    invitedBy: $invitedBy,
+                    status: $status,
+                );
             }
 
-            $memberNumber = $this->generateMemberNumber(
-                $lockedTontine
-            );
-
-            $membership = new Membership();
-
-            $membership->user()->associate($user);
-            $membership->tontine()->associate($lockedTontine);
-
-            if ($invitedBy !== null) {
-                $membership->inviter()->associate($invitedBy);
-            }
-
-            $membership->fill([
-                'member_number' => $memberNumber,
-                'status' => $status,
-            ]);
-
-            $membership->save();
-
-            $this->assignRole(
+            return $this->createNewMembership(
                 tontine: $lockedTontine,
                 user: $user,
                 roleName: $roleName,
+                invitedBy: $invitedBy,
+                status: $status,
             );
-
-            return $membership;
         }, attempts: 3);
+    }
+
+    private function handleExistingMembership(
+        Membership $membership,
+        Tontine $tontine,
+        User $user,
+        string $roleName,
+        ?User $invitedBy,
+        MembershipStatus $status,
+    ): Membership {
+        if (! $membership->trashed()) {
+            throw ValidationException::withMessages([
+                'user_id' => __(
+                    'Cet utilisateur appartient déjà à cette tontine.'
+                ),
+            ]);
+        }
+
+        return $this->updateMembership->execute(
+            membership: $membership,
+            tontine: $tontine,
+            user: $user,
+            roleName: $roleName,
+            invitedBy: $invitedBy,
+            status: $status,
+        );
+    }
+
+    private function createNewMembership(
+        Tontine $tontine,
+        User $user,
+        string $roleName,
+        ?User $invitedBy,
+        MembershipStatus $status,
+    ): Membership {
+        $membership = new Membership();
+
+        $membership->user()->associate($user);
+        $membership->tontine()->associate($tontine);
+
+        if ($invitedBy !== null) {
+            $membership->inviter()->associate($invitedBy);
+        }
+
+        $membership->forceFill([
+            'member_number' => $this->generateMemberNumber($tontine),
+            'status' => $status,
+        ]);
+
+        $membership->save();
+
+        $this->assignRole(
+            tontine: $tontine,
+            user: $user,
+            roleName: $roleName,
+        );
+
+        return $membership;
     }
 
     private function assignRole(
@@ -92,19 +132,7 @@ class CreateMembershipAction
             $user->unsetRelation('roles');
             $user->unsetRelation('permissions');
 
-            $role = Role::query()
-                ->where('name', $roleName)
-                ->where('guard_name', 'web')
-                ->where('tontine_id', $tontine->id)
-                ->first();
-
-            if ($role === null) {
-                throw ValidationException::withMessages([
-                    'role' => __('Le rôle sélectionné n’existe pas dans cette tontine.'),
-                ]);
-            }
-
-            $user->assignRole($role);
+            $user->assignRole($roleName);
         } finally {
             setPermissionsTeamId($previousTeamId);
 
@@ -113,17 +141,14 @@ class CreateMembershipAction
         }
     }
 
-    private function generateMemberNumber(
-        Tontine $tontine
-    ): string {
-
-        $nextNumber = $tontine->next_member_number;
-        $prefix = $tontine->member_number_prefix ?? config('memberships.default_member_number_prefix', 'MEM');
-
+    private function generateMemberNumber(Tontine $tontine): string
+    {
+        $prefix = $tontine->member_number_prefix
+            ?: config('memberships.default_member_number_prefix', 'MEM');
         $memberNumber = sprintf(
             '%s-%06d',
-            $prefix,
-            $nextNumber
+            strtoupper($prefix),
+            $tontine->next_member_number,
         );
 
         $tontine->increment('next_member_number');

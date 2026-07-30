@@ -40,7 +40,6 @@ test('creating a tontine automatically creates the creator membership as preside
         ->where('slug', 'ajerm')
         ->firstOrFail();
 
-
     $membership = Membership::query()
         ->whereBelongsTo($tontine)
         ->whereBelongsTo($user)
@@ -84,7 +83,7 @@ test('the same user cannot have two memberships in the same tontine', function (
     );
 
     expect(
-        fn() => $action->execute(
+        fn () => $action->execute(
             tontine: $tontine,
             user: $user,
             invitedBy: $creator,
@@ -117,7 +116,7 @@ test('the last president cannot be deactivated', function () {
     );
 
     expect(
-        fn() => app(DeactivateMembershipAction::class)
+        fn () => app(DeactivateMembershipAction::class)
             ->execute($membership)
     )->toThrow(ValidationException::class);
 
@@ -173,6 +172,55 @@ test('deactivating a membership removes its team roles and soft deletes it', fun
     $this->assertSoftDeleted('memberships', [
         'id' => $membership->id,
     ]);
+});
+
+test('a soft deleted membership is restored when the member rejoins', function () {
+    $owner = User::factory()->create();
+    $member = User::factory()->create();
+
+    $tontine = Tontine::factory()->create([
+        'user_id' => $owner->id,
+    ]);
+
+    createTeamRole($tontine, 'member');
+
+    $membership = app(CreateMembershipAction::class)->execute(
+        tontine: $tontine,
+        user: $member,
+        invitedBy: $owner,
+        roleName: 'member',
+    );
+
+    app(DeactivateMembershipAction::class)
+        ->execute($membership);
+
+    $restoredMembership = app(CreateMembershipAction::class)->execute(
+        tontine: $tontine,
+        user: $member,
+        invitedBy: $owner,
+        roleName: 'member',
+    );
+
+    expect($restoredMembership)
+        ->id->toBe($membership->id)
+        ->member_number->toBe($membership->member_number)
+        ->status->toBe(MembershipStatus::Active)
+        ->left_at->toBeNull()
+        ->deleted_at->toBeNull();
+
+    expect(
+        Membership::withTrashed()
+            ->whereBelongsTo($tontine)
+            ->whereBelongsTo($member)
+            ->count()
+    )->toBe(1);
+
+    setPermissionsTeamId($tontine->id);
+
+    $member->unsetRelation('roles');
+    $member->unsetRelation('permissions');
+
+    expect($member->hasRole('member'))->toBeTrue();
 });
 
 function createTeamRole(

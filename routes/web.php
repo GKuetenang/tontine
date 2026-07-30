@@ -10,15 +10,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
     Route::resource('tontines', TontineController::class)->except('show');
 
+    Route::middleware(['tontine.team'])->scopeBindings()->group(function () {
+        Route::resource('tontines/{tontine}/memberships', MembershipController::class)
+            ->only(['index', 'store', 'update', 'destroy']);
+    });
 });
 
-Route::middleware(['auth', 'verified', 'tontine.team'])
-    ->scopeBindings()
-    ->group(function () {
-        Route::post('tontines/{tontine}/memberships', [MembershipController::class, 'store'])
-            ->name('tontines.memberships.store');
-        Route::delete('tontines/{tontine}/memberships/{membership}', [MembershipController::class, 'destroy'])
-            ->name('tontines.memberships.destroy');
-    });
-
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';

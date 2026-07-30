@@ -1,5 +1,3 @@
-import type { PropsWithChildren } from 'react';
-import { Label } from '@/components/ui/label';
 import {
     Field,
     FieldDescription,
@@ -8,6 +6,8 @@ import {
     FieldLegend,
     FieldSet,
 } from '@/components/ui/field';
+import { Label } from '@/components/ui/label';
+import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
     htmlFor?: string;

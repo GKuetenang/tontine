@@ -14,6 +14,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { withAppLayout } from '@/layouts/app-layout';
+import memberships from '@/routes/memberships';
 import tontines from '@/routes/tontines';
 import type { BreadcrumbItem, PaginatedCollection, Tontine } from '@/types';
 import { Form, Head, Link } from '@inertiajs/react';
@@ -108,7 +109,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                         <TableCell>{item.slug}</TableCell>
                                         <TableCell>
                                             <Button asChild variant='outline'>
-                                                <Link href="#">
+                                                <Link href={memberships.index({ tontine: item.id! })}>
                                                     <UsersIcon size={16} />
                                                     {`${item.members_count} membre${item.members_count! > 1 ? 's' : ''}`}
                                                 </Link>
@@ -154,7 +155,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                             </TableBody>
                         </Table>
 
-                        <CollectionPagination className='px-6' collection={collection} />
+                        <CollectionPagination className='px-6 pt-6' collection={collection} />
                     </CardContent>
                 </Card>
             </div>

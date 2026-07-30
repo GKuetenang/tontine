@@ -30,8 +30,7 @@ class MembershipPolicy
 
     public function delete(User $user, Membership $membership): bool
     {
-        return $this->canManageTontine($user, $membership->tontine)
-            && ! $membership->isLastPresident();
+        return $this->canManageTontine($user, $membership->tontine);;
     }
 
     public function restore(User $user, Membership $membership): bool

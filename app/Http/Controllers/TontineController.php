@@ -61,7 +61,8 @@ class TontineController extends Controller
         );
         $this->handleFormRequest($data, $tontine);
 
-        return to_route('tontines.index')->with('success', 'Successfully created tontine.');
+        Inertia::flash('success', __('Tontine crée avec succès.'));
+        return to_route('tontines.index');
     }
 
     /**
@@ -117,7 +118,8 @@ class TontineController extends Controller
         $tontine->update($updateData);
         $this->handleFormRequest($data, $tontine);
 
-        return to_route('tontines.index')->with('success', 'Successfully updated tontine.');
+        Inertia::flash('success', __('Tontine mise à jour avec succès.'));
+        return to_route('tontines.index');
     }
 
     /**
@@ -127,6 +129,7 @@ class TontineController extends Controller
     {
         $tontine->deleteOrFail();
 
-        return to_route('tontines.index')->with('success', 'Successfully deleted tontine.');
+        Inertia::flash('success', __('Tontine supprimée avec succès.'));
+        return to_route('tontines.index');
     }
 }

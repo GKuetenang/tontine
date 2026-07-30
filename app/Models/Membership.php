@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[Fillable([
     'status',
     'member_number',
+    'left_at',
+    'status'
 ])]
 #[UsePolicy(MembershipPolicy::class)]
 class Membership extends Model
