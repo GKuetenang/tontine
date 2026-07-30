@@ -1,14 +1,15 @@
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import type { PaginatedCollection } from '@/types';
 import { Link } from '@inertiajs/react';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { Button } from '@/components/ui/button';
-import type { PaginatedCollection } from '@/types';
 
-type Props = { collection: PaginatedCollection<unknown> };
+type Props = { collection: PaginatedCollection<unknown>, className?: string };
 
-export function CollectionPagination({ collection }: Props) {
+export function CollectionPagination({ collection, className }: Props) {
     return (
-        <div className="flex items-center justify-between">
+        <div className={cn("flex items-center justify-between", className)}>
             <div className="hidden flex-1 text-sm text-muted-foreground lg:flex">
                 Page {collection.current_page} sur {collection.last_page}
             </div>
@@ -21,7 +22,7 @@ export function CollectionPagination({ collection }: Props) {
                                 disabled={link.url === null}
                                 aria-current={link.active ? 'page' : undefined}
                                 data-active={link.active}
-                                variant={link.active ? 'outline' : 'ghost'}
+                                variant={link.active ? 'outline' : 'secondary'}
                                 size="icon"
                             >
                                 <Link href={link.url ?? '#'}>

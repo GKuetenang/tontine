@@ -28,6 +28,7 @@ class TontineController extends Controller
         $query = Tontine::query()
             ->with('media')
             ->where('user_id', $request->user()->id)
+            ->withCount('members')
             ->orderFromRequest($request);
         $search_query = $request->input('q');
 
@@ -39,7 +40,7 @@ class TontineController extends Controller
             $query->paginate(10)->withQueryString(),
         );
 
-        //        dd($resCollection, $collection);
+        // dd($collection[0]);
         return Inertia::render('tontines/index', [
             'collection' => $collection,
             'q' => $search_query,
