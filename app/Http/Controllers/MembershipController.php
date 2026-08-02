@@ -59,7 +59,7 @@ class MembershipController extends Controller
             ->latest()
             ->paginate(10)
             ->withQueryString()
-            ->through(function (Membership $membership): array {
+            ->through(function (Membership $membership) use ($tontine): array {
                 $role = $membership->user->roles->first();
                 $roleEnum = $role
                     ? TontineRole::tryFrom($role->name)
@@ -67,6 +67,7 @@ class MembershipController extends Controller
                 return [
                     'id' => $membership->id,
                     'tontine_id' => $membership->tontine_id,
+                    'tontine_slug' => $tontine->slug,
                     'member_number' => $membership->member_number,
                     'status' => $membership->status->value,
                     'role' => $role

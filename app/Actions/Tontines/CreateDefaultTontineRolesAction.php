@@ -2,28 +2,57 @@
 
 namespace App\Actions\Tontines;
 
+use App\Enums\TontinePermission;
 use App\Enums\TontineRole;
 use App\Models\Tontine;
+use LogicException;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class CreateDefaultTontineRolesAction
 {
 
-    public function execute(Tontine $tontine): array
+    public function execute(Tontine $tontine): void
     {
         $priviousTeamId = getPermissionsTeamId();
 
         try {
             setPermissionsTeamId($tontine->id);
 
-            return array_map(
-                fn(TontineRole $role): Role => Role::firstOrCreate([
-                    'name' => $role->value,
+            app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+            foreach (TontineRole::cases() as $roleName) {
+                $role = Role::query()->firstOrCreate([
+                    'name' => $roleName->value,
                     'guard_name' => 'web',
                     'tontine_id' => $tontine->id,
-                ]),
-                TontineRole::cases()
-            );
+                ]);
+
+                $permissionNames = array_map(
+                    static fn(TontinePermission $permission): string =>
+                    $permission->value,
+                    $roleName->defaultPermissions(),
+                );
+
+                $permissions = Permission::query()
+                    ->where('guard_name', 'web')
+                    ->whereIn('name', $permissionNames)
+                    ->get();
+
+                $missingPermissions = array_diff(
+                    $permissionNames,
+                    $permissions->pluck('name')->all(),
+                );
+
+                if ($missingPermissions != []) {
+                    throw new LogicException("Permisssions manquantes : " . implode(', ', $missingPermissions));
+                }
+
+                $role->syncPermissions($permissions);
+            }
+
+            app(PermissionRegistrar::class)->forgetCachedPermissions();
         } finally {
             setPermissionsTeamId($priviousTeamId);
         }

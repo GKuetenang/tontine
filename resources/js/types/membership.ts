@@ -16,6 +16,7 @@ export interface MembersipUser extends UserOption {
 export type Membership = {
     id: number;
     tontine_id: number;
+    tontine_slug: string;
     member_number: string;
     status: MembershipStatus,
     status_label: string;

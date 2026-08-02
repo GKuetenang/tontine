@@ -14,9 +14,10 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
-import memberships from '@/routes/memberships';
 import tontines from '@/routes/tontines';
+import memberships from '@/routes/tontines/memberships';
 import type { BreadcrumbItem, Membership, PaginatedCollection } from '@/types';
 import { Form, Head, Link } from '@inertiajs/react';
 import { EditIcon, PlusIcon, TrashIcon } from 'lucide-react';
@@ -50,7 +51,7 @@ type Props = {
 };
 
 export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, membership, statuses }: Props) => {
-    console.log(collection);
+    const { can } = useAuthorization();
 
     return (
         <>
@@ -62,7 +63,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, memb
                 <TopActions>
                     <Form
                         {...memberships.index.form({
-                            tontine: tontine.id
+                            tontine: tontine.slug
                         })}
                         className="flex items-center gap-1"
                     >
@@ -76,8 +77,9 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, memb
                     </Form>
                 </TopActions>
                 <Card className='bg-background pt-0'>
-                    <CardHeader className='border-b py-4'>
+                    {can('memberships.create') && <CardHeader className='border-b py-4'>
                         <EditMemberForm
+                            statuses={[]}
                             membership={membership}
                             roles={roles}
                             tontine={tontine}
@@ -92,7 +94,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, memb
                                 </Button>
                             }
                         />
-                    </CardHeader>
+                    </CardHeader>}
                     <CardContent className='px-0'>
                         <Table className='border-spacing-4'>
                             <TableHeader>
@@ -127,7 +129,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, memb
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex items-center justify-end gap-2">
-                                                <EditMemberForm
+                                                {can('memberships.update') && <EditMemberForm
                                                     membership={item}
                                                     roles={roles}
                                                     tontine={tontine}
@@ -140,16 +142,17 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, memb
                                                             <EditIcon size={16} />
                                                         </Button>
                                                     }
-                                                />
+                                                />}
+                                                {!can('memberships.update') && <span>-</span>}
 
-                                                <Button
+                                                {can('memberships.delete') && <Button
                                                     asChild
                                                     size="icon"
                                                     variant="destructive-outline"
                                                 >
                                                     <Link
                                                         href={memberships.destroy({
-                                                            tontine: item.tontine_id,
+                                                            tontine: item.tontine_slug,
                                                             membership: item.id,
                                                         })}
                                                         onBefore={() =>
@@ -164,7 +167,8 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, memb
                                                     >
                                                         <TrashIcon size={16} />
                                                     </Link>
-                                                </Button>
+                                                </Button>}
+                                                {!can('memberships.delete') && <span>-</span>}
                                             </div>
                                         </TableCell>
                                     </TableRow>
@@ -179,7 +183,3 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, memb
         </>
     );
 });
-
-// withAppLayout.layout = {
-
-// }

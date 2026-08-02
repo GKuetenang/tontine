@@ -6,6 +6,7 @@ export type Tontine = {
     updated_at: undefined | undefined;
     image: undefined | undefined | string;
     image_file: undefined | undefined;
+    can: undefined | TontineAbilitiesData;
     id: undefined | number;
     members_count: undefined | number;
     currency: undefined | string;
@@ -13,4 +14,10 @@ export type Tontine = {
     is_public: undefined | boolean;
     is_verified: undefined | boolean;
     description: string | null;
+};
+export type TontineAbilitiesData = {
+    view: boolean;
+    update: boolean;
+    delete: boolean;
+    view_memberships: boolean;
 };

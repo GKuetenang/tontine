@@ -13,6 +13,7 @@ export type User = {
 
 export type Auth = {
     user: User;
+    authorization: Authorization;
 };
 
 /* @chisel-passkeys */
@@ -33,3 +34,9 @@ export type TwoFactorSetupData = {
 export type TwoFactorSecretKey = {
     secretKey: string;
 };
+
+export type Authorization = {
+    tontine_id: number | null;
+    roles: string[];
+    permissions: string[]
+}

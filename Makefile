@@ -12,3 +12,8 @@ analyse:
 .PHONY: pint
 pint:
 	./vendor/bin/pint
+
+
+.PHONY: types
+types:
+	php artisan typescript:transform

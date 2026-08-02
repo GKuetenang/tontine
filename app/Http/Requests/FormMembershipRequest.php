@@ -3,14 +3,31 @@
 namespace App\Http\Requests;
 
 use App\Enums\MembershipStatus;
+use App\Models\Membership;
+use App\Models\Tontine;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class FormMembershipRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        $tontine = $this->route('tontine');
+        $membership = $this->route('membership');
+
+        if (! $tontine instanceof Tontine) {
+            return false;
+        }
+
+        if ($membership instanceof Membership) {
+            return Gate::allows('update', $membership);
+        }
+
+        return Gate::allows(
+            'create',
+            [Membership::class, $tontine],
+        );
     }
 
     public function rules(): array

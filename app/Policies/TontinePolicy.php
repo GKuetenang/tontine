@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\TontinePermission;
 use App\Models\Tontine;
 use App\Models\User;
 
@@ -20,7 +21,8 @@ class TontinePolicy
      */
     public function view(User $user, Tontine $tontine): bool
     {
-        return $user->id === $tontine->user_id;
+        return $tontine->hasActiveMembership($user)
+            && $user->can(TontinePermission::ViewTontine->value);
     }
 
     /**
@@ -36,7 +38,8 @@ class TontinePolicy
      */
     public function update(User $user, Tontine $tontine): bool
     {
-        return $user->id === $tontine->user_id;
+        return $tontine->hasActiveMembership($user)
+            && $user->can(TontinePermission::UpdateTontine->value);
     }
 
     /**
@@ -44,7 +47,8 @@ class TontinePolicy
      */
     public function delete(User $user, Tontine $tontine): bool
     {
-        return $user->id === $tontine->user_id;
+        return $tontine->hasActiveMembership($user)
+            && $user->can(TontinePermission::DeleteTontine->value);;
     }
 
     /**
@@ -52,7 +56,8 @@ class TontinePolicy
      */
     public function restore(User $user, Tontine $tontine): bool
     {
-        return $user->id === $tontine->user_id;
+        return $tontine->hasActiveMembership($user)
+            && $user->can(TontinePermission::RestoreTontine->value);
     }
 
     /**
@@ -60,6 +65,7 @@ class TontinePolicy
      */
     public function forceDelete(User $user, Tontine $tontine): bool
     {
-        return $user->id === $tontine->user_id;
+        return $tontine->hasActiveMembership($user)
+            && $user->can(TontinePermission::ForceDeleteTontine->value);
     }
 }

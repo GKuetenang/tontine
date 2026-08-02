@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Tontine;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -42,6 +43,7 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
+                'authorization' => fn(): array => $this->authorization($request),
             ],
             'flash' => [
                 'success' => $request->session()->get('success'),
@@ -51,6 +53,7 @@ class HandleInertiaRequests extends Middleware
             'query' => $request->query->all(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'translations' => fn(): array => $this->getTranslations(),
+
         ];
     }
 
@@ -85,5 +88,57 @@ class HandleInertiaRequests extends Middleware
             "translations.{$locale}",
             $loader
         );
+    }
+
+    private function authorization(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user == null) {
+            return [
+                'tontine_id' => null,
+                'roles' => [],
+                'permissions' => []
+            ];
+        }
+
+        $tontine = $request->route('tontine');
+
+        if (!$tontine instanceof Tontine) {
+            return [
+                'tontine_id' => null,
+                'roles' => [],
+                'permissions' => [],
+            ];
+        }
+
+        $previousTeamId = getPermissionsTeamId();
+
+        try {
+            setPermissionsTeamId($tontine->id);
+
+            $user->unsetRelation('roles');
+            $user->unsetRelation('permissions');
+
+            return [
+                'tontine_id' => $tontine->id,
+                'roles' => $user
+                    ->roles
+                    ->pluck('name')
+                    ->values()
+                    ->all(),
+
+                'permissions' => $user
+                    ->getAllPermissions()
+                    ->pluck('name')
+                    ->values()
+                    ->all(),
+            ];
+        } finally {
+            setPermissionsTeamId($previousTeamId);
+
+            $user->unsetRelation('roles');
+            $user->unsetRelation('permissions');
+        }
     }
 }

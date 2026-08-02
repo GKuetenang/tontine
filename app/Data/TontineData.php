@@ -28,6 +28,7 @@ class TontineData extends Data
         public Optional|Lazy|string $image,
         #[Mimes('jpg,jpeg,png,webp'), Max(2048)]
         public Optional|UploadedFile $image_file,
+        public Optional|TontineAbilitiesData $can,
         public Optional|int $id,
         public Optional|int $members_count,
         public Optional|string $currency = 'XAF',
@@ -37,18 +38,35 @@ class TontineData extends Data
         public ?string $description = null,
     ) {}
 
-    public static function fromModel(Tontine $tontine): self
-    {
-        return self::from(
-            $tontine,
-            [
-                'image' => Lazy::whenLoaded(
-                    'media',
-                    $tontine,
-                    fn() => $tontine->getFirstMediaUrl('image')
-                ),
-            ]
-        );
+    public static function fromModel(
+        Tontine $tontine,
+        TontineAbilitiesData|Optional|null $can = null,
+    ): self {
+        return self::from([
+            ...$tontine->only([
+                'id',
+                'name',
+                'slug',
+                'member_number_prefix',
+                'currency',
+                'description',
+                'is_active',
+                'is_public',
+                'is_verified',
+                'created_at',
+                'updated_at',
+            ]),
+
+            'members_count' => $tontine->members_count,
+            'image' => Lazy::whenLoaded(
+                'media',
+                $tontine,
+                fn(): ?string => $tontine->getFirstMediaUrl(),
+            ),
+            'image_file' => Optional::create(),
+
+            'can' => $can ?? Optional::create(),
+        ]);
     }
 
     /**

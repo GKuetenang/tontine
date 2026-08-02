@@ -14,7 +14,7 @@ import {
 import { Spinner } from "@/components/ui/spinner"
 import { UserCombobox } from "@/components/user-combobox"
 import { cn } from "@/lib/utils"
-import memberships from "@/routes/memberships"
+import memberships from "@/routes/tontines/memberships"
 import { Membership, UserOption } from "@/types"
 import { Form } from "@inertiajs/react"
 import { SaveIcon } from "lucide-react"
@@ -50,8 +50,8 @@ export function EditMemberForm({ trigger, tontine, roles, membership, statuses }
     }, [open, membership?.id])
 
     const action = membership.id ?
-        memberships.update.form({ tontine: tontine.id, membership: membership.id }) :
-        memberships.store.form({ tontine: tontine.id })
+        memberships.update.form({ tontine: tontine.slug, membership: membership.id }) :
+        memberships.store.form({ tontine: tontine.slug })
 
 
     return (

@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
+use App\Enums\MembershipStatus;
 use App\Models\Traits\HasSortable;
 use App\Policies\TontinePolicy;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Query\Builder;
+use Override;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -55,6 +57,12 @@ class Tontine extends Model implements HasMedia
         'created_at' => 'immutable_datetime',
         'updated_at' => 'immutable_datetime',
     ];
+
+    #[Override]
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     /**
      * @return BelongsTo<User>
@@ -121,5 +129,35 @@ class Tontine extends Model implements HasMedia
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')->fit(Fit::Crop, 160, 160);
+    }
+
+    public function scopeAccessibleBy(
+        Builder $query,
+        User $user
+    ): Builder {
+
+        return $query->where(function (Builder $query) use ($user): void {
+            $query
+                ->where('user_id', $user->id)
+                ->orWhereHas(
+                    'memberships',
+                    function (Builder $membershiptQuery) use ($user): void {
+                        $membershiptQuery
+                            ->where('user_id', $user->id)
+                            ->where(
+                                'status',
+                                MembershipStatus::Active
+                            );
+                    }
+                );
+        });
+    }
+
+    public function hasActiveMembership(User $user)
+    {
+        return $this->memberships()
+            ->where('user_id', $user->id)
+            ->where('status', MembershipStatus::Active)
+            ->exists();
     }
 }

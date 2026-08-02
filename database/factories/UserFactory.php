@@ -24,11 +24,18 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $firstName = fake()->firstName();
+        $lastName = fake()->lastName();
+
+        $identifier = $this->identifier($firstName, $lastName);
+
+        $suffix = fake()->unique()->numberBetween(1, 99999);
+
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => "{$firstName} {$lastName}",
+            'username' => "{$identifier}{$suffix}",
+            'email' => "{$identifier}{$suffix}@example.com",
             'email_verified_at' => now(),
-            'username' => fake()->unique()->name(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'two_factor_secret' => null,
@@ -37,12 +44,25 @@ class UserFactory extends Factory
         ];
     }
 
+    private function identifier(
+        string $firstName,
+        string $lastName,
+    ): string {
+        return Str::of("{$firstName}.{$lastName}")
+            ->ascii()
+            ->lower()
+            ->replaceMatches('/[^a-z0-9.]+/', '')
+            ->trim('.')
+            ->toString();
+    }
+
+
     /**
      * Indicate that the model's email address should be unverified.
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
@@ -52,7 +72,7 @@ class UserFactory extends Factory
      */
     public function withTwoFactor(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'two_factor_secret' => encrypt('secret'),
             'two_factor_recovery_codes' => encrypt(json_encode(['recovery-code-1'])),
             'two_factor_confirmed_at' => now(),

@@ -15,7 +15,7 @@ class CreateTontineAction
      * Create a new class instance.
      */
     public function __construct(
-        private CreateDefaultTontineRolesAction $createDefaultTontineRolesAction,
+        private CreateDefaultTontineRolesAction $createRoles,
         private CreateMembershipAction $createMembershipAction,
     ) {}
 
@@ -27,7 +27,7 @@ class CreateTontineAction
         return DB::transaction(function () use ($fillableData, $user) {
             $tontine = $user->ownedTontines()->create($fillableData);
 
-            $this->createDefaultTontineRolesAction->execute($tontine);
+            $this->createRoles->execute($tontine);
 
             $this->createMembershipAction->execute(
                 tontine: $tontine,

@@ -36,5 +36,9 @@ class UserSeeder extends Seeder
                 'username' => 'debiangtk',
             ]
         );
+
+        User::factory(10)->create([
+            'password' => 'secret'
+        ]);
     }
 }

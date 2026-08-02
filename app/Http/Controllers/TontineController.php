@@ -6,6 +6,7 @@ use App\Actions\Memberships\CreateMembershipAction;
 use App\Actions\Tontines\CreateTontineAction;
 use App\Data\TontineData;
 use App\Models\Tontine;
+use App\Support\TontineAbilities;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -23,24 +24,38 @@ class TontineController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): Response
+    public function index(Request $request, TontineAbilities $tontineAbilities): Response
     {
+        $user = $request->user();
+
         $query = Tontine::query()
             ->with('media')
-            ->where('user_id', $request->user()->id)
+            ->accessibleBy($request->user())
             ->withCount('members')
             ->orderFromRequest($request);
+
         $search_query = $request->input('q');
 
         if ($request->has('q')) {
             $query->where('name', 'like', "%{$search_query}%");
         }
 
-        $collection = TontineData::collect(
-            $query->paginate(10)->withQueryString(),
-        );
+        $collection = $query
+            ->paginate(10)
+            ->withQueryString()
+            ->through(
+                fn(Tontine $tontine): TontineData =>
+                TontineData::fromModel(
+                    tontine: $tontine,
+                    can: $tontineAbilities->for(
+                        user: $user,
+                        tontine: $tontine,
+                    ),
+                ),
+            );
 
-        // dd($collection[0]);
+
+        // dd($collection);
         return Inertia::render('tontines/index', [
             'collection' => $collection,
             'q' => $search_query,

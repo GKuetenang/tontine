@@ -13,9 +13,10 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
-import memberships from '@/routes/memberships';
 import tontines from '@/routes/tontines';
+import memberships from '@/routes/tontines/memberships';
 import type { BreadcrumbItem, PaginatedCollection, Tontine } from '@/types';
 import { Form, Head, Link } from '@inertiajs/react';
 import { EditIcon, PlusIcon, TrashIcon, UsersIcon } from 'lucide-react';
@@ -33,6 +34,10 @@ type Props = {
 };
 
 export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
+
+    const { can } = useAuthorization();
+
+    // const { auth } = usePage().props;
     console.log(collection);
     return (
         <>
@@ -95,49 +100,58 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                                 ) : (
                                                     <div className="aspect-square size-14 bg-secondary rounded-lg"></div>
                                                 )}
-                                                <Link
-                                                    className="hover:underline"
-                                                    href={tontines.edit({
-                                                        tontine: item.id!,
-                                                    })}
-                                                >
-                                                    {item.name}
-                                                </Link>
+                                                {item.can?.update &&
+                                                    <Link
+                                                        disabled={true}
+                                                        className="hover:underline"
+                                                        href={tontines.edit({
+                                                            tontine: item.slug!,
+                                                        })}
+                                                    >
+                                                        {item.name}
+                                                    </Link>
+                                                }
+                                                {!item.can?.update && <span>{item.name}</span>}
                                             </div>
                                         </TableCell>
                                         <TableCell>{item.member_number_prefix}</TableCell>
                                         <TableCell>{item.slug}</TableCell>
                                         <TableCell>
-                                            <Button asChild variant='outline'>
-                                                <Link href={memberships.index({ tontine: item.id! })}>
-                                                    <UsersIcon size={16} />
-                                                    {`${item.members_count} membre${item.members_count! > 1 ? 's' : ''}`}
-                                                </Link>
-                                            </Button>
+                                            {item.can?.view_memberships ?
+                                                <Button asChild variant='outline'>
+                                                    <Link href={memberships.index({ tontine: item.slug! })}>
+                                                        <UsersIcon size={16} />
+                                                        {`${item.members_count} membre${item.members_count! > 1 ? 's' : ''}`}
+                                                    </Link>
+                                                </Button> :
+                                                <span>{`${item.members_count} membre${item.members_count! > 1 ? 's' : ''}`}</span>
+                                            }
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex items-center justify-end gap-2">
-                                                <Button
+                                                {item.can?.update ? <Button
                                                     asChild
                                                     size="icon"
                                                     variant="outline"
                                                 >
                                                     <Link
                                                         href={tontines.edit({
-                                                            tontine: item.id!,
+                                                            tontine: item.slug!,
                                                         })}
                                                     >
                                                         <EditIcon size={16} />
                                                     </Link>
-                                                </Button>
-                                                <Button
+                                                </Button> :
+                                                    <span>-</span>
+                                                }
+                                                {item.can?.delete ? <Button
                                                     asChild
                                                     size="icon"
                                                     variant="destructive-outline"
                                                 >
                                                     <Link
                                                         href={tontines.destroy({
-                                                            tontine: item.id!,
+                                                            tontine: item.slug!,
                                                         })}
                                                         onBefore={() =>
                                                             confirm(
@@ -147,7 +161,9 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                                     >
                                                         <TrashIcon size={16} />
                                                     </Link>
-                                                </Button>
+                                                </Button> :
+                                                    <span>-</span>
+                                                }
                                             </div>
                                         </TableCell>
                                     </TableRow>
