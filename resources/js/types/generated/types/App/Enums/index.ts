@@ -14,6 +14,8 @@ export type TontinePermission =
     | 'sessions.view'
     | 'sessions.create'
     | 'sessions.update'
+    | 'sessions.activate'
+    | 'sessions.close'
     | 'sessions.delete'
     | 'draws.view'
     | 'draws.create'

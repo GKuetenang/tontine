@@ -29,7 +29,7 @@ type Props = {
     statuses: SelectOption[];
 }
 
-export function EditMemberForm({ trigger, tontine, roles, membership, statuses }: Props) {
+export function EditMembershipForm({ trigger, tontine, roles, membership, statuses }: Props) {
     const defaultUser = membership.id ? membership.user : null;
 
     const [selectedUser, setSelectedUser] = useState<UserOption | null>(defaultUser);
@@ -59,7 +59,11 @@ export function EditMemberForm({ trigger, tontine, roles, membership, statuses }
             <DialogTrigger asChild>
                 {trigger}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent
+                className="sm:max-w-md"
+                onInteractOutside={(e) => e.preventDefault()}
+                onEscapeKeyDown={(e) => e.preventDefault()}
+            >
                 <Form {...action}
                     resetOnSuccess
                     onSuccess={() => {

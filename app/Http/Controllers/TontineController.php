@@ -32,6 +32,7 @@ class TontineController extends Controller
             ->with('media')
             ->accessibleBy($request->user())
             ->withCount('members')
+            ->withCount('sessions')
             ->orderFromRequest($request);
 
         $search_query = $request->input('q');
@@ -74,6 +75,7 @@ class TontineController extends Controller
             $data,
             $request->user()
         );
+
         $this->handleFormRequest($data, $tontine);
 
         Inertia::flash('success', __('Tontine crée avec succès.'));

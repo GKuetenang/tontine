@@ -57,6 +57,35 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int|null $user_id
+ * @property string|null $ip_address
+ * @property string|null $user_agent
+ * @property string $payload
+ * @property int $last_activity
+ * @property-read \App\Models\Tontine|null $tontine
+ * @method static \Database\Factories\SessionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session orderFromRequest(\Illuminate\Http\Request $request)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereIpAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereLastActivity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session wherePayload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereUserAgent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperSession {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
  * @property int $user_id
  * @property int $next_member_number
  * @property string $member_number_prefix
@@ -70,6 +99,7 @@ namespace App\Models{
  * @property \Carbon\CarbonImmutable|null $deleted_at
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property-read \App\Models\Session|null $activeSession
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $members
@@ -77,6 +107,9 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Membership> $memberships
  * @property-read int|null $memberships_count
  * @property-read \App\Models\User|null $owner
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $sessions
+ * @property-read int|null $sessions_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tontine accessibleBy(\App\Models\User $user)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tontine active()
  * @method static \Database\Factories\TontineFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tontine newModelQuery()

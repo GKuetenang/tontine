@@ -4,11 +4,10 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
-class TontineResource extends JsonResource
+class SessionResource extends JsonResource
 {
-    public static $wrap = false;
-
     /**
      * Transform the resource into an array.
      *
@@ -20,9 +19,13 @@ class TontineResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'slug' => $this->resource->slug,
-            'is_public' => $this->resource->is_public,
+            'description' => $this->resource->description,
+            'start_at' => $this->resource->start_at,
+            'end_at' => $this->resource->end_at,
             'is_active' => $this->resource->is_active,
-            'image' => $this->resource->getFirstMediaUrl('image', 'thumb'),
+            'is_closed' => $this->resource->is_closed,
+            'activated_at' => $this->resource->activated_at,
+            'closed_at' => $this->resource->closed_at,
         ];
     }
 }

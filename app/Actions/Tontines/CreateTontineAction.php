@@ -7,6 +7,7 @@ use App\Data\TontineData;
 use App\Enums\TontineRole;
 use App\Models\Tontine;
 use App\Models\User;
+use App\Support\UniqueSlug;
 use Illuminate\Support\Facades\DB;
 
 class CreateTontineAction
@@ -17,25 +18,37 @@ class CreateTontineAction
     public function __construct(
         private CreateDefaultTontineRolesAction $createRoles,
         private CreateMembershipAction $createMembershipAction,
+        private UniqueSlug $uniqueSlug,
     ) {}
 
-    public function execute(TontineData $data, User $user): Tontine
+    public function execute(TontineData $data, User $owner): Tontine
     {
         $fillable = (new Tontine)->getFillable();
         $fillableData = $data->only(...$fillable)->toArray();
 
-        return DB::transaction(function () use ($fillableData, $user) {
-            $tontine = $user->ownedTontines()->create($fillableData);
+        return DB::transaction(function () use ($fillableData, $owner) {
+            $tontine = new Tontine();
+
+            $tontine->owner()->associate($owner);
+
+            $tontine->fill($fillableData);
+
+            $tontine->slug = $this->uniqueSlug->generate(
+                query: Tontine::query(),
+                value: $fillableData['name'],
+            );
+
+            $tontine->save();
 
             $this->createRoles->execute($tontine);
 
             $this->createMembershipAction->execute(
                 tontine: $tontine,
-                user: $user,
+                user: $owner,
                 roleName: TontineRole::President->value,
             );
 
-            return $tontine;
+            return $tontine->refresh();
         });
     }
 }

@@ -30,7 +30,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
     const action = tontine.id
-        ? tontines.update.form({ tontine: tontine.id })
+        ? tontines.update.form({ tontine: tontine.slug! })
         : tontines.store.form();
     const title = tontine.id ? "Editer une tontine" : "Ajouter une tontine"
 
@@ -73,19 +73,6 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
                                         />
                                     </FormField>
                                     <FormField
-                                        error={errors['slug']}
-                                        label="Slug"
-                                        htmlFor="slug"
-                                        help="Identifiant unique utilisé dans l’adresse URL de la tontine. Utilisez uniquement des lettres minuscules, des chiffres et des tirets."
-                                    >
-                                        <Input
-                                            id="slug"
-                                            name="slug"
-                                            defaultValue={tontine.slug}
-                                            aria-invalid={!!errors['slug']}
-                                        />
-                                    </FormField>
-                                    <FormField
                                         error={errors['member_number_prefix']}
                                         label="Préfixe du numéro de membre"
                                         htmlFor="member_number_prefix"
@@ -106,7 +93,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
                                         <Textarea
                                             id="description"
                                             name="description"
-                                            defaultValue={tontine.description}
+                                            defaultValue={tontine.description ?? ''}
                                             aria-invalid={!!errors['description']}
                                         />
                                     </FormField>

@@ -1,7 +1,6 @@
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
-import { MembershipStatusBadge } from '@/components/membership-status-badge';
-import { SelectOption } from '@/components/select-with-items';
+import { SessionStatusBadge } from '@/components/session-status-badge';
 import { SortableTableHead } from '@/components/sortable-table-head';
 import { TopActions } from '@/components/top-actions';
 import { Button } from '@/components/ui/button';
@@ -18,12 +17,15 @@ import {
 import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 import tontines from '@/routes/tontines';
-import memberships from '@/routes/tontines/memberships';
-import type { BreadcrumbItem, Membership, PaginatedCollection } from '@/types';
+import sessions from '@/routes/tontines/sessions';
+import type { BreadcrumbItem, PaginatedCollection, Session } from '@/types';
 import { Form, Head } from '@inertiajs/react';
+import { format, isValid, parseISO } from 'date-fns';
+import { frCA } from 'date-fns/locale';
 import { PlusIcon } from 'lucide-react';
 import { Actions } from './actions';
-import { EditMembershipForm } from './form';
+import { EditSessionForm } from './form';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -31,10 +33,27 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: tontines.index().url,
     },
     {
-        title: 'Membres',
+        title: 'Sessions',
         href: '#',
     },
 ];
+
+
+function formatSessionDate(value?: string | null): string {
+    if (!value) {
+        return '—';
+    }
+
+    const date = parseISO(value);
+
+    if (!isValid(date)) {
+        return '—';
+    }
+
+    return format(date, "d MMM yyyy 'à' HH:mm", {
+        locale: frCA,
+    });
+}
 
 export type ResultTontine = {
     id: number;
@@ -43,27 +62,25 @@ export type ResultTontine = {
 }
 
 type Props = {
-    collection: PaginatedCollection<Membership>;
+    collection: PaginatedCollection<Session>;
     q: string | null;
     tontine: ResultTontine;
-    roles: SelectOption[];
-    membership: Membership;
-    statuses: SelectOption[];
+    session: Session;
 };
 
-export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, membership, statuses }: Props) => {
+export default withAppLayout(breadcrumbs, ({ collection, q, tontine, session }: Props) => {
     const { can } = useAuthorization();
 
     return (
         <>
-            <Head title='Tous les membres' />
+            <Head title='Tous les sessions' />
             <Heading
-                title='Tous les membres'
+                title='Tous les sessions'
             />
             <div className="space-y-4">
                 <TopActions>
                     <Form
-                        {...memberships.index.form({
+                        {...sessions.index.form({
                             tontine: tontine.slug
                         })}
                         className="flex items-center gap-1"
@@ -78,11 +95,9 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, memb
                     </Form>
                 </TopActions>
                 <Card className='bg-background pt-0'>
-                    {can('memberships.create') && <CardHeader className='border-b py-4'>
-                        <EditMembershipForm
-                            statuses={[]}
-                            membership={membership}
-                            roles={roles}
+                    {can('sessions.create') && <CardHeader className='border-b py-4'>
+                        <EditSessionForm
+                            session={session}
                             tontine={tontine}
                             trigger={
                                 <Button
@@ -91,7 +106,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, memb
                                     className="w-fit"
                                 >
                                     <PlusIcon />
-                                    Ajouter un membre
+                                    Ajouter une session
                                 </Button>
                             }
                         />
@@ -100,10 +115,9 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, memb
                         <Table className='border-spacing-4'>
                             <TableHeader>
                                 <TableRow className='[&>th:first-child]:pl-6 [&>th:last-child]:pr-6'>
-                                    <SortableTableHead field='member_number'>Numéro</SortableTableHead>
-                                    <TableHead>Nom</TableHead>
-                                    <TableHead>Email</TableHead>
-                                    <TableHead>Role</TableHead>
+                                    <SortableTableHead field='name'>Nom</SortableTableHead>
+                                    <SortableTableHead field='start_at'>Date de début</SortableTableHead>
+                                    <SortableTableHead field='end_at'>Date de fin</SortableTableHead>
                                     <TableHead>Statut</TableHead>
                                     <TableHead className="text-end"></TableHead>
                                 </TableRow>
@@ -112,26 +126,21 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, roles, memb
                                 {collection.data.map((item) => (
                                     <TableRow key={item.id} className='[&>td:first-child]:pl-6 [&>td:last-child]:pr-6'>
                                         <TableCell>
-                                            {item.member_number}
+                                            {item.name}
                                         </TableCell>
                                         <TableCell>
-                                            {item.user.name}
+                                            {formatSessionDate(item.start_at)}
                                         </TableCell>
                                         <TableCell>
-                                            {item.user.email}
+                                            {formatSessionDate(item.end_at)}
                                         </TableCell>
                                         <TableCell>
-                                            {item.role.label}
-                                        </TableCell>
-                                        <TableCell>
-                                            <MembershipStatusBadge status={item.status} />
+                                            <SessionStatusBadge session={item} />
                                         </TableCell>
                                         <TableCell>
                                             <Actions
-                                                membership={item}
-                                                roles={roles}
                                                 tontine={tontine}
-                                                statuses={statuses}
+                                                session={item}
                                             />
                                         </TableCell>
                                     </TableRow>

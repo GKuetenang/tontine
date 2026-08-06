@@ -17,9 +17,11 @@ import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 import tontines from '@/routes/tontines';
 import memberships from '@/routes/tontines/memberships';
+import sessions from '@/routes/tontines/sessions';
 import type { BreadcrumbItem, PaginatedCollection, Tontine } from '@/types';
 import { Form, Head, Link } from '@inertiajs/react';
-import { EditIcon, PlusIcon, TrashIcon, UsersIcon } from 'lucide-react';
+import { ListCheckIcon, PlusIcon, UsersIcon } from 'lucide-react';
+import { Actions } from './actions';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -77,18 +79,16 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                         <Table className='border-spacing-4'>
                             <TableHeader>
                                 <TableRow className='[&>th:first-child]:pl-6 [&>th:last-child]:pr-6'>
-                                    <SortableTableHead field="id">ID</SortableTableHead>
                                     <SortableTableHead field="name">Nom</SortableTableHead>
                                     <SortableTableHead field="member_number_prefix">Préfixe</SortableTableHead>
-                                    <SortableTableHead field="slug">Slug</SortableTableHead>
                                     <TableHead>Members</TableHead>
-                                    <TableHead className="text-end">Actions</TableHead>
+                                    <TableHead>Sessions</TableHead>
+                                    <TableHead className="text-end"></TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {collection.data.map((item) => (
                                     <TableRow key={item.id} className='[&>td:first-child]:pl-6 [&>td:last-child]:pr-6'>
-                                        <TableCell>{item.id}</TableCell>
                                         <TableCell>
                                             <div className="flex items-center gap-3">
                                                 {item.image ? (
@@ -115,7 +115,6 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                             </div>
                                         </TableCell>
                                         <TableCell>{item.member_number_prefix}</TableCell>
-                                        <TableCell>{item.slug}</TableCell>
                                         <TableCell>
                                             {item.can?.view_memberships ?
                                                 <Button asChild variant='outline'>
@@ -128,43 +127,18 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                             }
                                         </TableCell>
                                         <TableCell>
-                                            <div className="flex items-center justify-end gap-2">
-                                                {item.can?.update ? <Button
-                                                    asChild
-                                                    size="icon"
-                                                    variant="outline"
-                                                >
-                                                    <Link
-                                                        href={tontines.edit({
-                                                            tontine: item.slug!,
-                                                        })}
-                                                    >
-                                                        <EditIcon size={16} />
+                                            {item.can?.view_memberships ?
+                                                <Button asChild variant='outline'>
+                                                    <Link href={sessions.index({ tontine: item.slug! })}>
+                                                        <ListCheckIcon size={16} />
+                                                        {`${item.sessions_count} session${item.sessions_count! > 1 ? 's' : ''}`}
                                                     </Link>
                                                 </Button> :
-                                                    <span>-</span>
-                                                }
-                                                {item.can?.delete ? <Button
-                                                    asChild
-                                                    size="icon"
-                                                    variant="destructive-outline"
-                                                >
-                                                    <Link
-                                                        href={tontines.destroy({
-                                                            tontine: item.slug!,
-                                                        })}
-                                                        onBefore={() =>
-                                                            confirm(
-                                                                'Voulez-vous vraiment supprimer cet tontine?',
-                                                            )
-                                                        }
-                                                    >
-                                                        <TrashIcon size={16} />
-                                                    </Link>
-                                                </Button> :
-                                                    <span>-</span>
-                                                }
-                                            </div>
+                                                <span>{`${item.sessions_count} session${item.sessions_count! > 1 ? 's' : ''}`}</span>
+                                            }
+                                        </TableCell>
+                                        <TableCell>
+                                            <Actions tontine={item} />
                                         </TableCell>
                                     </TableRow>
                                 ))}

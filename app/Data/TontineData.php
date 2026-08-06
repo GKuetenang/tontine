@@ -14,6 +14,7 @@ use Spatie\LaravelData\Attributes\Validation\Mimes;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Optional;
+use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript(name: 'Tontine')]
@@ -21,16 +22,18 @@ class TontineData extends Data
 {
     public function __construct(
         public string $name,
-        public string $slug,
+        public Optional|string $slug,
         public string $member_number_prefix,
         public Optional|CarbonImmutable $created_at,
         public Optional|CarbonImmutable $updated_at,
         public Optional|Lazy|string $image,
         #[Mimes('jpg,jpeg,png,webp'), Max(2048)]
+        #[LiteralTypeScriptType('File')]
         public Optional|UploadedFile $image_file,
         public Optional|TontineAbilitiesData $can,
         public Optional|int $id,
         public Optional|int $members_count,
+        public Optional|int $sessions_count,
         public Optional|string $currency = 'XAF',
         public Optional|bool $is_active = true,
         public Optional|bool $is_public = false,
@@ -56,15 +59,14 @@ class TontineData extends Data
                 'created_at',
                 'updated_at',
             ]),
-
-            'members_count' => $tontine->members_count,
+            'members_count' => $tontine->members_count ?? 0,
+            'sessions_count' => $tontine->sessions_count ?? 0,
             'image' => Lazy::whenLoaded(
                 'media',
                 $tontine,
                 fn(): ?string => $tontine->getFirstMediaUrl(),
             ),
             'image_file' => Optional::create(),
-
             'can' => $can ?? Optional::create(),
         ]);
     }
@@ -88,13 +90,6 @@ class TontineData extends Data
                         }
                     )->ignore($request->route()->parameter('tontine')),
             ],
-            'slug' => [
-                '
-                nullable',
-                'string',
-                Rule::unique('tontines', 'slug')
-                    ->ignore($request->route()->parameter('tontine')),
-            ],
         ];
     }
 
@@ -114,9 +109,9 @@ class TontineData extends Data
 
     public static function prepareForPipeline(array $properties): array
     {
-        if (empty($properties['slug']) && !empty($properties['name'])) {
-            $properties['slug'] = \Str::slug($properties['name']);
-        }
+        // if (empty($properties['slug']) && !empty($properties['name'])) {
+        //     $properties['slug'] = \Str::slug($properties['name']);
+        // }
 
         if (!empty($properties['member_number_prefix'])) {
             $properties['member_number_prefix'] = \Str::upper($properties['member_number_prefix']);

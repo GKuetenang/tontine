@@ -38,6 +38,8 @@ enum TontinePermission: string
     case ViewSessions = 'sessions.view';
     case CreateSessions = 'sessions.create';
     case UpdateSessions = 'sessions.update';
+    case ActivateSessions = 'sessions.activate';
+    case CloseSessions = 'sessions.close';
     case DeleteSessions = 'sessions.delete';
 
         /*
@@ -142,6 +144,8 @@ enum TontinePermission: string
             self::CreateSessions => __('Créer des sessions'),
             self::UpdateSessions => __('Modifier les sessions'),
             self::DeleteSessions => __('Supprimer les sessions'),
+            self::ActivateSessions => __('Activer les sessions'),
+            self::CloseSessions => __('Fermer les sessions'),
 
             self::ViewDraws => __('Consulter les tirages'),
             self::CreateDraws => __('Effectuer les tirages'),

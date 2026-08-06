@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Override;
 use Spatie\Image\Enums\Fit;
@@ -25,7 +26,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 #[Fillable([
     'name',
-    'slug',
     'description',
     'member_number_prefix',
     'currency',
@@ -58,10 +58,20 @@ class Tontine extends Model implements HasMedia
         'updated_at' => 'immutable_datetime',
     ];
 
-    #[Override]
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public function sessions(): HasMany
+    {
+        return $this->hasMany(Session::class);
+    }
+
+    public function activeSession(): HasOne
+    {
+        return $this->hasOne(Session::class)
+            ->where('is_active', true);
     }
 
     /**
@@ -69,7 +79,7 @@ class Tontine extends Model implements HasMedia
      */
     public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**

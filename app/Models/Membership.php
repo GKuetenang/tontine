@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MembershipStatus;
+use App\Models\Traits\HasSortable;
 use App\Policies\MembershipPolicy;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
@@ -26,6 +27,9 @@ class Membership extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasSortable;
+
+    protected $sortable = ['member_number'];
 
     protected $casts = [
         'status' => MembershipStatus::class,
@@ -36,6 +40,11 @@ class Membership extends Model
         'updated_at' => 'immutable_datetime',
         'deleted_at' => 'immutable_datetime',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     public function user(): BelongsTo
     {

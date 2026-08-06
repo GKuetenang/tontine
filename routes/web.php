@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TontineController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,12 +27,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware(['tontine.team'])->scopeBindings()->group(function () {
         Route::resource('tontines', TontineController::class)
-            ->only(['whow', 'edit', 'update', 'destroy'])
-            ->middleware('tontine.team');
+            ->only(['show', 'edit', 'update', 'destroy']);
 
         Route::resource('tontines.memberships', MembershipController::class)
             ->only(['index', 'store', 'update', 'destroy'])
             ->where(['tontine' => '[a-z0-9-]+']);
+
+        Route::resource('tontines.sessions', SessionController::class)
+            ->except(['show', 'create'])
+            ->where(['tontine' => '[a-z0-9-]+'])
+            ->where(['session' => '[a-z0-9-]+']);
+
+        Route::patch(
+            'tontines/{tontine:slug}/sessions/{session:slug}/activate',
+            [SessionController::class, 'activate'],
+        )->name('tontines.sessions.activate');
+
+        Route::patch(
+            'tontines/{tontine:slug}/sessions/{session:slug}/close',
+            [SessionController::class, 'close'],
+        )->name('tontines.sessions.close');
     });
 });
 

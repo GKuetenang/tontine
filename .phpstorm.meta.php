@@ -3595,9 +3595,8 @@ namespace PHPSTORM_META {
 'passkey.login-options','passkey.login','passkey.confirm-options','passkey.confirm','passkey.registration-options',
 'passkey.store','passkey.destroy','home','dashboard',
 'tontines.index','tontines.create','tontines.store','tontines.edit','tontines.update',
-'tontines.destroy','tontines.memberships.store','tontines.memberships.destroy','profile.edit',
-'profile.update','profile.destroy','security.edit','user-password.update','appearance.edit',
-'well-known.passkeys','storage.local','storage.local.upload',);
+'tontines.destroy','tontines.memberships.index','tontines.memberships.store','tontines.memberships.update','tontines.memberships.destroy','profile.edit','profile.update','profile.destroy','security.edit',
+'user-password.update','appearance.edit','well-known.passkeys','storage.local','storage.local.upload',);
         registerArgumentsSet('views', 
 'app','laravel-exceptions-renderer::components.badge','laravel-exceptions-renderer::components.empty-state','laravel-exceptions-renderer::components.file-with-line','laravel-exceptions-renderer::components.formatted-source',
 'laravel-exceptions-renderer::components.frame','laravel-exceptions-renderer::components.frame-code','laravel-exceptions-renderer::components.header','laravel-exceptions-renderer::components.http-method','laravel-exceptions-renderer::components.icons.alert',
@@ -3718,7 +3717,8 @@ namespace PHPSTORM_META {
 'MEMCACHED_HOST','REDIS_CLIENT','REDIS_HOST','REDIS_PASSWORD','REDIS_PORT',
 'MAIL_MAILER','MAIL_SCHEME','MAIL_HOST','MAIL_PORT','MAIL_USERNAME',
 'MAIL_PASSWORD','MAIL_FROM_ADDRESS','MAIL_FROM_NAME','AWS_ACCESS_KEY_ID','AWS_SECRET_ACCESS_KEY',
-'AWS_DEFAULT_REGION','AWS_BUCKET','AWS_USE_PATH_STYLE_ENDPOINT','VITE_APP_NAME','MEMBER_NUMBER_PREFIX',);
+'AWS_DEFAULT_REGION','AWS_BUCKET','AWS_USE_PATH_STYLE_ENDPOINT','VITE_APP_NAME','MEMBER_NUMBER_PREFIX',
+'APP_FAKER_LOCALE',);
         
                 expectedArguments(\Illuminate\Support\Facades\Gate::has(), 0, argumentsSet('auth'));
     expectedArguments(\Illuminate\Support\Facades\Gate::allows(), 0, argumentsSet('auth'));
