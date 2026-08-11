@@ -1,4 +1,11 @@
-import { SelectOption } from '@/components/select-with-items';
+import { Link } from '@inertiajs/react';
+import {
+    EllipsisIcon,
+    Pencil,
+    TrashIcon
+} from 'lucide-react';
+import { toast } from 'sonner';
+import type { SelectOption } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -8,15 +15,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuthorization } from '@/hooks/use-authorization';
 import memberships from '@/routes/tontines/memberships';
-import { Membership } from '@/types';
-import { Link } from '@inertiajs/react';
-import {
-    EllipsisIcon,
-    Pencil,
-    TrashIcon
-} from 'lucide-react';
-import { toast } from 'sonner';
-import { ResultTontine } from '../memberships';
+import type { Membership } from '@/types';
+import type { ResultTontine } from '../memberships';
 import { EditMembershipForm } from './form';
 
 type Props = {

@@ -1,3 +1,7 @@
+import { Form, Head, Link } from '@inertiajs/react';
+import { format, isValid, parseISO } from 'date-fns';
+import { frCA } from 'date-fns/locale';
+import { PlusIcon, UsersIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SessionStatusBadge } from '@/components/session-status-badge';
@@ -21,10 +25,6 @@ import tontines from '@/routes/tontines';
 import sessions from '@/routes/tontines/sessions';
 import participants from '@/routes/tontines/sessions/participants';
 import type { BreadcrumbItem, PaginatedCollection, Session } from '@/types';
-import { Form, Head, Link } from '@inertiajs/react';
-import { format, isValid, parseISO } from 'date-fns';
-import { frCA } from 'date-fns/locale';
-import { PlusIcon, UsersIcon } from 'lucide-react';
 import { Actions } from './actions';
 import { EditSessionForm } from './form';
 

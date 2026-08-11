@@ -1,11 +1,11 @@
-import { Toaster } from '@/components/ui/sonner';
-import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
-import type { BreadcrumbItem } from '@/types';
-import { Flash } from '@/types/flash';
-import { router, usePage } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
+import { Toaster } from '@/components/ui/sonner';
+import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
+import type { BreadcrumbItem } from '@/types';
+import type { Flash } from '@/types/flash';
 
 const AppLayout = ({
     breadcrumbs = [],
@@ -14,11 +14,11 @@ const AppLayout = ({
     breadcrumbs?: BreadcrumbItem[];
     children: React.ReactNode;
 }) => {
-    const { flash } = usePage().props;
 
     useEffect(() => {
         return router.on('flash', (event) => {
             const flash = event.detail.flash as Flash;
+
             if (flash.success) {
                 toast.success(flash.success);
             }

@@ -1,5 +1,5 @@
 import type { Auth } from '@/types/auth';
-import { Flash } from './flash';
+import type { Flash } from './flash';
 
 declare module 'react' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

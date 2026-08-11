@@ -1,3 +1,4 @@
+import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasskeyVerify from '@/components/passkey-verify';
 import PasswordInput from '@/components/password-input';
@@ -11,7 +12,6 @@ import { useTranslation } from '@/hooks/use-translation';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-import { Form, Head } from '@inertiajs/react';
 
 type Props = {
     status?: string;
@@ -20,6 +20,7 @@ type Props = {
 
 export default function Login({ status, canResetPassword }: Props) {
     const { t } = useTranslation();
+
     return (
         <>
             <Head title={t('Log in')} />

@@ -1,7 +1,9 @@
+import { Form, Head } from '@inertiajs/react';
+import { PlusIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { MembershipStatusBadge } from '@/components/membership-status-badge';
-import { SelectOption } from '@/components/select-with-items';
+import type { SelectOption } from '@/components/select-with-items';
 import { SortableTableHead } from '@/components/sortable-table-head';
 import { TopActions } from '@/components/top-actions';
 import { Button } from '@/components/ui/button';
@@ -20,8 +22,6 @@ import { withAppLayout } from '@/layouts/app-layout';
 import tontines from '@/routes/tontines';
 import memberships from '@/routes/tontines/memberships';
 import type { BreadcrumbItem, Membership, PaginatedCollection } from '@/types';
-import { Form, Head } from '@inertiajs/react';
-import { PlusIcon } from 'lucide-react';
 import { Actions } from './actions';
 import { EditMembershipForm } from './form';
 

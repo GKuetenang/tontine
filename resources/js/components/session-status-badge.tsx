@@ -1,5 +1,6 @@
 import { Badge } from '@/components/ui/badge';
-import { Session } from '@/types';
+import { cn } from '@/lib/utils';
+import type { Session } from '@/types';
 
 type SessionStatusProps = {
     session: Session;
@@ -12,12 +13,12 @@ export function SessionStatusBadge({
 }: SessionStatusProps) {
     switch (session.status) {
         case 'draft':
-            return <Badge variant="secondary" className='rounded-full'>Préparation</Badge>;
+            return <Badge variant="secondary" className={cn('rounded-full', className)}>Préparation</Badge>;
 
         case 'active':
-            return <Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">Active</Badge>;
+            return <Badge className={cn("bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300", className)}>Active</Badge>;
 
         case 'closed':
-            return <Badge variant="secondary">Fermée</Badge>;
+            return <Badge className={cn(className)} variant="secondary">Fermée</Badge>;
     }
 }

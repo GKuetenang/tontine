@@ -1,5 +1,5 @@
-import type { TontinePermission, TontineRole } from '@/types';
 import { usePage } from '@inertiajs/react';
+import type { TontinePermission, TontineRole } from '@/types';
 
 export function useAuthorization() {
     const page = usePage();

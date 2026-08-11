@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Enums\MembershipStatus;
+use App\Enums\TontineRole;
 use App\Models\Membership;
 use Carbon\CarbonImmutable;
 use Spatie\LaravelData\Data;
@@ -36,11 +37,35 @@ class MembershipData extends Data
         public Optional|MemberUserData|null $inviter,
 
         public Optional|MemberUserData|null $creator,
+
+        public Optional|MembershipRoleData|null $role,
     ) {}
 
     public static function fromModel(
         Membership $membership,
     ): self {
+        $role = null;
+
+        if (
+            $membership->relationLoaded('user')
+            && $membership->user->relationLoaded('roles')
+        ) {
+            $spatieRole = $membership->user->roles->first();
+
+            if ($spatieRole) {
+                $roleEnum = TontineRole::tryFrom(
+                    $spatieRole->name
+                );
+
+                $role = new MembershipRoleData(
+                    id: $spatieRole->id,
+                    name: $spatieRole->name,
+                    label: $roleEnum?->label()
+                        ?? $spatieRole->name,
+                );
+            }
+        }
+
         return new self(
             id: $membership->id,
 
@@ -78,6 +103,11 @@ class MembershipData extends Data
                     ? MemberUserData::from($membership->creator)
                     : null
                 )
+                : Optional::create(),
+
+            role: $membership->relationLoaded('user')
+                && $membership->user->relationLoaded('roles')
+                ? $role
                 : Optional::create(),
         );
     }

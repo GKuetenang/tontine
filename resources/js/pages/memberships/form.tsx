@@ -1,6 +1,11 @@
-import { FormField } from "@/components/form-field"
-import { SelectOption, SelectWithItems } from "@/components/select-with-items"
-import { Button } from "@/components/ui/button"
+import { Form } from "@inertiajs/react";
+import { SaveIcon } from "lucide-react";
+import type { ReactElement } from "react";
+import { useState } from "react";
+import { FormField } from "@/components/form-field";
+import type { SelectOption } from "@/components/select-with-items";
+import { SelectWithItems } from "@/components/select-with-items";
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogClose,
@@ -10,16 +15,13 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { Spinner } from "@/components/ui/spinner"
-import { UserCombobox } from "@/components/user-combobox"
-import { cn } from "@/lib/utils"
-import memberships from "@/routes/tontines/memberships"
-import { Membership, UserOption } from "@/types"
-import { Form } from "@inertiajs/react"
-import { SaveIcon } from "lucide-react"
-import { ReactElement, useEffect, useState } from "react"
-import { ResultTontine } from "."
+} from "@/components/ui/dialog";
+import { Spinner } from "@/components/ui/spinner";
+import { UserCombobox } from "@/components/user-combobox";
+import { cn } from "@/lib/utils";
+import memberships from "@/routes/tontines/memberships";
+import type { Membership, MemberUser } from "@/types";
+import type { ResultTontine } from ".";
 
 type Props = {
     trigger: ReactElement,
@@ -32,7 +34,7 @@ type Props = {
 export function EditMembershipForm({ trigger, tontine, roles, membership, statuses }: Props) {
     const defaultUser = membership.id ? membership.user : null;
 
-    const [selectedUser, setSelectedUser] = useState<UserOption | null>(defaultUser);
+    const [selectedUser, setSelectedUser] = useState<MemberUser | null | undefined>(defaultUser);
     const [open, setOpen] = useState(false);
 
     const handleOpenChange = (value: boolean) => {
@@ -42,12 +44,6 @@ export function EditMembershipForm({ trigger, tontine, roles, membership, status
             setSelectedUser(defaultUser);
         }
     }
-
-    useEffect(() => {
-        if (open) {
-            setSelectedUser(selectedUser);
-        }
-    }, [open, membership?.id])
 
     const action = membership.id ?
         memberships.update.form({ tontine: tontine.slug, membership: membership.id }) :
@@ -68,6 +64,7 @@ export function EditMembershipForm({ trigger, tontine, roles, membership, status
                     resetOnSuccess
                     onSuccess={() => {
                         setOpen(false)
+
                         if (!membership.id) {
                             setSelectedUser(null);
                         }
@@ -93,7 +90,6 @@ export function EditMembershipForm({ trigger, tontine, roles, membership, status
                                 />
 
                                 <UserCombobox
-                                    errors={errors}
                                     onSelect={setSelectedUser}
                                 />
                                 {selectedUser && (

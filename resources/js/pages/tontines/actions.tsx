@@ -1,3 +1,10 @@
+import { Link } from '@inertiajs/react';
+import {
+    EditIcon,
+    EllipsisIcon,
+    TrashIcon
+} from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -6,14 +13,7 @@ import {
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import tontines from '@/routes/tontines';
-import { Tontine } from '@/types';
-import { Link } from '@inertiajs/react';
-import {
-    EditIcon,
-    EllipsisIcon,
-    TrashIcon
-} from 'lucide-react';
-import { toast } from 'sonner';
+import type { Tontine } from '@/types';
 
 type Props = {
     tontine: Tontine;

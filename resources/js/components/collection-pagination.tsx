@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import type { PaginatedCollection } from '@/types';
 import { Link } from '@inertiajs/react';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import type { PaginatedCollection } from '@/types';
 
 type Props = { collection: PaginatedCollection<unknown>, className?: string };
 

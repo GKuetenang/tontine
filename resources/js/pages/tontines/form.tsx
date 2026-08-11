@@ -1,3 +1,5 @@
+import { Form, Head } from '@inertiajs/react';
+import { SaveIcon } from 'lucide-react';
 import { FormField } from '@/components/form-field';
 import Heading from '@/components/heading';
 import { TopActions } from '@/components/top-actions';
@@ -10,8 +12,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { withAppLayout } from '@/layouts/app-layout';
 import tontines from '@/routes/tontines';
 import type { BreadcrumbItem, Tontine } from '@/types';
-import { Form, Head } from '@inertiajs/react';
-import { SaveIcon } from 'lucide-react';
 
 type Props = {
     tontine: Tontine;

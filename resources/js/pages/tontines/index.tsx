@@ -1,3 +1,5 @@
+import { Form, Head, Link } from '@inertiajs/react';
+import { ListCheckIcon, PlusIcon, UsersIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SortableTableHead } from '@/components/sortable-table-head';
@@ -13,15 +15,12 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
 import memberships from '@/routes/tontines/memberships';
 import sessions from '@/routes/tontines/sessions';
 import type { BreadcrumbItem, PaginatedCollection, Tontine } from '@/types';
-import { Form, Head, Link } from '@inertiajs/react';
-import { ListCheckIcon, PlusIcon, UsersIcon } from 'lucide-react';
 import { Actions } from './actions';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -38,10 +37,11 @@ type Props = {
 
 export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
 
-    const { can } = useAuthorization();
+    // const { can } = useAuthorization();
 
     // const { auth } = usePage().props;
-    console.log(collection);
+    // console.log(collection);
+
     return (
         <>
             <Head title='Toutes les tontines' />

@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { MembershipStatus } from '@/types';
+import type { MembershipStatus } from '@/types';
 
 
 type MembershipStatusBadgeProps = {

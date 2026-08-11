@@ -1,4 +1,4 @@
-import { MembershipStatus, SessionStatus } from '../Enums';
+import type { MembershipStatus, SessionStatus } from '../Enums';
 export type MemberUser = {
     id: number;
     name: string;
@@ -18,6 +18,12 @@ export type Membership = {
     user: undefined | MemberUser;
     inviter: undefined | MemberUser | null;
     creator: undefined | MemberUser | null;
+    role: undefined | MembershipRole | null;
+};
+export type MembershipRole = {
+    id: number;
+    name: string;
+    label: string;
 };
 export type Session = {
     name: string;

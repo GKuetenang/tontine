@@ -1,4 +1,4 @@
-import { MembershipStatus } from "./generated/types/App/Enums";
+import type { MembershipStatus } from "./generated/types/App/Enums";
 
 export type UserOption = {
     id: number;

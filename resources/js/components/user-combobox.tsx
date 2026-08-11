@@ -11,18 +11,17 @@ import {
     CommandLoading,
 } from '@/components/ui/command';
 import { Spinner } from '@/components/ui/spinner';
-import { UserOption } from '@/types';
+import type { MemberUser } from '@/types';
 
 type PageProps = {
-    users?: UserOption[];
+    users?: MemberUser[];
 };
 
 type Props = {
-    onSelect: (user: UserOption) => void;
-    errors: Record<string, string>;
+    onSelect: (user: MemberUser) => void;
 };
 
-export function UserCombobox({ onSelect, errors }: Props) {
+export function UserCombobox({ onSelect }: Props) {
     const { users = [] } = usePage<PageProps>().props;
 
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -51,6 +50,7 @@ export function UserCombobox({ onSelect, errors }: Props) {
 
         if (value.trim().length < 2) {
             setFetching(false);
+
             return;
         }
 
@@ -62,8 +62,8 @@ export function UserCombobox({ onSelect, errors }: Props) {
                 data: {
                     q_search: value.trim(),
                 },
-                preserveState: true,
-                preserveScroll: true,
+                // preserveState: true,
+                // preserveScroll: true,
                 onFinish() {
                     setFetching(false);
                 },
@@ -71,7 +71,7 @@ export function UserCombobox({ onSelect, errors }: Props) {
         }, 300);
     }
 
-    function handleSelect(user: UserOption): void {
+    function handleSelect(user: MemberUser): void {
         setSearch('');
         onSelect(user);
     }

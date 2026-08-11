@@ -1,13 +1,3 @@
-import { Button } from '@/components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { useAuthorization } from '@/hooks/use-authorization';
-import sessions from '@/routes/tontines/sessions';
-import { Session } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
     CheckCircle2Icon,
@@ -17,7 +7,17 @@ import {
     TrashIcon
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { ResultTontine } from '../memberships';
+import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import { useAuthorization } from '@/hooks/use-authorization';
+import sessions from '@/routes/tontines/sessions';
+import type { Session } from '@/types';
+import type { ResultTontine } from '../memberships';
 import { EditSessionForm } from './form';
 
 type Props = {

@@ -1,6 +1,11 @@
-import { FormField } from "@/components/form-field"
-import { Button } from "@/components/ui/button"
-import { DateTimePicker } from "@/components/ui/datetime-picker"
+import { Form } from "@inertiajs/react";
+import { format, isValid, parseISO } from "date-fns";
+import { SaveIcon } from "lucide-react";
+import type { ReactElement } from "react";
+import { useState } from "react";
+import { FormField } from "@/components/form-field";
+import { Button } from "@/components/ui/button";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
     Dialog,
     DialogClose,
@@ -10,16 +15,12 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Spinner } from "@/components/ui/spinner"
-import sessions from "@/routes/tontines/sessions"
-import { Session } from "@/types"
-import { Form } from "@inertiajs/react"
-import { format, isValid, parseISO } from "date-fns"
-import { SaveIcon } from "lucide-react"
-import { ReactElement, useEffect, useState } from "react"
-import { ResultTontine } from "."
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
+import sessions from "@/routes/tontines/sessions";
+import type { Session } from "@/types";
+import type { ResultTontine } from ".";
 
 type Props = {
     trigger: ReactElement,
@@ -49,26 +50,6 @@ export function EditSessionForm({ trigger, tontine, session }: Props) {
     const [endDate, setEndDate] = useState<Date | undefined>(
         parseSessionDate(session?.end_at),
     );
-
-    useEffect(() => {
-        if (!open) {
-            return;
-        }
-
-        setStartDate(
-            parseSessionDate(session?.start_at),
-        );
-
-        setEndDate(
-            parseSessionDate(session?.end_at),
-        );
-    }, [
-        open,
-        session?.id,
-        session?.start_at,
-        session?.end_at,
-    ]);
-
 
     const handleOpenChange = (value: boolean) => {
         setOpen(value);
