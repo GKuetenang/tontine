@@ -46,7 +46,7 @@ jobs:
 
       - name: Prepare Laravel
         run: |
-          cp .env.exmaple .env
+          cp .env.example .env
           php artisan key:generate
 
       # - name: Setup Application
