@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Memberships\CreateMembershipAction;
 use App\Actions\Tontines\CreateTontineAction;
+use App\Actions\Tontines\UpdateTontineAction;
 use App\Data\TontineData;
 use App\Models\Tontine;
 use App\Support\TontineAbilities;
@@ -127,12 +128,17 @@ class TontineController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(TontineData $data, Tontine $tontine): RedirectResponse
-    {
+    public function update(
+        TontineData $data,
+        Tontine $tontine,
+        UpdateTontineAction $updateTontineAction
+    ): RedirectResponse {
 
-        $fillable = $tontine->getFillable();
-        $updateData = $data->only(...$fillable)->toArray();
-        $tontine->update($updateData);
+        $updateTontineAction->execute(
+            tontine: $tontine,
+            data: $data
+        );
+
         $this->handleFormRequest($data, $tontine);
 
         Inertia::flash('success', __('Tontine mise à jour avec succès.'));

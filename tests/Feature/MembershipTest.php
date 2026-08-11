@@ -2,20 +2,25 @@
 
 use App\Actions\Memberships\CreateMembershipAction;
 use App\Actions\Memberships\DeactivateMembershipAction;
+use App\Actions\Memberships\ReactivateMembershipAction;
 use App\Actions\Tontines\CreateDefaultTontineRolesAction;
 use App\Enums\MembershipStatus;
 use App\Enums\TontineRole;
 use App\Models\Membership;
 use App\Models\Tontine;
 use App\Models\User;
+use Database\Seeders\PermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
     setPermissionsTeamId(null);
+    /** @var TestCase $this */
+    $this->seed(PermissionSeeder::class);
 });
 
 afterEach(function (): void {
@@ -25,11 +30,11 @@ afterEach(function (): void {
 test('creating a tontine automatically creates the creator membership as president', function () {
     $user = User::factory()->create();
 
+    /** @var TestCase $this */
     $response = $this
         ->actingAs($user)
         ->post(route('tontines.store'), [
             'name' => 'AJERM',
-            'slug' => 'ajerm',
             'member_number_prefix' => 'AJERM',
             'description' => 'Association des jeunes.',
         ]);
@@ -37,7 +42,7 @@ test('creating a tontine automatically creates the creator membership as preside
     $response->assertSessionHasNoErrors();
 
     $tontine = Tontine::query()
-        ->where('slug', 'ajerm')
+        ->where('name', 'AJERM')
         ->firstOrFail();
 
     $membership = Membership::query()
@@ -83,7 +88,7 @@ test('the same user cannot have two memberships in the same tontine', function (
     );
 
     expect(
-        fn () => $action->execute(
+        fn() => $action->execute(
             tontine: $tontine,
             user: $user,
             invitedBy: $creator,
@@ -116,10 +121,11 @@ test('the last president cannot be deactivated', function () {
     );
 
     expect(
-        fn () => app(DeactivateMembershipAction::class)
+        fn() => app(DeactivateMembershipAction::class)
             ->execute($membership)
     )->toThrow(ValidationException::class);
 
+    /** @var TestCase $this */
     $this->assertDatabaseMissing('memberships', [
         'id' => $membership->id,
         'deleted_at' => now(),
@@ -163,18 +169,20 @@ test('deactivating a membership removes its team roles and soft deletes it', fun
 
     expect($member->hasRole('member'))->toBeFalse();
 
+    /** @var TestCase $this */
     $this->assertDatabaseMissing('model_has_roles', [
         'model_id' => $member->id,
         'model_type' => $member->getMorphClass(),
         'tontine_id' => $tontine->id,
     ]);
 
+    /** @var TestCase $this */
     $this->assertSoftDeleted('memberships', [
         'id' => $membership->id,
     ]);
 });
 
-test('a soft deleted membership is restored when the member rejoins', function () {
+test('a soft deleted membership can be reactivated when the member rejoins', function () {
     $owner = User::factory()->create();
     $member = User::factory()->create();
 
@@ -182,28 +190,43 @@ test('a soft deleted membership is restored when the member rejoins', function (
         'user_id' => $owner->id,
     ]);
 
-    createTeamRole($tontine, 'member');
+    createTeamRole(
+        $tontine,
+        TontineRole::Member->value,
+    );
 
     $membership = app(CreateMembershipAction::class)->execute(
         tontine: $tontine,
         user: $member,
         invitedBy: $owner,
-        roleName: 'member',
+        roleName: TontineRole::Member->value,
     );
+
+    $originalId = $membership->id;
+    $originalMemberNumber = $membership->member_number;
 
     app(DeactivateMembershipAction::class)
         ->execute($membership);
 
-    $restoredMembership = app(CreateMembershipAction::class)->execute(
-        tontine: $tontine,
-        user: $member,
-        invitedBy: $owner,
-        roleName: 'member',
+    $deletedMembership = Membership::withTrashed()
+        ->whereKey($originalId)
+        ->firstOrFail();
+
+    expect($deletedMembership)
+        ->status->toBe(MembershipStatus::Inactive)
+        ->left_at->not->toBeNull()
+        ->deleted_at->not->toBeNull();
+
+    $reactivatedMembership = app(
+        ReactivateMembershipAction::class
+    )->execute(
+        membership: $deletedMembership,
+        roleName: TontineRole::Member->value,
     );
 
-    expect($restoredMembership)
-        ->id->toBe($membership->id)
-        ->member_number->toBe($membership->member_number)
+    expect($reactivatedMembership)
+        ->id->toBe($originalId)
+        ->member_number->toBe($originalMemberNumber)
         ->status->toBe(MembershipStatus::Active)
         ->left_at->toBeNull()
         ->deleted_at->toBeNull();
@@ -220,7 +243,9 @@ test('a soft deleted membership is restored when the member rejoins', function (
     $member->unsetRelation('roles');
     $member->unsetRelation('permissions');
 
-    expect($member->hasRole('member'))->toBeTrue();
+    expect(
+        $member->hasRole(TontineRole::Member->value)
+    )->toBeTrue();
 });
 
 function createTeamRole(
@@ -265,7 +290,48 @@ test('a president can be deactivated when another active president exists', func
     app(DeactivateMembershipAction::class)
         ->execute($firstMembership);
 
+    /** @var TestCase $this */
     $this->assertSoftDeleted('memberships', [
         'id' => $firstMembership->id,
     ]);
+});
+
+test('a new membership cannot be created when a soft deleted membership already exists', function () {
+    $owner = User::factory()->create();
+    $member = User::factory()->create();
+
+    $tontine = Tontine::factory()->create([
+        'user_id' => $owner->id,
+    ]);
+
+    createTeamRole(
+        $tontine,
+        TontineRole::Member->value,
+    );
+
+    $membership = app(CreateMembershipAction::class)->execute(
+        tontine: $tontine,
+        user: $member,
+        invitedBy: $owner,
+        roleName: TontineRole::Member->value,
+    );
+
+    app(DeactivateMembershipAction::class)
+        ->execute($membership);
+
+    expect(
+        fn() => app(CreateMembershipAction::class)->execute(
+            tontine: $tontine,
+            user: $member,
+            invitedBy: $owner,
+            roleName: TontineRole::Member->value,
+        )
+    )->toThrow(ValidationException::class);
+
+    expect(
+        Membership::withTrashed()
+            ->whereBelongsTo($tontine)
+            ->whereBelongsTo($member)
+            ->count()
+    )->toBe(1);
 });

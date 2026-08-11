@@ -3,6 +3,7 @@
 use App\Enums\TontineRole;
 use App\Models\Tontine;
 use App\Models\User;
+use Database\Seeders\PermissionSeeder;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,7 +11,13 @@ use Tests\TestCase;
 
 uses(RefreshDatabase::class);
 
+beforeEach(function (): void {
+    /** @var TestCase $this */
+    $this->seed(PermissionSeeder::class);
+});
+
 test('guests cannot access the tontines page', function (): void {
+    /** @var TestCase $this */
     $response = $this->get(route('tontines.index'));
 
     $response->assertRedirect(route('login'));

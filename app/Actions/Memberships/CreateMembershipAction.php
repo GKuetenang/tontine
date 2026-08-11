@@ -40,15 +40,16 @@ class CreateMembershipAction
                 ->lockForUpdate()
                 ->first();
 
-            if ($existingMembership !== null) {
-                return $this->handleExistingMembership(
-                    membership: $existingMembership,
-                    tontine: $lockedTontine,
-                    user: $user,
-                    roleName: $roleName,
-                    invitedBy: $invitedBy,
-                    status: $status,
-                );
+            if ($existingMembership) {
+                throw ValidationException::withMessages([
+                    'user_id' => $existingMembership->trashed()
+                        ? __(
+                            'Cet utilisateur possède déjà une ancienne adhésion. Réactivez-la plutôt que d’en créer une nouvelle.'
+                        )
+                        : __(
+                            'Cet utilisateur est déjà membre de cette tontine.'
+                        ),
+                ]);
             }
 
             return $this->createNewMembership(
@@ -59,32 +60,6 @@ class CreateMembershipAction
                 status: $status,
             );
         }, attempts: 3);
-    }
-
-    private function handleExistingMembership(
-        Membership $membership,
-        Tontine $tontine,
-        User $user,
-        string $roleName,
-        ?User $invitedBy,
-        MembershipStatus $status,
-    ): Membership {
-        if (! $membership->trashed()) {
-            throw ValidationException::withMessages([
-                'user_id' => __(
-                    'Cet utilisateur appartient déjà à cette tontine.'
-                ),
-            ]);
-        }
-
-        return $this->updateMembership->execute(
-            membership: $membership,
-            tontine: $tontine,
-            user: $user,
-            roleName: $roleName,
-            invitedBy: $invitedBy,
-            status: $status,
-        );
     }
 
     private function createNewMembership(

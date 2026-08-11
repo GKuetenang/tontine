@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -71,5 +72,10 @@ class Membership extends Model
         return $this->status === MembershipStatus::Active
             && $this->left_at === null
             && $this->deleted_at === null;
+    }
+
+    public function sessionParticipations(): HasMany
+    {
+        return $this->hasMany(SessionParticipant::class);
     }
 }

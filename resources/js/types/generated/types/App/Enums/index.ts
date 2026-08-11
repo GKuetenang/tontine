@@ -1,4 +1,7 @@
+export type DrawAllocationMode =
+    'one_per_member' | 'based_on_contribution' | 'custom';
 export type MembershipStatus = 'active' | 'inactive' | 'suspended' | 'left';
+export type SessionStatus = 'draft' | 'active' | 'closed';
 export type TontinePermission =
     | 'tontines.view'
     | 'tontines.update'

@@ -64,6 +64,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
                                         error={errors['name']}
                                         label="Nom"
                                         htmlFor="name"
+                                        required
                                     >
                                         <Input
                                             id="name"
@@ -73,9 +74,23 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
                                         />
                                     </FormField>
                                     <FormField
+                                        error={errors['currency']}
+                                        label="Devise"
+                                        htmlFor="currency"
+                                    >
+                                        <Input
+                                            id="currency"
+                                            name="currency"
+                                            defaultValue={tontine.currency}
+                                            aria-invalid={!!errors['currency']}
+                                        />
+                                    </FormField>
+
+                                    <FormField
                                         error={errors['member_number_prefix']}
                                         label="Préfixe du numéro de membre"
                                         htmlFor="member_number_prefix"
+                                        required
                                         help="Le préfixe du numéro de membre est utilisé pour identifier les membres de la tontine."
                                     >
                                         <Input
@@ -86,9 +101,23 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
                                         />
                                     </FormField>
                                     <FormField
+                                        error={errors['default_contribution_amount']}
+                                        label="Montant de tontine par defaut"
+                                        htmlFor="default_contribution_amount"
+                                        optional
+                                    >
+                                        <Input
+                                            id="default_contribution_amount"
+                                            name="default_contribution_amount"
+                                            defaultValue={tontine.default_contribution_amount ?? undefined}
+                                            aria-invalid={!!errors['default_contribution_amount']}
+                                        />
+                                    </FormField>
+                                    <FormField
                                         error={errors['description']}
                                         label="Description"
                                         htmlFor="description"
+                                        optional
                                     >
                                         <Textarea
                                             id="description"

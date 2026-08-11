@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\SessionParticipantController;
 use App\Http\Controllers\TontineController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +48,35 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'tontines/{tontine:slug}/sessions/{session:slug}/close',
             [SessionController::class, 'close'],
         )->name('tontines.sessions.close');
+
+        Route::resource(
+            'tontines.sessions.participants',
+            SessionParticipantController::class,
+        )
+            ->only([
+                'index',
+                'store',
+                'update',
+                'destroy',
+            ])
+            ->scoped([
+                'tontine' => 'slug',
+                'session' => 'slug',
+            ])
+            ->where([
+                'tontine' => '[a-z0-9-]+',
+                'session' => '[a-z0-9-]+',
+            ])
+            ->whereNumber('participant');
+
+        Route::patch(
+            'tontines/{tontine:slug}/sessions/{session:slug}/participants/{participant}/reactivate',
+            [SessionParticipantController::class, 'reactivate'],
+        )
+            ->whereNumber('participant')
+            ->name(
+                'tontines.sessions.participants.reactivate'
+            );
     });
 });
 

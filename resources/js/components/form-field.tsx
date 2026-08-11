@@ -7,6 +7,7 @@ import {
     FieldSet,
 } from '@/components/ui/field';
 import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
@@ -15,6 +16,8 @@ type Props = PropsWithChildren<{
     help?: string;
     error?: string;
     className?: string;
+    required?: boolean
+    optional?: boolean
 }>;
 
 export function FormField({
@@ -24,6 +27,8 @@ export function FormField({
     help,
     error,
     className,
+    required,
+    optional,
 }: Props) {
     const content = (
         <>
@@ -36,7 +41,7 @@ export function FormField({
     if (!htmlFor) {
         return (
             <FieldSet className={className} data-invalid={!!error}>
-                <Label asChild>
+                <Label asChild className={cn(required && 'required', optional && 'optional')}>
                     <FieldLegend className="mb-0!">{label}</FieldLegend>
                 </Label>
                 {content}
@@ -46,7 +51,7 @@ export function FormField({
 
     return (
         <Field className={className} data-invalid={!!error}>
-            {label && <FieldLabel htmlFor={htmlFor}>{label}</FieldLabel>}
+            {label && <FieldLabel className={cn(required && 'required', optional && 'optional')} htmlFor={htmlFor}>{label}</FieldLabel>}
             {content}
         </Field>
     );

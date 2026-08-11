@@ -27,9 +27,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 #[Fillable([
     'name',
     'description',
-    'member_number_prefix',
     'currency',
-    'default_membership_role'
+    'member_number_prefix',
+    'default_contribution_amount'
 ])]
 #[UsePolicy(TontinePolicy::class)]
 class Tontine extends Model implements HasMedia
@@ -56,6 +56,7 @@ class Tontine extends Model implements HasMedia
         'is_verified' => 'boolean',
         'created_at' => 'immutable_datetime',
         'updated_at' => 'immutable_datetime',
+        'default_contribution_amount' => 'integer',
     ];
 
     public function getRouteKeyName(): string

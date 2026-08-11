@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\DrawAllocationMode;
+use App\Enums\SessionStatus;
 use App\Models\Tontine;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,15 +22,18 @@ return new class extends Migration
             $table->string('name', 200);
             $table->string('slug');
             $table->text('description')->nullable();
+            $table->unsignedBigInteger('default_contribution_amount')
+                ->nullable();
+            $table->string('draw_allocation_mode')
+                ->default(DrawAllocationMode::OnePerMember->value);
+            $table->unsignedBigInteger('base_contribution_amount')->nullable();
             $table->dateTime('start_at')->nullable();
             $table->dateTime('end_at')->nullable();
-            $table->boolean('is_active')->default(false);
-            $table->boolean('is_closed')->default(false);
+            $table->string('status')
+                ->default(SessionStatus::Draft->value);
             $table->timestamp('activated_at')->nullable();
             $table->timestamp('closed_at')->nullable();
             $table->softDeletes();
-            $table->index(['tontine_id', 'is_active']);
-            $table->index(['tontine_id', 'is_closed']);
             $table->unique(['tontine_id', 'name']);
             $table->unique(['tontine_id', 'slug']);
 

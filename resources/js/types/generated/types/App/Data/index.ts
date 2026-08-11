@@ -1,3 +1,24 @@
+import { MembershipStatus, SessionStatus } from '../Enums';
+export type MemberUser = {
+    id: number;
+    name: string;
+    email: string;
+    username: string;
+};
+export type Membership = {
+    id: number;
+    member_number: string;
+    status: MembershipStatus;
+    verified_at: undefined | undefined | null;
+    joined_at: undefined | undefined | null;
+    left_at: undefined | undefined | null;
+    created_at: undefined | undefined;
+    updated_at: undefined | undefined;
+    deleted_at: undefined | undefined | null;
+    user: undefined | MemberUser;
+    inviter: undefined | MemberUser | null;
+    creator: undefined | MemberUser | null;
+};
 export type Session = {
     name: string;
     slug: string;
@@ -5,12 +26,24 @@ export type Session = {
     description: undefined | string | null;
     start_at: undefined | undefined | null;
     end_at: undefined | undefined | null;
-    is_active: undefined | boolean;
-    is_closed: undefined | boolean;
+    default_contribution_amount: undefined | number | null;
+    status: undefined | SessionStatus;
+    participants_count: undefined | number;
     activated_at: undefined | undefined | null;
     closed_at: undefined | undefined | null;
     created_at: undefined | undefined;
     updated_at: undefined | undefined;
+};
+export type SessionParticipant = {
+    id: number;
+    contribution_amount: number;
+    draw_entries_count: number;
+    is_active: boolean;
+    joined_at: undefined | undefined | null;
+    left_at: undefined | undefined | null;
+    created_at: undefined | undefined;
+    updated_at: undefined | undefined;
+    membership: undefined | Membership;
 };
 export type Tontine = {
     name: string;
@@ -21,6 +54,7 @@ export type Tontine = {
     image: undefined | undefined | string;
     image_file: File;
     can: undefined | TontineAbilitiesData;
+    default_contribution_amount: undefined | number | null;
     id: undefined | number;
     members_count: undefined | number;
     sessions_count: undefined | number;

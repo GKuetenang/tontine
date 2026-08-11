@@ -11,13 +11,15 @@ enum TontineRole: string
     case Censor = 'censor';
     case Auditor = 'auditor';
 
-
     public static function getOptions(): array
     {
-        return array_map(fn(self $status) => [
-            'label' => $status->label(),
-            'value' => $status->value,
-        ], self::cases());
+        return array_map(
+            fn(self $role) => [
+                'label' => $role->label(),
+                'value' => $role->value,
+            ],
+            self::cases(),
+        );
     }
 
     public function label(): string
@@ -42,16 +44,29 @@ enum TontineRole: string
 
             self::Secretary => [
                 TontinePermission::ViewTontine,
+
                 TontinePermission::ViewMemberships,
                 TontinePermission::CreateMemberships,
                 TontinePermission::UpdateMemberships,
+                TontinePermission::ReactivateMemberships,
+                TontinePermission::LeaveMemberships,
 
                 TontinePermission::ViewSessions,
                 TontinePermission::CreateSessions,
                 TontinePermission::UpdateSessions,
+                TontinePermission::ActivateSessions,
+                TontinePermission::CloseSessions,
+
+                TontinePermission::ViewSessionParticipants,
+                TontinePermission::CreateSessionParticipants,
+                TontinePermission::UpdateSessionParticipants,
+                TontinePermission::RemoveSessionParticipants,
+                TontinePermission::ReactivateSessionParticipants,
 
                 TontinePermission::ViewDraws,
-                TontinePermission::CreateDraws,
+                TontinePermission::GenerateDraws,
+                TontinePermission::ConfirmDraws,
+                TontinePermission::ResetDraws,
 
                 TontinePermission::ViewReports,
             ],
@@ -60,16 +75,23 @@ enum TontineRole: string
                 TontinePermission::ViewTontine,
                 TontinePermission::ViewMemberships,
 
+                TontinePermission::ViewSessions,
+                TontinePermission::ViewSessionParticipants,
+
+                TontinePermission::ViewDraws,
+
                 TontinePermission::ViewContributions,
                 TontinePermission::CreateContributions,
                 TontinePermission::UpdateContributions,
 
                 TontinePermission::ViewLoans,
                 TontinePermission::CreateLoans,
+                TontinePermission::ApproveLoans,
                 TontinePermission::UpdateLoans,
 
                 TontinePermission::ViewRepayments,
                 TontinePermission::CreateRepayments,
+                TontinePermission::UpdateRepayments,
 
                 TontinePermission::ViewCashFund,
                 TontinePermission::ManageCashFund,
@@ -85,17 +107,26 @@ enum TontineRole: string
                 TontinePermission::ViewTontine,
                 TontinePermission::ViewMemberships,
 
+                TontinePermission::ViewSessions,
+                TontinePermission::ViewSessionParticipants,
+
+                TontinePermission::ViewDraws,
+
                 TontinePermission::ViewPenalties,
                 TontinePermission::CreatePenalties,
                 TontinePermission::UpdatePenalties,
 
-                TontinePermission::ViewSessions,
                 TontinePermission::ViewReports,
             ],
 
             self::Auditor => [
                 TontinePermission::ViewTontine,
                 TontinePermission::ViewMemberships,
+
+                TontinePermission::ViewSessions,
+                TontinePermission::ViewSessionParticipants,
+
+                TontinePermission::ViewDraws,
 
                 TontinePermission::ViewContributions,
                 TontinePermission::ViewLoans,
@@ -113,8 +144,12 @@ enum TontineRole: string
             self::Member => [
                 TontinePermission::ViewTontine,
                 TontinePermission::ViewMemberships,
+
                 TontinePermission::ViewSessions,
+                TontinePermission::ViewSessionParticipants,
+
                 TontinePermission::ViewDraws,
+
                 TontinePermission::ViewContributions,
                 TontinePermission::ViewLoans,
                 TontinePermission::ViewRepayments,

@@ -2,6 +2,7 @@
 
 namespace App\Data;
 
+use App\Enums\SessionStatus;
 use App\Models\Session;
 use Carbon\CarbonImmutable;
 use Spatie\LaravelData\Attributes\WithTransformer;
@@ -24,9 +25,10 @@ class SessionData extends Data
         public Optional|CarbonImmutable|null $start_at,
         #[WithTransformer(DateTimeInterfaceTransformer::class, format: 'Y-m-d\TH:i:s')]
         public Optional|CarbonImmutable|null $end_at,
+        public Optional|int|null $default_contribution_amount,
 
-        public Optional|bool $is_active,
-        public Optional|bool $is_closed,
+        public Optional|SessionStatus $status,
+        public Optional|int $participants_count,
 
         public Optional|CarbonImmutable|null $activated_at,
         public Optional|CarbonImmutable|null $closed_at,
@@ -46,8 +48,7 @@ class SessionData extends Data
     //         'start_at' => $session->start_at,
     //         'end_at' => $session->end_at,
 
-    //         'is_active' => $session->is_active,
-    //         'is_closed' => $session->is_closed,
+    //         'status' => $session->status,
 
     //         'activated_at' => $session->activated_at,
     //         'closed_at' => $session->closed_at,

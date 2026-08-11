@@ -5,15 +5,21 @@ use App\Actions\Sessions\CloseSessionAction;
 use App\Actions\Sessions\CreateSessionAction;
 use App\Actions\Sessions\DeleteSessionAction;
 use App\Actions\Sessions\UpdateSessionAction;
+use App\Enums\DrawAllocationMode;
+use App\Enums\SessionStatus;
 use App\Models\Session;
+use App\Models\SessionParticipant;
 use App\Models\Tontine;
+use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 
 uses(RefreshDatabase::class);
 
 test('a session can be created for a tontine', function (): void {
-    $tontine = Tontine::factory()->create();
+    $tontine = Tontine::factory()->create([
+        'default_contribution_amount' => 50_000,
+    ]);
 
     $session = app(CreateSessionAction::class)->execute(
         tontine: $tontine,
@@ -30,19 +36,55 @@ test('a session can be created for a tontine', function (): void {
         ->slug->toStartWith('session-2027-')
         ->tontine_id->toBe($tontine->id)
         ->description->toBe('Session annuelle')
-        ->is_active->toBeFalse()
-        ->is_closed->toBeFalse()
+        ->status->toBe(SessionStatus::Draft)
+        ->default_contribution_amount->toBe(50_000)
         ->activated_at->toBeNull()
         ->closed_at->toBeNull();
 
-    $this->assertDatabaseHas('sessions', [
+    /** @var TestCase $this */
+    $this->assertDatabaseHas('tontine_sessions', [
         'id' => $session->id,
         'tontine_id' => $tontine->id,
         'name' => 'Session 2027',
         'slug' => $session->slug,
-        'is_active' => false,
-        'is_closed' => false,
+        'status' => SessionStatus::Draft->value,
+        'default_contribution_amount' => 50_000,
+        'activated_at' => null,
+        'closed_at' => null,
     ]);
+});
+
+test('a session copies the default contribution amount from the tontine', function (): void {
+    $tontine = Tontine::factory()->create([
+        'default_contribution_amount' => 75_000,
+    ]);
+
+    $session = app(CreateSessionAction::class)->execute(
+        tontine: $tontine,
+        attributes: [
+            'name' => 'Session 2027',
+        ],
+    );
+
+    expect($session->default_contribution_amount)
+        ->toBe(75_000);
+});
+
+test('a session can override the tontine default contribution amount', function (): void {
+    $tontine = Tontine::factory()->create([
+        'default_contribution_amount' => 50_000,
+    ]);
+
+    $session = app(CreateSessionAction::class)->execute(
+        tontine: $tontine,
+        attributes: [
+            'name' => 'Session 2027',
+            'default_contribution_amount' => 100_000,
+        ],
+    );
+
+    expect($session->default_contribution_amount)
+        ->toBe(100_000);
 });
 
 test('generated session slug contains a random suffix', function (): void {
@@ -57,7 +99,7 @@ test('generated session slug contains a random suffix', function (): void {
 
     expect($session->slug)
         ->toStartWith('session-2027-')
-        ->toMatch('/^session-2027-[A-Za-z0-9]+$/');
+        ->toMatch('/^session-2027-[a-z0-9]+$/');
 });
 
 test('session slugs are unique inside the same tontine', function (): void {
@@ -73,8 +115,8 @@ test('session slugs are unique inside the same tontine', function (): void {
     );
 
     /*
-     * Le nom doit être différent à cause de la contrainte unique
-     * sur [tontine_id, name], tout en produisant le même slug de base.
+     * Les noms sont différents pour respecter la contrainte unique
+     * [tontine_id, name], mais produisent le même slug de base.
      */
     $second = $action->execute(
         tontine: $tontine,
@@ -118,7 +160,7 @@ test('the same session name can exist in different tontines', function (): void 
         ->not->toBe($second->slug);
 });
 
-test('updating a session does not modify its slug', function (): void {
+test('updating a draft session does not modify its slug', function (): void {
     $tontine = Tontine::factory()->create();
 
     $session = app(CreateSessionAction::class)->execute(
@@ -142,10 +184,12 @@ test('updating a session does not modify its slug', function (): void {
             'end_at' => '2027-11-30',
         ],
     );
+
     expect($updatedSession)
         ->name->toBe('Exercice annuel 2027')
         ->description->toBe('Nouvelle description')
-        ->slug->toBe($originalSlug);
+        ->slug->toBe($originalSlug)
+        ->status->toBe(SessionStatus::Draft);
 });
 
 test('a closed session cannot be updated', function (): void {
@@ -164,72 +208,143 @@ test('a closed session cannot be updated', function (): void {
     );
 })->throws(ValidationException::class);
 
-test('activating a session deactivates the previous active session', function (): void {
+test('a draft session can be activated', function (): void {
+    $session = Session::factory()
+        ->create([
+            'status' => SessionStatus::Draft,
+            'default_contribution_amount' => 50_000,
+        ]);
+
+    SessionParticipant::factory()
+        ->for($session)
+        ->create([
+            'contribution_amount' => 50_000,
+            'draw_entries_count' => 1,
+            'is_active' => true,
+        ]);
+
+    $activated = app(ActivateSessionAction::class)
+        ->execute($session);
+
+    expect($activated)
+        ->status->toBe(SessionStatus::Active)
+        ->activated_at->not->toBeNull()
+        ->closed_at->toBeNull();
+});
+
+test('a session cannot be activated while another session is active', function (): void {
     $tontine = Tontine::factory()->create();
 
-    $previous = Session::factory()
+    Session::factory()
         ->for($tontine)
         ->active()
         ->create();
 
     $next = Session::factory()
         ->for($tontine)
+        ->draft()
+        ->create();
+
+    SessionParticipant::factory()
+        ->for($next)
         ->create([
-            'is_active' => false,
-            'is_closed' => false,
-            'activated_at' => null,
+            'contribution_amount' => 50_000,
+            'draw_entries_count' => 1,
+            'is_active' => true,
         ]);
 
-    app(ActivateSessionAction::class)->execute($next);
+    app(ActivateSessionAction::class)
+        ->execute($next);
+})->throws(ValidationException::class);
 
-    expect($previous->refresh())
-        ->is_active->toBeFalse()
-        ->and($next->refresh())
-        ->is_active->toBeTrue()
-        ->activated_at->not->toBeNull();
-});
+test('a session without active participants cannot be activated', function (): void {
+    $session = Session::factory()
+        ->create([
+            'status' => SessionStatus::Draft,
+        ]);
+
+    app(ActivateSessionAction::class)
+        ->execute($session);
+})->throws(ValidationException::class);
 
 test('a closed session cannot be activated', function (): void {
     $session = Session::factory()
         ->closed()
         ->create();
 
-    app(ActivateSessionAction::class)->execute($session);
+    app(ActivateSessionAction::class)
+        ->execute($session);
 })->throws(ValidationException::class);
 
-test('closing a session deactivates it', function (): void {
+test('an active session can be closed', function (): void {
     $session = Session::factory()
         ->active()
         ->create();
 
-    app(CloseSessionAction::class)->execute($session);
+    app(CloseSessionAction::class)
+        ->execute($session);
 
     expect($session->refresh())
-        ->is_active->toBeFalse()
-        ->is_closed->toBeTrue()
+        ->status->toBe(SessionStatus::Closed)
         ->closed_at->not->toBeNull();
 });
+
+test('a draft session cannot be closed', function (): void {
+    $session = Session::factory()
+        ->create([
+            'status' => SessionStatus::Draft,
+        ]);
+
+    app(CloseSessionAction::class)
+        ->execute($session);
+})->throws(ValidationException::class);
 
 test('an active session cannot be deleted', function (): void {
     $session = Session::factory()
         ->active()
         ->create();
 
-    app(DeleteSessionAction::class)->execute($session);
+    app(DeleteSessionAction::class)
+        ->execute($session);
 })->throws(ValidationException::class);
 
-test('a regular open session can be soft deleted', function (): void {
-    $session = Session::factory()->create([
-        'is_active' => false,
-        'is_closed' => false,
-    ]);
+test('a closed session cannot be deleted', function (): void {
+    $session = Session::factory()
+        ->closed()
+        ->create();
 
-    app(DeleteSessionAction::class)->execute($session);
+    app(DeleteSessionAction::class)
+        ->execute($session);
+})->throws(ValidationException::class);
 
-    $this->assertSoftDeleted('sessions', [
+test('an empty draft session can be soft deleted', function (): void {
+    $session = Session::factory()
+        ->create([
+            'status' => SessionStatus::Draft,
+        ]);
+
+    app(DeleteSessionAction::class)
+        ->execute($session);
+
+    /** @var TestCase $this */
+    $this->assertSoftDeleted('tontine_sessions', [
         'id' => $session->id,
     ]);
 });
+
+test('a draft session containing participants cannot be deleted', function (): void {
+    $session = Session::factory()
+        ->create([
+            'status' => SessionStatus::Draft,
+        ]);
+
+    SessionParticipant::factory()
+        ->for($session)
+        ->create();
+
+    app(DeleteSessionAction::class)
+        ->execute($session);
+})->throws(ValidationException::class);
 
 test('session dates are cast to immutable datetime instances', function (): void {
     $session = Session::factory()->create([
@@ -238,6 +353,6 @@ test('session dates are cast to immutable datetime instances', function (): void
     ]);
 
     expect($session)
-        ->start_at->toBeInstanceOf(Carbon\CarbonImmutable::class)
-        ->end_at->toBeInstanceOf(Carbon\CarbonImmutable::class);
+        ->start_at->toBeInstanceOf(CarbonImmutable::class)
+        ->end_at->toBeInstanceOf(CarbonImmutable::class);
 });

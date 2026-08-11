@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
+import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
 import memberships from '@/routes/tontines/memberships';
 import sessions from '@/routes/tontines/sessions';
@@ -81,6 +82,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                 <TableRow className='[&>th:first-child]:pl-6 [&>th:last-child]:pr-6'>
                                     <SortableTableHead field="name">Nom</SortableTableHead>
                                     <SortableTableHead field="member_number_prefix">Préfixe</SortableTableHead>
+                                    <SortableTableHead field="default_contibution_amount">Montant par defaut</SortableTableHead>
                                     <TableHead>Members</TableHead>
                                     <TableHead>Sessions</TableHead>
                                     <TableHead className="text-end"></TableHead>
@@ -115,6 +117,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                             </div>
                                         </TableCell>
                                         <TableCell>{item.member_number_prefix}</TableCell>
+                                        <TableCell>{formatCurrency(item.default_contribution_amount)}</TableCell>
                                         <TableCell>
                                             {item.can?.view_memberships ?
                                                 <Button asChild variant='outline'>

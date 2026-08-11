@@ -183,11 +183,7 @@ class MembershipController extends Controller
         );
         $validated = $request->validated();
 
-        $user = User::query()
-            ->findOrFail($validated['user_id']);
-
         $updateMembership->execute(
-            user: $user,
             tontine: $tontine,
             membership: $membership,
             roleName: $validated['role'],

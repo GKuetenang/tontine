@@ -27,6 +27,9 @@ enum TontinePermission: string
     case CreateMemberships = 'memberships.create';
     case UpdateMemberships = 'memberships.update';
     case DeleteMemberships = 'memberships.delete';
+    case ReactivateMemberships = 'memberships.reactivate';
+    case SuspendMemberships = 'memberships.suspend';
+    case LeaveMemberships = 'memberships.leave';
     case AssignMembershipRoles = 'memberships.roles.assign';
 
         /*
@@ -44,13 +47,26 @@ enum TontinePermission: string
 
         /*
     |--------------------------------------------------------------------------
+    | Participants aux sessions
+    |--------------------------------------------------------------------------
+    */
+
+    case ViewSessionParticipants = 'session-participants.view';
+    case CreateSessionParticipants = 'session-participants.create';
+    case UpdateSessionParticipants = 'session-participants.update';
+    case RemoveSessionParticipants = 'session-participants.remove';
+    case ReactivateSessionParticipants = 'session-participants.reactivate';
+
+        /*
+    |--------------------------------------------------------------------------
     | Tirages
     |--------------------------------------------------------------------------
     */
 
     case ViewDraws = 'draws.view';
-    case CreateDraws = 'draws.create';
-    case UpdateDraws = 'draws.update';
+    case GenerateDraws = 'draws.generate';
+    case ConfirmDraws = 'draws.confirm';
+    case ResetDraws = 'draws.reset';
     case DeleteDraws = 'draws.delete';
 
         /*
@@ -121,6 +137,7 @@ enum TontinePermission: string
     | Rapports
     |--------------------------------------------------------------------------
     */
+
     case ViewReports = 'reports.view';
     case ExportReports = 'reports.export';
 
@@ -138,18 +155,28 @@ enum TontinePermission: string
             self::CreateMemberships => __('Ajouter des membres'),
             self::UpdateMemberships => __('Modifier les membres'),
             self::DeleteMemberships => __('Retirer des membres'),
+            self::ReactivateMemberships => __('Réactiver les membres'),
+            self::SuspendMemberships => __('Suspendre les membres'),
+            self::LeaveMemberships => __('Enregistrer le départ des membres'),
             self::AssignMembershipRoles => __('Attribuer les rôles aux membres'),
 
             self::ViewSessions => __('Consulter les sessions'),
             self::CreateSessions => __('Créer des sessions'),
             self::UpdateSessions => __('Modifier les sessions'),
-            self::DeleteSessions => __('Supprimer les sessions'),
             self::ActivateSessions => __('Activer les sessions'),
             self::CloseSessions => __('Fermer les sessions'),
+            self::DeleteSessions => __('Supprimer les sessions'),
+
+            self::ViewSessionParticipants => __('Consulter les participants aux sessions'),
+            self::CreateSessionParticipants => __('Ajouter des participants aux sessions'),
+            self::UpdateSessionParticipants => __('Modifier les participants aux sessions'),
+            self::RemoveSessionParticipants => __('Retirer des participants des sessions'),
+            self::ReactivateSessionParticipants => __('Réactiver les participants aux sessions'),
 
             self::ViewDraws => __('Consulter les tirages'),
-            self::CreateDraws => __('Effectuer les tirages'),
-            self::UpdateDraws => __('Modifier les tirages'),
+            self::GenerateDraws => __('Effectuer les tirages'),
+            self::ConfirmDraws => __('Confirmer les tirages'),
+            self::ResetDraws => __('Réinitialiser les tirages'),
             self::DeleteDraws => __('Supprimer les tirages'),
 
             self::ViewContributions => __('Consulter les cotisations'),

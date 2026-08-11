@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('is_public')->default(false);
             $table->boolean('is_verified')->default(false);
             $table->string('currency', 3)->default('XAF');
+            $table->unsignedBigInteger('default_contribution_amount')->nullable();
             $table->softDeletes();
             $table->timestamps();
             $table->unique(['user_id', 'name']);

@@ -209,3 +209,15 @@
 .not-allowed {
     @apply cursor-not-allowed opacity-50;
 }
+
+@layer utilities {
+    .required::after {
+        content: ' *';
+        @apply text-destructive;
+    }
+
+    .optional::after {
+        content: ' (optionnel)';
+        @apply text-muted-foreground;
+    }
+}

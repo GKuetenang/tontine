@@ -13,7 +13,7 @@ final class UniqueSlug
     public function generate(
         Builder $query,
         string $value,
-        int $suffixLength = 12,
+        int $suffixLength = 10,
     ): string {
         $baseSlug = Str::slug($value);
 

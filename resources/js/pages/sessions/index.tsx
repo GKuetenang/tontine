@@ -16,13 +16,15 @@ import {
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
+import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
 import sessions from '@/routes/tontines/sessions';
+import participants from '@/routes/tontines/sessions/participants';
 import type { BreadcrumbItem, PaginatedCollection, Session } from '@/types';
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, Link } from '@inertiajs/react';
 import { format, isValid, parseISO } from 'date-fns';
 import { frCA } from 'date-fns/locale';
-import { PlusIcon } from 'lucide-react';
+import { PlusIcon, UsersIcon } from 'lucide-react';
 import { Actions } from './actions';
 import { EditSessionForm } from './form';
 
@@ -71,6 +73,7 @@ type Props = {
 export default withAppLayout(breadcrumbs, ({ collection, q, tontine, session }: Props) => {
     const { can } = useAuthorization();
 
+
     return (
         <>
             <Head title='Tous les sessions' />
@@ -116,9 +119,11 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, session }: 
                             <TableHeader>
                                 <TableRow className='[&>th:first-child]:pl-6 [&>th:last-child]:pr-6'>
                                     <SortableTableHead field='name'>Nom</SortableTableHead>
+                                    <SortableTableHead field='default_contibution_amount'>Montant par defaut</SortableTableHead>
                                     <SortableTableHead field='start_at'>Date de début</SortableTableHead>
                                     <SortableTableHead field='end_at'>Date de fin</SortableTableHead>
                                     <TableHead>Statut</TableHead>
+                                    <TableHead>Participants</TableHead>
                                     <TableHead className="text-end"></TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -128,6 +133,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, session }: 
                                         <TableCell>
                                             {item.name}
                                         </TableCell>
+                                        <TableCell>{formatCurrency(item.default_contribution_amount)}</TableCell>
                                         <TableCell>
                                             {formatSessionDate(item.start_at)}
                                         </TableCell>
@@ -136,6 +142,15 @@ export default withAppLayout(breadcrumbs, ({ collection, q, tontine, session }: 
                                         </TableCell>
                                         <TableCell>
                                             <SessionStatusBadge session={item} />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Button asChild variant='outline'>
+                                                <Link href={participants.index({ tontine: tontine.slug!, session: item.slug })}>
+                                                    <UsersIcon size={16} />
+                                                    {`${item.participants_count} participant${item.participants_count! > 1 ? 's' : ''}`}
+                                                </Link>
+                                            </Button>
+                                            {/* <span>{`${item.participants_count} participant${item.participants_count! > 1 ? 's' : ''}`}</span> */}
                                         </TableCell>
                                         <TableCell>
                                             <Actions

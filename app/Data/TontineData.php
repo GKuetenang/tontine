@@ -31,6 +31,7 @@ class TontineData extends Data
         #[LiteralTypeScriptType('File')]
         public Optional|UploadedFile $image_file,
         public Optional|TontineAbilitiesData $can,
+        public Optional|int|null $default_contribution_amount,
         public Optional|int $id,
         public Optional|int $members_count,
         public Optional|int $sessions_count,
@@ -51,6 +52,7 @@ class TontineData extends Data
                 'name',
                 'slug',
                 'member_number_prefix',
+                'default_contribution_amount',
                 'currency',
                 'description',
                 'is_active',

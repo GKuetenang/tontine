@@ -12,23 +12,15 @@ class UpdateMembershipAction
     public function execute(
         Membership $membership,
         Tontine $tontine,
-        User $user,
         string $roleName,
-        ?User $invitedBy = null,
         MembershipStatus $status = MembershipStatus::Active,
     ): Membership {
         if ($membership->trashed()) {
             $membership->restore();
         }
 
-        $membership->user()->associate($user);
-        $membership->tontine()->associate($tontine);
-
-        if ($invitedBy !== null) {
-            $membership->inviter()->associate($invitedBy);
-        } else {
-            $membership->inviter()->dissociate();
-        }
+        $membership->load('user');
+        $user = $membership->user;
 
         $membership->fill([
             'status' => $status,

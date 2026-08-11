@@ -133,11 +133,7 @@ class SessionPolicy
         User $user,
         Tontine $tontine,
     ): bool {
-        return $tontine
-            ->memberships()
-            ->where('user_id', $user->id)
-            ->where('status', MembershipStatus::Active)
-            ->exists();
+        return $tontine->hasActiveMembership($user);
     }
 
     /**
