@@ -1,11 +1,7 @@
-import { Form } from "@inertiajs/react";
-import { SaveIcon } from "lucide-react";
-import type { ReactElement } from "react";
-import { useState } from "react";
-import { FormField } from "@/components/form-field";
-import type { SelectOption } from "@/components/select-with-items";
-import { SelectWithItems } from "@/components/select-with-items";
-import { Button } from "@/components/ui/button";
+import { FormField } from '@/components/form-field';
+import type { SelectOption } from '@/components/select-with-items';
+import { SelectWithItems } from '@/components/select-with-items';
+import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogClose,
@@ -15,26 +11,37 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
-import { Spinner } from "@/components/ui/spinner";
-import { UserCombobox } from "@/components/user-combobox";
-import { cn } from "@/lib/utils";
-import memberships from "@/routes/tontines/memberships";
-import type { Membership, MemberUser } from "@/types";
-import type { ResultTontine } from ".";
+} from '@/components/ui/dialog';
+import { Spinner } from '@/components/ui/spinner';
+import { UserCombobox } from '@/components/user-combobox';
+import { cn } from '@/lib/utils';
+import memberships from '@/routes/tontines/memberships';
+import type { Membership, MemberUser, ResultTontine } from '@/types';
+import { Form } from '@inertiajs/react';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 
 type Props = {
-    trigger: ReactElement,
-    tontine: ResultTontine,
-    roles: SelectOption[],
+    trigger: ReactElement;
+    tontine: ResultTontine;
+    roles: SelectOption[];
     membership: Membership;
     statuses: SelectOption[];
-}
+};
 
-export function EditMembershipForm({ trigger, tontine, roles, membership, statuses }: Props) {
+export function EditMembershipForm({
+    trigger,
+    tontine,
+    roles,
+    membership,
+    statuses,
+}: Props) {
     const defaultUser = membership.id ? membership.user : null;
 
-    const [selectedUser, setSelectedUser] = useState<MemberUser | null | undefined>(defaultUser);
+    const [selectedUser, setSelectedUser] = useState<
+        MemberUser | null | undefined
+    >(defaultUser);
     const [open, setOpen] = useState(false);
 
     const handleOpenChange = (value: boolean) => {
@@ -43,32 +50,34 @@ export function EditMembershipForm({ trigger, tontine, roles, membership, status
         if (value) {
             setSelectedUser(defaultUser);
         }
-    }
+    };
 
-    const action = membership.id ?
-        memberships.update.form({ tontine: tontine.slug, membership: membership.id }) :
-        memberships.store.form({ tontine: tontine.slug })
-
+    const action = membership.id
+        ? memberships.update.form({
+            tontine: tontine.slug,
+            membership: membership.id,
+        })
+        : memberships.store.form({ tontine: tontine.slug });
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
-            <DialogTrigger asChild>
-                {trigger}
-            </DialogTrigger>
+            <DialogTrigger asChild>{trigger}</DialogTrigger>
             <DialogContent
                 className="sm:max-w-md"
                 onInteractOutside={(e) => e.preventDefault()}
                 onEscapeKeyDown={(e) => e.preventDefault()}
             >
-                <Form {...action}
+                <Form
+                    {...action}
                     resetOnSuccess
                     onSuccess={() => {
-                        setOpen(false)
+                        setOpen(false);
 
                         if (!membership.id) {
                             setSelectedUser(null);
                         }
-                    }}>
+                    }}
+                >
                     {({ errors, processing }) => (
                         <div className="space-y-4">
                             <DialogHeader>
@@ -85,22 +94,27 @@ export function EditMembershipForm({ trigger, tontine, roles, membership, status
                             >
                                 <input
                                     type="hidden"
-                                    name='user_id'
+                                    name="user_id"
                                     value={selectedUser?.id}
                                 />
 
-                                <UserCombobox
-                                    onSelect={setSelectedUser}
-                                />
+                                <UserCombobox onSelect={setSelectedUser} />
                                 {selectedUser && (
-                                    <div className={cn("relative flex-col bg-accent  text-shadow-accent-foreground border cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm",
-                                        errors['user_id'] && 'bg-destructive/20 border-destructive'
-                                    )}>
-                                        <p className="text-sm">{selectedUser.name}</p>
-                                        <p className="text-xs">{selectedUser.email}</p>
+                                    <div
+                                        className={cn(
+                                            'relative cursor-default flex-col items-center gap-2 rounded-sm border bg-accent px-2 py-1.5 text-sm text-shadow-accent-foreground',
+                                            errors['user_id'] &&
+                                            'border-destructive bg-destructive/20',
+                                        )}
+                                    >
+                                        <p className="text-sm">
+                                            {selectedUser.name}
+                                        </p>
+                                        <p className="text-xs">
+                                            {selectedUser.email}
+                                        </p>
                                     </div>
                                 )}
-
                             </FormField>
 
                             <FormField
@@ -118,23 +132,27 @@ export function EditMembershipForm({ trigger, tontine, roles, membership, status
                                 />
                             </FormField>
 
-                            {membership.id && <FormField
-                                error={errors['status']}
-                                label="Statut"
-                                htmlFor="status"
-                            >
-                                <SelectWithItems
-                                    items={statuses}
-                                    id="status"
-                                    name="status"
-                                    placeholder="Selectionner un statut"
-                                    defaultValue={membership?.status}
-                                    aria-invalid={!!errors['status']}
-                                />
-                            </FormField>}
+                            {membership.id && (
+                                <FormField
+                                    error={errors['status']}
+                                    label="Statut"
+                                    htmlFor="status"
+                                >
+                                    <SelectWithItems
+                                        items={statuses}
+                                        id="status"
+                                        name="status"
+                                        placeholder="Selectionner un statut"
+                                        defaultValue={membership?.status}
+                                        aria-invalid={!!errors['status']}
+                                    />
+                                </FormField>
+                            )}
 
                             <DialogFooter>
-                                <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
+                                <DialogClose asChild>
+                                    <Button variant="outline">Cancel</Button>
+                                </DialogClose>
                                 <Button
                                     type="submit"
                                     tabIndex={4}
@@ -150,5 +168,5 @@ export function EditMembershipForm({ trigger, tontine, roles, membership, status
                 </Form>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

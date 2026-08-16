@@ -17,7 +17,7 @@ class MembershipPolicy
         User $user,
         Tontine $tontine,
     ): bool {
-        return $this->isActiveMember($user, $tontine)
+        return $tontine->hasActiveMembership($user)
             && $this->can(
                 $user,
                 $tontine,
@@ -32,9 +32,8 @@ class MembershipPolicy
         User $user,
         Membership $membership,
     ): bool {
-        return $this->isActiveMember(
-            $user,
-            $membership->tontine,
+        return $membership->tontine->hasActiveMembership(
+            $user
         ) && $this->can(
             $user,
             $membership->tontine,
@@ -49,7 +48,7 @@ class MembershipPolicy
         User $user,
         Tontine $tontine,
     ): bool {
-        return $this->isActiveMember($user, $tontine)
+        return $tontine->hasActiveMembership($user)
             && $this->can(
                 $user,
                 $tontine,
@@ -64,9 +63,8 @@ class MembershipPolicy
         User $user,
         Membership $membership,
     ): bool {
-        return $this->isActiveMember(
-            $user,
-            $membership->tontine,
+        return $membership->tontine->hasActiveMembership(
+            $user
         ) && $this->can(
             $user,
             $membership->tontine,
@@ -81,29 +79,13 @@ class MembershipPolicy
         User $user,
         Membership $membership,
     ): bool {
-        return $this->isActiveMember(
-            $user,
-            $membership->tontine,
+        return $membership->tontine->hasActiveMembership(
+            $user
         ) && $this->can(
             $user,
             $membership->tontine,
             TontinePermission::DeleteMemberships,
         );
-    }
-
-    /**
-     * Vérifie que l’utilisateur connecté possède
-     * un membership actif dans cette tontine.
-     */
-    private function isActiveMember(
-        User $user,
-        Tontine $tontine,
-    ): bool {
-        return $tontine
-            ->memberships()
-            ->where('user_id', $user->id)
-            ->where('status', MembershipStatus::Active)
-            ->exists();
     }
 
     /**

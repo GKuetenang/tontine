@@ -16,8 +16,8 @@ type Props = PropsWithChildren<{
     help?: string;
     error?: string;
     className?: string;
-    required?: boolean
-    optional?: boolean
+    required?: boolean;
+    optional?: boolean;
 }>;
 
 export function FormField({
@@ -41,7 +41,13 @@ export function FormField({
     if (!htmlFor) {
         return (
             <FieldSet className={className} data-invalid={!!error}>
-                <Label asChild className={cn(required && 'required', optional && 'optional')}>
+                <Label
+                    asChild
+                    className={cn(
+                        required && 'required',
+                        optional && 'optional',
+                    )}
+                >
                     <FieldLegend className="mb-0!">{label}</FieldLegend>
                 </Label>
                 {content}
@@ -51,7 +57,17 @@ export function FormField({
 
     return (
         <Field className={className} data-invalid={!!error}>
-            {label && <FieldLabel className={cn(required && 'required', optional && 'optional')} htmlFor={htmlFor}>{label}</FieldLabel>}
+            {label && (
+                <FieldLabel
+                    className={cn(
+                        required && 'required',
+                        optional && 'optional',
+                    )}
+                    htmlFor={htmlFor}
+                >
+                    {label}
+                </FieldLabel>
+            )}
             {content}
         </Field>
     );

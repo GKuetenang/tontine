@@ -20,14 +20,16 @@ export default function AuthSimpleLayout({
                             href={home()}
                             className="flex flex-col items-center gap-2 font-medium"
                         >
-                            <div className="mb-1 flex h-9 w-9  bg-primary items-center justify-center rounded-md">
-                                <AppLogoIcon className="size-6 t text-white dark:text-white" />
+                            <div className="mb-1 flex h-9 w-9 items-center justify-center rounded-md bg-primary">
+                                <AppLogoIcon className="t size-6 text-white dark:text-white" />
                             </div>
                             <span className="sr-only">{t(title ?? '')}</span>
                         </Link>
 
                         <div className="space-y-2 text-center">
-                            <h1 className="text-xl font-medium">{t(title ?? '')}</h1>
+                            <h1 className="text-xl font-medium">
+                                {t(title ?? '')}
+                            </h1>
                             <p className="text-center text-sm text-muted-foreground">
                                 {t(description ?? '')}
                             </p>

@@ -11,7 +11,6 @@ export function toUrl(url: NonNullable<InertiaLinkProps['href']>): string {
     return typeof url === 'string' ? url : url.url;
 }
 
-
 export function formatCurrency(
     amount?: number | null,
     currency = 'XAF',

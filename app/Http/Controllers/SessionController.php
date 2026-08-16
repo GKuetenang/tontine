@@ -8,6 +8,7 @@ use App\Actions\Sessions\CreateSessionAction;
 use App\Actions\Sessions\DeleteSessionAction;
 use App\Actions\Sessions\UpdateSessionAction;
 use App\Data\SessionData;
+use App\Enums\DrawAllocationMode;
 use App\Http\Requests\FormSessionRequest;
 use App\Models\Session;
 use App\Models\Tontine;
@@ -49,6 +50,7 @@ class SessionController extends Controller
             ],
             'collection' => $sessions,
             'session' => fn() => new Session(),
+            'draw_allocation_modes' => DrawAllocationMode::getOptions(),
         ]);
     }
 

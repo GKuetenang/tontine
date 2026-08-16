@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Sessions\AddSessionParticipantAction;
-use App\Actions\Sessions\ReactivateSessionParticipantAction;
-use App\Actions\Sessions\RemoveSessionParticipantAction;
-use App\Actions\Sessions\UpdateSessionParticipantAction;
+use App\Actions\SessionParticipants\AddSessionParticipantAction;
+use App\Actions\SessionParticipants\ReactivateSessionParticipantAction;
+use App\Actions\SessionParticipants\RemoveSessionParticipantAction;
+use App\Actions\SessionParticipants\UpdateSessionParticipantAction;
 use App\Data\SessionData;
 use App\Data\SessionParticipantData;
 use App\Data\TontineData;
+use App\Enums\DrawAllocationMode;
 use App\Http\Requests\SessionParticipants\StoreSessionParticipantRequest;
 use App\Http\Requests\SessionParticipants\UpdateSessionParticipantRequest;
 use App\Models\Membership;
@@ -16,20 +17,21 @@ use App\Models\Session;
 use App\Models\SessionParticipant;
 use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class SessionParticipantController extends Controller
+class SessionParticipantController extends WithUserSearchController
 {
 
     public function index(
         Tontine $tontine,
         Session $session,
     ): Response {
-        // $this->authorize(
-        //     'viewAny',
-        //     [SessionParticipant::class, $session],
-        // );
+        $this->authorize(
+            'viewAny',
+            [SessionParticipant::class, $session],
+        );
 
         $participants = $session
             ->participants()
@@ -43,12 +45,13 @@ class SessionParticipantController extends Controller
             'session-participants/index',
             [
                 'tontine' => TontineData::from($tontine),
-
                 'session' => SessionData::from($session),
-
                 'collection' =>
                 SessionParticipantData::collect(
                     $participants
+                ),
+                'users' => fn() => Inertia::optional(
+                    $this->usersInTontine(...)
                 ),
             ],
         );

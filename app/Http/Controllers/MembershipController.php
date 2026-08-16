@@ -18,7 +18,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
 
-class MembershipController extends Controller
+class MembershipController extends WithUserSearchController
 {
     public function index(
         Request $request,
@@ -194,30 +194,5 @@ class MembershipController extends Controller
             'success',
             __('Le membre a été modifié avec succès.'),
         )->back();
-    }
-
-    private function users(): Collection
-    {
-        $searchQuery = \request('q_search');
-
-        if (mb_strlen($searchQuery) < 2) {
-            return [];
-        }
-
-        return User::query()
-            ->select(['id', 'name', 'email'])
-            ->where(function ($query) use ($searchQuery): void {
-                $query
-                    ->where('name', 'like', "%{$searchQuery}%")
-                    ->orWhere('email', 'like', "%{$searchQuery}%");
-            })
-            ->whereDoesntHave(
-                'memberships',
-                fn($query) => $query
-                    ->where('tontine_id', \request('tontine')->id),
-            )
-            ->orderBy('name')
-            ->limit(10)
-            ->get();
     }
 }

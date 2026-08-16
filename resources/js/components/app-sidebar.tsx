@@ -1,5 +1,3 @@
-import { Link } from '@inertiajs/react';
-import { LayoutGrid, ListIcon } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -15,10 +13,12 @@ import {
 import { dashboard } from '@/routes';
 import tontines from '@/routes/tontines';
 import type { NavItem } from '@/types';
+import { Link } from '@inertiajs/react';
+import { LayoutGrid, ListIcon } from 'lucide-react';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
+        title: 'Tableau de bord',
         href: dashboard(),
         icon: LayoutGrid,
     },

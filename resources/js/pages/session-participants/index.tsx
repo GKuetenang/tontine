@@ -1,12 +1,7 @@
-import { Form, Head, Link } from '@inertiajs/react';
-import { format, isValid, parseISO } from 'date-fns';
-import { frCA } from 'date-fns/locale';
-import { PlusIcon, UsersIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
-import { SessionStatusBadge } from '@/components/session-status-badge';
+import { SessionParticipantStatusBadge } from '@/components/session-participant-status-badge';
 import { SortableTableHead } from '@/components/sortable-table-head';
-import { TopActions } from '@/components/top-actions';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -22,12 +17,14 @@ import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
-import participants from '@/routes/tontines/sessions/participants';
-import type { BreadcrumbItem, PaginatedCollection, Session } from '@/types';
+import sessionParticipants from '@/routes/tontines/sessions/participants';
+import type { BreadcrumbItem, PaginatedCollection, ResultTontine, Session, SessionParticipant } from '@/types';
+import { Form, Head } from '@inertiajs/react';
+import { format, isValid, parseISO } from 'date-fns';
+import { frCA } from 'date-fns/locale';
+import { PlusIcon } from 'lucide-react';
 import { Actions } from './actions';
-import { EditSessionForm } from './form';
-
+import { EditSessionParticipantForm } from './form';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -36,16 +33,16 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
     {
         title: 'Sessions',
-        href: sessions.index({
-            tontine: ''
+        href: sessionParticipants.index({
+            tontine: '',
+            session: ''
         }).url,
     },
     {
-        title: 'Sessions',
+        title: 'Participants',
         href: '#',
     },
 ];
-
 
 function formatSessionDate(value?: string | null): string {
     if (!value) {
@@ -63,115 +60,124 @@ function formatSessionDate(value?: string | null): string {
     });
 }
 
-export type ResultTontine = {
-    id: number;
-    name: string;
-    slug: string;
-}
-
 type Props = {
-    collection: PaginatedCollection<Session>;
+    collection: PaginatedCollection<SessionParticipant>;
     q: string | null;
     tontine: ResultTontine;
+    sessionParticipant: SessionParticipant;
     session: Session;
 };
 
-export default withAppLayout(breadcrumbs, ({ collection, q, tontine, session }: Props) => {
-    const { can } = useAuthorization();
+export default withAppLayout(
+    breadcrumbs,
+    ({ collection, q, tontine, sessionParticipant, session }: Props) => {
+        const { can } = useAuthorization();
 
-    return (
-        <>
-            <Head title='Tous les sessions' />
-            <Heading
-                title='Tous les sessions'
-            />
-            <div className="space-y-4">
-                <TopActions>
-                    <Form
-                        {...sessions.index.form({
-                            tontine: tontine.slug
-                        })}
-                        className="flex items-center gap-1"
-                    >
-                        <Input
-                            autoFocus
-                            defaultValue={q ?? ''}
-                            placeholder="Rechercher un membre"
-                            name="q"
-                        />
-                        <Button>Rechercher</Button>
-                    </Form>
-                </TopActions>
-                <Card className='bg-background pt-0'>
-                    {can('sessions.create') && <CardHeader className='border-b py-4'>
-                        <EditSessionForm
-                            session={session}
-                            tontine={tontine}
-                            trigger={
-                                <Button
-                                    type='button'
-                                    variant="outline"
-                                    className="w-fit"
-                                >
-                                    <PlusIcon />
-                                    Ajouter une session
-                                </Button>
-                            }
-                        />
-                    </CardHeader>}
-                    <CardContent className='px-0'>
-                        <Table className='border-spacing-4'>
-                            <TableHeader>
-                                <TableRow className='[&>th:first-child]:pl-6 [&>th:last-child]:pr-6'>
-                                    <SortableTableHead field='name'>Nom</SortableTableHead>
-                                    <SortableTableHead field='default_contibution_amount'>Montant par defaut</SortableTableHead>
-                                    <SortableTableHead field='start_at'>Date de début</SortableTableHead>
-                                    <SortableTableHead field='end_at'>Date de fin</SortableTableHead>
-                                    <TableHead>Statut</TableHead>
-                                    <TableHead>Participants</TableHead>
-                                    <TableHead className="text-end"></TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {collection.data.map((item) => (
-                                    <TableRow key={item.id} className='[&>td:first-child]:pl-6 [&>td:last-child]:pr-6'>
-                                        <TableCell>
-                                            {item.name}
-                                        </TableCell>
-                                        <TableCell>{formatCurrency(item.default_contribution_amount)}</TableCell>
-                                        <TableCell>
-                                            {formatSessionDate(item.start_at)}
-                                        </TableCell>
-                                        <TableCell>
-                                            {formatSessionDate(item.end_at)}
-                                        </TableCell>
-                                        <TableCell>
-                                            <SessionStatusBadge session={item} />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Button asChild variant='outline'>
-                                                <Link href={participants.index({ tontine: item.slug!, session: item.slug })}>
-                                                    <UsersIcon size={16} />
-                                                    {`${item.participants_count} participant${item.participants_count! > 1 ? 's' : ''}`}
-                                                </Link>
+        return (
+            <>
+                <Head title="Tous les participants" />
+                <Heading title="Tous les participants" />
+                <div className="space-y-4">
+                    <Card className="bg-background pt-0">
+                        <CardHeader className="border-b py-4">
+                            <div className="flex justify-between items-center">
+                                {can('session-participants.create') && (
+                                    <EditSessionParticipantForm
+                                        participant={sessionParticipant}
+                                        tontine={tontine}
+                                        session={session}
+                                        trigger={
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                className="w-fit"
+                                            >
+                                                <PlusIcon />
+                                                Ajouter un participant
                                             </Button>
-                                            {/* <span>{`${item.participants_count} participant${item.participants_count! > 1 ? 's' : ''}`}</span> */}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Actions
-                                                tontine={tontine}
-                                                session={item}
-                                            />
-                                        </TableCell>
+                                        }
+                                    />
+                                )}
+                                <Form
+                                    {...sessionParticipants.index.form({
+                                        tontine: tontine.slug,
+                                        session: ''
+                                    })}
+                                    className="flex items-center gap-1"
+                                >
+                                    <Input
+                                        autoFocus
+                                        defaultValue={q ?? ''}
+                                        placeholder="Rechercher un membre"
+                                        name="q"
+                                    />
+                                    <Button>Rechercher</Button>
+                                </Form>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="px-0">
+                            <Table className="border-spacing-4">
+                                <TableHeader>
+                                    <TableRow className="[&>th:first-child]:pl-6 [&>th:last-child]:pr-6">
+                                        <SortableTableHead field="name">
+                                            Nom
+                                        </SortableTableHead>
+                                        <SortableTableHead field="default_contibution_amount">
+                                            Montant de tontine
+                                        </SortableTableHead>
+                                        <SortableTableHead field="draw_entries_count">
+                                            Parts
+                                        </SortableTableHead>
+                                        <SortableTableHead field="joined_at">
+                                            A rejoint le
+                                        </SortableTableHead>
+                                        <TableHead>Statut</TableHead>
+                                        <TableHead className="text-end"></TableHead>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                                </TableHeader>
+                                <TableBody>
+                                    {collection.data.map((item) => (
+                                        <TableRow
+                                            key={item.id}
+                                            className="[&>td:first-child]:pl-6 [&>td:last-child]:pr-6"
+                                        >
+                                            <TableCell>{item.membership?.user?.name}</TableCell>
+                                            <TableCell>
+                                                {formatCurrency(
+                                                    item.contribution_amount,
+                                                )}
+                                            </TableCell>
+                                            <TableCell>
+                                                {item.draw_entries_count}
+                                            </TableCell>
+                                            <TableCell>
+                                                {formatSessionDate(item.joined_at)}
+                                            </TableCell>
+                                            <TableCell>
+                                                <SessionParticipantStatusBadge
+                                                    isActive={item.is_active}
+                                                />
+                                            </TableCell>
+                                            <TableCell>
+                                                <Actions
+                                                    tontine={tontine}
+                                                    session={session}
+                                                    participant={item}
+                                                />
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
 
-                        <CollectionPagination className='px-6 pt-6' collection={collection} />
-                    </CardContent>
-                </Card>
-            </div>
-        </>
-    );
-});
+                            <CollectionPagination
+                                className="px-6 pt-6"
+                                collection={collection}
+                            />
+                        </CardContent>
+                    </Card>
+                </div>
+            </>
+        );
+    },
+);

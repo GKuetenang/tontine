@@ -1,16 +1,12 @@
 import { Link } from '@inertiajs/react';
-import {
-    EditIcon,
-    EllipsisIcon,
-    TrashIcon
-} from 'lucide-react';
+import { EditIcon, EllipsisIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuTrigger
+    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import tontines from '@/routes/tontines';
 import type { Tontine } from '@/types';
@@ -19,10 +15,7 @@ type Props = {
     tontine: Tontine;
 };
 
-export function Actions({
-    tontine,
-}: Props) {
-
+export function Actions({ tontine }: Props) {
     const hasActions = tontine.can?.update || tontine.can?.delete;
 
     if (!hasActions) {
@@ -38,11 +31,10 @@ export function Actions({
 
     return (
         <div className="flex items-end">
-
-            <DropdownMenu >
+            <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
-                        className='ml-auto'
+                        className="ml-auto"
                         variant="ghost"
                         size="icon"
                         aria-label="Actions de la tontine"
@@ -53,12 +45,10 @@ export function Actions({
                 <DropdownMenuContent align="end">
                     <DropdownMenuItem
                         asChild
-                        onSelect={(event) =>
-                            event.preventDefault()
-                        }
+                        onSelect={(event) => event.preventDefault()}
                     >
                         <Link
-                            className='w-full'
+                            className="w-full"
                             href={tontines.edit({
                                 tontine: tontine.slug!,
                             })}
@@ -68,11 +58,9 @@ export function Actions({
                         </Link>
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem
-                        asChild
-                    >
+                    <DropdownMenuItem asChild>
                         <Link
-                            className='w-full'
+                            className="w-full"
                             href={tontines.destroy({
                                 tontine: tontine.slug!,
                             })}
@@ -90,8 +78,8 @@ export function Actions({
                             Supprimer
                         </Link>
                     </DropdownMenuItem>
-                </DropdownMenuContent >
-            </DropdownMenu >
+                </DropdownMenuContent>
+            </DropdownMenu>
         </div>
     );
 }

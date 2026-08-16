@@ -77,7 +77,7 @@ export function UserCombobox({ onSelect }: Props) {
     }
 
     return (
-        <Command shouldFilter={false} className="rounded-lg border" >
+        <Command shouldFilter={false} className="rounded-lg border">
             <CommandInput
                 value={search}
                 onValueChange={handleSearch}

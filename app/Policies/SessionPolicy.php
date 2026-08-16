@@ -17,7 +17,7 @@ class SessionPolicy
         User $user,
         Tontine $tontine,
     ): bool {
-        return $this->isActiveMember($user, $tontine)
+        return $tontine->hasActiveMembership($user)
             && $this->can(
                 $user,
                 $tontine,
@@ -32,9 +32,8 @@ class SessionPolicy
         User $user,
         Session $session,
     ): bool {
-        return $this->isActiveMember(
-            $user,
-            $session->tontine,
+        return $session->tontine->hasActiveMembership(
+            $user
         ) && $this->can(
             $user,
             $session->tontine,
@@ -49,7 +48,7 @@ class SessionPolicy
         User $user,
         Tontine $tontine,
     ): bool {
-        return $this->isActiveMember($user, $tontine)
+        return $tontine->hasActiveMembership($user)
             && $this->can(
                 $user,
                 $tontine,
@@ -64,9 +63,8 @@ class SessionPolicy
         User $user,
         Session $session,
     ): bool {
-        return $this->isActiveMember(
-            $user,
-            $session->tontine,
+        return $session->tontine->hasActiveMembership(
+            $user
         ) && $this->can(
             $user,
             $session->tontine,
@@ -81,9 +79,8 @@ class SessionPolicy
         User $user,
         Session $session,
     ): bool {
-        return $this->isActiveMember(
-            $user,
-            $session->tontine,
+        return $session->tontine->hasActiveMembership(
+            $user
         ) && $this->can(
             $user,
             $session->tontine,
@@ -98,9 +95,8 @@ class SessionPolicy
         User $user,
         Session $session,
     ): bool {
-        return $this->isActiveMember(
-            $user,
-            $session->tontine,
+        return $session->tontine->hasActiveMembership(
+            $user
         ) && $this->can(
             $user,
             $session->tontine,
@@ -115,25 +111,13 @@ class SessionPolicy
         User $user,
         Session $session,
     ): bool {
-        return $this->isActiveMember(
-            $user,
-            $session->tontine,
+        return $session->tontine->hasActiveMembership(
+            $user
         ) && $this->can(
             $user,
             $session->tontine,
             TontinePermission::CloseSessions,
         );
-    }
-
-    /**
-     * Vérifie que l’utilisateur connecté possède
-     * un membership actif dans cette tontine.
-     */
-    private function isActiveMember(
-        User $user,
-        Tontine $tontine,
-    ): bool {
-        return $tontine->hasActiveMembership($user);
     }
 
     /**

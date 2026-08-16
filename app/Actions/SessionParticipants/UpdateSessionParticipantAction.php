@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Sessions;
+namespace App\Actions\SessionParticipants;
 
 use App\Enums\DrawAllocationMode;
 use App\Enums\SessionStatus;

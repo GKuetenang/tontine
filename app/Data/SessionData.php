@@ -2,6 +2,7 @@
 
 namespace App\Data;
 
+use App\Enums\DrawAllocationMode;
 use App\Enums\SessionStatus;
 use App\Models\Session;
 use Carbon\CarbonImmutable;
@@ -29,6 +30,8 @@ class SessionData extends Data
 
         public Optional|SessionStatus $status,
         public Optional|int $participants_count,
+        public Optional|DrawAllocationMode $draw_allocation_mode,
+        public Optional|string $draw_allocation_mode_label,
 
         public Optional|CarbonImmutable|null $activated_at,
         public Optional|CarbonImmutable|null $closed_at,
@@ -37,24 +40,43 @@ class SessionData extends Data
         public Optional|CarbonImmutable $updated_at,
     ) {}
 
-    // public static function fromModel(Session $session): self
-    // {
-    //     return self::from([
-    //         'id' => $session->id,
-    //         'name' => $session->name,
-    //         'slug' => $session->slug,
-    //         'description' => $session->description,
+    public static function fromModel(
+        Session $session,
+    ): self {
+        return new self(
+            name: $session->name,
 
-    //         'start_at' => $session->start_at,
-    //         'end_at' => $session->end_at,
+            slug: $session->slug,
 
-    //         'status' => $session->status,
+            id: $session->id,
 
-    //         'activated_at' => $session->activated_at,
-    //         'closed_at' => $session->closed_at,
+            description: $session->description,
 
-    //         'created_at' => $session->created_at,
-    //         'updated_at' => $session->updated_at,
-    //     ]);
-    // }
+            start_at: $session->start_at,
+
+            end_at: $session->end_at,
+
+            default_contribution_amount: $session->default_contribution_amount,
+
+            status: $session->status,
+
+            participants_count: array_key_exists(
+                'participants_count',
+                $session->getAttributes(),
+            )
+                ? $session->participants_count
+                : Optional::create(),
+
+            draw_allocation_mode: $session->draw_allocation_mode,
+            draw_allocation_mode_label: $session->draw_allocation_mode->label(),
+
+            activated_at: $session->activated_at,
+
+            closed_at: $session->closed_at,
+
+            created_at: $session->created_at,
+
+            updated_at: $session->updated_at,
+        );
+    }
 }

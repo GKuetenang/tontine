@@ -1,4 +1,4 @@
-import type { MembershipStatus, SessionStatus } from '../Enums';
+import { MembershipStatus, SessionStatus, DrawAllocationMode } from '../Enums';
 export type MemberUser = {
     id: number;
     name: string;
@@ -35,6 +35,8 @@ export type Session = {
     default_contribution_amount: undefined | number | null;
     status: undefined | SessionStatus;
     participants_count: undefined | number;
+    draw_allocation_mode: undefined | DrawAllocationMode;
+    draw_allocation_mode_label: undefined | DrawAllocationMode;
     activated_at: undefined | undefined | null;
     closed_at: undefined | undefined | null;
     created_at: undefined | undefined;

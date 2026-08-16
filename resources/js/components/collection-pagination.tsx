@@ -5,11 +5,11 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { PaginatedCollection } from '@/types';
 
-type Props = { collection: PaginatedCollection<unknown>, className?: string };
+type Props = { collection: PaginatedCollection<unknown>; className?: string };
 
 export function CollectionPagination({ collection, className }: Props) {
     return (
-        <div className={cn("flex items-center justify-between", className)}>
+        <div className={cn('flex items-center justify-between', className)}>
             <div className="hidden flex-1 text-sm text-muted-foreground lg:flex">
                 Page {collection.current_page} sur {collection.last_page}
             </div>

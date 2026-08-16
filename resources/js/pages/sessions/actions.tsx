@@ -1,35 +1,32 @@
+import { SelectOption } from '@/components/select-with-items';
+import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { useAuthorization } from '@/hooks/use-authorization';
+import sessions from '@/routes/tontines/sessions';
+import type { ResultTontine, Session } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
     CheckCircle2Icon,
     EllipsisIcon,
     LockKeyholeIcon,
     Pencil,
-    TrashIcon
+    TrashIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { useAuthorization } from '@/hooks/use-authorization';
-import sessions from '@/routes/tontines/sessions';
-import type { Session } from '@/types';
-import type { ResultTontine } from '../memberships';
 import { EditSessionForm } from './form';
 
 type Props = {
     tontine: ResultTontine;
     session: Session;
+    draw_allocation_modes: SelectOption[];
 };
 
-export function Actions({
-    tontine,
-    session,
-}: Props) {
-
+export function Actions({ tontine, session, draw_allocation_modes }: Props) {
     const { can, canAny } = useAuthorization();
 
     const hasActions = canAny(
@@ -38,7 +35,8 @@ export function Actions({
         'sessions.update',
         'sessions.activate',
         'sessions.close',
-        'sessions.delete');
+        'sessions.delete',
+    );
 
     if (!hasActions) {
         return (
@@ -53,11 +51,10 @@ export function Actions({
 
     return (
         <div className="flex items-end">
-
-            <DropdownMenu >
+            <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
-                        className='ml-auto'
+                        className="ml-auto"
                         variant="ghost"
                         size="icon"
                         aria-label="Actions de la session"
@@ -69,13 +66,12 @@ export function Actions({
                 <DropdownMenuContent align="end">
                     {can('sessions.update') && (
                         <EditSessionForm
+                            draw_allocation_modes={draw_allocation_modes}
                             tontine={tontine}
                             session={session}
                             trigger={
                                 <DropdownMenuItem
-                                    onSelect={(event) =>
-                                        event.preventDefault()
-                                    }
+                                    onSelect={(event) => event.preventDefault()}
                                 >
                                     <Pencil className="size-4" />
                                     Modifier
@@ -84,41 +80,37 @@ export function Actions({
                         />
                     )}
 
-                    {(can('sessions.activate') && !session.is_active) && (
-                        <DropdownMenuItem
-                            asChild
-                        >
-
-                            <Link
-                                className='w-full'
-                                href={sessions.activate({
-                                    tontine: tontine.slug,
-                                    session: session.slug,
-                                })}
-                                onBefore={() =>
-                                    confirm(
-                                        'Voulez-vous vraiment activer cette session?',
-                                    )
-                                }
-                                onError={(errors) => {
-                                    const firstError = Object.values(errors)[0];
-                                    toast.error(firstError);
-                                }}
-                            >
-                                <CheckCircle2Icon size={16} />
-                                Activer
-                            </Link>
-                        </DropdownMenuItem>
-                    )}
-
-                    {
-                        (can('sessions.close') && !session.is_closed) && (
-                            <DropdownMenuItem
-                                asChild
-                            >
-
+                    {can('sessions.activate') &&
+                        !(session.status === 'active') && (
+                            <DropdownMenuItem asChild>
                                 <Link
-                                    className='w-full'
+                                    className="w-full"
+                                    href={sessions.activate({
+                                        tontine: tontine.slug,
+                                        session: session.slug,
+                                    })}
+                                    onBefore={() =>
+                                        confirm(
+                                            'Voulez-vous vraiment activer cette session?',
+                                        )
+                                    }
+                                    onError={(errors) => {
+                                        const firstError =
+                                            Object.values(errors)[0];
+                                        toast.error(firstError);
+                                    }}
+                                >
+                                    <CheckCircle2Icon size={16} />
+                                    Activer
+                                </Link>
+                            </DropdownMenuItem>
+                        )}
+
+                    {can('sessions.close') &&
+                        !(session.status === 'closed') && (
+                            <DropdownMenuItem asChild>
+                                <Link
+                                    className="w-full"
                                     href={sessions.close({
                                         tontine: tontine.slug,
                                         session: session.slug,
@@ -129,7 +121,8 @@ export function Actions({
                                         )
                                     }
                                     onError={(errors) => {
-                                        const firstError = Object.values(errors)[0];
+                                        const firstError =
+                                            Object.values(errors)[0];
                                         toast.error(firstError);
                                     }}
                                 >
@@ -137,39 +130,33 @@ export function Actions({
                                     Fermer
                                 </Link>
                             </DropdownMenuItem>
-                        )
-                    }
+                        )}
 
-                    {
-                        can('sessions.delete') && (
-                            <DropdownMenuItem
-                                asChild
+                    {can('sessions.delete') && (
+                        <DropdownMenuItem asChild>
+                            <Link
+                                className="w-full"
+                                href={sessions.destroy({
+                                    tontine: tontine.slug,
+                                    session: session.slug,
+                                })}
+                                onBefore={() =>
+                                    confirm(
+                                        'Voulez-vous vraiment supprimer cette session?',
+                                    )
+                                }
+                                onError={(errors) => {
+                                    const firstError = Object.values(errors)[0];
+                                    toast.error(firstError);
+                                }}
                             >
-
-                                <Link
-                                    className='w-full'
-                                    href={sessions.destroy({
-                                        tontine: tontine.slug,
-                                        session: session.slug,
-                                    })}
-                                    onBefore={() =>
-                                        confirm(
-                                            'Voulez-vous vraiment supprimer cette session?',
-                                        )
-                                    }
-                                    onError={(errors) => {
-                                        const firstError = Object.values(errors)[0];
-                                        toast.error(firstError);
-                                    }}
-                                >
-                                    <TrashIcon size={16} />
-                                    Supprimer
-                                </Link>
-                            </DropdownMenuItem>
-                        )
-                    }
-                </DropdownMenuContent >
-            </DropdownMenu >
+                                <TrashIcon size={16} />
+                                Supprimer
+                            </Link>
+                        </DropdownMenuItem>
+                    )}
+                </DropdownMenuContent>
+            </DropdownMenu>
         </div>
     );
 }

@@ -14,7 +14,6 @@ const AppLayout = ({
     breadcrumbs?: BreadcrumbItem[];
     children: React.ReactNode;
 }) => {
-
     useEffect(() => {
         return router.on('flash', (event) => {
             const flash = event.detail.flash as Flash;
@@ -35,13 +34,17 @@ const AppLayout = ({
                 toast.info(flash.info);
             }
         });
-
     }, []);
 
     return (
         <AppLayoutTemplate breadcrumbs={breadcrumbs}>
             {children}
-            <Toaster richColors position="top-right" closeButton duration={4000} />
+            <Toaster
+                richColors
+                position="top-right"
+                closeButton
+                duration={4000}
+            />
         </AppLayoutTemplate>
     );
 };

@@ -3,4 +3,4 @@ export type Flash = {
     error?: string;
     warning?: string;
     info?: string;
-}
+};

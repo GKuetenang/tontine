@@ -28,10 +28,7 @@ export function useTranslation() {
 
     console.log('Translations:', translations); // Debugging line to check the translations object
 
-    function t(
-        key: string,
-        replacements: TranslationValues = {},
-    ): string {
+    function t(key: string, replacements: TranslationValues = {}): string {
         const translation = resolveTranslation(translations, key);
 
         if (typeof translation !== 'string') {

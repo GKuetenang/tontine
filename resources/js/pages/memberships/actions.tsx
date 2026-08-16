@@ -1,40 +1,28 @@
-import { Link } from '@inertiajs/react';
-import {
-    EllipsisIcon,
-    Pencil,
-    TrashIcon
-} from 'lucide-react';
-import { toast } from 'sonner';
 import type { SelectOption } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuTrigger
+    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuthorization } from '@/hooks/use-authorization';
 import memberships from '@/routes/tontines/memberships';
-import type { Membership } from '@/types';
-import type { ResultTontine } from '../memberships';
+import type { Membership, ResultTontine } from '@/types';
+import { Link } from '@inertiajs/react';
+import { EllipsisIcon, Pencil, TrashIcon } from 'lucide-react';
+import { toast } from 'sonner';
 import { EditMembershipForm } from './form';
 
 type Props = {
     tontine: ResultTontine;
     membership: Membership;
-    roles: SelectOption[],
+    roles: SelectOption[];
     statuses: SelectOption[];
 };
 
-export function Actions({
-    tontine,
-    membership,
-    roles,
-    statuses
-}: Props) {
-
+export function Actions({ tontine, membership, roles, statuses }: Props) {
     console.log({ membership });
-
 
     const { can, canAny } = useAuthorization();
 
@@ -42,7 +30,8 @@ export function Actions({
         'memberships.view',
         'memberships.create',
         'memberships.update',
-        'memberships.delete');
+        'memberships.delete',
+    );
 
     if (!hasActions) {
         return (
@@ -57,11 +46,10 @@ export function Actions({
 
     return (
         <div className="flex items-end">
-
-            <DropdownMenu >
+            <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
-                        className='ml-auto'
+                        className="ml-auto"
                         variant="ghost"
                         size="icon"
                         aria-label="Actions de la membership"
@@ -71,7 +59,6 @@ export function Actions({
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent align="end">
-
                     {can('memberships.update') && (
                         <EditMembershipForm
                             membership={membership}
@@ -80,9 +67,7 @@ export function Actions({
                             statuses={statuses}
                             trigger={
                                 <DropdownMenuItem
-                                    onSelect={(event) =>
-                                        event.preventDefault()
-                                    }
+                                    onSelect={(event) => event.preventDefault()}
                                 >
                                     <Pencil className="size-4" />
                                     Modifier
@@ -91,36 +76,31 @@ export function Actions({
                         />
                     )}
 
-
-                    {
-                        can('memberships.delete') && (
-                            <DropdownMenuItem
-                                asChild
+                    {can('memberships.delete') && (
+                        <DropdownMenuItem asChild>
+                            <Link
+                                className="w-full"
+                                href={memberships.destroy({
+                                    tontine: tontine.slug,
+                                    membership: membership.id,
+                                })}
+                                onBefore={() =>
+                                    confirm(
+                                        'Voulez-vous vraiment supprimer ce membre?',
+                                    )
+                                }
+                                onError={(errors) => {
+                                    const firstError = Object.values(errors)[0];
+                                    toast.error(firstError);
+                                }}
                             >
-                                <Link
-                                    className='w-full'
-                                    href={memberships.destroy({
-                                        tontine: tontine.slug,
-                                        membership: membership.id,
-                                    })}
-                                    onBefore={() =>
-                                        confirm(
-                                            'Voulez-vous vraiment supprimer ce membre?',
-                                        )
-                                    }
-                                    onError={(errors) => {
-                                        const firstError = Object.values(errors)[0];
-                                        toast.error(firstError);
-                                    }}
-                                >
-                                    <TrashIcon size={16} />
-                                    Supprimer
-                                </Link>
-                            </DropdownMenuItem>
-                        )
-                    }
-                </DropdownMenuContent >
-            </DropdownMenu >
+                                <TrashIcon size={16} />
+                                Supprimer
+                            </Link>
+                        </DropdownMenuItem>
+                    )}
+                </DropdownMenuContent>
+            </DropdownMenu>
         </div>
     );
 }

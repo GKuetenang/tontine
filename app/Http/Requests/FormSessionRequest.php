@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\DrawAllocationMode;
 use App\Models\Session;
 use App\Models\Tontine;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -50,11 +51,13 @@ class FormSessionRequest extends FormRequest
                 'max:200',
                 Rule::unique('tontine_sessions', 'name')
                     ->where('tontine_id', $tontine->id)
-                    ->ignore($this->route()->parameter('tontine')),
+                    ->ignore($this->route()->parameter('session')),
             ],
             'description' => ['nullable', 'string'],
             'start_at' => ['nullable', 'date_format:Y-m-d H:i:s'],
             'end_at' => ['nullable', 'date_format:Y-m-d H:i:s', 'after_or_equal:start_at'],
+            'draw_allocation_mode' => Rule::enum(DrawAllocationMode::class),
+            'default_contribution_amount' => ['nullable', 'numeric']
         ];
     }
 

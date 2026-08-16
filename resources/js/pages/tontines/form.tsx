@@ -32,17 +32,14 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
     const action = tontine.id
         ? tontines.update.form({ tontine: tontine.slug! })
         : tontines.store.form();
-    const title = tontine.id ? "Editer une tontine" : "Ajouter une tontine"
+    const title = tontine.id ? 'Editer une tontine' : 'Ajouter une tontine';
 
     return (
         <>
             <Head title={title} />
-            <Heading
-                title={title}
-            />
+            <Heading title={title} />
             <Card>
                 <CardContent>
-
                     <Form {...action}>
                         {({ errors, processing, progress }) => (
                             <>
@@ -55,7 +52,9 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
                                         <ImageInput
                                             className="mt-3 aspect-square w-40!"
                                             name="image_file"
-                                            aria-invalid={!!errors['image_file']}
+                                            aria-invalid={
+                                                !!errors['image_file']
+                                            }
                                             defaultValue={tontine.image}
                                             progress={progress?.progress}
                                         />
@@ -96,12 +95,20 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
                                         <Input
                                             id="member_number_prefix"
                                             name="member_number_prefix"
-                                            defaultValue={tontine.member_number_prefix}
-                                            aria-invalid={!!errors['member_number_prefix']}
+                                            defaultValue={
+                                                tontine.member_number_prefix
+                                            }
+                                            aria-invalid={
+                                                !!errors['member_number_prefix']
+                                            }
                                         />
                                     </FormField>
                                     <FormField
-                                        error={errors['default_contribution_amount']}
+                                        error={
+                                            errors[
+                                                'default_contribution_amount'
+                                            ]
+                                        }
                                         label="Montant de tontine par defaut"
                                         htmlFor="default_contribution_amount"
                                         optional
@@ -109,8 +116,15 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
                                         <Input
                                             id="default_contribution_amount"
                                             name="default_contribution_amount"
-                                            defaultValue={tontine.default_contribution_amount ?? undefined}
-                                            aria-invalid={!!errors['default_contribution_amount']}
+                                            defaultValue={
+                                                tontine.default_contribution_amount ??
+                                                undefined
+                                            }
+                                            aria-invalid={
+                                                !!errors[
+                                                    'default_contribution_amount'
+                                                ]
+                                            }
                                         />
                                     </FormField>
                                     <FormField
@@ -122,8 +136,12 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
                                         <Textarea
                                             id="description"
                                             name="description"
-                                            defaultValue={tontine.description ?? ''}
-                                            aria-invalid={!!errors['description']}
+                                            defaultValue={
+                                                tontine.description ?? ''
+                                            }
+                                            aria-invalid={
+                                                !!errors['description']
+                                            }
                                         />
                                     </FormField>
                                 </div>
@@ -135,14 +153,17 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
                                         disabled={processing}
                                         data-test="login-button"
                                     >
-                                        {processing ? <Spinner /> : <SaveIcon />}
+                                        {processing ? (
+                                            <Spinner />
+                                        ) : (
+                                            <SaveIcon />
+                                        )}
                                         Enregistrer
                                     </Button>
                                 </TopActions>
                             </>
                         )}
                     </Form>
-
                 </CardContent>
             </Card>
         </>
