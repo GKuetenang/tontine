@@ -17,6 +17,7 @@ import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
+import sessions from '@/routes/tontines/sessions';
 import sessionParticipants from '@/routes/tontines/sessions/participants';
 import type { BreadcrumbItem, PaginatedCollection, ResultTontine, Session, SessionParticipant } from '@/types';
 import { Form, Head } from '@inertiajs/react';
@@ -25,24 +26,6 @@ import { frCA } from 'date-fns/locale';
 import { PlusIcon } from 'lucide-react';
 import { Actions } from './actions';
 import { EditSessionParticipantForm } from './form';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Tontines',
-        href: tontines.index().url,
-    },
-    {
-        title: 'Sessions',
-        href: sessionParticipants.index({
-            tontine: '',
-            session: ''
-        }).url,
-    },
-    {
-        title: 'Participants',
-        href: '#',
-    },
-];
 
 function formatSessionDate(value?: string | null): string {
     if (!value) {
@@ -68,8 +51,30 @@ type Props = {
     session: Session;
 };
 
-export default withAppLayout(
-    breadcrumbs,
+export default withAppLayout<Props>(
+    ({ tontine, session }) => [
+        {
+            title: 'Tontines',
+            href: tontines.index().url,
+        },
+        {
+            title: 'Sessions',
+            href: sessions.index({
+                tontine: tontine.slug,
+            }).url,
+        },
+        {
+            title: session.name,
+            href: sessionParticipants.index({
+                tontine: tontine.slug,
+                session: session.slug,
+            }).url,
+        },
+        {
+            title: 'Participants',
+            href: '#',
+        },
+    ] as BreadcrumbItem[],
     ({ collection, q, tontine, sessionParticipant, session }: Props) => {
         const { can } = useAuthorization();
 
