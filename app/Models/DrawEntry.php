@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable([
     'position',
     'entry_number',
+    'session_participant_id'
 ])]
 class DrawEntry extends Model
 {

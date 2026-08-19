@@ -33,6 +33,7 @@ export type TontinePermission =
     | 'draws.confirm'
     | 'draws.reset'
     | 'draws.delete'
+    | 'draws.restore'
     | 'contributions.view'
     | 'contributions.create'
     | 'contributions.update'

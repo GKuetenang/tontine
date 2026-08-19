@@ -51,7 +51,7 @@ class SessionParticipantController extends WithUserSearchController
                     $participants
                 ),
                 'users' => fn() => Inertia::optional(
-                    $this->usersInTontine(...)
+                    $this->membershipsInTontine(...)
                 ),
             ],
         );

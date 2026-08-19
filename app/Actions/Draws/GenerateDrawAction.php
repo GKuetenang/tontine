@@ -2,27 +2,33 @@
 
 namespace App\Actions\Draws;
 
-use App\Enums\DrawMode;
+use App\Enums\SessionStatus;
 use App\Models\Draw;
+use App\Models\Session;
 use App\Models\SessionParticipant;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 final class GenerateDrawAction
 {
-    public function execute(Draw $draw): Draw
-    {
-        return DB::transaction(function () use ($draw): Draw {
-            if ($draw->isConfirmed()) {
+    public function execute(
+        Session $session,
+        User $user,
+    ): Draw {
+        return DB::transaction(function () use (
+            $session,
+            $user,
+        ): Draw {
+            if ($session->status !== SessionStatus::Active) {
                 throw ValidationException::withMessages([
                     'draw' => __(
-                        'Un tirage confirmé ne peut plus être régénéré.'
+                        'Le tirage ne peut être généré que pour une session active.'
                     ),
                 ]);
             }
 
-            $participants = $draw
-                ->session
+            $participants = $session
                 ->participants()
                 ->active()
                 ->get();
@@ -35,17 +41,29 @@ final class GenerateDrawAction
                 ]);
             }
 
-            $existing = $draw->session
+            $draw = $session
                 ->draw()
                 ->withTrashed()
                 ->first();
 
-            if ($existing) {
+            if ($draw?->isConfirmed()) {
                 throw ValidationException::withMessages([
                     'draw' => __(
-                        'Un tirage existe déjà pour cette session.'
+                        'Un tirage confirmé ne peut plus être régénéré.'
                     ),
                 ]);
+            }
+
+            if ($draw?->trashed()) {
+                $draw->restore();
+            }
+
+            if (! $draw) {
+                $draw = $session
+                    ->draw()
+                    ->create([
+                        'created_by' => $user->id,
+                    ]);
             }
 
             $tickets = $participants
@@ -54,15 +72,18 @@ final class GenerateDrawAction
                         SessionParticipant $participant,
                     ): array {
                         return collect(
-                            range(1, $participant->shares_count)
+                            range(
+                                1,
+                                $participant->draw_entries_count,
+                            ),
                         )
                             ->map(
-                                fn(int $shareNumber): array => [
-                                    'participant_id' =>
+                                fn(int $entryNumber): array => [
+                                    'session_participant_id' =>
                                     $participant->id,
 
-                                    'share_number' =>
-                                    $shareNumber,
+                                    'entry_number' =>
+                                    $entryNumber,
                                 ],
                             )
                             ->all();
@@ -73,17 +94,14 @@ final class GenerateDrawAction
 
             $draw->entries()->delete();
 
-            // $sharesCount = match ($draw->session->draw_mode) {
-            //     DrawMode::PerParticipant => 1,
-            //     DrawMode::PerShare => $participant->shares_count,
-            // };
-
             foreach ($tickets as $index => $ticket) {
                 $draw->entries()->create([
                     'session_participant_id' =>
-                    $ticket['participant_id'],
-                    'share_number' =>
-                    $ticket['share_number'],
+                    $ticket['session_participant_id'],
+
+                    'entry_number' =>
+                    $ticket['entry_number'],
+
                     'position' => $index + 1,
                 ]);
             }
@@ -91,7 +109,9 @@ final class GenerateDrawAction
             return $draw
                 ->refresh()
                 ->load([
-                    'entries.participant.membership.user',
+                    'entries.sessionParticipant.membership.user',
+                    'creator',
+                    'confirmer',
                 ]);
         });
     }

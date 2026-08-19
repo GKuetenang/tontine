@@ -19,12 +19,13 @@ import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
 import sessions from '@/routes/tontines/sessions';
+import draws from '@/routes/tontines/sessions/draw';
 import participants from '@/routes/tontines/sessions/participants';
 import type { BreadcrumbItem, PaginatedCollection, Session } from '@/types';
 import { Form, Head, Link } from '@inertiajs/react';
 import { format, isValid, parseISO } from 'date-fns';
 import { frCA } from 'date-fns/locale';
-import { PlusIcon, UsersIcon } from 'lucide-react';
+import { PlusIcon, ShuffleIcon, UsersIcon } from 'lucide-react';
 import { Actions } from './actions';
 import { EditSessionForm } from './form';
 
@@ -136,6 +137,7 @@ export default withAppLayout(
                                         </SortableTableHead>
                                         <TableHead>Statut</TableHead>
                                         <TableHead>Participants</TableHead>
+                                        <TableHead>Tirage</TableHead>
                                         <TableHead className="text-end"></TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -187,6 +189,26 @@ export default withAppLayout(
                                                     </Link>
                                                 </Button>
                                                 {/* <span>{`${item.participants_count} participant${item.participants_count! > 1 ? 's' : ''}`}</span> */}
+                                            </TableCell>
+                                            <TableCell>
+                                                <Button
+                                                    asChild
+                                                    variant="outline"
+                                                >
+                                                    <Link
+                                                        href={draws.show(
+                                                            {
+                                                                tontine:
+                                                                    tontine.slug!,
+                                                                session:
+                                                                    item.slug,
+                                                            },
+                                                        )}
+                                                    >
+                                                        <ShuffleIcon size={16} />
+                                                        Tirage
+                                                    </Link>
+                                                </Button>
                                             </TableCell>
                                             <TableCell>
                                                 <Actions

@@ -37,7 +37,6 @@ class StoreSessionParticipantRequest extends FormRequest
             'membership_id' => [
                 'required',
                 'integer',
-
                 Rule::exists(
                     'memberships',
                     'id',
@@ -45,7 +44,6 @@ class StoreSessionParticipantRequest extends FormRequest
                     'tontine_id',
                     $tontine->id,
                 ),
-
                 Rule::unique(
                     'session_participants',
                     'membership_id',

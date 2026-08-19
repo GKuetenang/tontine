@@ -68,6 +68,7 @@ enum TontinePermission: string
     case ConfirmDraws = 'draws.confirm';
     case ResetDraws = 'draws.reset';
     case DeleteDraws = 'draws.delete';
+    case RestoreDraws = 'draws.restore';
 
         /*
     |--------------------------------------------------------------------------

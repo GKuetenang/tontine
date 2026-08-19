@@ -1,4 +1,18 @@
 import { MembershipStatus, SessionStatus, DrawAllocationMode } from '../Enums';
+export type Draw = {
+    id: number;
+    description: string | null;
+    confirmed_at: undefined | null;
+    creator: undefined | MemberUser | null;
+    confirmer: undefined | MemberUser | null;
+    entries: DrawEntry[];
+};
+export type DrawEntry = {
+    id: number;
+    position: number;
+    entry_number: number;
+    session_participant: undefined | SessionParticipant;
+};
 export type MemberUser = {
     id: number;
     name: string;
@@ -36,7 +50,7 @@ export type Session = {
     status: undefined | SessionStatus;
     participants_count: undefined | number;
     draw_allocation_mode: undefined | DrawAllocationMode;
-    draw_allocation_mode_label: undefined | DrawAllocationMode;
+    draw_allocation_mode_label: undefined | string;
     activated_at: undefined | undefined | null;
     closed_at: undefined | undefined | null;
     created_at: undefined | undefined;

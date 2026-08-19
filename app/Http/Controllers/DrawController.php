@@ -2,65 +2,132 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreDrawRequest;
-use App\Http\Requests\UpdateDrawRequest;
+use App\Actions\Draws\ConfirmDrawAction;
+use App\Actions\Draws\DeleteDrawAction;
+use App\Actions\Draws\GenerateDrawAction;
+use App\Actions\Draws\ResetDrawAction;
+use App\Data\DrawData;
+use App\Data\SessionData;
+use App\Data\TontineData;
 use App\Models\Draw;
+use App\Models\Session;
+use App\Models\Tontine;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class DrawController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function show(
+        Tontine $tontine,
+        Session $session,
+    ): Response {
+        $draw = $session
+            ->draw()
+            ->with([
+                'entries.sessionParticipant.membership.user',
+                'creator',
+                'confirmer',
+            ])
+            ->first();
+
+        if ($draw) {
+            Gate::authorize('view', $draw);
+        } else {
+            Gate::authorize(
+                'generate',
+                [Draw::class, $session],
+            );
+        }
+
+        return Inertia::render('draws/show', [
+            'tontine' => TontineData::fromModel($tontine),
+            'session' => SessionData::fromModel($session),
+            'draw' => $draw
+                ? DrawData::from($draw)
+                : null,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function generate(
+        Tontine $tontine,
+        Session $session,
+        GenerateDrawAction $action,
+    ): RedirectResponse {
+        Gate::authorize(
+            'generate',
+            [Draw::class, $session],
+        );
+
+        $action->execute(
+            session: $session,
+            user: request()->user(),
+        );
+
+        return back()->with(
+            'success',
+            __('Le tirage a été généré avec succès.'),
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreDrawRequest $request)
-    {
-        //
+    public function confirm(
+        Tontine $tontine,
+        Session $session,
+        ConfirmDrawAction $action,
+    ): RedirectResponse {
+        $draw = $session
+            ->draw()
+            ->firstOrFail();
+
+        Gate::authorize('confirm', $draw);
+
+        $action->execute(
+            draw: $draw,
+            user: request()->user(),
+        );
+
+        return back()->with(
+            'success',
+            __('Le tirage a été confirmé avec succès.'),
+        );
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Draw $draw)
-    {
-        //
+    public function reset(
+        Tontine $tontine,
+        Session $session,
+        ResetDrawAction $action,
+    ): RedirectResponse {
+        $draw = $session
+            ->draw()
+            ->firstOrFail();
+
+        Gate::authorize('reset', $draw);
+
+        $action->execute($draw);
+
+        return back()->with(
+            'success',
+            __('Le tirage a été réinitialisé avec succès.'),
+        );
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Draw $draw)
-    {
-        //
-    }
+    public function destroy(
+        Tontine $tontine,
+        Session $session,
+        DeleteDrawAction $action,
+    ): RedirectResponse {
+        $draw = $session
+            ->draw()
+            ->firstOrFail();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateDrawRequest $request, Draw $draw)
-    {
-        //
-    }
+        Gate::authorize('delete', $draw);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Draw $draw)
-    {
-        //
+        $action->execute($draw);
+
+        return back()->with(
+            'success',
+            __('Le tirage a été supprimé avec succès.'),
+        );
     }
 }

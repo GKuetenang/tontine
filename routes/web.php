@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DrawController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SessionParticipantController;
@@ -77,6 +78,43 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name(
                 'tontines.sessions.participants.reactivate'
             );
+
+        Route::prefix(
+            'tontines/{tontine:slug}/sessions/{session:slug}/draw'
+        )
+            ->name('tontines.sessions.draw.')
+            ->scopeBindings()
+            ->group(function (): void {
+                Route::get('/', [
+                    DrawController::class,
+                    'show',
+                ])->name('show');
+
+                Route::post('/generate', [
+                    DrawController::class,
+                    'generate',
+                ])->name('generate');
+
+                Route::patch('/confirm', [
+                    DrawController::class,
+                    'confirm',
+                ])->name('confirm');
+
+                Route::patch('/reset', [
+                    DrawController::class,
+                    'reset',
+                ])->name('reset');
+
+                Route::delete('/', [
+                    DrawController::class,
+                    'destroy',
+                ])->name('destroy');
+
+                Route::patch('/restore', [
+                    DrawController::class,
+                    'restore',
+                ])->name('restore');
+            });
     });
 });
 

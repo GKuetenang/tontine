@@ -6,22 +6,24 @@ use App\Models\Draw;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
-final class RestoreDrawAction
+final class ResetDrawAction
 {
     public function execute(Draw $draw): Draw
     {
-        return DB::transaction(function () use ($draw): Draw {
-            if (! $draw->trashed()) {
-                throw ValidationException::withMessages([
-                    'draw' => __(
-                        'Ce tirage n’est pas supprimé.'
-                    ),
-                ]);
-            }
+        return DB::transaction(
+            function () use ($draw): Draw {
+                if ($draw->isConfirmed()) {
+                    throw ValidationException::withMessages([
+                        'draw' => __(
+                            'Un tirage confirmé ne peut pas être réinitialisé.'
+                        ),
+                    ]);
+                }
 
-            $draw->restore();
+                $draw->entries()->delete();
 
-            return $draw->refresh();
-        });
+                return $draw->refresh();
+            },
+        );
     }
 }

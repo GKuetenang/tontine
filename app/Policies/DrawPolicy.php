@@ -2,65 +2,130 @@
 
 namespace App\Policies;
 
+use App\Enums\TontinePermission;
 use App\Models\Draw;
+use App\Models\Session;
+use App\Models\Tontine;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class DrawPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Consulter le tirage d'une session.
      */
-    public function viewAny(User $user): bool
-    {
-        return false;
+    public function view(
+        User $user,
+        Draw $draw,
+    ): bool {
+        return $draw->session->tontine
+            ->hasActiveMembership($user)
+            && $this->can(
+                $user,
+                $draw->session->tontine,
+                TontinePermission::ViewDraws,
+            );
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Générer le tirage d'une session.
      */
-    public function view(User $user, Draw $draw): bool
-    {
-        return false;
+    public function generate(
+        User $user,
+        Session $session,
+    ): bool {
+        return $session->tontine
+            ->hasActiveMembership($user)
+            && $this->can(
+                $user,
+                $session->tontine,
+                TontinePermission::GenerateDraws,
+            );
     }
 
     /**
-     * Determine whether the user can create models.
+     * Confirmer un tirage.
      */
-    public function create(User $user): bool
-    {
-        return false;
+    public function confirm(
+        User $user,
+        Draw $draw,
+    ): bool {
+        return $draw->session->tontine
+            ->hasActiveMembership($user)
+            && $this->can(
+                $user,
+                $draw->session->tontine,
+                TontinePermission::ConfirmDraws,
+            );
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Réinitialiser un tirage.
      */
-    public function update(User $user, Draw $draw): bool
-    {
-        return false;
+    public function reset(
+        User $user,
+        Draw $draw,
+    ): bool {
+        return $draw->session->tontine
+            ->hasActiveMembership($user)
+            && $this->can(
+                $user,
+                $draw->session->tontine,
+                TontinePermission::ResetDraws,
+            );
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Supprimer un tirage.
      */
-    public function delete(User $user, Draw $draw): bool
-    {
-        return false;
+    public function delete(
+        User $user,
+        Draw $draw,
+    ): bool {
+        return $draw->session->tontine
+            ->hasActiveMembership($user)
+            && $this->can(
+                $user,
+                $draw->session->tontine,
+                TontinePermission::DeleteDraws,
+            );
+    }
+
+    public function restore(
+        User $user,
+        Draw $draw,
+    ): bool {
+        return $draw->session->tontine
+            ->hasActiveMembership($user)
+            && $this->can(
+                $user,
+                $draw->session->tontine,
+                TontinePermission::RestoreDraws,
+            );
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Vérifie une permission dans le contexte exact
+     * de la tontine concernée.
      */
-    public function restore(User $user, Draw $draw): bool
-    {
-        return false;
-    }
+    private function can(
+        User $user,
+        Tontine $tontine,
+        TontinePermission $permission,
+    ): bool {
+        $previousTeamId = getPermissionsTeamId();
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Draw $draw): bool
-    {
-        return false;
+        try {
+            setPermissionsTeamId($tontine->id);
+
+            $user->unsetRelation('roles');
+            $user->unsetRelation('permissions');
+
+            return $user->can($permission->value);
+        } finally {
+            setPermissionsTeamId($previousTeamId);
+
+            $user->unsetRelation('roles');
+            $user->unsetRelation('permissions');
+        }
     }
 }
