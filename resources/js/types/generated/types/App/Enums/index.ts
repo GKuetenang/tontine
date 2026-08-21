@@ -1,5 +1,10 @@
+export type AttendanceStatus =
+    'pending' | 'present' | 'absent' | 'excused' | 'late';
+export type ContributionStatus = 'unpaid' | 'partial' | 'paid';
 export type DrawAllocationMode =
     'one_per_member' | 'based_on_contribution' | 'custom';
+export type MeetingStatus =
+    'scheduled' | 'in_progress' | 'completed' | 'cancelled';
 export type MembershipStatus = 'active' | 'inactive' | 'suspended' | 'left';
 export type SessionStatus = 'draft' | 'active' | 'closed';
 export type TontinePermission =
@@ -34,6 +39,27 @@ export type TontinePermission =
     | 'draws.reset'
     | 'draws.delete'
     | 'draws.restore'
+    | 'meetings.view'
+    | 'meetings.create'
+    | 'meetings.update'
+    | 'meetings.open'
+    | 'meetings.close'
+    | 'meetings.cancel'
+    | 'meetings.delete'
+    | 'meeting-agenda.view'
+    | 'meeting-agenda.create'
+    | 'meeting-agenda.update'
+    | 'meeting-agenda.delete'
+    | 'meeting-attendances.view'
+    | 'meeting-attendances.update'
+    | 'meeting-notes.view'
+    | 'meeting-notes.create'
+    | 'meeting-notes.update'
+    | 'meeting-notes.delete'
+    | 'meeting-decisions.view'
+    | 'meeting-decisions.create'
+    | 'meeting-decisions.update'
+    | 'meeting-decisions.delete'
     | 'contributions.view'
     | 'contributions.create'
     | 'contributions.update'
@@ -59,3 +85,11 @@ export type TontinePermission =
     | 'reports.export';
 export type TontineRole =
     'president' | 'secretary' | 'treasurer' | 'member' | 'censor' | 'auditor';
+export type TransactionDirection = 'credit' | 'debit';
+export type TransactionType =
+    | 'contribution'
+    | 'loan'
+    | 'repayment'
+    | 'penalty'
+    | 'cash_fund'
+    | 'donation';

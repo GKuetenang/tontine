@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\DrawAllocationMode;
+use App\Enums\MeetingStatus;
 use App\Enums\SessionStatus;
 use App\Models\Traits\HasSortable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -46,7 +47,9 @@ class Session extends Model
         'start_at',
         'end_at',
         'created_at',
-        'default_contribution_amount' => 'integer',
+        'default_contribution_amount',
+        'draw_allocation_mode',
+        'status'
     ];
 
     protected $casts = [
@@ -106,5 +109,16 @@ class Session extends Model
     public function isClosed(): bool
     {
         return $this->status === SessionStatus::Closed;
+    }
+
+    public function meetings(): HasMany
+    {
+        return $this->hasMany(Meeting::class);
+    }
+
+    public function completedMeetings(): HasMany
+    {
+        return $this->meetings()
+            ->where('status', MeetingStatus::Completed);
     }
 }

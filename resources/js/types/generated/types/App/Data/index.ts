@@ -1,4 +1,10 @@
-import { MembershipStatus, SessionStatus, DrawAllocationMode } from '../Enums';
+import {
+    MeetingStatus,
+    AttendanceStatus,
+    MembershipStatus,
+    SessionStatus,
+    DrawAllocationMode,
+} from '../Enums';
 export type Draw = {
     id: number;
     description: string | null;
@@ -12,6 +18,41 @@ export type DrawEntry = {
     position: number;
     entry_number: number;
     session_participant: undefined | SessionParticipant;
+};
+export type Meeting = {
+    id: number;
+    number: number;
+    title: string;
+    slug: string;
+    description: string | null;
+    location: string | null;
+    status: MeetingStatus;
+    scheduled_at: undefined;
+    agenda_items: undefined | Array<any>;
+    opened_at: undefined | undefined | null;
+    closed_at: undefined | undefined | null;
+    attendances_count: undefined | number;
+    contributions_count: undefined | number;
+    attendances: undefined | Array<any>;
+    created_at: undefined;
+    updated_at: undefined;
+};
+export type MeetingAgendaItem = {
+    id: number;
+    title: string;
+    description: string | null;
+    position: number;
+    created_at: undefined;
+    updated_at: undefined;
+};
+export type MeetingAttendance = {
+    id: number;
+    status: AttendanceStatus;
+    checked_in_at: undefined | null;
+    note: string | null;
+    session_participant: undefined | SessionParticipant;
+    created_at: undefined;
+    updated_at: undefined;
 };
 export type MemberUser = {
     id: number;
@@ -49,6 +90,7 @@ export type Session = {
     default_contribution_amount: undefined | number | null;
     status: undefined | SessionStatus;
     participants_count: undefined | number;
+    meetings_count: undefined | number;
     draw_allocation_mode: undefined | DrawAllocationMode;
     draw_allocation_mode_label: undefined | string;
     activated_at: undefined | undefined | null;

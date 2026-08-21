@@ -1,6 +1,10 @@
+import tontines from '@/routes/tontines';
+import sessions from '@/routes/tontines/sessions';
+import { Meeting, NavItem, Session, Tontine } from '@/types';
 import type { InertiaLinkProps } from '@inertiajs/react';
 import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
+import { CalendarDaysIcon, ChartNoAxesColumnIcon, CircleDollarSignIcon, LayoutDashboardIcon, SettingsIcon, ShuffleIcon, UsersIcon } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -24,4 +28,108 @@ export function formatCurrency(
         currency,
         maximumFractionDigits: 0,
     }).format(amount);
+}
+
+export function getTontineNavItems(
+    tontine: Tontine,
+): NavItem[] {
+    return [
+        {
+            title: 'Vue d’ensemble',
+            href: tontines.show(tontine.slug!),
+            icon: LayoutDashboardIcon,
+        },
+        {
+            title: 'Membres',
+            href: tontines.memberships.index(
+                tontine.slug!,
+            ),
+            icon: UsersIcon,
+        },
+        {
+            title: 'Sessions',
+            href: tontines.sessions.index(
+                tontine.slug!,
+            ),
+            icon: CalendarDaysIcon,
+        },
+        {
+            title: 'Finances',
+            href: '#',
+            icon: CircleDollarSignIcon,
+        },
+        {
+            title: 'Rapports',
+            href: '#',
+            icon: ChartNoAxesColumnIcon,
+        },
+        {
+            title: 'Paramètres',
+            href: '#',
+            icon: SettingsIcon,
+        },
+    ];
+}
+
+export function getSessionNavItems(
+    tontine: Tontine,
+    session: Session,
+): NavItem[] {
+    return [
+        {
+            title: 'Vue d’ensemble',
+            href: sessions.show({ tontine: tontine.slug!, session: session.slug }),
+            icon: LayoutDashboardIcon,
+        },
+        {
+            title: 'Participants',
+            href: tontines.sessions.participants.index(
+                {
+                    tontine:
+                        tontine.slug!,
+                    session:
+                        session.slug,
+                },
+            ),
+            icon: UsersIcon,
+        },
+        {
+            title: 'Réunions',
+            href: sessions.meetings.index({
+                tontine: tontine.slug!,
+                session: session.slug
+            }),
+            icon: CalendarDaysIcon,
+            activeWithParentUrl: true,
+        },
+        {
+            title: 'Tirage',
+            href: sessions.draw.show({
+                tontine: tontine.slug!,
+                session: session.slug
+            }),
+            icon: ShuffleIcon,
+        },
+    ];
+}
+
+export function getMeetingStatusLabel(
+    status: Meeting['status'],
+): string {
+    switch (status) {
+        case 'scheduled':
+            return 'Prévue';
+
+        case 'in_progress':
+            return 'En cours';
+
+        case 'completed':
+            return 'Terminée';
+
+        case 'cancelled':
+            return 'Annulée';
+
+        default:
+            return '—';
+    }
 }

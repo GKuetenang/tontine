@@ -14,10 +14,11 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
+import { parseDate } from '@/lib';
 import sessions from '@/routes/tontines/sessions';
 import type { Session } from '@/types';
 import { Form } from '@inertiajs/react';
-import { format, isValid, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import { SaveIcon } from 'lucide-react';
 import type { ReactElement } from 'react';
 import { useState } from 'react';
@@ -30,32 +31,22 @@ type Props = {
     draw_allocation_modes: SelectOption[];
 };
 
-function parseSessionDate(value?: string | null): Date | undefined {
-    if (!value) {
-        return undefined;
-    }
-
-    const date = parseISO(value);
-
-    return isValid(date) ? date : undefined;
-}
-
 export function EditSessionForm({ trigger, tontine, session, draw_allocation_modes }: Props) {
     const [open, setOpen] = useState(false);
 
     const [startDate, setStartDate] = useState<Date | undefined>(() =>
-        parseSessionDate(session?.start_at),
+        parseDate(session?.start_at),
     );
 
     const [endDate, setEndDate] = useState<Date | undefined>(() =>
-        parseSessionDate(session?.end_at),
+        parseDate(session?.end_at),
     );
 
     const handleOpenChange = (value: boolean) => {
         if (value) {
-            setStartDate(parseSessionDate(session?.start_at));
+            setStartDate(parseDate(session?.start_at));
 
-            setEndDate(parseSessionDate(session?.end_at));
+            setEndDate(parseDate(session?.end_at));
         }
 
         setOpen(value);

@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\DrawController;
+use App\Http\Controllers\MeetingAgendaItemController;
+use App\Http\Controllers\MeetingAttendanceController;
+use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SessionParticipantController;
@@ -36,7 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->where(['tontine' => '[a-z0-9-]+']);
 
         Route::resource('tontines.sessions', SessionController::class)
-            ->except(['show', 'create'])
+            ->except(['create'])
             ->where(['tontine' => '[a-z0-9-]+'])
             ->where(['session' => '[a-z0-9-]+']);
 
@@ -115,6 +118,73 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     'restore',
                 ])->name('restore');
             });
+
+        Route::resource(
+            'tontines.sessions.meetings',
+            MeetingController::class,
+        )
+            ->only([
+                'index',
+                'show',
+                'store',
+                'update',
+            ])
+            ->scoped([
+                'tontine' => 'slug',
+                'session' => 'slug',
+                'meeting' => 'slug',
+            ]);
+
+        Route::patch(
+            'tontines/{tontine:slug}/sessions/{session:slug}/meetings/{meeting:slug}/open',
+            [MeetingController::class, 'open'],
+        )
+            ->name('tontines.sessions.meetings.open');
+
+        Route::patch(
+            'tontines/{tontine:slug}/sessions/{session:slug}/meetings/{meeting:slug}/close',
+            [MeetingController::class, 'close'],
+        )
+            ->name('tontines.sessions.meetings.close');
+
+        Route::patch(
+            'tontines/{tontine:slug}/sessions/{session:slug}/meetings/{meeting:slug}/cancel',
+            [MeetingController::class, 'cancel'],
+        )
+            ->name('tontines.sessions.meetings.cancel');
+
+        Route::post(
+            'tontines/{tontine:slug}/sessions/{session:slug}/meetings/{meeting:slug}/agenda',
+            [MeetingAgendaItemController::class, 'store'],
+        )
+            ->name('tontines.sessions.meetings.agenda.store');
+
+        Route::patch(
+            'tontines/{tontine:slug}/sessions/{session:slug}/meetings/{meeting:slug}/agenda/reorder',
+            [MeetingAgendaItemController::class, 'reorder'],
+        )
+            ->name('tontines.sessions.meetings.agenda.reorder');
+
+        Route::patch(
+            'tontines/{tontine:slug}/sessions/{session:slug}/meetings/{meeting:slug}/agenda/{agendaItem}',
+            [MeetingAgendaItemController::class, 'update'],
+        )
+            ->name('tontines.sessions.meetings.agenda.update');
+
+        Route::delete(
+            'tontines/{tontine:slug}/sessions/{session:slug}/meetings/{meeting:slug}/agenda/{agendaItem}',
+            [MeetingAgendaItemController::class, 'destroy'],
+        )
+            ->name('tontines.sessions.meetings.agenda.destroy');
+
+        Route::patch(
+            'tontines/{tontine:slug}/sessions/{session:slug}/meetings/{meeting:slug}/attendances/{attendance}',
+            [MeetingAttendanceController::class, 'update'],
+        )
+            ->whereNumber('attendance')
+            ->name(
+                'tontines.sessions.meetings.attendances.update'
+            );
     });
 });
 

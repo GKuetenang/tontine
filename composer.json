@@ -104,6 +104,10 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ],
+        "permissions:sync": [
+            "@php artisan db:seed --class=PermissionSeeder",
+            "@php artisan tontines:sync-roles"
         ]
     },
     "extra": {

@@ -30,6 +30,7 @@ class SessionData extends Data
 
         public Optional|SessionStatus $status,
         public Optional|int $participants_count,
+        public Optional|int $meetings_count,
         public Optional|DrawAllocationMode $draw_allocation_mode,
         public Optional|string $draw_allocation_mode_label,
 
@@ -65,6 +66,13 @@ class SessionData extends Data
                 $session->getAttributes(),
             )
                 ? $session->participants_count
+                : Optional::create(),
+
+            meetings_count: array_key_exists(
+                'meetings_count',
+                $session->getAttributes(),
+            )
+                ? (int) $session->meetings_count
                 : Optional::create(),
 
             draw_allocation_mode: $session->draw_allocation_mode,

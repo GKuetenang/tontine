@@ -16,16 +16,13 @@ import {
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
+import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
 import sessions from '@/routes/tontines/sessions';
-import draws from '@/routes/tontines/sessions/draw';
-import participants from '@/routes/tontines/sessions/participants';
 import type { BreadcrumbItem, PaginatedCollection, Session } from '@/types';
 import { Form, Head, Link } from '@inertiajs/react';
-import { format, isValid, parseISO } from 'date-fns';
-import { frCA } from 'date-fns/locale';
-import { PlusIcon, ShuffleIcon, UsersIcon } from 'lucide-react';
+import { PlusIcon } from 'lucide-react';
 import { Actions } from './actions';
 import { EditSessionForm } from './form';
 
@@ -40,21 +37,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function formatSessionDate(value?: string | null): string {
-    if (!value) {
-        return '—';
-    }
 
-    const date = parseISO(value);
-
-    if (!isValid(date)) {
-        return '—';
-    }
-
-    return format(date, "d MMM yyyy 'à' HH:mm", {
-        locale: frCA,
-    });
-}
 
 export type ResultTontine = {
     id: number;
@@ -123,7 +106,7 @@ export default withAppLayout(
                                         <SortableTableHead field="name">
                                             Nom
                                         </SortableTableHead>
-                                        <SortableTableHead field="default_contibution_amount">
+                                        <SortableTableHead field="default_contribution_amount">
                                             Montant par defaut
                                         </SortableTableHead>
                                         <SortableTableHead field='draw_allocation_mode'>
@@ -135,9 +118,7 @@ export default withAppLayout(
                                         <SortableTableHead field="end_at">
                                             Date de fin
                                         </SortableTableHead>
-                                        <TableHead>Statut</TableHead>
-                                        <TableHead>Participants</TableHead>
-                                        <TableHead>Tirage</TableHead>
+                                        <SortableTableHead field='status'>Statut</SortableTableHead>
                                         <TableHead className="text-end"></TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -147,7 +128,18 @@ export default withAppLayout(
                                             key={item.id}
                                             className="[&>td:first-child]:pl-6 [&>td:last-child]:pr-6"
                                         >
-                                            <TableCell>{item.name}</TableCell>
+                                            <TableCell>
+                                                <Link
+                                                    disabled={true}
+                                                    className="hover:underline"
+                                                    href={sessions.show({
+                                                        tontine: tontine.slug!,
+                                                        session: item.slug
+                                                    })}
+                                                >
+                                                    {item.name}
+                                                </Link>
+                                            </TableCell>
                                             <TableCell>
                                                 {formatCurrency(
                                                     item.default_contribution_amount,
@@ -157,58 +149,17 @@ export default withAppLayout(
                                                 {item.draw_allocation_mode_label}
                                             </TableCell>
                                             <TableCell>
-                                                {formatSessionDate(
+                                                {formatDate(
                                                     item.start_at,
                                                 )}
                                             </TableCell>
                                             <TableCell>
-                                                {formatSessionDate(item.end_at)}
+                                                {formatDate(item.end_at)}
                                             </TableCell>
                                             <TableCell>
                                                 <SessionStatusBadge
                                                     session={item}
                                                 />
-                                            </TableCell>
-                                            <TableCell>
-                                                <Button
-                                                    asChild
-                                                    variant="outline"
-                                                >
-                                                    <Link
-                                                        href={participants.index(
-                                                            {
-                                                                tontine:
-                                                                    tontine.slug!,
-                                                                session:
-                                                                    item.slug,
-                                                            },
-                                                        )}
-                                                    >
-                                                        <UsersIcon size={16} />
-                                                        {`${item.participants_count} participant${item.participants_count! > 1 ? 's' : ''}`}
-                                                    </Link>
-                                                </Button>
-                                                {/* <span>{`${item.participants_count} participant${item.participants_count! > 1 ? 's' : ''}`}</span> */}
-                                            </TableCell>
-                                            <TableCell>
-                                                <Button
-                                                    asChild
-                                                    variant="outline"
-                                                >
-                                                    <Link
-                                                        href={draws.show(
-                                                            {
-                                                                tontine:
-                                                                    tontine.slug!,
-                                                                session:
-                                                                    item.slug,
-                                                            },
-                                                        )}
-                                                    >
-                                                        <ShuffleIcon size={16} />
-                                                        Tirage
-                                                    </Link>
-                                                </Button>
                                             </TableCell>
                                             <TableCell>
                                                 <Actions

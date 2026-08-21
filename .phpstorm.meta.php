@@ -3594,9 +3594,14 @@ namespace PHPSTORM_META {
 'two-factor.disable','two-factor.qr-code','two-factor.secret-key','two-factor.recovery-codes','two-factor.regenerate-recovery-codes',
 'passkey.login-options','passkey.login','passkey.confirm-options','passkey.confirm','passkey.registration-options',
 'passkey.store','passkey.destroy','home','dashboard',
-'tontines.index','tontines.create','tontines.store','tontines.edit','tontines.update',
-'tontines.destroy','tontines.memberships.index','tontines.memberships.store','tontines.memberships.update','tontines.memberships.destroy','profile.edit','profile.update','profile.destroy','security.edit',
-'user-password.update','appearance.edit','well-known.passkeys','storage.local','storage.local.upload',);
+'tontines.index','tontines.create','tontines.store','tontines.show','tontines.edit',
+'tontines.update','tontines.destroy','tontines.memberships.index','tontines.memberships.store','tontines.memberships.update',
+'tontines.memberships.destroy','tontines.sessions.index','tontines.sessions.store','tontines.sessions.edit','tontines.sessions.update',
+'tontines.sessions.destroy','tontines.sessions.activate','tontines.sessions.close','tontines.sessions.participants.index','tontines.sessions.participants.store',
+'tontines.sessions.participants.update','tontines.sessions.participants.destroy','tontines.sessions.participants.reactivate','tontines.sessions.draw.show','tontines.sessions.draw.generate',
+'tontines.sessions.draw.confirm','tontines.sessions.draw.reset','tontines.sessions.draw.destroy','tontines.sessions.draw.restore',
+'profile.edit','profile.update','profile.destroy','security.edit','user-password.update',
+'appearance.edit','well-known.passkeys','storage.local','storage.local.upload',);
         registerArgumentsSet('views', 
 'app','laravel-exceptions-renderer::components.badge','laravel-exceptions-renderer::components.empty-state','laravel-exceptions-renderer::components.file-with-line','laravel-exceptions-renderer::components.formatted-source',
 'laravel-exceptions-renderer::components.frame','laravel-exceptions-renderer::components.frame-code','laravel-exceptions-renderer::components.header','laravel-exceptions-renderer::components.http-method','laravel-exceptions-renderer::components.icons.alert',

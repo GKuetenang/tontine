@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Memberships\CreateMembershipAction;
 use App\Actions\Tontines\CreateTontineAction;
 use App\Actions\Tontines\UpdateTontineAction;
+use App\Data\SessionData;
 use App\Data\TontineData;
 use App\Models\Tontine;
 use App\Support\TontineAbilities;
@@ -93,6 +94,31 @@ class TontineController extends Controller
         ]);
     }
 
+    public function show(
+        Tontine $tontine,
+    ): Response {
+        $tontine->loadCount([
+            'members',
+            'sessions',
+        ]);
+
+        $sessions = $tontine
+            ->sessions()
+            ->withCount('participants')
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        return Inertia::render('tontines/show', [
+            'tontine' => TontineData::fromModel(
+                tontine: $tontine,
+            ),
+
+            'sessions' => SessionData::collect(
+                $sessions,
+            ),
+        ]);
+    }
     /**
      * Show the form for editing the specified resource.
      */

@@ -71,6 +71,31 @@ class SessionController extends Controller
         )->back();
     }
 
+    public function show(
+        Tontine $tontine,
+        Session $session,
+    ): Response {
+        $this->authorize('view', $session);
+
+        $session->loadCount([
+            'participants',
+            'meetings',
+        ]);
+
+        return Inertia::render('sessions/show', [
+            'tontine' => [
+                'id' => $tontine->id,
+                'name' => $tontine->name,
+                'slug' => $tontine->slug,
+                'currency' => $tontine->currency,
+            ],
+
+            'session' => SessionData::fromModel(
+                $session,
+            ),
+        ]);
+    }
+
     public function update(
         FormSessionRequest $request,
         Tontine $tontine,

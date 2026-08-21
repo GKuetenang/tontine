@@ -15,11 +15,9 @@ import {
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
-import memberships from '@/routes/tontines/memberships';
-import sessions from '@/routes/tontines/sessions';
 import type { BreadcrumbItem, PaginatedCollection, Tontine } from '@/types';
 import { Form, Head, Link } from '@inertiajs/react';
-import { ListCheckIcon, PlusIcon, UsersIcon } from 'lucide-react';
+import { PlusIcon } from 'lucide-react';
 import { Actions } from './actions';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -82,8 +80,6 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                     <SortableTableHead field="default_contibution_amount">
                                         Montant par defaut
                                     </SortableTableHead>
-                                    <TableHead>Members</TableHead>
-                                    <TableHead>Sessions</TableHead>
                                     <TableHead className="text-end"></TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -108,7 +104,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                                     <Link
                                                         disabled={true}
                                                         className="hover:underline"
-                                                        href={tontines.edit({
+                                                        href={tontines.show({
                                                             tontine: item.slug!,
                                                         })}
                                                     >
@@ -126,49 +122,6 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                         <TableCell>
                                             {formatCurrency(
                                                 item.default_contribution_amount,
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            {item.can?.view_memberships ? (
-                                                <Button
-                                                    asChild
-                                                    variant="outline"
-                                                >
-                                                    <Link
-                                                        href={memberships.index(
-                                                            {
-                                                                tontine:
-                                                                    item.slug!,
-                                                            },
-                                                        )}
-                                                    >
-                                                        <UsersIcon size={16} />
-                                                        {`${item.members_count} membre${item.members_count! > 1 ? 's' : ''}`}
-                                                    </Link>
-                                                </Button>
-                                            ) : (
-                                                <span>{`${item.members_count} membre${item.members_count! > 1 ? 's' : ''}`}</span>
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            {item.can?.view_memberships ? (
-                                                <Button
-                                                    asChild
-                                                    variant="outline"
-                                                >
-                                                    <Link
-                                                        href={sessions.index({
-                                                            tontine: item.slug!,
-                                                        })}
-                                                    >
-                                                        <ListCheckIcon
-                                                            size={16}
-                                                        />
-                                                        {`${item.sessions_count} session${item.sessions_count! > 1 ? 's' : ''}`}
-                                                    </Link>
-                                                </Button>
-                                            ) : (
-                                                <span>{`${item.sessions_count} session${item.sessions_count! > 1 ? 's' : ''}`}</span>
                                             )}
                                         </TableCell>
                                         <TableCell>

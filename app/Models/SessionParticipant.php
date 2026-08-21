@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @mixin IdeHelperSessionParticipant
+ */
 #[Fillable([
     'contribution_amount',
     'draw_entries_count',
@@ -56,5 +59,12 @@ class SessionParticipant extends Model
     public function drawEntries(): HasMany
     {
         return $this->hasMany(DrawEntry::class);
+    }
+
+    public function meetingAttendances(): HasMany
+    {
+        return $this->hasMany(
+            MeetingAttendance::class,
+        );
     }
 }

@@ -14,7 +14,7 @@ class PermissionSeeder extends Seeder
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         foreach (TontinePermission::cases() as $permission) {
-            Permission::query()->firstOrCreate([
+            Permission::firstOrCreate([
                 'name' => $permission->value,
                 'guard_name' => 'web',
             ]);

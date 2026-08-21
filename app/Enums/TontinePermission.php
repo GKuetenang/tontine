@@ -70,6 +70,37 @@ enum TontinePermission: string
     case DeleteDraws = 'draws.delete';
     case RestoreDraws = 'draws.restore';
 
+        // Meetings
+    case ViewMeetings = 'meetings.view';
+    case CreateMeetings = 'meetings.create';
+    case UpdateMeetings = 'meetings.update';
+    case OpenMeetings = 'meetings.open';
+    case CloseMeetings = 'meetings.close';
+    case CancelMeetings = 'meetings.cancel';
+    case DeleteMeetings = 'meetings.delete';
+
+        // Meeting agenda
+    case ViewMeetingAgenda = 'meeting-agenda.view';
+    case CreateMeetingAgenda = 'meeting-agenda.create';
+    case UpdateMeetingAgenda = 'meeting-agenda.update';
+    case DeleteMeetingAgenda = 'meeting-agenda.delete';
+
+        // Attendances
+    case ViewMeetingAttendances = 'meeting-attendances.view';
+    case UpdateMeetingAttendances = 'meeting-attendances.update';
+
+        // Notes
+    case ViewMeetingNotes = 'meeting-notes.view';
+    case CreateMeetingNotes = 'meeting-notes.create';
+    case UpdateMeetingNotes = 'meeting-notes.update';
+    case DeleteMeetingNotes = 'meeting-notes.delete';
+
+        // Decisions
+    case ViewMeetingDecisions = 'meeting-decisions.view';
+    case CreateMeetingDecisions = 'meeting-decisions.create';
+    case UpdateMeetingDecisions = 'meeting-decisions.update';
+    case DeleteMeetingDecisions = 'meeting-decisions.delete';
+
         /*
     |--------------------------------------------------------------------------
     | Cotisations
