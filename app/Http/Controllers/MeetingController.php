@@ -82,11 +82,11 @@ class MeetingController extends Controller
                 'slug' => $tontine->slug,
             ],
 
-            'session' => SessionData::fromModel(
+            'session' => fn() => SessionData::fromModel(
                 $session,
             ),
 
-            'meeting' => MeetingData::fromModel(
+            'meeting' => fn() => MeetingData::fromModel(
                 $meeting,
             ),
         ]);

@@ -22,7 +22,7 @@ import type {
     Tontine,
 } from '@/types';
 
-import { Form } from '@inertiajs/react';
+import { Form, router } from '@inertiajs/react';
 
 import { SaveIcon } from 'lucide-react';
 
@@ -63,6 +63,14 @@ export function EditAgendaItemForm({
             meeting: meeting.slug,
         });
 
+    const handleSuccess = () => {
+        setOpen(false);
+
+        router.reload({
+            only: ['meeting']
+        })
+    }
+
     return (
         <Dialog
             open={open}
@@ -82,8 +90,11 @@ export function EditAgendaItemForm({
                     {...action}
                     resetOnSuccess
                     onSuccess={() =>
-                        setOpen(false)
+                        handleSuccess()
                     }
+                    options={{
+                        preserveScroll: true,
+                    }}
                 >
                     {({
                         errors,

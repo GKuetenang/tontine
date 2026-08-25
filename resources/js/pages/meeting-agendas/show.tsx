@@ -56,7 +56,27 @@ type Props = {
     meeting: Meeting;
 };
 
-export function MeetingAgenda({
+
+export function MeetingAgenda(
+    props: Props,
+) {
+    const agendaKey =
+        props.meeting.agenda_items
+            ?.map(
+                (item) =>
+                    `${item.id}: ${item.position}:${item.updated_at}`,
+            )
+            .join('|') ?? 'empty';
+
+    return (
+        <MeetingAgendaContent
+            key={agendaKey}
+            {...props}
+        />
+    );
+}
+
+function MeetingAgendaContent({
     tontine,
     session,
     meeting,

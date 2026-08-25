@@ -69,7 +69,6 @@ export function AgendaItem({
                                     <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="rounded-full"
                                     >
                                         <PencilIcon className="size-4" />
                                     </Button>
@@ -99,6 +98,7 @@ export function AgendaItem({
                                                 item.id,
                                         },
                                     )}
+                                    preserveScroll
                                     onBefore={() =>
                                         confirm(
                                             'Supprimer ce point de l’ordre du jour ?',

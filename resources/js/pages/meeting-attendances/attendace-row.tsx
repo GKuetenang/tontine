@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { formatDate } from "@/lib";
 import { Meeting, MeetingAttendance, Session, Tontine } from "@/types";
+import { PencilIcon } from "lucide-react";
 import { EditAttendanceForm } from "./form";
 
 export function AttendanceRow({
@@ -88,10 +89,10 @@ export function AttendanceRow({
                             }
                             trigger={
                                 <Button
-                                    variant="outline"
-                                    size="sm"
+                                    variant="ghost"
+                                    size="icon"
                                 >
-                                    Modifier
+                                    <PencilIcon className="size-4" />
                                 </Button>
                             }
                         />
