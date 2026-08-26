@@ -111,6 +111,7 @@ enum TontinePermission: string
     case CreateContributions = 'contributions.create';
     case UpdateContributions = 'contributions.update';
     case DeleteContributions = 'contributions.delete';
+    case RecordContributionPayments = 'contributions.pay';
 
         /*
     |--------------------------------------------------------------------------

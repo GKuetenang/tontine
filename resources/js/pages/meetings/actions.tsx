@@ -206,7 +206,6 @@ export function Actions({
 
                                 <DropdownMenuItem
                                     asChild
-                                    variant="destructive"
                                 >
                                     <Link
                                         className="w-full"

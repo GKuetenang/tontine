@@ -2,65 +2,92 @@
 
 namespace App\Policies;
 
+use App\Enums\TontinePermission;
 use App\Models\Contribution;
+use App\Models\Meeting;
+use App\Models\Tontine;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ContributionPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        return false;
+    public function viewAny(
+        User $user,
+        Meeting $meeting,
+    ): bool {
+        $tontine = $meeting
+            ->session
+            ->tontine;
+
+        return $tontine
+            ->hasActiveMembership($user)
+            && $this->can(
+                $user,
+                $tontine,
+                TontinePermission::ViewContributions,
+            );
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Contribution $contribution): bool
-    {
-        return false;
+    public function view(
+        User $user,
+        Contribution $contribution,
+    ): bool {
+        $tontine = $contribution
+            ->meeting
+            ->session
+            ->tontine;
+
+        return $tontine
+            ->hasActiveMembership($user)
+            && $this->can(
+                $user,
+                $tontine,
+                TontinePermission::ViewContributions,
+            );
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        return false;
+    public function pay(
+        User $user,
+        Contribution $contribution,
+    ): bool {
+        $tontine = $contribution
+            ->meeting
+            ->session
+            ->tontine;
+
+        return $tontine
+            ->hasActiveMembership($user)
+            && $this->can(
+                $user,
+                $tontine,
+                TontinePermission::RecordContributionPayments,
+            );
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Contribution $contribution): bool
-    {
-        return false;
-    }
+    private function can(
+        User $user,
+        Tontine $tontine,
+        TontinePermission $permission,
+    ): bool {
+        $previousTeamId = getPermissionsTeamId();
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Contribution $contribution): bool
-    {
-        return false;
-    }
+        try {
+            setPermissionsTeamId(
+                $tontine->id,
+            );
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Contribution $contribution): bool
-    {
-        return false;
-    }
+            $user->unsetRelation('roles');
+            $user->unsetRelation('permissions');
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Contribution $contribution): bool
-    {
-        return false;
+            return $user->can(
+                $permission->value,
+            );
+        } finally {
+            setPermissionsTeamId(
+                $previousTeamId,
+            );
+
+            $user->unsetRelation('roles');
+            $user->unsetRelation('permissions');
+        }
     }
 }

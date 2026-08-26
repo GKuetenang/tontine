@@ -36,6 +36,7 @@ class MeetingData extends Data
         public Optional|int $attendances_count,
         public Optional|int $contributions_count,
         public Optional|array $attendances,
+        public Optional|array $contributions,
 
         public CarbonImmutable $created_at,
         public CarbonImmutable $updated_at,
@@ -77,6 +78,11 @@ class MeetingData extends Data
             attendances: $meeting->relationLoaded('attendances')
                 ? MeetingAttendanceData::collect(
                     $meeting->attendances,
+                )->all()
+                : Optional::create(),
+            contributions: $meeting->relationLoaded('contributions')
+                ? ContributionData::collect(
+                    $meeting->contributions,
                 )->all()
                 : Optional::create(),
 

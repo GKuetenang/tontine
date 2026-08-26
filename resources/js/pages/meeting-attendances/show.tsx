@@ -20,8 +20,8 @@ import type {
     Tontine
 } from '@/types';
 
-import { UsersIcon } from 'lucide-react';
 import { AttendanceRow } from './attendace-row';
+import { AttendancePlaceholder } from './placeholder';
 
 
 type Props = {
@@ -42,29 +42,7 @@ export function MeetingAttendances({
 
     if (meeting.status === 'scheduled') {
         return (
-            <Card>
-                <CardHeader>
-                    <CardTitle>
-                        Présences
-                    </CardTitle>
-                </CardHeader>
-
-                <CardContent>
-                    <div className="flex flex-col items-center justify-center gap-3 py-10 text-center">
-                        <UsersIcon className="size-8 text-muted-foreground" />
-
-                        <div className="space-y-1">
-                            <p className="font-medium">
-                                La réunion n’est pas encore ouverte
-                            </p>
-
-                            <p className="max-w-md text-sm text-muted-foreground">
-                                Les présences seront initialisées automatiquement lors de l’ouverture de la réunion.
-                            </p>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
+            <AttendancePlaceholder />
         );
     }
 

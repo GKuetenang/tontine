@@ -89,7 +89,7 @@ export function AttendanceRow({
                             }
                             trigger={
                                 <Button
-                                    variant="ghost"
+                                    variant="outline"
                                     size="icon"
                                 >
                                     <PencilIcon className="size-4" />

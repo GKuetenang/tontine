@@ -64,6 +64,7 @@ export type TontinePermission =
     | 'contributions.create'
     | 'contributions.update'
     | 'contributions.delete'
+    | 'contributions.pay'
     | 'loans.view'
     | 'loans.create'
     | 'loans.approve'

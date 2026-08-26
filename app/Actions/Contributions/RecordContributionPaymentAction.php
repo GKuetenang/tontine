@@ -37,17 +37,20 @@ final class RecordContributionPaymentAction
                     ]);
                 }
 
-                if (
-                    $contribution->meeting->status
-                    !== MeetingStatus::InProgress
-                ) {
+                if (! in_array(
+                    $contribution->meeting->status,
+                    [
+                        MeetingStatus::InProgress,
+                        MeetingStatus::Completed,
+                    ],
+                    true,
+                )) {
                     throw ValidationException::withMessages([
                         'contribution' => __(
-                            'Les cotisations ne peuvent être enregistrées que pendant une réunion en cours.'
+                            'Cette cotisation ne peut pas encore recevoir de paiement.'
                         ),
                     ]);
                 }
-
                 $remainingAmount =
                     $contribution->remainingAmount();
 

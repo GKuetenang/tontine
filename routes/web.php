@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContributionPaymentController;
 use App\Http\Controllers\DrawController;
 use App\Http\Controllers\MeetingAgendaItemController;
 use App\Http\Controllers\MeetingAttendanceController;
@@ -184,6 +185,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->whereNumber('attendance')
             ->name(
                 'tontines.sessions.meetings.attendances.update'
+            );
+
+        Route::post(
+            'tontines/{tontine:slug}'
+                . '/sessions/{session:slug}'
+                . '/meetings/{meeting:slug}'
+                . '/contributions/{contribution}'
+                . '/payments',
+            [ContributionPaymentController::class, 'store'],
+        )
+            ->whereNumber('contribution')
+            ->name(
+                'tontines.sessions.meetings.contributions.payments.store'
             );
     });
 });

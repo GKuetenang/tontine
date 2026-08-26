@@ -1,10 +1,21 @@
 import {
+    ContributionStatus,
     MeetingStatus,
     AttendanceStatus,
     MembershipStatus,
     SessionStatus,
     DrawAllocationMode,
 } from '../Enums';
+export type Contribution = {
+    id: number;
+    amount_due: number;
+    amount_paid: number;
+    remaining_amount: number;
+    status: ContributionStatus;
+    session_participant: undefined | SessionParticipant;
+    created_at: undefined;
+    updated_at: undefined;
+};
 export type Draw = {
     id: number;
     description: string | null;
@@ -34,6 +45,7 @@ export type Meeting = {
     attendances_count: undefined | number;
     contributions_count: undefined | number;
     attendances: undefined | Array<any>;
+    contributions: undefined | Array<any>;
     created_at: undefined;
     updated_at: undefined;
 };

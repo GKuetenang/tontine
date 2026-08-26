@@ -70,12 +70,13 @@ class MeetingController extends Controller
             'agendaItems',
             'attendances.sessionParticipant.membership.user',
             'contributions.sessionParticipant.membership.user',
+            'contributions.transactions',
             'notes.creator',
             'decisions.agendaItem',
             'decisions.creator',
         ]);
 
-        return Inertia::render('meetings/show', [
+        return Inertia::render('meetings/show/index', [
             'tontine' => [
                 'id' => $tontine->id,
                 'name' => $tontine->name,
