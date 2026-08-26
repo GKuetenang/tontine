@@ -29,6 +29,8 @@ export type DrawEntry = {
     position: number;
     entry_number: number;
     session_participant: undefined | SessionParticipant;
+    created_at: undefined;
+    updated_at: undefined;
 };
 export type Meeting = {
     id: number;

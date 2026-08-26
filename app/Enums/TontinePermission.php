@@ -69,6 +69,7 @@ enum TontinePermission: string
     case ResetDraws = 'draws.reset';
     case DeleteDraws = 'draws.delete';
     case RestoreDraws = 'draws.restore';
+    case UpdateDraws = 'draws.update';
 
         // Meetings
     case ViewMeetings = 'meetings.view';

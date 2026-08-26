@@ -6,10 +6,13 @@ use App\Actions\Draws\ConfirmDrawAction;
 use App\Actions\Draws\DeleteDrawAction;
 use App\Actions\Draws\GenerateDrawAction;
 use App\Actions\Draws\ResetDrawAction;
+use App\Actions\Draws\SwapDrawEntriesAction;
 use App\Data\DrawData;
 use App\Data\SessionData;
 use App\Data\TontineData;
+use App\Http\Requests\SwapDrawEntriesRequest;
 use App\Models\Draw;
+use App\Models\DrawEntry;
 use App\Models\Session;
 use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
@@ -110,6 +113,58 @@ class DrawController extends Controller
             'success',
             __('Le tirage a été réinitialisé avec succès.'),
         );
+    }
+
+    public function swap(
+        SwapDrawEntriesRequest $request,
+        Tontine $tontine,
+        Session $session,
+        SwapDrawEntriesAction $action,
+    ): RedirectResponse {
+        $draw = Draw::query()
+            ->where(
+                'session_id',
+                $session->id,
+            )
+            ->firstOrFail();
+
+        $this->authorize(
+            'update',
+            $draw,
+        );
+
+        $source = DrawEntry::query()
+            ->where(
+                'draw_id',
+                $draw->id,
+            )
+            ->findOrFail(
+                $request->integer(
+                    'source_entry_id',
+                ),
+            );
+
+        $target = DrawEntry::query()
+            ->where(
+                'draw_id',
+                $draw->id,
+            )
+            ->findOrFail(
+                $request->integer(
+                    'target_entry_id',
+                ),
+            );
+
+        $action->execute(
+            draw: $draw,
+            source: $source,
+            target: $target,
+        );
+
+        return Inertia::flash(
+            'success',
+            __('Les positions ont été permutées avec succès.'),
+        )->back();
     }
 
     public function destroy(

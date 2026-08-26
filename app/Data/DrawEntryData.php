@@ -2,6 +2,7 @@
 
 namespace App\Data;
 
+use Carbon\CarbonImmutable;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
@@ -14,5 +15,8 @@ class DrawEntryData extends Data
         public int $position,
         public int $entry_number,
         public Optional|SessionParticipantData $session_participant,
+
+        public CarbonImmutable $created_at,
+        public CarbonImmutable $updated_at,
     ) {}
 }

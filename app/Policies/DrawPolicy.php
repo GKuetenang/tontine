@@ -90,6 +90,22 @@ class DrawPolicy
             );
     }
 
+    public function update(
+        User $user,
+        Draw $draw,
+    ): bool {
+        $tontine = $draw
+            ->session
+            ->tontine;
+
+        return $tontine->hasActiveMembership($user)
+            && $this->can(
+                user: $user,
+                tontine: $tontine,
+                permission: TontinePermission::UpdateDraws,
+            );
+    }
+
     public function restore(
         User $user,
         Draw $draw,

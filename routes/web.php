@@ -121,6 +121,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     'restore',
                 ])->name('restore');
             });
+        Route::patch(
+            'tontines/{tontine:slug}'
+                . '/sessions/{session:slug}'
+                . '/draw/swap',
+            [
+                DrawController::class,
+                'swap',
+            ],
+        )
+            ->name(
+                'tontines.sessions.draw.swap',
+            );
 
         Route::resource(
             'tontines.sessions.meetings',
