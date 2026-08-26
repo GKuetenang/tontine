@@ -1,0 +1,228 @@
+import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+import { useAuthorization } from '@/hooks/use-authorization';
+
+import notes from '@/routes/tontines/sessions/meetings/notes';
+
+import type {
+    Meeting,
+    MeetingNote,
+    Session,
+    Tontine,
+} from '@/types';
+
+import { Link } from '@inertiajs/react';
+
+import {
+    EllipsisIcon,
+    PencilIcon,
+    TrashIcon,
+} from 'lucide-react';
+
+import { toast } from 'sonner';
+
+import { formatDate } from '@/lib';
+import { EditMeetingNoteForm } from './form';
+
+type Props = {
+    tontine: Tontine;
+    session: Session;
+    meeting: Meeting;
+    note: MeetingNote;
+};
+
+export function MeetingNoteItem({
+    tontine,
+    session,
+    meeting,
+    note,
+}: Props) {
+    const { can, canAny } =
+        useAuthorization();
+
+    const canEdit =
+        meeting.status ===
+        'in_progress';
+
+    const hasActions =
+        canEdit &&
+        canAny(
+            'meeting-notes.update',
+            'meeting-notes.delete',
+        );
+
+    return (
+        <div className="rounded-xl border p-4">
+            <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0 flex-1">
+                    {note.agenda_item ? (
+                        <div className="mb-2">
+                            <span className="inline-flex rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+                                {
+                                    note
+                                        .agenda_item
+                                        .position
+                                }
+                                .{' '}
+                                {
+                                    note
+                                        .agenda_item
+                                        .title
+                                }
+                            </span>
+                        </div>
+                    ) : (
+                        <div className="mb-2">
+                            <span className="inline-flex rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
+                                Note générale
+                            </span>
+                        </div>
+                    )}
+
+                    <p className="whitespace-pre-wrap text-sm leading-relaxed">
+                        {note.content}
+                    </p>
+
+                    <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                        {note.creator && (
+                            <span>
+                                {
+                                    note
+                                        .creator
+                                        .name
+                                }
+                            </span>
+                        )}
+
+                        <span>•</span>
+
+                        <span>
+                            {formatDate(note.created_at)}
+                            {/* {new Intl.DateTimeFormat(
+                                'fr-CA',
+                                {
+                                    dateStyle:
+                                        'medium',
+                                    timeStyle:
+                                        'short',
+                                },
+                            ).format(
+                                new Date(
+                                    note.created_at,
+                                ),
+                            )} */}
+                        </span>
+                    </div>
+                </div>
+
+                {hasActions && (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger
+                            asChild
+                        >
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="rounded-full"
+                            >
+                                <EllipsisIcon className="size-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+
+                        <DropdownMenuContent align="end">
+                            {can(
+                                'meeting-notes.update',
+                            ) && (
+                                    <EditMeetingNoteForm
+                                        tontine={
+                                            tontine
+                                        }
+                                        session={
+                                            session
+                                        }
+                                        meeting={
+                                            meeting
+                                        }
+                                        note={
+                                            note
+                                        }
+                                        trigger={
+                                            <DropdownMenuItem
+                                                onSelect={(
+                                                    event,
+                                                ) =>
+                                                    event.preventDefault()
+                                                }
+                                            >
+                                                <PencilIcon className="size-4" />
+                                                Modifier
+                                            </DropdownMenuItem>
+                                        }
+                                    />
+                                )}
+
+                            {can(
+                                'meeting-notes.delete',
+                            ) && (
+                                    <>
+                                        <DropdownMenuSeparator />
+
+                                        <DropdownMenuItem
+                                            asChild
+                                            variant="destructive"
+                                        >
+                                            <Link
+                                                href={notes.destroy(
+                                                    {
+                                                        tontine:
+                                                            tontine.slug!,
+                                                        session:
+                                                            session.slug,
+                                                        meeting:
+                                                            meeting.slug,
+                                                        note:
+                                                            note.id,
+                                                    },
+                                                )}
+                                                onBefore={() =>
+                                                    confirm(
+                                                        'Voulez-vous vraiment supprimer cette note ?',
+                                                    )
+                                                }
+                                                onError={(
+                                                    errors,
+                                                ) => {
+                                                    const firstError =
+                                                        Object.values(
+                                                            errors,
+                                                        )[0];
+
+                                                    if (
+                                                        firstError
+                                                    ) {
+                                                        toast.error(
+                                                            firstError,
+                                                        );
+                                                    }
+                                                }}
+                                            >
+                                                <TrashIcon className="size-4" />
+                                                Supprimer
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    </>
+                                )}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )}
+            </div>
+        </div>
+    );
+}

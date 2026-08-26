@@ -28,6 +28,7 @@ import { MeetingHeader } from '@/pages/meetings/show/meeting-header';
 import { MeetingAgenda } from '@/pages/meeting-agendas/show';
 import { MeetingAttendances } from '@/pages/meeting-attendances/show';
 import { MeetingContributions } from '@/pages/meeting-contributions/show';
+import { MeetingNotes } from '@/pages/meeting-notes/show';
 import {
     CheckCircle2Icon,
     ClipboardListIcon,
@@ -195,9 +196,11 @@ export default withAppLayout<Props>(
                             value="notes"
                             className="mt-6"
                         >
-                            {/* <MeetingNotesPlaceholder
+                            <MeetingNotes
+                                tontine={tontine}
+                                session={session}
                                 meeting={meeting}
-                            /> */}
+                            />
                         </TabsContent>
 
                         <TabsContent

@@ -2,65 +2,123 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreMeetingNoteRequest;
-use App\Http\Requests\UpdateMeetingNoteRequest;
+use App\Actions\MeetingNotes\AddMeetingNoteAction;
+use App\Actions\MeetingNotes\DeleteMeetingNoteAction;
+use App\Actions\MeetingNotes\UpdateMeetingNoteAction;
+use App\Http\Requests\FormMeetingNoteRequest;
+use App\Models\Meeting;
+use App\Models\MeetingAgendaItem;
 use App\Models\MeetingNote;
+use App\Models\Session;
+use App\Models\Tontine;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
 
 class MeetingNoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function store(
+        FormMeetingNoteRequest $request,
+        Tontine $tontine,
+        Session $session,
+        Meeting $meeting,
+        AddMeetingNoteAction $action,
+    ): RedirectResponse {
+        $this->authorize(
+            'create',
+            [MeetingNote::class, $meeting],
+        );
+
+        $agendaItem = $request->filled(
+            'meeting_agenda_item_id',
+        )
+            ? MeetingAgendaItem::query()
+            ->findOrFail(
+                $request->integer(
+                    'meeting_agenda_item_id',
+                ),
+            )
+            : null;
+
+        $action->execute(
+            meeting: $meeting,
+            creator: $request->user(),
+            content: $request->string(
+                'content',
+            )->toString(),
+            agendaItem: $agendaItem,
+        );
+
+        return Inertia::flash(
+            'success',
+            __('La note a été ajoutée avec succès.'),
+        )->back();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function update(
+        FormMeetingNoteRequest $request,
+        Tontine $tontine,
+        Session $session,
+        Meeting $meeting,
+        MeetingNote $note,
+        UpdateMeetingNoteAction $action,
+    ): RedirectResponse {
+        abort_unless(
+            $note->meeting_id === $meeting->id,
+            404,
+        );
+
+        $this->authorize(
+            'update',
+            $note,
+        );
+
+        $agendaItem = $request->filled(
+            'meeting_agenda_item_id',
+        )
+            ? MeetingAgendaItem::query()
+            ->findOrFail(
+                $request->integer(
+                    'meeting_agenda_item_id',
+                ),
+            )
+            : null;
+
+        $action->execute(
+            note: $note,
+            content: $request->string(
+                'content',
+            )->toString(),
+            agendaItem: $agendaItem,
+        );
+
+        return Inertia::flash(
+            'success',
+            __('La note a été modifiée avec succès.'),
+        )->back();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreMeetingNoteRequest $request)
-    {
-        //
-    }
+    public function destroy(
+        Tontine $tontine,
+        Session $session,
+        Meeting $meeting,
+        MeetingNote $note,
+        DeleteMeetingNoteAction $action,
+    ): RedirectResponse {
+        abort_unless(
+            $note->meeting_id === $meeting->id,
+            404,
+        );
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(MeetingNote $meetingNote)
-    {
-        //
-    }
+        $this->authorize(
+            'delete',
+            $note,
+        );
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MeetingNote $meetingNote)
-    {
-        //
-    }
+        $action->execute($note);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateMeetingNoteRequest $request, MeetingNote $meetingNote)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(MeetingNote $meetingNote)
-    {
-        //
+        return Inertia::flash(
+            'success',
+            __('La note a été supprimée avec succès.'),
+        )->back();
     }
 }

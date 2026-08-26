@@ -71,6 +71,7 @@ class MeetingController extends Controller
             'attendances.sessionParticipant.membership.user',
             'contributions.sessionParticipant.membership.user',
             'contributions.transactions',
+            'notes.agendaItem',
             'notes.creator',
             'decisions.agendaItem',
             'decisions.creator',

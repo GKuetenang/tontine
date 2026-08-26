@@ -5,6 +5,7 @@ use App\Http\Controllers\DrawController;
 use App\Http\Controllers\MeetingAgendaItemController;
 use App\Http\Controllers\MeetingAttendanceController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\MeetingNoteController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SessionParticipantController;
@@ -199,6 +200,46 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name(
                 'tontines.sessions.meetings.contributions.payments.store'
             );
+
+        Route::prefix(
+            'tontines/{tontine:slug}'
+                . '/sessions/{session:slug}'
+                . '/meetings/{meeting:slug}'
+                . '/notes'
+        )
+            ->name(
+                'tontines.sessions.meetings.notes.'
+            )
+            ->scopeBindings()
+            ->group(function (): void {
+                Route::post(
+                    '/',
+                    [
+                        MeetingNoteController::class,
+                        'store',
+                    ],
+                )->name('store');
+
+                Route::patch(
+                    '/{note}',
+                    [
+                        MeetingNoteController::class,
+                        'update',
+                    ],
+                )
+                    ->whereNumber('note')
+                    ->name('update');
+
+                Route::delete(
+                    '/{note}',
+                    [
+                        MeetingNoteController::class,
+                        'destroy',
+                    ],
+                )
+                    ->whereNumber('note')
+                    ->name('destroy');
+            });
     });
 });
 

@@ -27,6 +27,13 @@ class MeetingNote extends Model
         return $this->belongsTo(Meeting::class);
     }
 
+    public function agendaItem(): BelongsTo
+    {
+        return $this->belongsTo(
+            MeetingAgendaItem::class,
+        );
+    }
+
     public function creator(): BelongsTo
     {
         return $this->belongsTo(
