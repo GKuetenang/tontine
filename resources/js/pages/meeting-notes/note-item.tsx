@@ -1,11 +1,4 @@
 import { Button } from '@/components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
@@ -21,14 +14,15 @@ import type {
 import { Link } from '@inertiajs/react';
 
 import {
-    EllipsisIcon,
     PencilIcon,
-    TrashIcon,
+    TrashIcon
 } from 'lucide-react';
 
 import { toast } from 'sonner';
 
+import { RichTextContent } from '@/components/rich-text-content';
 import { formatDate } from '@/lib';
+import { useState } from 'react';
 import { EditMeetingNoteForm } from './form';
 
 type Props = {
@@ -50,6 +44,9 @@ export function MeetingNoteItem({
     const canEdit =
         meeting.status ===
         'in_progress';
+
+    const [editOpen, setEditOpen] =
+        useState(false);
 
     const hasActions =
         canEdit &&
@@ -86,9 +83,9 @@ export function MeetingNoteItem({
                         </div>
                     )}
 
-                    <p className="whitespace-pre-wrap text-sm leading-relaxed">
-                        {note.content}
-                    </p>
+                    <RichTextContent
+                        content={note.content}
+                    />
 
                     <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                         {note.creator && (
@@ -123,104 +120,83 @@ export function MeetingNoteItem({
                 </div>
 
                 {hasActions && (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger
-                            asChild
-                        >
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="rounded-full"
-                            >
-                                <EllipsisIcon className="size-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-
-                        <DropdownMenuContent align="end">
-                            {can(
-                                'meeting-notes.update',
-                            ) && (
-                                    <EditMeetingNoteForm
-                                        tontine={
-                                            tontine
-                                        }
-                                        session={
-                                            session
-                                        }
-                                        meeting={
-                                            meeting
-                                        }
-                                        note={
-                                            note
-                                        }
-                                        trigger={
-                                            <DropdownMenuItem
-                                                onSelect={(
-                                                    event,
-                                                ) =>
-                                                    event.preventDefault()
-                                                }
-                                            >
-                                                <PencilIcon className="size-4" />
-                                                Modifier
-                                            </DropdownMenuItem>
-                                        }
-                                    />
-                                )}
-
-                            {can(
-                                'meeting-notes.delete',
-                            ) && (
-                                    <>
-                                        <DropdownMenuSeparator />
-
-                                        <DropdownMenuItem
-                                            asChild
-                                            variant="destructive"
+                    <>
+                        {can(
+                            'meeting-notes.update',
+                        ) && (
+                                <EditMeetingNoteForm
+                                    tontine={
+                                        tontine
+                                    }
+                                    session={
+                                        session
+                                    }
+                                    meeting={
+                                        meeting
+                                    }
+                                    note={
+                                        note
+                                    }
+                                    trigger={
+                                        <Button
+                                            variant="outline"
+                                            size='icon'
+                                            onSelect={(
+                                                ev,
+                                            ) =>
+                                                ev.preventDefault()
+                                            }
                                         >
-                                            <Link
-                                                href={notes.destroy(
-                                                    {
-                                                        tontine:
-                                                            tontine.slug!,
-                                                        session:
-                                                            session.slug,
-                                                        meeting:
-                                                            meeting.slug,
-                                                        note:
-                                                            note.id,
-                                                    },
-                                                )}
-                                                onBefore={() =>
-                                                    confirm(
-                                                        'Voulez-vous vraiment supprimer cette note ?',
-                                                    )
-                                                }
-                                                onError={(
-                                                    errors,
-                                                ) => {
-                                                    const firstError =
-                                                        Object.values(
-                                                            errors,
-                                                        )[0];
+                                            <PencilIcon className="size-4" />
+                                        </Button>
+                                    }
+                                />
+                            )}
 
-                                                    if (
-                                                        firstError
-                                                    ) {
-                                                        toast.error(
-                                                            firstError,
-                                                        );
-                                                    }
-                                                }}
-                                            >
-                                                <TrashIcon className="size-4" />
-                                                Supprimer
-                                            </Link>
-                                        </DropdownMenuItem>
-                                    </>
-                                )}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                        {can(
+                            'meeting-notes.delete',
+                        ) && (
+                                <Button asChild size="icon" variant="destructive-outline">
+                                    <Link
+                                        href={notes.destroy(
+                                            {
+                                                tontine:
+                                                    tontine.slug!,
+                                                session:
+                                                    session.slug,
+                                                meeting:
+                                                    meeting.slug,
+                                                note:
+                                                    note.id,
+                                            },
+                                        )}
+                                        onBefore={() =>
+                                            confirm(
+                                                'Voulez-vous vraiment supprimer cette note ?',
+                                            )
+                                        }
+                                        onError={(
+                                            errors,
+                                        ) => {
+                                            const firstError =
+                                                Object.values(
+                                                    errors,
+                                                )[0];
+
+                                            if (
+                                                firstError
+                                            ) {
+                                                toast.error(
+                                                    firstError,
+                                                );
+                                            }
+                                        }}
+                                    >
+                                        <TrashIcon className="size-4" />
+                                    </Link>
+                                </Button>
+                            )}
+                    </>
                 )}
             </div>
         </div>

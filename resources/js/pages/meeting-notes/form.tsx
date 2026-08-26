@@ -1,4 +1,5 @@
 import { FormField } from '@/components/form-field';
+import { RichTextEditor } from '@/components/rich-text-editor';
 import {
     SelectWithItems,
 } from '@/components/select-with-items';
@@ -51,6 +52,11 @@ export function EditMeetingNoteForm({
     const [open, setOpen] =
         useState(false);
 
+    const [content, setContent] =
+        useState(
+            note?.content ?? '',
+        );
+
     const isEditing =
         Boolean(note?.id);
 
@@ -61,6 +67,18 @@ export function EditMeetingNoteForm({
                 label: `${item.position}. ${item.title}`,
             }),
         ) ?? [];
+
+    const handleOpenChange = (
+        value: boolean,
+    ) => {
+        if (value) {
+            setContent(
+                note?.content ?? '',
+            );
+        }
+
+        setOpen(value);
+    };
 
     const action = note?.id
         ? notes.update.form({
@@ -78,14 +96,14 @@ export function EditMeetingNoteForm({
     return (
         <Dialog
             open={open}
-            onOpenChange={setOpen}
+            onOpenChange={handleOpenChange}
         >
             <DialogTrigger asChild>
                 {trigger}
             </DialogTrigger>
 
             <DialogContent
-                className="sm:max-w-lg"
+                className="sm:max-w-4xl"
                 onInteractOutside={(event) =>
                     event.preventDefault()
                 }
@@ -104,7 +122,7 @@ export function EditMeetingNoteForm({
                         errors,
                         processing,
                     }) => (
-                        <div className="space-y-4">
+                        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto">
                             <DialogHeader>
                                 <DialogTitle>
                                     {isEditing
@@ -154,20 +172,18 @@ export function EditMeetingNoteForm({
                             <FormField
                                 label="Note"
                                 htmlFor="content"
-                                error={
-                                    errors.content
-                                }
+                                error={errors.content}
                                 required
                             >
-                                <textarea
-                                    id="content"
+                                <input
+                                    type="hidden"
                                     name="content"
-                                    defaultValue={
-                                        note?.content ??
-                                        ''
-                                    }
-                                    placeholder="Saisir la note..."
-                                    className="border-input min-h-40 w-full rounded-md border bg-transparent px-3 py-2 text-sm"
+                                    value={content}
+                                />
+
+                                <RichTextEditor
+                                    value={content}
+                                    onChange={setContent}
                                 />
                             </FormField>
 

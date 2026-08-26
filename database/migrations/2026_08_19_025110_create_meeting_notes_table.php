@@ -21,11 +21,11 @@ return new class extends Migration
                 MeetingAgendaItem::class,
             )
                 ->nullable()
-                ->constrained()
+                ->constrained(column: 'agenda_item_id')
                 ->nullOnDelete();
 
 
-            $table->text('content');
+            $table->longText('content');
 
             $table->foreignId('created_by')
                 ->nullable()

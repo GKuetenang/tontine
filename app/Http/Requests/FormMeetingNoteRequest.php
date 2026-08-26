@@ -15,7 +15,6 @@ class FormMeetingNoteRequest extends FormRequest
             'content' => [
                 'required',
                 'string',
-                'max:5000',
             ],
 
             'meeting_agenda_item_id' => [
