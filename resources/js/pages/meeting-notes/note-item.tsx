@@ -21,6 +21,7 @@ import {
 import { toast } from 'sonner';
 
 import { RichTextContent } from '@/components/rich-text-content';
+import { Card, CardAction, CardContent, CardHeader } from '@/components/ui/card';
 import { formatDate } from '@/lib';
 import { useState } from 'react';
 import { EditMeetingNoteForm } from './form';
@@ -56,71 +57,35 @@ export function MeetingNoteItem({
         );
 
     return (
-        <div className="rounded-xl border p-4">
-            <div className="flex items-start justify-between gap-4">
-                <div className="min-w-0 flex-1">
-                    {note.agenda_item ? (
-                        <div className="mb-2">
-                            <span className="inline-flex rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
-                                {
-                                    note
-                                        .agenda_item
-                                        .position
-                                }
-                                .{' '}
-                                {
-                                    note
-                                        .agenda_item
-                                        .title
-                                }
-                            </span>
-                        </div>
-                    ) : (
-                        <div className="mb-2">
-                            <span className="inline-flex rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
-                                Note générale
-                            </span>
-                        </div>
-                    )}
-
-                    <RichTextContent
-                        content={note.content}
-                    />
-
-                    <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                        {note.creator && (
-                            <span>
-                                {
-                                    note
-                                        .creator
-                                        .name
-                                }
-                            </span>
-                        )}
-
-                        <span>•</span>
-
-                        <span>
-                            {formatDate(note.created_at)}
-                            {/* {new Intl.DateTimeFormat(
-                                'fr-CA',
-                                {
-                                    dateStyle:
-                                        'medium',
-                                    timeStyle:
-                                        'short',
-                                },
-                            ).format(
-                                new Date(
-                                    note.created_at,
-                                ),
-                            )} */}
+        <Card className="max-h-100 overflow-y-auto py-0 relative">
+            <CardHeader className="bg-card sticky top-0 py-4 backdrop-blur-md">
+                {note.agenda_item ? (
+                    <div>
+                        <span className="inline-flex rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+                            {
+                                note
+                                    .agenda_item
+                                    .position
+                            }
+                            .{' '}
+                            {
+                                note
+                                    .agenda_item
+                                    .title
+                            }
                         </span>
                     </div>
-                </div>
+                ) : (
+                    <div>
+                        <span className="inline-flex rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
+                            Note générale
+                        </span>
+                    </div>
+                )}
+
 
                 {hasActions && (
-                    <>
+                    <CardAction className='flex items-center gap-2'>
                         {can(
                             'meeting-notes.update',
                         ) && (
@@ -196,9 +161,47 @@ export function MeetingNoteItem({
                                     </Link>
                                 </Button>
                             )}
-                    </>
+                    </CardAction>
                 )}
-            </div>
-        </div>
+            </CardHeader>
+            <CardContent className="">
+
+                <RichTextContent
+                    content={note.content}
+                />
+
+                <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                    {note.creator && (
+                        <span>
+                            {
+                                note
+                                    .creator
+                                    .name
+                            }
+                        </span>
+                    )}
+
+                    <span>•</span>
+
+                    <span>
+                        {formatDate(note.created_at)}
+                        {/* {new Intl.DateTimeFormat(
+                                'fr-CA',
+                                {
+                                    dateStyle:
+                                        'medium',
+                                    timeStyle:
+                                        'short',
+                                },
+                            ).format(
+                                new Date(
+                                    note.created_at,
+                                ),
+                            )} */}
+                    </span>
+                </div>
+
+            </CardContent>
+        </Card>
     );
 }
