@@ -47,6 +47,7 @@ export type Meeting = {
     attendances: undefined | Array<any>;
     contributions: undefined | Array<any>;
     notes: undefined | Array<any>;
+    decisions: undefined | Array<any>;
     created_at: undefined;
     updated_at: undefined;
 };
@@ -64,6 +65,15 @@ export type MeetingAttendance = {
     checked_in_at: undefined | null;
     note: string | null;
     session_participant: undefined | SessionParticipant;
+    created_at: undefined;
+    updated_at: undefined;
+};
+export type MeetingDecision = {
+    id: number;
+    title: string;
+    description: string | null;
+    agenda_item: undefined | MeetingAgendaItem | null;
+    creator: undefined | MemberUser | null;
     created_at: undefined;
     updated_at: undefined;
 };

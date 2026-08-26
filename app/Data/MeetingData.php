@@ -38,6 +38,7 @@ class MeetingData extends Data
         public Optional|array $attendances,
         public Optional|array $contributions,
         public Optional|array $notes,
+        public Optional|array $decisions,
 
         public CarbonImmutable $created_at,
         public CarbonImmutable $updated_at,
@@ -89,6 +90,13 @@ class MeetingData extends Data
             notes: $meeting->relationLoaded('notes')
                 ? MeetingNoteData::collect(
                     $meeting->notes,
+                )->all()
+                : Optional::create(),
+            decisions: $meeting->relationLoaded(
+                'decisions',
+            )
+                ? MeetingDecisionData::collect(
+                    $meeting->decisions,
                 )->all()
                 : Optional::create(),
 

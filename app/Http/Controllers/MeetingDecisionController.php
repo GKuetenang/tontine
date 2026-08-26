@@ -2,65 +2,163 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreMeetingDecisionRequest;
-use App\Http\Requests\UpdateMeetingDecisionRequest;
+use App\Actions\MeetingDecisions\AddMeetingDecisionAction;
+use App\Actions\MeetingDecisions\DeleteMeetingDecisionAction;
+use App\Actions\MeetingDecisions\UpdateMeetingDecisionAction;
+use App\Http\Requests\FormMeetingDecisionRequest;
+use App\Models\Meeting;
+use App\Models\MeetingAgendaItem;
 use App\Models\MeetingDecision;
+use App\Models\Session;
+use App\Models\Tontine;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
 
 class MeetingDecisionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function store(
+        FormMeetingDecisionRequest $request,
+        Tontine $tontine,
+        Session $session,
+        Meeting $meeting,
+        AddMeetingDecisionAction $action,
+    ): RedirectResponse {
+        $this->authorize(
+            'create',
+            [
+                MeetingDecision::class,
+                $meeting,
+            ],
+        );
+
+        $agendaItem =
+            $this->resolveAgendaItem(
+                $request,
+            );
+
+        $action->execute(
+            meeting: $meeting,
+            creator: $request->user(),
+
+            title: $request->string(
+                'title',
+            )->toString(),
+
+            description: $request->filled(
+                'description',
+            )
+                ? $request->string(
+                    'description',
+                )->toString()
+                : null,
+
+            agendaItem: $agendaItem,
+        );
+
+        return Inertia::flash(
+            'success',
+            __(
+                'La décision a été ajoutée avec succès.'
+            ),
+        )->back();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function update(
+        FormMeetingDecisionRequest $request,
+        Tontine $tontine,
+        Session $session,
+        Meeting $meeting,
+        MeetingDecision $decision,
+        UpdateMeetingDecisionAction $action,
+    ): RedirectResponse {
+        abort_unless(
+            $decision->meeting_id
+                === $meeting->id,
+            404,
+        );
+
+        $this->authorize(
+            'update',
+            $decision,
+        );
+
+        $agendaItem =
+            $this->resolveAgendaItem(
+                $request,
+            );
+
+        $action->execute(
+            decision: $decision,
+
+            title: $request->string(
+                'title',
+            )->toString(),
+
+            description: $request->filled(
+                'description',
+            )
+                ? $request->string(
+                    'description',
+                )->toString()
+                : null,
+
+            agendaItem: $agendaItem,
+        );
+
+        return Inertia::flash(
+            'success',
+            __(
+                'La décision a été modifiée avec succès.'
+            ),
+        )->back();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreMeetingDecisionRequest $request)
-    {
-        //
+    public function destroy(
+        Tontine $tontine,
+        Session $session,
+        Meeting $meeting,
+        MeetingDecision $decision,
+        DeleteMeetingDecisionAction $action,
+    ): RedirectResponse {
+        abort_unless(
+            $decision->meeting_id
+                === $meeting->id,
+            404,
+        );
+
+        $this->authorize(
+            'delete',
+            $decision,
+        );
+
+        $action->execute(
+            $decision,
+        );
+
+        return Inertia::flash(
+            'success',
+            __(
+                'La décision a été supprimée avec succès.'
+            ),
+        )->back();
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(MeetingDecision $meetingDecision)
-    {
-        //
-    }
+    private function resolveAgendaItem(
+        FormMeetingDecisionRequest $request,
+    ): ?MeetingAgendaItem {
+        if (
+            ! $request->filled(
+                'meeting_agenda_item_id',
+            )
+        ) {
+            return null;
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MeetingDecision $meetingDecision)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateMeetingDecisionRequest $request, MeetingDecision $meetingDecision)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(MeetingDecision $meetingDecision)
-    {
-        //
+        return MeetingAgendaItem::query()
+            ->findOrFail(
+                $request->integer(
+                    'meeting_agenda_item_id',
+                ),
+            );
     }
 }

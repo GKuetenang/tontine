@@ -28,7 +28,7 @@ return new class extends Migration
 
                 $table->string('title');
 
-                $table->text('description')
+                $table->longText('description')
                     ->nullable();
 
                 $table->foreignId('created_by')

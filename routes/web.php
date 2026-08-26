@@ -5,6 +5,7 @@ use App\Http\Controllers\DrawController;
 use App\Http\Controllers\MeetingAgendaItemController;
 use App\Http\Controllers\MeetingAttendanceController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\MeetingDecisionController;
 use App\Http\Controllers\MeetingNoteController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\SessionController;
@@ -238,6 +239,46 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     ],
                 )
                     ->whereNumber('note')
+                    ->name('destroy');
+            });
+
+        Route::prefix(
+            'tontines/{tontine:slug}'
+                . '/sessions/{session:slug}'
+                . '/meetings/{meeting:slug}'
+                . '/decisions'
+        )
+            ->name(
+                'tontines.sessions.meetings.decisions.'
+            )
+            ->scopeBindings()
+            ->group(function (): void {
+                Route::post(
+                    '/',
+                    [
+                        MeetingDecisionController::class,
+                        'store',
+                    ],
+                )->name('store');
+
+                Route::patch(
+                    '/{decision}',
+                    [
+                        MeetingDecisionController::class,
+                        'update',
+                    ],
+                )
+                    ->whereNumber('decision')
+                    ->name('update');
+
+                Route::delete(
+                    '/{decision}',
+                    [
+                        MeetingDecisionController::class,
+                        'destroy',
+                    ],
+                )
+                    ->whereNumber('decision')
                     ->name('destroy');
             });
     });

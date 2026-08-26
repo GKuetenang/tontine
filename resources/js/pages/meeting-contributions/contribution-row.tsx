@@ -113,7 +113,6 @@ export function ContributionRow({
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="rounded-full"
                             >
                                 <BanknoteIcon className="size-4" />
 

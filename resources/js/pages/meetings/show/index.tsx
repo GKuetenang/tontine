@@ -28,6 +28,7 @@ import { MeetingHeader } from '@/pages/meetings/show/meeting-header';
 import { MeetingAgenda } from '@/pages/meeting-agendas/show';
 import { MeetingAttendances } from '@/pages/meeting-attendances/show';
 import { MeetingContributions } from '@/pages/meeting-contributions/show';
+import { MeetingDecisions } from '@/pages/meeting-decisions/show';
 import { MeetingNotes } from '@/pages/meeting-notes/show';
 import {
     CheckCircle2Icon,
@@ -207,9 +208,11 @@ export default withAppLayout<Props>(
                             value="decisions"
                             className="mt-6"
                         >
-                            {/* <MeetingDecisionsPlaceholder
+                            <MeetingDecisions
+                                tontine={tontine}
+                                session={session}
                                 meeting={meeting}
-                            /> */}
+                            />
                         </TabsContent>
                     </Tabs>
                 </div>

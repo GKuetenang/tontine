@@ -2,65 +2,116 @@
 
 namespace App\Policies;
 
+use App\Enums\TontinePermission;
+use App\Models\Meeting;
 use App\Models\MeetingDecision;
+use App\Models\Tontine;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class MeetingDecisionPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        return false;
+    public function viewAny(
+        User $user,
+        Meeting $meeting,
+    ): bool {
+        $tontine = $meeting
+            ->session
+            ->tontine;
+
+        return $tontine->hasActiveMembership($user)
+            && $this->can(
+                user: $user,
+                tontine: $tontine,
+                permission: TontinePermission::ViewMeetingDecisions,
+            );
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, MeetingDecision $meetingDecision): bool
-    {
-        return false;
+    public function view(
+        User $user,
+        MeetingDecision $decision,
+    ): bool {
+        return $this->viewAny(
+            $user,
+            $decision->meeting,
+        );
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        return false;
+    public function create(
+        User $user,
+        Meeting $meeting,
+    ): bool {
+        $tontine = $meeting
+            ->session
+            ->tontine;
+
+        return $tontine->hasActiveMembership($user)
+            && $this->can(
+                user: $user,
+                tontine: $tontine,
+                permission: TontinePermission::CreateMeetingDecisions,
+            );
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, MeetingDecision $meetingDecision): bool
-    {
-        return false;
+    public function update(
+        User $user,
+        MeetingDecision $decision,
+    ): bool {
+        $tontine = $decision
+            ->meeting
+            ->session
+            ->tontine;
+
+        return $tontine->hasActiveMembership($user)
+            && $this->can(
+                user: $user,
+                tontine: $tontine,
+                permission: TontinePermission::UpdateMeetingDecisions,
+            );
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, MeetingDecision $meetingDecision): bool
-    {
-        return false;
+    public function delete(
+        User $user,
+        MeetingDecision $decision,
+    ): bool {
+        $tontine = $decision
+            ->meeting
+            ->session
+            ->tontine;
+
+        return $tontine->hasActiveMembership($user)
+            && $this->can(
+                user: $user,
+                tontine: $tontine,
+                permission: TontinePermission::DeleteMeetingDecisions,
+            );
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, MeetingDecision $meetingDecision): bool
-    {
-        return false;
-    }
+    private function can(
+        User $user,
+        Tontine $tontine,
+        TontinePermission $permission,
+    ): bool {
+        $previousTeamId =
+            getPermissionsTeamId();
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, MeetingDecision $meetingDecision): bool
-    {
-        return false;
+        try {
+            setPermissionsTeamId(
+                $tontine->id,
+            );
+
+            $user->unsetRelation('roles');
+            $user->unsetRelation('permissions');
+
+            return $user->can(
+                $permission->value,
+            );
+        } finally {
+            setPermissionsTeamId(
+                $previousTeamId,
+            );
+
+            $user->unsetRelation('roles');
+            $user->unsetRelation('permissions');
+        }
     }
 }
