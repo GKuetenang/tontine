@@ -4,8 +4,10 @@ namespace App\Data;
 
 use App\Models\MeetingDecision;
 use Carbon\CarbonImmutable;
+use Spatie\LaravelData\Attributes\WithTransformer;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
+use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript(name: 'MeetingDecision')]
@@ -20,7 +22,15 @@ class MeetingDecisionData extends Data
 
         public Optional|MemberUserData|null $creator,
 
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public CarbonImmutable $created_at,
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public CarbonImmutable $updated_at,
     ) {}
 

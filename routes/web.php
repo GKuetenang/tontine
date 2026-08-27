@@ -8,6 +8,7 @@ use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\MeetingDecisionController;
 use App\Http\Controllers\MeetingNoteController;
 use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SessionParticipantController;
 use App\Http\Controllers\TontineController;
@@ -292,6 +293,56 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 )
                     ->whereNumber('decision')
                     ->name('destroy');
+            });
+
+        Route::prefix(
+            'tontines/{tontine:slug}'
+                . '/sessions/{session:slug}'
+                . '/meetings/{meeting:slug}'
+                . '/payouts',
+        )
+            ->name(
+                'tontines.sessions.meetings.payouts.'
+            )
+            ->scopeBindings()
+            ->group(function (): void {
+                Route::post(
+                    '/',
+                    [
+                        PayoutController::class,
+                        'store',
+                    ],
+                )->name('store');
+
+                Route::patch(
+                    '/{payout}',
+                    [
+                        PayoutController::class,
+                        'update',
+                    ],
+                )
+                    ->whereNumber('payout')
+                    ->name('update');
+
+                Route::patch(
+                    '/{payout}/pay',
+                    [
+                        PayoutController::class,
+                        'pay',
+                    ],
+                )
+                    ->whereNumber('payout')
+                    ->name('pay');
+
+                Route::patch(
+                    '/{payout}/cancel',
+                    [
+                        PayoutController::class,
+                        'cancel',
+                    ],
+                )
+                    ->whereNumber('payout')
+                    ->name('cancel');
             });
     });
 });

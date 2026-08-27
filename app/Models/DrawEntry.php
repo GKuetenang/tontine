@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @mixin IdeHelperDrawEntry
@@ -25,6 +26,10 @@ class DrawEntry extends Model
         return [
             'position' => 'integer',
             'entry_number' => 'integer',
+            'created_at' =>
+            'immutable_datetime',
+            'updated_at' =>
+            'immutable_datetime',
         ];
     }
 
@@ -37,6 +42,13 @@ class DrawEntry extends Model
     {
         return $this->belongsTo(
             SessionParticipant::class
+        );
+    }
+
+    public function payout(): HasOne
+    {
+        return $this->hasOne(
+            Payout::class,
         );
     }
 }

@@ -27,6 +27,7 @@ use Override;
         'default_contribution_amount',
         'draw_allocation_mode',
         'base_contribution_amount',
+        'beneficiaries_per_meeting',
         'status',
     ]
 )]
@@ -61,6 +62,7 @@ class Session extends Model
         'created_at' => 'immutable_datetime',
         'updated_at' => 'immutable_datetime',
         'deleted_at' => 'immutable_datetime',
+        'beneficiaries_per_meeting' => 'integer',
         'draw_allocation_mode' => DrawAllocationMode::class,
     ];
 

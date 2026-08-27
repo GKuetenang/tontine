@@ -26,31 +26,44 @@ class DrawController extends Controller
         Tontine $tontine,
         Session $session,
     ): Response {
+        $this->authorize(
+            'view',
+            [
+                Draw::class,
+                $session,
+            ],
+        );
+
         $draw = $session
             ->draw()
             ->with([
+                'session.meetings',
+
                 'entries.sessionParticipant.membership.user',
-                'creator',
-                'confirmer',
             ])
             ->first();
 
-        if ($draw) {
-            Gate::authorize('view', $draw);
-        } else {
-            Gate::authorize(
-                'generate',
-                [Draw::class, $session],
-            );
-        }
+        return Inertia::render(
+            'draws/show',
+            [
+                'tontine' =>
+                TontineData::fromModel(
+                    $tontine,
+                ),
 
-        return Inertia::render('draws/show', [
-            'tontine' => TontineData::fromModel($tontine),
-            'session' => SessionData::fromModel($session),
-            'draw' => $draw
-                ? DrawData::from($draw)
-                : null,
-        ]);
+                'session' =>
+                SessionData::fromModel(
+                    $session,
+                ),
+
+                'draw' =>
+                $draw
+                    ? DrawData::fromModel(
+                        $draw,
+                    )
+                    : null,
+            ],
+        );
     }
 
     public function generate(

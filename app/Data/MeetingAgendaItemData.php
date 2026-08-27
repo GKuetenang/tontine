@@ -4,7 +4,9 @@ namespace App\Data;
 
 use App\Models\MeetingAgendaItem;
 use Carbon\CarbonImmutable;
+use Spatie\LaravelData\Attributes\WithTransformer;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript(name: 'MeetingAgendaItem')]
@@ -15,6 +17,10 @@ class MeetingAgendaItemData extends Data
         public string $title,
         public ?string $description,
         public int $position,
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public CarbonImmutable $created_at,
         public CarbonImmutable $updated_at,
     ) {}

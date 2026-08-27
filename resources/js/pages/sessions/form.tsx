@@ -112,6 +112,24 @@ export function EditSessionForm({ trigger, tontine, session, draw_allocation_mod
                                     }
                                 />
                             </FormField>
+                            <FormField
+                                error={errors['beneficiaries_per_meeting']}
+                                label="Bénéficiaires par réunion"
+                                htmlFor="beneficiaries_per_meeting"
+                                optional
+                            >
+                                <Input
+                                    id="beneficiaries_per_meeting"
+                                    name="beneficiaries_per_meeting"
+                                    defaultValue={
+                                        session.beneficiaries_per_meeting ??
+                                        undefined
+                                    }
+                                    aria-invalid={
+                                        !!errors['beneficiaries_per_meeting']
+                                    }
+                                />
+                            </FormField>
 
                             <FormField
                                 error={errors['draw_allocation_mode']}

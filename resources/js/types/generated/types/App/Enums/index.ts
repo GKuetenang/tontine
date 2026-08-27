@@ -6,6 +6,7 @@ export type DrawAllocationMode =
 export type MeetingStatus =
     'scheduled' | 'in_progress' | 'completed' | 'cancelled';
 export type MembershipStatus = 'active' | 'inactive' | 'suspended' | 'left';
+export type PayoutStatus = 'pending' | 'paid' | 'cancelled';
 export type SessionStatus = 'draft' | 'active' | 'closed';
 export type TontinePermission =
     | 'tontines.view'
@@ -83,6 +84,11 @@ export type TontinePermission =
     | 'cash-fund.manage'
     | 'accounting.view'
     | 'accounting.export'
+    | 'payouts.view'
+    | 'payouts.create'
+    | 'payouts.update'
+    | 'payouts.pay'
+    | 'payouts.cancel'
     | 'reports.view'
     | 'reports.export';
 export type TontineRole =

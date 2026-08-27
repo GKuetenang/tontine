@@ -3,6 +3,8 @@ import {
     TableRow,
 } from '@/components/ui/table';
 
+import { formatDate } from '@/lib';
+
 import type {
     Draw,
 } from '@/types';
@@ -77,17 +79,7 @@ export function DrawEntryRow({
                 <TableCell className="w-12">
                     <button
                         type="button"
-                        className="
-                            flex
-                            cursor-grab
-                            touch-none
-                            items-center
-                            justify-center
-                            text-muted-foreground
-                            transition-colors
-                            hover:text-foreground
-                            active:cursor-grabbing
-                        "
+                        className="flex cursor-grab touch-none items-center justify-center text-muted-foreground transition-colors hover:text-foreground active:cursor-grabbing"
                         title="Permuter cette position"
                         {...attributes}
                         {...listeners}
@@ -113,6 +105,33 @@ export function DrawEntryRow({
 
             <TableCell>
                 {entry.entry_number}
+            </TableCell>
+
+            <TableCell>
+                {entry.expected_meeting ? (
+                    <div className="space-y-0.5">
+                        <p className="font-medium">
+                            {formatDate(
+                                entry
+                                    .expected_meeting
+                                    .scheduled_at,
+                            )}
+                        </p>
+
+                        <p className="text-xs text-muted-foreground">
+                            Réunion #
+                            {
+                                entry
+                                    .expected_meeting
+                                    .number
+                            }
+                        </p>
+                    </div>
+                ) : (
+                    <span className="text-muted-foreground">
+                        Non planifiée
+                    </span>
+                )}
             </TableCell>
         </TableRow>
     );

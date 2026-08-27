@@ -11,9 +11,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Mimes;
+use Spatie\LaravelData\Attributes\WithTransformer;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Optional;
+use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -24,7 +26,15 @@ class TontineData extends Data
         public string $name,
         public Optional|string $slug,
         public string $member_number_prefix,
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable $created_at,
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable $updated_at,
         public Optional|Lazy|string $image,
         #[Mimes('jpg,jpeg,png,webp'), Max(2048)]

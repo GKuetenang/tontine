@@ -3,134 +3,113 @@
 namespace App\Policies;
 
 use App\Enums\TontinePermission;
-use App\Models\Draw;
-use App\Models\Session;
+use App\Models\Meeting;
+use App\Models\Payout;
 use App\Models\Tontine;
 use App\Models\User;
 
-class DrawPolicy
+class PayoutPolicy
 {
-    /**
-     * Consulter le module de tirage d'une session.
-     */
-    public function view(
+    public function viewAny(
         User $user,
-        Session $session,
+        Meeting $meeting,
     ): bool {
         $tontine =
-            $session->tontine;
+            $meeting
+            ->session
+            ->tontine;
 
         return $tontine
-            ->hasActiveMembership($user)
+            ->hasActiveMembership(
+                $user,
+            )
             && $this->can(
                 user: $user,
                 tontine: $tontine,
-                permission: TontinePermission::ViewDraws,
+                permission: TontinePermission::ViewPayouts,
             );
     }
 
-    /**
-     * Générer un tirage.
-     */
-    public function generate(
+    public function create(
         User $user,
-        Session $session,
+        Meeting $meeting,
     ): bool {
         $tontine =
-            $session->tontine;
+            $meeting
+            ->session
+            ->tontine;
 
         return $tontine
-            ->hasActiveMembership($user)
+            ->hasActiveMembership(
+                $user,
+            )
             && $this->can(
                 user: $user,
                 tontine: $tontine,
-                permission: TontinePermission::GenerateDraws,
+                permission: TontinePermission::CreatePayouts,
             );
     }
 
-    /**
-     * Modifier un tirage existant.
-     *
-     * Utilisé notamment pour le swap.
-     */
     public function update(
         User $user,
-        Draw $draw,
+        Payout $payout,
     ): bool {
         $tontine =
-            $draw
+            $payout
+            ->meeting
             ->session
             ->tontine;
 
         return $tontine
-            ->hasActiveMembership($user)
+            ->hasActiveMembership(
+                $user,
+            )
             && $this->can(
                 user: $user,
                 tontine: $tontine,
-                permission: TontinePermission::UpdateDraws,
+                permission: TontinePermission::UpdatePayouts,
             );
     }
 
-    /**
-     * Réinitialiser un tirage.
-     */
-    public function reset(
+    public function pay(
         User $user,
-        Draw $draw,
+        Payout $payout,
     ): bool {
         $tontine =
-            $draw
+            $payout
+            ->meeting
             ->session
             ->tontine;
 
         return $tontine
-            ->hasActiveMembership($user)
+            ->hasActiveMembership(
+                $user,
+            )
             && $this->can(
                 user: $user,
                 tontine: $tontine,
-                permission: TontinePermission::ResetDraws,
+                permission: TontinePermission::PayPayouts,
             );
     }
 
-    /**
-     * Confirmer un tirage.
-     */
-    public function confirm(
+    public function cancel(
         User $user,
-        Draw $draw,
+        Payout $payout,
     ): bool {
         $tontine =
-            $draw
+            $payout
+            ->meeting
             ->session
             ->tontine;
 
         return $tontine
-            ->hasActiveMembership($user)
+            ->hasActiveMembership(
+                $user,
+            )
             && $this->can(
                 user: $user,
                 tontine: $tontine,
-                permission: TontinePermission::ConfirmDraws,
-            );
-    }
-
-    /**
-     * Supprimer un tirage.
-     */
-    public function delete(
-        User $user,
-        Draw $draw,
-    ): bool {
-        $tontine =
-            $draw
-            ->session
-            ->tontine;
-
-        return $tontine
-            ->hasActiveMembership($user)
-            && $this->can(
-                user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::DeleteDraws,
+                permission: TontinePermission::CancelPayouts,
             );
     }
 

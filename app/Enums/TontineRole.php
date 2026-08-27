@@ -101,6 +101,12 @@ enum TontineRole: string
 
                 TontinePermission::ViewReports,
                 TontinePermission::ExportReports,
+                TontinePermission::ViewPayouts,
+                TontinePermission::CreatePayouts,
+                TontinePermission::UpdatePayouts,
+                TontinePermission::PayPayouts,
+                TontinePermission::CancelPayouts,
+
             ],
 
             self::Censor => [

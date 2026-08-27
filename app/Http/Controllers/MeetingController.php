@@ -69,12 +69,19 @@ class MeetingController extends Controller
         $meeting->load([
             'agendaItems',
             'attendances.sessionParticipant.membership.user',
+
             'contributions.sessionParticipant.membership.user',
             'contributions.transactions',
+
             'notes.agendaItem',
             'notes.creator',
+
             'decisions.agendaItem',
             'decisions.creator',
+
+            'payouts.drawEntry.sessionParticipant.membership.user',
+            'payouts.creator',
+            'payouts.transactions',
         ]);
 
         return Inertia::render('meetings/show/index', [

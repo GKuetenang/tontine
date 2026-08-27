@@ -149,6 +149,9 @@ export default withAppLayout<Props>(
                                 <CheckCircle2Icon className="size-4" />
                                 Décisions
                             </TabsTrigger>
+                            <TabsTrigger value="payout">
+                                Versement
+                            </TabsTrigger>
                         </TabsList>
 
                         <TabsContent
@@ -213,6 +216,13 @@ export default withAppLayout<Props>(
                                 session={session}
                                 meeting={meeting}
                             />
+                        </TabsContent>
+                        <TabsContent value="payout">
+                            {/* <MeetingPayouts
+                                tontine={tontine}
+                                session={session}
+                                meeting={meeting}
+                            /> */}
                         </TabsContent>
                     </Tabs>
                 </div>

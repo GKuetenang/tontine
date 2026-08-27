@@ -30,7 +30,15 @@ class MeetingData extends Data
         public CarbonImmutable $scheduled_at,
         public Optional|array $agenda_items,
 
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable|null $opened_at,
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable|null $closed_at,
 
         public Optional|int $attendances_count,
@@ -39,8 +47,17 @@ class MeetingData extends Data
         public Optional|array $contributions,
         public Optional|array $notes,
         public Optional|array $decisions,
+        public Optional|array $payouts,
 
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public CarbonImmutable $created_at,
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public CarbonImmutable $updated_at,
     ) {}
 
@@ -97,6 +114,13 @@ class MeetingData extends Data
             )
                 ? MeetingDecisionData::collect(
                     $meeting->decisions,
+                )->all()
+                : Optional::create(),
+            payouts: $meeting->relationLoaded(
+                'payouts',
+            )
+                ? PayoutData::collect(
+                    $meeting->payouts,
                 )->all()
                 : Optional::create(),
 

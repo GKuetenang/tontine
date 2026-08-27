@@ -13,14 +13,26 @@
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property int $meeting_id
+ * @property int $session_participant_id
+ * @property int $amount_due
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read \App\Models\Meeting|null $meeting
- * @property-read \App\Models\SessionParticipant|null $sessionParticipant
+ * @property-read \App\Models\SessionParticipant $sessionParticipant
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transaction> $transactions
  * @property-read int|null $transactions_count
  * @method static \Database\Factories\ContributionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contribution newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contribution newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contribution query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contribution whereAmountDue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contribution whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contribution whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contribution whereMeetingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contribution whereSessionParticipantId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contribution whereUpdatedAt($value)
  */
 	class Contribution extends \Eloquent {}
 }
@@ -92,7 +104,21 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @mixin IdeHelperMeeting
+ * @property int $id
+ * @property int $session_id
+ * @property int $number
+ * @property string $title
+ * @property string $slug
+ * @property string|null $description
+ * @property \Carbon\CarbonImmutable $scheduled_at
+ * @property string|null $location
  * @property \App\Enums\MeetingStatus $status
+ * @property \Carbon\CarbonImmutable|null $opened_at
+ * @property \Carbon\CarbonImmutable|null $closed_at
+ * @property int|null $created_by
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MeetingAgendaItem> $agendaItems
  * @property-read int|null $agenda_items_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MeetingAttendance> $attendances
@@ -100,12 +126,31 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contribution> $contributions
  * @property-read int|null $contributions_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MeetingDecision> $decisions
+ * @property-read int|null $decisions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MeetingNote> $notes
+ * @property-read int|null $notes_count
  * @property-read \App\Models\Session|null $session
  * @method static \Database\Factories\MeetingFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereClosedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereLocation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereOpenedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereScheduledAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereSessionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting withoutTrashed()
  */
@@ -115,11 +160,25 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @mixin IdeHelperMeetingAgendaItem
+ * @property int $id
+ * @property int $meeting_id
+ * @property string $title
+ * @property string|null $description
+ * @property int $position
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read \App\Models\Meeting|null $meeting
  * @method static \Database\Factories\MeetingAgendaItemFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAgendaItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAgendaItem newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAgendaItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAgendaItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAgendaItem whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAgendaItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAgendaItem whereMeetingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAgendaItem wherePosition($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAgendaItem whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAgendaItem whereUpdatedAt($value)
  */
 	class MeetingAgendaItem extends \Eloquent {}
 }
@@ -127,19 +186,42 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @mixin IdeHelperMeetingAttendance
+ * @property int $id
+ * @property int $meeting_id
+ * @property int $session_participant_id
  * @property \App\Enums\AttendanceStatus $status
+ * @property \Carbon\CarbonImmutable|null $checked_in_at
+ * @property string|null $note
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read \App\Models\Meeting|null $meeting
- * @property-read \App\Models\SessionParticipant|null $sessionParticipant
+ * @property-read \App\Models\SessionParticipant $sessionParticipant
  * @method static \Database\Factories\MeetingAttendanceFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAttendance newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAttendance newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAttendance query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAttendance whereCheckedInAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAttendance whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAttendance whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAttendance whereMeetingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAttendance whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAttendance whereSessionParticipantId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAttendance whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingAttendance whereUpdatedAt($value)
  */
 	class MeetingAttendance extends \Eloquent {}
 }
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property int $meeting_id
+ * @property int|null $meeting_agenda_item_id
+ * @property string $title
+ * @property string|null $description
+ * @property int|null $created_by
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read \App\Models\MeetingAgendaItem|null $agendaItem
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\Meeting|null $meeting
@@ -147,18 +229,41 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingDecision newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingDecision newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingDecision query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingDecision whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingDecision whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingDecision whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingDecision whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingDecision whereMeetingAgendaItemId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingDecision whereMeetingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingDecision whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingDecision whereUpdatedAt($value)
  */
 	class MeetingDecision extends \Eloquent {}
 }
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property int $meeting_id
+ * @property int|null $agenda_item_id
+ * @property string $content
+ * @property int|null $created_by
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property-read \App\Models\MeetingAgendaItem|null $agendaItem
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\Meeting|null $meeting
  * @method static \Database\Factories\MeetingNoteFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereAgendaItemId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereMeetingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereUpdatedAt($value)
  */
 	class MeetingNote extends \Eloquent {}
 }
@@ -206,6 +311,15 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Membership withoutTrashed()
  */
 	class Membership extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout query()
+ */
+	class Payout extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -363,20 +477,44 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property int $session_id
+ * @property int|null $membership_id
+ * @property string|null $transactionable_type
+ * @property int|null $transactionable_id
  * @property \App\Enums\TransactionType $type
  * @property \App\Enums\TransactionDirection $direction
+ * @property int $amount
+ * @property string|null $description
+ * @property \Carbon\CarbonImmutable $occurred_at
+ * @property int|null $created_by
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\Meeting|null $meeting
  * @property-read \App\Models\Membership|null $membership
  * @property-read \App\Models\Session|null $session
  * @property-read \App\Models\Tontine|null $tontine
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $transactionable
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $transactionable
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction credits()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction debits()
  * @method static \Database\Factories\TransactionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereDirection($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereMembershipId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereOccurredAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereSessionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereTransactionableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereTransactionableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereUpdatedAt($value)
  */
 	class Transaction extends \Eloquent {}
 }

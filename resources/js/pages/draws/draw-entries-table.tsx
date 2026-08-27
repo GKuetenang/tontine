@@ -15,11 +15,11 @@ import type {
 } from '@/types';
 
 import {
+    closestCenter,
     DndContext,
     DragOverlay,
     KeyboardSensor,
     PointerSensor,
-    closestCenter,
     useSensor,
     useSensors,
     type DragEndEvent,
@@ -70,8 +70,7 @@ export function DrawEntriesTable({
     ] = useState<DrawEntry[]>(
         () =>
             [
-                ...(draw.entries ??
-                    []),
+                ...(draw.entries ?? []),
             ].sort(
                 (a, b) =>
                     a.position
@@ -154,17 +153,13 @@ export function DrawEntriesTable({
         const previousEntries =
             entries;
 
-        const swapped =
+        setEntries(
             swapEntries(
                 entries,
                 source.id,
                 target.id,
-            );
-
-        /*
-         * Optimistic UI.
-         */
-        setEntries(swapped);
+            ),
+        );
 
         router.patch(
             drawRoutes.swap({
@@ -202,9 +197,7 @@ export function DrawEntriesTable({
                             errors,
                         )[0];
 
-                    if (
-                        firstError
-                    ) {
+                    if (firstError) {
                         toast.error(
                             firstError,
                         );
@@ -222,92 +215,93 @@ export function DrawEntriesTable({
         );
 
     return (
-        <div className="space-y-3">
-
-            <DndContext
-                sensors={sensors}
-                collisionDetection={
-                    closestCenter
-                }
-                onDragStart={
-                    handleDragStart
-                }
-                onDragCancel={() =>
-                    setActiveId(null)
-                }
-                onDragEnd={
-                    handleDragEnd
-                }
-            >
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            {canSwap && (
-                                <TableHead className="w-12" />
-                            )}
-
-                            <TableHead className="w-24">
-                                Position
-                            </TableHead>
-
-                            <TableHead>
-                                Participant
-                            </TableHead>
-
-                            <TableHead>
-                                Numéro du tour
-                            </TableHead>
-                        </TableRow>
-                    </TableHeader>
-
-                    <TableBody>
-                        {entries.map(
-                            (entry) => (
-                                <DrawEntryRow
-                                    key={
-                                        entry.id
-                                    }
-                                    entry={
-                                        entry
-                                    }
-                                    canDrag={
-                                        canSwap
-                                    }
-                                />
-                            ),
+        <DndContext
+            sensors={sensors}
+            collisionDetection={
+                closestCenter
+            }
+            onDragStart={
+                handleDragStart
+            }
+            onDragCancel={() =>
+                setActiveId(null)
+            }
+            onDragEnd={
+                handleDragEnd
+            }
+        >
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        {canSwap && (
+                            <TableHead className="w-12" />
                         )}
-                    </TableBody>
-                </Table>
 
-                <DragOverlay>
-                    {activeEntry ? (
-                        <div className="min-w-72 rounded-md border bg-background p-3 shadow-lg">
-                            <div className="flex items-center gap-3">
-                                <GripVerticalIcon className="size-4 text-muted-foreground" />
+                        <TableHead className="w-24">
+                            Position
+                        </TableHead>
 
-                                <div>
-                                    <p className="font-medium">
-                                        Position{' '}
-                                        {
-                                            activeEntry.position
-                                        }
-                                    </p>
+                        <TableHead>
+                            Participant
+                        </TableHead>
 
-                                    <p className="text-sm text-muted-foreground">
-                                        {activeEntry
-                                            .session_participant
-                                            ?.membership
-                                            ?.user
-                                            ?.name ??
-                                            '—'}
-                                    </p>
-                                </div>
+                        <TableHead>
+                            Part
+                        </TableHead>
+
+                        <TableHead>
+                            Date prévue
+                        </TableHead>
+                    </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                    {entries.map(
+                        (entry) => (
+                            <DrawEntryRow
+                                key={
+                                    entry.id
+                                }
+                                entry={
+                                    entry
+                                }
+                                canDrag={
+                                    canSwap
+                                }
+                            />
+                        ),
+                    )}
+                </TableBody>
+            </Table>
+
+            <DragOverlay>
+                {activeEntry ? (
+                    <div className="min-w-72 rounded-md border bg-background p-3 shadow-lg">
+                        <div className="flex items-center gap-3">
+                            <GripVerticalIcon className="size-4 text-muted-foreground" />
+
+                            <div>
+                                <p className="font-medium">
+                                    Position{' '}
+                                    {
+                                        activeEntry.position
+                                    }
+                                </p>
+
+                                <p className="text-sm text-muted-foreground">
+                                    {activeEntry
+                                        .session_participant
+                                        ?.membership
+                                        ?.user
+                                        ?.name
+                                        ?? '—'}
+                                </p>
                             </div>
                         </div>
-                    ) : null}
-                </DragOverlay>
-            </DndContext>
-        </div>
+                    </div>
+                ) : null}
+            </DragOverlay>
+        </DndContext>
     );
 }
 
@@ -337,6 +331,15 @@ function swapEntries(
         return entries;
     }
 
+    /*
+     * Important :
+     *
+     * Le Meeting prévu dépend de la POSITION,
+     * pas du participant.
+     *
+     * On doit donc également permuter
+     * expected_meeting dans l'optimistic UI.
+     */
     return entries
         .map((entry) => {
             if (
@@ -348,6 +351,9 @@ function swapEntries(
 
                     position:
                         target.position,
+
+                    expected_meeting:
+                        target.expected_meeting,
                 };
             }
 
@@ -360,6 +366,9 @@ function swapEntries(
 
                     position:
                         source.position,
+
+                    expected_meeting:
+                        source.expected_meeting,
                 };
             }
 

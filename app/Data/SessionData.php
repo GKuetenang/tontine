@@ -27,6 +27,7 @@ class SessionData extends Data
         #[WithTransformer(DateTimeInterfaceTransformer::class, format: 'Y-m-d\TH:i:s')]
         public Optional|CarbonImmutable|null $end_at,
         public Optional|int|null $default_contribution_amount,
+        public int $beneficiaries_per_meeting,
 
         public Optional|SessionStatus $status,
         public Optional|int $participants_count,
@@ -34,10 +35,26 @@ class SessionData extends Data
         public Optional|DrawAllocationMode $draw_allocation_mode,
         public Optional|string $draw_allocation_mode_label,
 
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable|null $activated_at,
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable|null $closed_at,
 
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable $created_at,
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable $updated_at,
     ) {}
 
@@ -60,6 +77,8 @@ class SessionData extends Data
             default_contribution_amount: $session->default_contribution_amount,
 
             status: $session->status,
+
+            beneficiaries_per_meeting: $session->beneficiaries_per_meeting,
 
             participants_count: array_key_exists(
                 'participants_count',

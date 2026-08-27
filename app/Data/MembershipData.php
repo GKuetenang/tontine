@@ -6,8 +6,10 @@ use App\Enums\MembershipStatus;
 use App\Enums\TontineRole;
 use App\Models\Membership;
 use Carbon\CarbonImmutable;
+use Spatie\LaravelData\Attributes\WithTransformer;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
+use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript(name: 'Membership')]
@@ -20,16 +22,35 @@ class MembershipData extends Data
 
         public MembershipStatus $status,
 
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable|null $verified_at,
-
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable|null $joined_at,
-
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable|null $left_at,
-
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable $created_at,
-
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable $updated_at,
-
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public Optional|CarbonImmutable|null $deleted_at,
 
         public Optional|MemberUserData $user,

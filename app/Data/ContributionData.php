@@ -6,8 +6,10 @@ use App\Enums\ContributionStatus;
 use App\Enums\TransactionDirection;
 use App\Models\Contribution;
 use Carbon\CarbonImmutable;
+use Spatie\LaravelData\Attributes\WithTransformer;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
+use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript(name: 'Contribution')]
@@ -22,7 +24,15 @@ class ContributionData extends Data
 
         public Optional|SessionParticipantData $session_participant,
 
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public CarbonImmutable $created_at,
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
         public CarbonImmutable $updated_at,
     ) {}
 

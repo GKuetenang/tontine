@@ -2,7 +2,8 @@
 
 namespace App\Data;
 
-use App\Models\MeetingNote;
+use App\Enums\PayoutStatus;
+use App\Models\Payout;
 use Carbon\CarbonImmutable;
 use Spatie\LaravelData\Attributes\WithTransformer;
 use Spatie\LaravelData\Data;
@@ -10,14 +11,21 @@ use Spatie\LaravelData\Optional;
 use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
-#[TypeScript(name: 'MeetingNote')]
-class MeetingNoteData extends Data
+#[TypeScript(name: 'Payout')]
+class PayoutData extends Data
 {
     public function __construct(
         public int $id,
-        public string $content,
+        public int $amount,
+        public PayoutStatus $status,
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
+        public ?CarbonImmutable $paid_at,
 
-        public Optional|MeetingAgendaItemData|null $agenda_item,
+        public Optional|DrawEntryData $draw_entry,
+
         public Optional|MemberUserData|null $creator,
 
         #[WithTransformer(
@@ -33,34 +41,40 @@ class MeetingNoteData extends Data
     ) {}
 
     public static function fromModel(
-        MeetingNote $note,
+        Payout $payout,
     ): self {
         return new self(
-            id: $note->id,
-            content: $note->content,
+            id: $payout->id,
 
-            agenda_item: $note->relationLoaded('agendaItem')
-                ? (
-                    $note->agendaItem
-                    ? MeetingAgendaItemData::fromModel(
-                        $note->agendaItem,
-                    )
-                    : null
+            amount: $payout->amount,
+
+            status: $payout->status,
+
+            paid_at: $payout->paid_at,
+
+            draw_entry: $payout->relationLoaded(
+                'drawEntry',
+            )
+                ? DrawEntryData::from(
+                    $payout->drawEntry,
                 )
                 : Optional::create(),
 
-            creator: $note->relationLoaded('creator')
+            creator: $payout->relationLoaded(
+                'creator',
+            )
                 ? (
-                    $note->creator
+                    $payout->creator
                     ? MemberUserData::from(
-                        $note->creator,
+                        $payout->creator,
                     )
                     : null
                 )
                 : Optional::create(),
 
-            created_at: $note->created_at,
-            updated_at: $note->updated_at,
+            created_at: $payout->created_at,
+
+            updated_at: $payout->updated_at,
         );
     }
 }

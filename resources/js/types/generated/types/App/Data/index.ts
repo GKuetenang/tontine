@@ -3,6 +3,7 @@ import {
     MeetingStatus,
     AttendanceStatus,
     MembershipStatus,
+    PayoutStatus,
     SessionStatus,
     DrawAllocationMode,
 } from '../Enums';
@@ -18,19 +19,25 @@ export type Contribution = {
 };
 export type Draw = {
     id: number;
-    description: string | null;
+    entries: undefined | Array<any>;
     confirmed_at: undefined | null;
-    creator: undefined | MemberUser | null;
-    confirmer: undefined | MemberUser | null;
-    entries: DrawEntry[];
+    created_at: undefined;
+    updated_at: undefined;
 };
 export type DrawEntry = {
     id: number;
     position: number;
     entry_number: number;
     session_participant: undefined | SessionParticipant;
+    expected_meeting: ExpectedDrawMeeting | null;
     created_at: undefined;
     updated_at: undefined;
+};
+export type ExpectedDrawMeeting = {
+    id: number;
+    number: number;
+    slug: string;
+    scheduled_at: undefined;
 };
 export type Meeting = {
     id: number;
@@ -50,6 +57,7 @@ export type Meeting = {
     contributions: undefined | Array<any>;
     notes: undefined | Array<any>;
     decisions: undefined | Array<any>;
+    payouts: undefined | Array<any>;
     created_at: undefined;
     updated_at: undefined;
 };
@@ -87,6 +95,12 @@ export type MeetingNote = {
     created_at: undefined;
     updated_at: undefined;
 };
+export type MeetingSummaryData = {
+    id: number;
+    slug: string;
+    name: string;
+    scheduled_at: undefined;
+};
 export type MemberUser = {
     id: number;
     name: string;
@@ -113,6 +127,16 @@ export type MembershipRole = {
     name: string;
     label: string;
 };
+export type Payout = {
+    id: number;
+    amount: number;
+    status: PayoutStatus;
+    paid_at: undefined | null;
+    draw_entry: undefined | DrawEntry;
+    creator: undefined | MemberUser | null;
+    created_at: undefined;
+    updated_at: undefined;
+};
 export type Session = {
     name: string;
     slug: string;
@@ -121,6 +145,7 @@ export type Session = {
     start_at: undefined | undefined | null;
     end_at: undefined | undefined | null;
     default_contribution_amount: undefined | number | null;
+    beneficiaries_per_meeting: number;
     status: undefined | SessionStatus;
     participants_count: undefined | number;
     meetings_count: undefined | number;

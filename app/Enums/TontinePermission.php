@@ -172,6 +172,12 @@ enum TontinePermission: string
     |--------------------------------------------------------------------------
     */
 
+    case ViewPayouts = 'payouts.view';
+    case CreatePayouts = 'payouts.create';
+    case UpdatePayouts = 'payouts.update';
+    case PayPayouts = 'payouts.pay';
+    case CancelPayouts = 'payouts.cancel';
+
     case ViewReports = 'reports.view';
     case ExportReports = 'reports.export';
 
