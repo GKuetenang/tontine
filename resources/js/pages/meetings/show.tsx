@@ -15,13 +15,14 @@ import meetings from '@/routes/tontines/sessions/meetings';
 import type {
     BreadcrumbItem,
     Meeting,
+    MeetingPayoutContext,
     Session,
     Tontine,
 } from '@/types';
 
 import { Head } from '@inertiajs/react';
 
-import { MeetingHeader } from '@/pages/meetings/show/meeting-header';
+import { MeetingHeader } from '@/pages/meetings/components/meeting-header';
 
 
 
@@ -30,24 +31,27 @@ import { MeetingAttendances } from '@/pages/meeting-attendances/show';
 import { MeetingContributions } from '@/pages/meeting-contributions/show';
 import { MeetingDecisions } from '@/pages/meeting-decisions/show';
 import { MeetingNotes } from '@/pages/meeting-notes/show';
+import { MeetingPayouts } from '@/pages/meeting-payouts/show';
 import {
     CheckCircle2Icon,
     ClipboardListIcon,
     CoinsIcon,
+    HandCoinsIcon,
     InfoIcon,
     NotebookPenIcon,
     UsersIcon
 } from 'lucide-react';
-import { MeetingOverview } from './overview';
+import { MeetingOverview } from './components/overview';
 
 type Props = {
     tontine: Tontine;
     session: Session;
     meeting: Meeting;
+    payoutContext: MeetingPayoutContext;
 };
 
 export default withAppLayout<Props>(
-    ({ tontine, session, meeting }) =>
+    ({ tontine, session, meeting, }) =>
         [
             {
                 title: 'Tontines',
@@ -85,7 +89,7 @@ export default withAppLayout<Props>(
             },
         ] as BreadcrumbItem[],
 
-    ({ tontine, session, meeting }: Props) => {
+    ({ tontine, session, meeting, payoutContext }: Props) => {
         return (
             <>
                 <Head title={meeting.title} />
@@ -134,6 +138,11 @@ export default withAppLayout<Props>(
                                 Cotisations
                             </TabsTrigger>
 
+                            <TabsTrigger value="payouts">
+                                <HandCoinsIcon className="size-4" />
+                                Versements
+                            </TabsTrigger>
+
                             <TabsTrigger
                                 value="notes"
                                 className="data-[state=active]:shadow-none! data-[state=active]:bg-sidebar-accent hover:bg-sidebar-accent"
@@ -148,9 +157,6 @@ export default withAppLayout<Props>(
                             >
                                 <CheckCircle2Icon className="size-4" />
                                 Décisions
-                            </TabsTrigger>
-                            <TabsTrigger value="payout">
-                                Versement
                             </TabsTrigger>
                         </TabsList>
 
@@ -196,6 +202,15 @@ export default withAppLayout<Props>(
                             />
                         </TabsContent>
 
+                        <TabsContent value="payouts">
+                            <MeetingPayouts
+                                tontine={tontine}
+                                session={session}
+                                meeting={meeting}
+                                context={payoutContext}
+                            />
+                        </TabsContent>
+
                         <TabsContent
                             value="notes"
                             className="mt-6"
@@ -217,13 +232,7 @@ export default withAppLayout<Props>(
                                 meeting={meeting}
                             />
                         </TabsContent>
-                        <TabsContent value="payout">
-                            {/* <MeetingPayouts
-                                tontine={tontine}
-                                session={session}
-                                meeting={meeting}
-                            /> */}
-                        </TabsContent>
+
                     </Tabs>
                 </div>
             </>

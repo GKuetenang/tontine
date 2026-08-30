@@ -12,7 +12,7 @@ class UpdatePayoutRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,8 +25,8 @@ class UpdatePayoutRequest extends FormRequest
         return [
             'amount' => [
                 'required',
-                'integer',
-                'min:1',
+                'decimal:0,2',
+                'gt:0',
             ],
         ];
     }

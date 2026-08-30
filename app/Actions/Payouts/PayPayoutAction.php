@@ -3,6 +3,8 @@
 namespace App\Actions\Payouts;
 
 use App\Enums\PayoutStatus;
+use App\Enums\TransactionDirection;
+use App\Enums\TransactionType;
 use App\Models\Payout;
 use App\Models\Transaction;
 use App\Models\User;
@@ -15,23 +17,13 @@ final class PayPayoutAction
         Payout $payout,
         User $user,
     ): Payout {
-        if (
-            $payout->status
-            !== PayoutStatus::Pending
-        ) {
-            throw ValidationException::withMessages([
-                'payout' => __(
-                    'Seul un payout en attente peut être payé.'
-                ),
-            ]);
-        }
-
         return DB::transaction(
             function () use (
                 $payout,
                 $user,
             ): Payout {
-                $payout = Payout::query()
+                $lockedPayout =
+                    Payout::query()
                     ->with([
                         'meeting',
                         'drawEntry.sessionParticipant.membership',
@@ -42,18 +34,18 @@ final class PayPayoutAction
                     );
 
                 if (
-                    $payout->status
+                    $lockedPayout->status
                     !== PayoutStatus::Pending
                 ) {
                     throw ValidationException::withMessages([
                         'payout' => __(
-                            'Ce payout a déjà été traité.'
+                            'Ce versement a déjà été traité.'
                         ),
                     ]);
                 }
 
                 $membership =
-                    $payout
+                    $lockedPayout
                     ->drawEntry
                     ->sessionParticipant
                     ->membership;
@@ -62,20 +54,24 @@ final class PayPayoutAction
                     new Transaction();
 
                 $transaction->fill([
-                    'type' => 'payout',
-                    'direction' => 'out',
+                    'type' => TransactionType::Payout,
+
+                    'direction' => TransactionDirection::Debit,
+
                     'amount' =>
-                    $payout->amount,
+                    $lockedPayout->amount,
+
                     'description' => __(
                         'Versement au bénéficiaire de la tontine.'
                     ),
+
                     'occurred_at' =>
                     now(),
                 ]);
 
                 $transaction->session()
                     ->associate(
-                        $payout
+                        $lockedPayout
                             ->meeting
                             ->session_id,
                     );
@@ -93,19 +89,20 @@ final class PayPayoutAction
                 $transaction
                     ->transactionable()
                     ->associate(
-                        $payout,
+                        $lockedPayout,
                     );
 
                 $transaction->save();
 
-                $payout->update([
+                $lockedPayout->update([
                     'status' =>
                     PayoutStatus::Paid,
+
                     'paid_at' =>
                     now(),
                 ]);
 
-                return $payout->refresh();
+                return $lockedPayout->refresh();
             },
         );
     }

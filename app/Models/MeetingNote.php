@@ -31,6 +31,7 @@ class MeetingNote extends Model
     {
         return $this->belongsTo(
             MeetingAgendaItem::class,
+            'meeting_agenda_item_id',
         );
     }
 

@@ -17,7 +17,7 @@ final class CancelPayoutAction
         ) {
             throw ValidationException::withMessages([
                 'payout' => __(
-                    'Un payout déjà payé ne peut pas être annulé.'
+                    'Un versement déjà effectué ne peut pas être annulé directement.'
                 ),
             ]);
         }

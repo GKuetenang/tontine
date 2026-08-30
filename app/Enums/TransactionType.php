@@ -10,4 +10,5 @@ enum TransactionType: string
     case Penalty = 'penalty';
     case CashFund = 'cash_fund';
     case Donation = 'donation';
+    case Payout = 'payout';
 }

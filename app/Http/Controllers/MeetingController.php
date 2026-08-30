@@ -7,6 +7,7 @@ use App\Actions\Meetings\CloseMeetingAction;
 use App\Actions\Meetings\CreateMeetingAction;
 use App\Actions\Meetings\OpenMeetingAction;
 use App\Actions\Meetings\UpdateMeetingAction;
+use App\Actions\Payouts\BuildMeetingPayoutContextAction;
 use App\Data\MeetingData;
 use App\Data\SessionData;
 use App\Http\Requests\StoreMeetingRequest;
@@ -63,6 +64,7 @@ class MeetingController extends Controller
         Tontine $tontine,
         Session $session,
         Meeting $meeting,
+        BuildMeetingPayoutContextAction $buildPayoutContext,
     ): Response {
         Gate::authorize('view', $meeting);
 
@@ -79,12 +81,22 @@ class MeetingController extends Controller
             'decisions.agendaItem',
             'decisions.creator',
 
+            'payouts' => fn($query) =>
+            $query->latest(),
+
             'payouts.drawEntry.sessionParticipant.membership.user',
             'payouts.creator',
             'payouts.transactions',
+
+            'session.draw.entries.sessionParticipant.membership.user',
         ]);
 
-        return Inertia::render('meetings/show/index', [
+        $payoutContext =
+            $buildPayoutContext->execute(
+                $meeting,
+            );
+
+        return Inertia::render('meetings/show', [
             'tontine' => [
                 'id' => $tontine->id,
                 'name' => $tontine->name,
@@ -98,6 +110,8 @@ class MeetingController extends Controller
             'meeting' => fn() => MeetingData::fromModel(
                 $meeting,
             ),
+            'payoutContext' =>
+            $payoutContext,
         ]);
     }
 

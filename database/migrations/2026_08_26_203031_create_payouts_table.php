@@ -21,7 +21,7 @@ return new class extends Migration
                 ->constrained()
                 ->restrictOnDelete();
 
-            $table->unsignedBigInteger('amount');
+            $table->decimal('amount', 15, 2);
 
             $table->string('status');
 

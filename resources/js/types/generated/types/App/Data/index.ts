@@ -95,6 +95,10 @@ export type MeetingNote = {
     created_at: undefined;
     updated_at: undefined;
 };
+export type MeetingPayoutContext = {
+    expected: PayoutCandidate[];
+    available: PayoutCandidate[];
+};
 export type MeetingSummaryData = {
     id: number;
     slug: string;
@@ -129,13 +133,21 @@ export type MembershipRole = {
 };
 export type Payout = {
     id: number;
-    amount: number;
+    amount: string;
     status: PayoutStatus;
     paid_at: undefined | null;
     draw_entry: undefined | DrawEntry;
     creator: undefined | MemberUser | null;
     created_at: undefined;
     updated_at: undefined;
+};
+export type PayoutCandidate = {
+    draw_entry_id: number;
+    position: number;
+    entry_number: number;
+    session_participant_id: number;
+    member_name: string;
+    expected: boolean;
 };
 export type Session = {
     name: string;

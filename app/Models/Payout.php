@@ -21,6 +21,7 @@ class Payout extends Model
     protected function casts(): array
     {
         return [
+            'amount' => 'decimal:2',
             'status' => PayoutStatus::class,
             'paid_at' => 'immutable_datetime',
             'created_at' => 'immutable_datetime',

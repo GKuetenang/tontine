@@ -16,23 +16,8 @@ final class CreatePayoutAction
         Meeting $meeting,
         DrawEntry $drawEntry,
         User $creator,
-        int $amount,
+        string $amount,
     ): Payout {
-        if (
-            Payout::query()
-            ->where(
-                'draw_entry_id',
-                $drawEntry->id,
-            )
-            ->exists()
-        ) {
-            throw ValidationException::withMessages([
-                'draw_entry_id' => __(
-                    'Ce bénéficiaire a déjà reçu le versement correspondant à cette position.'
-                ),
-            ]);
-        }
-
         if (
             ! in_array(
                 $meeting->status,
@@ -45,38 +30,40 @@ final class CreatePayoutAction
         ) {
             throw ValidationException::withMessages([
                 'meeting' => __(
-                    'Le payout ne peut être créé que pour une réunion en cours ou terminée.'
+                    'Un versement ne peut être préparé que pour une réunion en cours ou terminée.'
+                ),
+            ]);
+        }
+
+        $drawEntry->loadMissing(
+            'draw',
+        );
+
+        if (
+            !$drawEntry
+                ->draw
+                ->isConfirmed()
+        ) {
+            throw ValidationException::withMessages([
+                'draw_entry_id' => __(
+                    'Le tirage doit être confirmé avant d’effectuer un versement.'
                 ),
             ]);
         }
 
         if (
-            $drawEntry
-            ->draw
-            ->session_id
+            $drawEntry->draw->session_id
             !== $meeting->session_id
         ) {
             throw ValidationException::withMessages([
                 'draw_entry_id' => __(
-                    'Cette entrée du tirage n’appartient pas à la session de cette réunion.'
-                ),
-            ]);
-        }
-
-        if ($amount <= 0) {
-            throw ValidationException::withMessages([
-                'amount' => __(
-                    'Le montant doit être supérieur à zéro.'
+                    'Ce bénéficiaire n’appartient pas au tirage de cette session.'
                 ),
             ]);
         }
 
         if (
             Payout::query()
-            ->where(
-                'meeting_id',
-                $meeting->id,
-            )
             ->where(
                 'draw_entry_id',
                 $drawEntry->id,
@@ -85,7 +72,7 @@ final class CreatePayoutAction
         ) {
             throw ValidationException::withMessages([
                 'draw_entry_id' => __(
-                    'Un payout existe déjà pour ce bénéficiaire lors de cette réunion.'
+                    'Cette part du tirage possède déjà un versement.'
                 ),
             ]);
         }
@@ -95,6 +82,7 @@ final class CreatePayoutAction
 
         $payout->fill([
             'amount' => $amount,
+
             'status' =>
             PayoutStatus::Pending,
         ]);

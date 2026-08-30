@@ -27,7 +27,7 @@ class Transaction extends Model
         return [
             'type' => TransactionType::class,
             'direction' => TransactionDirection::class,
-            'amount' => 'integer',
+            'amount' => 'decimal:2',
             'occurred_at' => 'immutable_datetime',
             'created_at' => 'immutable_datetime',
             'updated_at' => 'immutable_datetime',

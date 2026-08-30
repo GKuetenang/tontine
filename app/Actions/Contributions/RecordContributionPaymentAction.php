@@ -37,14 +37,10 @@ final class RecordContributionPaymentAction
                     ]);
                 }
 
-                if (! in_array(
-                    $contribution->meeting->status,
-                    [
-                        MeetingStatus::InProgress,
-                        MeetingStatus::Completed,
-                    ],
-                    true,
-                )) {
+                if (
+                    $contribution->meeting->status
+                    !== MeetingStatus::InProgress
+                ) {
                     throw ValidationException::withMessages([
                         'contribution' => __(
                             'Cette cotisation ne peut pas encore recevoir de paiement.'
@@ -68,7 +64,7 @@ final class RecordContributionPaymentAction
                 $meeting =
                     $contribution->meeting;
 
-                $transaction = new Transaction();
+                $transaction = new Transaction;
 
                 $transaction->fill([
                     'type' => TransactionType::Contribution,

@@ -2,16 +2,13 @@
 
 use App\Actions\Contributions\RecordContributionPaymentAction;
 use App\Actions\Meetings\OpenMeetingAction;
-use App\Enums\AttendanceStatus;
 use App\Enums\ContributionStatus;
-use App\Enums\MeetingStatus;
 use App\Enums\TransactionDirection;
 use App\Enums\TransactionType;
 use App\Models\Contribution;
 use App\Models\Meeting;
 use App\Models\Session;
 use App\Models\SessionParticipant;
-use App\Models\Transaction;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -96,19 +93,19 @@ test('inactive participant does not receive a contribution', function (): void {
 
     $activeParticipant =
         SessionParticipant::factory()
-        ->create([
-            'session_id' => $session->id,
-            'contribution_amount' => 40_000,
-            'is_active' => true,
-        ]);
+            ->create([
+                'session_id' => $session->id,
+                'contribution_amount' => 40_000,
+                'is_active' => true,
+            ]);
 
     $inactiveParticipant =
         SessionParticipant::factory()
-        ->inactive()
-        ->create([
-            'session_id' => $session->id,
-            'contribution_amount' => 40_000,
-        ]);
+            ->inactive()
+            ->create([
+                'session_id' => $session->id,
+                'contribution_amount' => 40_000,
+            ]);
 
     app(OpenMeetingAction::class)
         ->execute($meeting);
@@ -116,16 +113,14 @@ test('inactive participant does not receive a contribution', function (): void {
     /** @var TestCase $this */
     $this->assertDatabaseHas('contributions', [
         'meeting_id' => $meeting->id,
-        'session_participant_id' =>
-        $activeParticipant->id,
+        'session_participant_id' => $activeParticipant->id,
         'amount_due' => 40_000,
     ]);
 
     /** @var TestCase $this */
     $this->assertDatabaseMissing('contributions', [
         'meeting_id' => $meeting->id,
-        'session_participant_id' =>
-        $inactiveParticipant->id,
+        'session_participant_id' => $inactiveParticipant->id,
     ]);
 });
 
@@ -234,19 +229,19 @@ test('a contribution payment creates a credit transaction', function (): void {
 
     $transaction =
         app(RecordContributionPaymentAction::class)
-        ->execute(
-            contribution: $contribution,
-            creator: $creator,
-            amount: 20_000,
-            occurredAt: CarbonImmutable::now(),
-        );
+            ->execute(
+                contribution: $contribution,
+                creator: $creator,
+                amount: 20_000,
+                occurredAt: CarbonImmutable::now(),
+            );
 
     expect($transaction)
         ->type->toBe(TransactionType::Contribution)
         ->direction->toBe(
             TransactionDirection::Credit,
         )
-        ->amount->toBe(20_000);
+        ->amount->toBe('20000.00');
 });
 
 test('transaction belongs to correct session and membership', function (): void {
@@ -257,12 +252,12 @@ test('transaction belongs to correct session and membership', function (): void 
 
     $transaction =
         app(RecordContributionPaymentAction::class)
-        ->execute(
-            contribution: $contribution,
-            creator: $creator,
-            amount: 20_000,
-            occurredAt: CarbonImmutable::now(),
-        );
+            ->execute(
+                contribution: $contribution,
+                creator: $creator,
+                amount: 20_000,
+                occurredAt: CarbonImmutable::now(),
+            );
 
     expect($transaction)
         ->session_id
@@ -287,18 +282,17 @@ test('transaction is linked polymorphically to the contribution', function (): v
 
     $transaction =
         app(RecordContributionPaymentAction::class)
-        ->execute(
-            contribution: $contribution,
-            creator: $creator,
-            amount: 20_000,
-            occurredAt: CarbonImmutable::now(),
-        );
+            ->execute(
+                contribution: $contribution,
+                creator: $creator,
+                amount: 20_000,
+                occurredAt: CarbonImmutable::now(),
+            );
 
     expect($transaction->transactionable)
         ->toBeInstanceOf(Contribution::class)
         ->id->toBe($contribution->id);
 });
-
 
 function contributionForOpenMeeting(
     int $amountDue = 40_000,

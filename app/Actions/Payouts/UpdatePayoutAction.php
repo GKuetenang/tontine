@@ -10,7 +10,7 @@ final class UpdatePayoutAction
 {
     public function execute(
         Payout $payout,
-        int $amount,
+        string $amount,
     ): Payout {
         if (
             $payout->status
@@ -18,15 +18,7 @@ final class UpdatePayoutAction
         ) {
             throw ValidationException::withMessages([
                 'payout' => __(
-                    'Seul un payout en attente peut être modifié.'
-                ),
-            ]);
-        }
-
-        if ($amount <= 0) {
-            throw ValidationException::withMessages([
-                'amount' => __(
-                    'Le montant doit être supérieur à zéro.'
+                    'Seul un versement en attente peut être modifié.'
                 ),
             ]);
         }

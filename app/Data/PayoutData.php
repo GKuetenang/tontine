@@ -16,7 +16,7 @@ class PayoutData extends Data
 {
     public function __construct(
         public int $id,
-        public int $amount,
+        public string $amount,
         public PayoutStatus $status,
         #[WithTransformer(
             DateTimeInterfaceTransformer::class,

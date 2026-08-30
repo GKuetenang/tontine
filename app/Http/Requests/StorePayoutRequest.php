@@ -12,7 +12,7 @@ class StorePayoutRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -31,8 +31,8 @@ class StorePayoutRequest extends FormRequest
 
             'amount' => [
                 'required',
-                'integer',
-                'min:1',
+                'decimal:0,2',
+                'gt:0',
             ],
         ];
     }

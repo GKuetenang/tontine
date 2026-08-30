@@ -51,17 +51,20 @@ class PayoutController extends Controller
 
         $action->execute(
             meeting: $meeting,
+
             drawEntry: $drawEntry,
+
             creator: $request->user(),
-            amount: $request->integer(
+
+            amount: $request->string(
                 'amount',
-            ),
+            )->toString(),
         );
 
         return Inertia::flash(
             'success',
             __(
-                'Le payout a été créé avec succès.'
+                'Le versement a été créé avec succès.'
             ),
         )->back();
     }
@@ -87,15 +90,16 @@ class PayoutController extends Controller
 
         $action->execute(
             payout: $payout,
-            amount: $request->integer(
+
+            amount: $request->string(
                 'amount',
-            ),
+            )->toString(),
         );
 
         return Inertia::flash(
             'success',
             __(
-                'Le payout a été modifié avec succès.'
+                'Le versement a été modifié avec succès.'
             ),
         )->back();
     }
@@ -120,13 +124,14 @@ class PayoutController extends Controller
 
         $action->execute(
             payout: $payout,
+
             user: request()->user(),
         );
 
         return Inertia::flash(
             'success',
             __(
-                'Le bénéficiaire a été payé avec succès.'
+                'Le versement a été effectué avec succès.'
             ),
         )->back();
     }
@@ -156,7 +161,7 @@ class PayoutController extends Controller
         return Inertia::flash(
             'success',
             __(
-                'Le payout a été annulé.'
+                'Le versement a été annulé.'
             ),
         )->back();
     }

@@ -31,7 +31,7 @@ return new class extends Migration
 
             $table->string('direction');
 
-            $table->unsignedBigInteger('amount');
+            $table->decimal('amount', 15, 2);
 
             $table->text('description')
                 ->nullable();

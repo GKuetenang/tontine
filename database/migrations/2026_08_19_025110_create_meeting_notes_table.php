@@ -21,9 +21,8 @@ return new class extends Migration
                 MeetingAgendaItem::class,
             )
                 ->nullable()
-                ->constrained(column: 'agenda_item_id')
+                ->constrained()
                 ->nullOnDelete();
-
 
             $table->longText('content');
 

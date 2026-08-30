@@ -16,18 +16,24 @@ export function toUrl(url: NonNullable<InertiaLinkProps['href']>): string {
 }
 
 export function formatCurrency(
-    amount?: number | null,
+    amount?: number | string | null,
     currency = 'XAF',
+    locale = 'fr-FR',
 ): string {
     if (amount == null) {
         return '—';
     }
 
-    return new Intl.NumberFormat('fr-FR', {
+    const value = Number(amount);
+
+    if (!Number.isFinite(value)) {
+        return '—';
+    }
+
+    return new Intl.NumberFormat(locale, {
         style: 'currency',
         currency,
-        maximumFractionDigits: 0,
-    }).format(amount);
+    }).format(value);
 }
 
 export function getTontineNavItems(

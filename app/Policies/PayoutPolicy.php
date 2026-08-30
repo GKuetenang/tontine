@@ -20,9 +20,7 @@ class PayoutPolicy
             ->tontine;
 
         return $tontine
-            ->hasActiveMembership(
-                $user,
-            )
+            ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
                 tontine: $tontine,
@@ -40,9 +38,7 @@ class PayoutPolicy
             ->tontine;
 
         return $tontine
-            ->hasActiveMembership(
-                $user,
-            )
+            ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
                 tontine: $tontine,
@@ -54,47 +50,39 @@ class PayoutPolicy
         User $user,
         Payout $payout,
     ): bool {
-        $tontine =
-            $payout
-            ->meeting
-            ->session
-            ->tontine;
-
-        return $tontine
-            ->hasActiveMembership(
-                $user,
-            )
-            && $this->can(
-                user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::UpdatePayouts,
-            );
+        return $this->canForPayout(
+            user: $user,
+            payout: $payout,
+            permission: TontinePermission::UpdatePayouts,
+        );
     }
 
     public function pay(
         User $user,
         Payout $payout,
     ): bool {
-        $tontine =
-            $payout
-            ->meeting
-            ->session
-            ->tontine;
-
-        return $tontine
-            ->hasActiveMembership(
-                $user,
-            )
-            && $this->can(
-                user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::PayPayouts,
-            );
+        return $this->canForPayout(
+            user: $user,
+            payout: $payout,
+            permission: TontinePermission::PayPayouts,
+        );
     }
 
     public function cancel(
         User $user,
         Payout $payout,
+    ): bool {
+        return $this->canForPayout(
+            user: $user,
+            payout: $payout,
+            permission: TontinePermission::CancelPayouts,
+        );
+    }
+
+    private function canForPayout(
+        User $user,
+        Payout $payout,
+        TontinePermission $permission,
     ): bool {
         $tontine =
             $payout
@@ -103,13 +91,11 @@ class PayoutPolicy
             ->tontine;
 
         return $tontine
-            ->hasActiveMembership(
-                $user,
-            )
+            ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
                 tontine: $tontine,
-                permission: TontinePermission::CancelPayouts,
+                permission: $permission,
             );
     }
 

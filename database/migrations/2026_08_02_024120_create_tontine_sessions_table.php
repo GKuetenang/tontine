@@ -24,6 +24,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->unsignedBigInteger('default_contribution_amount')
                 ->nullable();
+            $table->unsignedSmallInteger(
+                'beneficiaries_per_meeting',
+            )
+                ->default(1);
             $table->string('draw_allocation_mode')
                 ->default(DrawAllocationMode::OnePerMember->value);
             $table->unsignedBigInteger('base_contribution_amount')->nullable();
