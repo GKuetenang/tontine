@@ -19,6 +19,7 @@ return new class extends Migration
 
             $table->foreignIdFor(
                 MeetingAgendaItem::class,
+                'meeting_agenda_item_id'
             )
                 ->nullable()
                 ->constrained()

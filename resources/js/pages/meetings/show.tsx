@@ -202,7 +202,7 @@ export default withAppLayout<Props>(
                             />
                         </TabsContent>
 
-                        <TabsContent value="payouts">
+                        <TabsContent value="payouts" className='mt-6'>
                             <MeetingPayouts
                                 tontine={tontine}
                                 session={session}
