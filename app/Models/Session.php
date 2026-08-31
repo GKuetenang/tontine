@@ -87,6 +87,21 @@ class Session extends Model
         return $this->hasMany(SessionParticipant::class);
     }
 
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function donations(): HasMany
+    {
+        return $this->hasMany(Donation::class);
+    }
+
+    public function loans(): HasMany
+    {
+        return $this->hasMany(Loan::class);
+    }
+
     public function activeParticipants(): HasMany
     {
         return $this

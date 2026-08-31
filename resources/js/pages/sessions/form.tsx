@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
+import { Textarea } from '@/components/ui/textarea';
 import { parseDate } from '@/lib';
 import sessions from '@/routes/tontines/sessions';
 import type { Session } from '@/types';
@@ -39,6 +40,7 @@ export function EditSessionForm({
     draw_allocation_modes,
 }: Props) {
     const [open, setOpen] = useState(false);
+    const configurationLocked = session.status === 'active';
 
     const [startDate, setStartDate] = useState<Date | undefined>(() =>
         parseDate(session?.start_at),
@@ -80,11 +82,26 @@ export function EditSessionForm({
                     {({ errors, processing }) => (
                         <div className="space-y-4">
                             <DialogHeader>
-                                <DialogTitle>Ajouter une session</DialogTitle>
+                                <DialogTitle>
+                                    {session.id
+                                        ? 'Modifier la session'
+                                        : 'Ajouter une session'}
+                                </DialogTitle>
                                 <DialogDescription>
-                                    Ajouter une session de tontine
+                                    {session.id
+                                        ? 'Mettre à jour les informations de la session.'
+                                        : 'Ajouter une session à la tontine.'}
                                 </DialogDescription>
                             </DialogHeader>
+
+                            {errors.session && (
+                                <div
+                                    role="alert"
+                                    className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+                                >
+                                    {errors.session}
+                                </div>
+                            )}
 
                             <FormField
                                 error={errors['name']}
@@ -97,6 +114,19 @@ export function EditSessionForm({
                                     name="name"
                                     defaultValue={session?.name}
                                     aria-invalid={!!errors['name']}
+                                />
+                            </FormField>
+
+                            <FormField
+                                error={errors.description}
+                                label="Description"
+                                htmlFor="description"
+                                optional
+                            >
+                                <Textarea
+                                    id="description"
+                                    name="description"
+                                    defaultValue={session.description ?? ''}
                                 />
                             </FormField>
 
@@ -116,6 +146,7 @@ export function EditSessionForm({
                                     aria-invalid={
                                         !!errors['default_contribution_amount']
                                     }
+                                    readOnly={configurationLocked}
                                 />
                             </FormField>
                             <FormField
@@ -134,6 +165,7 @@ export function EditSessionForm({
                                     aria-invalid={
                                         !!errors['beneficiaries_per_meeting']
                                     }
+                                    readOnly={configurationLocked}
                                 />
                             </FormField>
 
@@ -150,7 +182,15 @@ export function EditSessionForm({
                                     aria-invalid={
                                         !!errors['draw_allocation_mode']
                                     }
+                                    disabled={configurationLocked}
                                 />
+                                {configurationLocked && (
+                                    <input
+                                        type="hidden"
+                                        name="draw_allocation_mode"
+                                        value={session.draw_allocation_mode}
+                                    />
+                                )}
                             </FormField>
 
                             <FormField

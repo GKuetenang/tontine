@@ -1,11 +1,15 @@
 import type {
     ContributionStatus,
+    DonationStatus,
+    LoanStatus,
     MeetingStatus,
     AttendanceStatus,
     MembershipStatus,
     PayoutStatus,
     SessionStatus,
     DrawAllocationMode,
+    TransactionType,
+    TransactionDirection,
 } from '../Enums';
 export type Contribution = {
     id: number;
@@ -16,6 +20,15 @@ export type Contribution = {
     session_participant: undefined | SessionParticipant;
     created_at: undefined;
     updated_at: undefined;
+};
+export type Donation = {
+    id: number;
+    amount: string;
+    reason: string;
+    status: DonationStatus;
+    member_name: string;
+    paid_at: undefined | null;
+    created_at: undefined;
 };
 export type Draw = {
     id: number;
@@ -38,6 +51,18 @@ export type ExpectedDrawMeeting = {
     number: number;
     slug: string;
     scheduled_at: undefined;
+};
+export type Loan = {
+    id: number;
+    member_name: string;
+    principal_amount: string;
+    interest_rate: string;
+    term_months: number;
+    interest_amount: string;
+    total_due: string;
+    due_at: undefined;
+    reason: string | null;
+    status: LoanStatus;
 };
 export type Meeting = {
     id: number;
@@ -199,6 +224,8 @@ export type Tontine = {
     name: string;
     slug: undefined | string;
     member_number_prefix: string;
+    default_loan_interest_rate: string;
+    default_loan_term_months: number;
     created_at: undefined | undefined;
     updated_at: undefined | undefined;
     image: undefined | undefined | string;
@@ -219,4 +246,15 @@ export type TontineAbilitiesData = {
     update: boolean;
     delete: boolean;
     view_memberships: boolean;
+};
+export type Transaction = {
+    id: number;
+    type: TransactionType;
+    direction: TransactionDirection;
+    amount: string;
+    description: string | null;
+    member_name: string | null;
+    creator_name: string | null;
+    source_type: string | null;
+    occurred_at: undefined;
 };

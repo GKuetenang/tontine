@@ -76,8 +76,14 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                     <SortableTableHead field="member_number_prefix">
                                         Préfixe
                                     </SortableTableHead>
-                                    <SortableTableHead field="default_contibution_amount">
-                                        Montant par defaut
+                                    <SortableTableHead field="default_contribution_amount">
+                                        Cotisation par défaut
+                                    </SortableTableHead>
+                                    <SortableTableHead field="default_loan_interest_rate">
+                                        Taux des prêts
+                                    </SortableTableHead>
+                                    <SortableTableHead field="default_loan_term_months">
+                                        Échéance
                                     </SortableTableHead>
                                     <TableHead className="text-end"></TableHead>
                                 </TableRow>
@@ -121,7 +127,14 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                         <TableCell>
                                             {formatCurrency(
                                                 item.default_contribution_amount,
+                                                item.currency,
                                             )}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.default_loan_interest_rate} %
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.default_loan_term_months} mois
                                         </TableCell>
                                         <TableCell>
                                             <Actions tontine={item} />

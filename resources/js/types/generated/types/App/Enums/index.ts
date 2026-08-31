@@ -1,8 +1,10 @@
 export type AttendanceStatus =
     'pending' | 'present' | 'absent' | 'excused' | 'late';
 export type ContributionStatus = 'unpaid' | 'partial' | 'paid';
+export type DonationStatus = 'pending' | 'paid' | 'cancelled';
 export type DrawAllocationMode =
     'one_per_member' | 'based_on_contribution' | 'custom';
+export type LoanStatus = 'pending' | 'active' | 'repaid' | 'cancelled';
 export type MeetingStatus =
     'scheduled' | 'in_progress' | 'completed' | 'cancelled';
 export type MembershipStatus = 'active' | 'inactive' | 'suspended' | 'left';
@@ -67,6 +69,10 @@ export type TontinePermission =
     | 'contributions.update'
     | 'contributions.delete'
     | 'contributions.pay'
+    | 'donations.view'
+    | 'donations.create'
+    | 'donations.pay'
+    | 'donations.cancel'
     | 'loans.view'
     | 'loans.create'
     | 'loans.approve'

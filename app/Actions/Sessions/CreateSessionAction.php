@@ -61,6 +61,7 @@ final class CreateSessionAction
                 'default_contribution_amount' => $defaultContributionAmount,
                 'draw_allocation_mode' => $allocationMode,
                 'base_contribution_amount' => $baseContributionAmount,
+                'beneficiaries_per_meeting' => $attributes['beneficiaries_per_meeting'] ?? 1,
                 'start_at' => $attributes['start_at'] ?? null,
                 'end_at' => $attributes['end_at'] ?? null,
             ]);

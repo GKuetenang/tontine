@@ -2,6 +2,9 @@
 
 namespace App\Policies;
 
+use App\Enums\TontinePermission;
+use App\Models\Session;
+use App\Models\Tontine;
 use App\Models\Transaction;
 use App\Models\User;
 
@@ -10,9 +13,12 @@ class TransactionPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user, Session $session): bool
     {
-        return false;
+        $tontine = $session->tontine;
+
+        return $tontine->hasActiveMembership($user)
+            && $this->can($user, $tontine, TontinePermission::ViewAccounting);
     }
 
     /**
@@ -61,5 +67,22 @@ class TransactionPolicy
     public function forceDelete(User $user, Transaction $transaction): bool
     {
         return false;
+    }
+
+    private function can(User $user, Tontine $tontine, TontinePermission $permission): bool
+    {
+        $previousTeamId = getPermissionsTeamId();
+
+        try {
+            setPermissionsTeamId($tontine->id);
+            $user->unsetRelation('roles');
+            $user->unsetRelation('permissions');
+
+            return $user->can($permission->value);
+        } finally {
+            setPermissionsTeamId($previousTeamId);
+            $user->unsetRelation('roles');
+            $user->unsetRelation('permissions');
+        }
     }
 }

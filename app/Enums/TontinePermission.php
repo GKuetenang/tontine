@@ -114,6 +114,11 @@ enum TontinePermission: string
     case DeleteContributions = 'contributions.delete';
     case RecordContributionPayments = 'contributions.pay';
 
+    case ViewDonations = 'donations.view';
+    case CreateDonations = 'donations.create';
+    case PayDonations = 'donations.pay';
+    case CancelDonations = 'donations.cancel';
+
     /*
     |--------------------------------------------------------------------------
     | Prêts
@@ -223,6 +228,11 @@ enum TontinePermission: string
             self::CreateContributions => __('Enregistrer les cotisations'),
             self::UpdateContributions => __('Modifier les cotisations'),
             self::DeleteContributions => __('Supprimer les cotisations'),
+
+            self::ViewDonations => __('Consulter les dons'),
+            self::CreateDonations => __('Créer les dons'),
+            self::PayDonations => __('Effectuer les dons'),
+            self::CancelDonations => __('Annuler les dons'),
 
             self::ViewLoans => __('Consulter les prêts'),
             self::CreateLoans => __('Créer les prêts'),

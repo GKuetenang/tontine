@@ -103,6 +103,58 @@ export default withAppLayout<Props>(breadcrumbs, ({ tontine }) => {
                                             }
                                         />
                                     </FormField>
+                                    <div className="grid gap-4 sm:grid-cols-2">
+                                        <FormField
+                                            error={
+                                                errors[
+                                                    'default_loan_interest_rate'
+                                                ]
+                                            }
+                                            label="Taux d’intérêt des prêts (%)"
+                                            htmlFor="default_loan_interest_rate"
+                                            required
+                                        >
+                                            <Input
+                                                id="default_loan_interest_rate"
+                                                name="default_loan_interest_rate"
+                                                inputMode="decimal"
+                                                defaultValue={
+                                                    tontine.default_loan_interest_rate
+                                                }
+                                                aria-invalid={
+                                                    !!errors[
+                                                        'default_loan_interest_rate'
+                                                    ]
+                                                }
+                                            />
+                                        </FormField>
+                                        <FormField
+                                            error={
+                                                errors[
+                                                    'default_loan_term_months'
+                                                ]
+                                            }
+                                            label="Échéance des prêts (mois)"
+                                            htmlFor="default_loan_term_months"
+                                            required
+                                        >
+                                            <Input
+                                                id="default_loan_term_months"
+                                                name="default_loan_term_months"
+                                                type="number"
+                                                min={1}
+                                                max={120}
+                                                defaultValue={
+                                                    tontine.default_loan_term_months
+                                                }
+                                                aria-invalid={
+                                                    !!errors[
+                                                        'default_loan_term_months'
+                                                    ]
+                                                }
+                                            />
+                                        </FormField>
+                                    </div>
                                     <FormField
                                         error={
                                             errors[

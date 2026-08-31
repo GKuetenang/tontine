@@ -84,6 +84,11 @@ enum TontineRole: string
                 TontinePermission::CreateContributions,
                 TontinePermission::UpdateContributions,
 
+                TontinePermission::ViewDonations,
+                TontinePermission::CreateDonations,
+                TontinePermission::PayDonations,
+                TontinePermission::CancelDonations,
+
                 TontinePermission::ViewLoans,
                 TontinePermission::CreateLoans,
                 TontinePermission::ApproveLoans,

@@ -5,6 +5,8 @@ import {
     CalendarDaysIcon,
     ChartNoAxesColumnIcon,
     CircleDollarSignIcon,
+    HandHeartIcon,
+    LandmarkIcon,
     LayoutDashboardIcon,
     SettingsIcon,
     ShuffleIcon,
@@ -116,6 +118,30 @@ export function getSessionNavItems(
                 session: session.slug,
             }),
             icon: ShuffleIcon,
+        },
+        {
+            title: 'Dons',
+            href: sessions.donations.index({
+                tontine: tontine.slug!,
+                session: session.slug,
+            }),
+            icon: HandHeartIcon,
+        },
+        {
+            title: 'Transactions',
+            href: sessions.transactions.index({
+                tontine: tontine.slug!,
+                session: session.slug,
+            }),
+            icon: ChartNoAxesColumnIcon,
+        },
+        {
+            title: 'Prêts',
+            href: sessions.loans.index({
+                tontine: tontine.slug!,
+                session: session.slug,
+            }),
+            icon: LandmarkIcon,
         },
     ];
 }

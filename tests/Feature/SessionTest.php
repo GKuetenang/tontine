@@ -1,15 +1,19 @@
 <?php
 
+use App\Actions\Memberships\CreateMembershipAction;
 use App\Actions\Sessions\ActivateSessionAction;
 use App\Actions\Sessions\CloseSessionAction;
 use App\Actions\Sessions\CreateSessionAction;
 use App\Actions\Sessions\DeleteSessionAction;
 use App\Actions\Sessions\UpdateSessionAction;
+use App\Actions\Tontines\CreateDefaultTontineRolesAction;
 use App\Enums\SessionStatus;
 use App\Models\Session;
 use App\Models\SessionParticipant;
 use App\Models\Tontine;
+use App\Models\User;
 use Carbon\CarbonImmutable;
+use Database\Seeders\PermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 
@@ -27,6 +31,7 @@ test('a session can be created for a tontine', function (): void {
             'description' => 'Session annuelle',
             'start_at' => '2027-01-01',
             'end_at' => '2027-12-31',
+            'beneficiaries_per_meeting' => 3,
         ],
     );
 
@@ -37,6 +42,7 @@ test('a session can be created for a tontine', function (): void {
         ->description->toBe('Session annuelle')
         ->status->toBe(SessionStatus::Draft)
         ->default_contribution_amount->toBe(50_000)
+        ->beneficiaries_per_meeting->toBe(3)
         ->activated_at->toBeNull()
         ->closed_at->toBeNull();
 
@@ -181,14 +187,45 @@ test('updating a draft session does not modify its slug', function (): void {
             'description' => 'Nouvelle description',
             'start_at' => '2027-02-01',
             'end_at' => '2027-11-30',
+            'beneficiaries_per_meeting' => 2,
         ],
     );
 
     expect($updatedSession)
         ->name->toBe('Exercice annuel 2027')
         ->description->toBe('Nouvelle description')
+        ->beneficiaries_per_meeting->toBe(2)
         ->slug->toBe($originalSlug)
         ->status->toBe(SessionStatus::Draft);
+});
+
+test('a draft session can be updated through the form endpoint', function (): void {
+    app(PermissionSeeder::class)->run();
+    $president = User::factory()->create();
+    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
+    app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
+    $session = Session::factory()->for($tontine)->draft()->create([
+        'name' => 'Ancien nom',
+        'beneficiaries_per_meeting' => 1,
+    ]);
+
+    $this->actingAs($president)
+        ->put(route('tontines.sessions.update', [$tontine, $session]), [
+            'name' => 'Nouveau nom',
+            'default_contribution_amount' => 75000,
+            'beneficiaries_per_meeting' => 3,
+            'draw_allocation_mode' => 'one_per_member',
+            'start_at' => '2027-01-01 09:00:00',
+            'end_at' => '2027-12-31 09:00:00',
+        ])
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
+
+    expect($session->refresh())
+        ->name->toBe('Nouveau nom')
+        ->default_contribution_amount->toBe(75000)
+        ->beneficiaries_per_meeting->toBe(3);
 });
 
 test('a closed session cannot be updated', function (): void {

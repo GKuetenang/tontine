@@ -34,19 +34,9 @@ class Transaction extends Model
         ];
     }
 
-    public function tontine(): BelongsTo
-    {
-        return $this->belongsTo(Tontine::class);
-    }
-
     public function session(): BelongsTo
     {
         return $this->belongsTo(Session::class);
-    }
-
-    public function meeting(): BelongsTo
-    {
-        return $this->belongsTo(Meeting::class);
     }
 
     public function membership(): BelongsTo

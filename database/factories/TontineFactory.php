@@ -28,6 +28,8 @@ class TontineFactory extends Factory
             'member_number_prefix' => 'MEM',
             'slug' => Str::slug($name).'-'.Str::random(10),
             'description' => $this->faker->text(),
+            'default_loan_interest_rate' => '10.00',
+            'default_loan_term_months' => 3,
         ];
     }
 

@@ -29,6 +29,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
     'currency',
     'member_number_prefix',
     'default_contribution_amount',
+    'default_loan_interest_rate',
+    'default_loan_term_months',
 ])]
 #[UsePolicy(TontinePolicy::class)]
 class Tontine extends Model implements HasMedia
@@ -47,6 +49,9 @@ class Tontine extends Model implements HasMedia
         'is_active',
         'is_public',
         'currency',
+        'default_contribution_amount',
+        'default_loan_interest_rate',
+        'default_loan_term_months',
     ];
 
     protected $casts = [
@@ -56,6 +61,8 @@ class Tontine extends Model implements HasMedia
         'created_at' => 'immutable_datetime',
         'updated_at' => 'immutable_datetime',
         'default_contribution_amount' => 'integer',
+        'default_loan_interest_rate' => 'decimal:2',
+        'default_loan_term_months' => 'integer',
     ];
 
     public function getRouteKeyName(): string

@@ -28,7 +28,7 @@ class SessionController extends Controller
             [Session::class, $tontine],
         );
 
-        $query = Session::query()
+        $query = $tontine->sessions()
             ->withCount('participants')
             ->orderFromRequest($request);
         $search_query = $request->input('q');

@@ -62,6 +62,16 @@ final class UpdateSessionAction
                     'draw_allocation_mode' => $allocationMode,
 
                     'base_contribution_amount' => $baseContributionAmount,
+
+                    'beneficiaries_per_meeting' => $attributes['beneficiaries_per_meeting']
+                        ?? $session->beneficiaries_per_meeting,
+                ]);
+            } elseif (
+                isset($attributes['beneficiaries_per_meeting'])
+                && (int) $attributes['beneficiaries_per_meeting'] !== $session->beneficiaries_per_meeting
+            ) {
+                throw ValidationException::withMessages([
+                    'session' => __('La configuration du tirage ne peut plus être modifiée après l’activation de la session.'),
                 ]);
             }
 

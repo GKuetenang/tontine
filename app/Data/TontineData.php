@@ -25,6 +25,8 @@ class TontineData extends Data
         public string $name,
         public Optional|string $slug,
         public string $member_number_prefix,
+        public string $default_loan_interest_rate,
+        public int $default_loan_term_months,
         #[WithTransformer(
             DateTimeInterfaceTransformer::class,
             format: 'Y-m-d\TH:i:s',
@@ -62,6 +64,8 @@ class TontineData extends Data
                 'slug',
                 'member_number_prefix',
                 'default_contribution_amount',
+                'default_loan_interest_rate',
+                'default_loan_term_months',
                 'currency',
                 'description',
                 'is_active',
@@ -101,6 +105,8 @@ class TontineData extends Data
                         }
                     )->ignore($request->route()->parameter('tontine')),
             ],
+            'default_loan_interest_rate' => ['required', 'decimal:0,2', 'gte:0', 'lte:100'],
+            'default_loan_term_months' => ['required', 'integer', 'min:1', 'max:120'],
         ];
     }
 

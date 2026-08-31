@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ContributionPaymentController;
+use App\Http\Controllers\DonationController;
 use App\Http\Controllers\DrawController;
+use App\Http\Controllers\LoanController;
 use App\Http\Controllers\MeetingAgendaItemController;
 use App\Http\Controllers\MeetingAttendanceController;
 use App\Http\Controllers\MeetingController;
@@ -13,6 +15,7 @@ use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SessionParticipantController;
 use App\Http\Controllers\TontineController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
@@ -52,6 +55,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'tontines/{tontine:slug}/sessions/{session:slug}/activate',
             [SessionController::class, 'activate'],
         )->name('tontines.sessions.activate');
+
+        Route::get(
+            'tontines/{tontine:slug}/sessions/{session:slug}/transactions',
+            [TransactionController::class, 'index'],
+        )->name('tontines.sessions.transactions.index');
+
+        Route::prefix('tontines/{tontine:slug}/sessions/{session:slug}/donations')
+            ->name('tontines.sessions.donations.')
+            ->scopeBindings()
+            ->group(function (): void {
+                Route::get('/', [DonationController::class, 'index'])->name('index');
+                Route::post('/', [DonationController::class, 'store'])->name('store');
+                Route::patch('/{donation}/pay', [DonationController::class, 'pay'])
+                    ->whereNumber('donation')->name('pay');
+                Route::patch('/{donation}/cancel', [DonationController::class, 'cancel'])
+                    ->whereNumber('donation')->name('cancel');
+            });
+
+        Route::prefix('tontines/{tontine:slug}/sessions/{session:slug}/loans')
+            ->name('tontines.sessions.loans.')
+            ->scopeBindings()
+            ->group(function (): void {
+                Route::get('/', [LoanController::class, 'index'])->name('index');
+                Route::post('/', [LoanController::class, 'store'])->name('store');
+                Route::patch('/{loan}/approve', [LoanController::class, 'approve'])->whereNumber('loan')->name('approve');
+            });
 
         Route::patch(
             'tontines/{tontine:slug}/sessions/{session:slug}/close',

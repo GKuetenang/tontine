@@ -136,4 +136,35 @@ class WithUserSearchController extends Controller
                 ],
             );
     }
+
+    protected function membershipsInSession(): Collection
+    {
+        $searchQuery = request('q_search');
+
+        if (! is_string($searchQuery) || mb_strlen($searchQuery) < 2) {
+            return collect();
+        }
+
+        /** @var Session $session */
+        $session = request('session');
+
+        return Membership::query()
+            ->select(['memberships.id', 'memberships.user_id', 'memberships.member_number'])
+            ->with('user:id,name,email')
+            ->whereHas('sessionParticipations', fn ($query) => $query
+                ->where('session_id', $session->id)
+                ->active())
+            ->whereHas('user', fn ($query) => $query
+                ->where('name', 'like', "%{$searchQuery}%")
+                ->orWhere('email', 'like', "%{$searchQuery}%"))
+            ->orderBy('memberships.id')
+            ->limit(10)
+            ->get()
+            ->map(fn (Membership $membership): array => [
+                'id' => $membership->id,
+                'name' => $membership->user->name,
+                'email' => $membership->user->email,
+                'member_number' => $membership->member_number,
+            ]);
+    }
 }

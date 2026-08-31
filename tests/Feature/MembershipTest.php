@@ -36,6 +36,8 @@ test('creating a tontine automatically creates the creator membership as preside
         ->post(route('tontines.store'), [
             'name' => 'AJERM',
             'member_number_prefix' => 'AJERM',
+            'default_loan_interest_rate' => '10.00',
+            'default_loan_term_months' => 5,
             'description' => 'Association des jeunes.',
         ]);
 

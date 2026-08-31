@@ -25,6 +25,8 @@ return new class extends Migration
             $table->boolean('is_verified')->default(false);
             $table->string('currency', 3)->default('XAF');
             $table->unsignedBigInteger('default_contribution_amount')->nullable();
+            $table->decimal('default_loan_interest_rate', 7, 2)->default(0);
+            $table->unsignedSmallInteger('default_loan_term_months')->default(1);
             $table->softDeletes();
             $table->timestamps();
             $table->unique(['user_id', 'name']);
