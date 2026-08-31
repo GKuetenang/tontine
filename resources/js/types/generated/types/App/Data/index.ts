@@ -99,6 +99,22 @@ export type MeetingPayoutContext = {
     expected: PayoutCandidate[];
     available: PayoutCandidate[];
 };
+export type MeetingReport = {
+    meeting: Meeting;
+    summary: MeetingReportSummary;
+};
+export type MeetingReportSummary = {
+    attendances_total: number;
+    present_total: number;
+    late_total: number;
+    absent_total: number;
+    excused_total: number;
+    pending_total: number;
+    contributions_due: string;
+    contributions_paid: string;
+    contributions_remaining: string;
+    payouts_paid: string;
+};
 export type MeetingSummaryData = {
     id: number;
     slug: string;

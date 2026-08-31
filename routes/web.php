@@ -7,6 +7,7 @@ use App\Http\Controllers\MeetingAttendanceController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\MeetingDecisionController;
 use App\Http\Controllers\MeetingNoteController;
+use App\Http\Controllers\MeetingReportController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\SessionController;
@@ -124,8 +125,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             });
         Route::patch(
             'tontines/{tontine:slug}'
-                . '/sessions/{session:slug}'
-                . '/draw/swap',
+                .'/sessions/{session:slug}'
+                .'/draw/swap',
             [
                 DrawController::class,
                 'swap',
@@ -202,12 +203,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'tontines.sessions.meetings.attendances.update'
             );
 
+        Route::get(
+            'tontines/{tontine:slug}'
+                .'/sessions/{session:slug}'
+                .'/meetings/{meeting:slug}'
+                .'/report',
+            [MeetingReportController::class, 'show'],
+        )->name(
+            'tontines.sessions.meetings.report.show'
+        );
+
         Route::post(
             'tontines/{tontine:slug}'
-                . '/sessions/{session:slug}'
-                . '/meetings/{meeting:slug}'
-                . '/contributions/{contribution}'
-                . '/payments',
+                .'/sessions/{session:slug}'
+                .'/meetings/{meeting:slug}'
+                .'/contributions/{contribution}'
+                .'/payments',
             [ContributionPaymentController::class, 'store'],
         )
             ->whereNumber('contribution')
@@ -217,9 +228,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::prefix(
             'tontines/{tontine:slug}'
-                . '/sessions/{session:slug}'
-                . '/meetings/{meeting:slug}'
-                . '/notes'
+                .'/sessions/{session:slug}'
+                .'/meetings/{meeting:slug}'
+                .'/notes'
         )
             ->name(
                 'tontines.sessions.meetings.notes.'
@@ -257,9 +268,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::prefix(
             'tontines/{tontine:slug}'
-                . '/sessions/{session:slug}'
-                . '/meetings/{meeting:slug}'
-                . '/decisions'
+                .'/sessions/{session:slug}'
+                .'/meetings/{meeting:slug}'
+                .'/decisions'
         )
             ->name(
                 'tontines.sessions.meetings.decisions.'
@@ -297,9 +308,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::prefix(
             'tontines/{tontine:slug}'
-                . '/sessions/{session:slug}'
-                . '/meetings/{meeting:slug}'
-                . '/payouts',
+                .'/sessions/{session:slug}'
+                .'/meetings/{meeting:slug}'
+                .'/payouts',
         )
             ->name(
                 'tontines.sessions.meetings.payouts.'
@@ -347,4 +358,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-require __DIR__ . '/settings.php';
+require __DIR__.'/settings.php';

@@ -112,6 +112,32 @@ class MeetingPolicy
             );
     }
 
+    public function report(
+        User $user,
+        Meeting $meeting,
+    ): bool {
+        return $meeting->session->tontine
+            ->hasActiveMembership($user)
+            && $this->can(
+                $user,
+                $meeting->session->tontine,
+                TontinePermission::ViewReports,
+            );
+    }
+
+    public function exportReport(
+        User $user,
+        Meeting $meeting,
+    ): bool {
+        return $meeting->session->tontine
+            ->hasActiveMembership($user)
+            && $this->can(
+                $user,
+                $meeting->session->tontine,
+                TontinePermission::ExportReports,
+            );
+    }
+
     private function can(
         User $user,
         Tontine $tontine,

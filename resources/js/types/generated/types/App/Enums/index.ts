@@ -100,4 +100,5 @@ export type TransactionType =
     | 'repayment'
     | 'penalty'
     | 'cash_fund'
-    | 'donation';
+    | 'donation'
+    | 'payout';

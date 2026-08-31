@@ -7,6 +7,28 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@media print {
+    @page {
+        margin: 14mm;
+        size: A4;
+    }
+
+    body:has(#meeting-report) [data-slot='sidebar'],
+    body:has(#meeting-report) [data-slot='sidebar-inset'] > header {
+        display: none !important;
+    }
+
+    body:has(#meeting-report) [data-slot='sidebar-inset'] {
+        margin: 0 !important;
+        min-height: auto !important;
+        width: 100% !important;
+    }
+
+    body:has(#meeting-report) #meeting-report {
+        color: black;
+    }
+}
+
 @theme {
     --font-sans:
         'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
@@ -269,7 +291,6 @@
     pointer-events: none;
 }
 
-
 /*
 |--------------------------------------------------------------------------
 | Top left
@@ -284,7 +305,6 @@
     border-top: 2px solid var(--primary);
     border-left: 2px solid var(--primary);
 }
-
 
 /*
 |--------------------------------------------------------------------------
@@ -301,7 +321,6 @@
     border-right: 2px solid var(--primary);
 }
 
-
 /*
 |--------------------------------------------------------------------------
 | Bottom left
@@ -316,7 +335,6 @@
     border-bottom: 2px solid var(--primary);
     border-left: 2px solid var(--primary);
 }
-
 
 /*
 |--------------------------------------------------------------------------
@@ -333,7 +351,6 @@
     border-bottom: 2px solid var(--primary);
 }
 
-
 /*
 |--------------------------------------------------------------------------
 | Hover
@@ -345,13 +362,11 @@
 
     transform: scale(1.08);
 
-    box-shadow:
-        0 2px 6px rgb(0 0 0 / 0.18);
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.18);
 }
 
 .rich-text-editor [data-resize-handle]:hover::before {
-    border-color:
-        var(--primary-foreground);
+    border-color: var(--primary-foreground);
 }
 
 .rich-text-editor [data-resize-handle='top-left'] {
