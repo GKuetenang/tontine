@@ -63,6 +63,9 @@ export type Loan = {
     due_at: undefined;
     reason: string | null;
     status: LoanStatus;
+    paid_amount: string;
+    remaining_amount: string;
+    repayments: Repayment[];
 };
 export type Meeting = {
     id: number;
@@ -189,6 +192,15 @@ export type PayoutCandidate = {
     session_participant_id: number;
     member_name: string;
     expected: boolean;
+};
+export type Repayment = {
+    id: number;
+    loan_id: number;
+    member_name: string;
+    amount: string;
+    interest_amount: string;
+    principal_amount: string;
+    paid_at: undefined;
 };
 export type Session = {
     name: string;

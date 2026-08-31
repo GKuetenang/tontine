@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Actions\Transactions\BuildSessionTransactionJournalAction;
 use App\Data\SessionData;
+use App\Enums\TransactionDirection;
+use App\Enums\TransactionType;
 use App\Models\Session;
 use App\Models\Tontine;
 use App\Models\Transaction;
@@ -37,6 +39,8 @@ class TransactionController extends Controller
             'collection' => $journal['collection'],
             'filters' => $filters,
             'summary' => $journal['summary'],
+            'transaction_types' => TransactionType::getOptions(),
+            'transaction_directions' => TransactionDirection::getOptions(),
         ]);
     }
 }

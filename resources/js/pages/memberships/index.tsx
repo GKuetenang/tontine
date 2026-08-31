@@ -1,5 +1,3 @@
-import { Form, Head } from '@inertiajs/react';
-import { PlusIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { MembershipStatusBadge } from '@/components/membership-status-badge';
@@ -26,6 +24,8 @@ import type {
     PaginatedCollection,
     ResultTontine,
 } from '@/types';
+import { Form, Head } from '@inertiajs/react';
+import { PlusIcon, SearchIcon } from 'lucide-react';
 import { Actions } from './actions';
 import { EditMembershipForm } from './form';
 
@@ -71,7 +71,6 @@ export default withAppLayout(
                                         trigger={
                                             <Button
                                                 type="button"
-                                                variant="outline"
                                                 className="w-fit"
                                             >
                                                 <PlusIcon />
@@ -92,7 +91,7 @@ export default withAppLayout(
                                         placeholder="Rechercher un membre"
                                         name="q"
                                     />
-                                    <Button>Rechercher</Button>
+                                    <Button variant="outline"><SearchIcon />Rechercher</Button>
                                 </Form>
                             </div>
                         </CardHeader>

@@ -7,6 +7,7 @@ use App\Actions\Donations\CreateDonationAction;
 use App\Actions\Donations\PayDonationAction;
 use App\Data\DonationData;
 use App\Data\SessionData;
+use App\Enums\DonationStatus;
 use App\Http\Requests\StoreDonationRequest;
 use App\Models\Donation;
 use App\Models\Session;
@@ -31,6 +32,7 @@ class DonationController extends WithUserSearchController
             'session' => SessionData::fromModel($session),
             'collection' => DonationData::collect($donations),
             'users' => fn () => Inertia::optional($this->membershipsInSession(...)),
+            'statuses' => DonationStatus::getOptions(),
         ]);
     }
 

@@ -1,15 +1,3 @@
-import { Head, Link } from '@inertiajs/react';
-import {
-    ArrowRight,
-    CalendarDays,
-    Coins,
-    Eye,
-    EyeOff,
-    Landmark,
-    Pencil,
-    ShieldCheck,
-    Users,
-} from 'lucide-react';
 import { EmptySessions } from '@/components/tontines/empty-session';
 import { InformationRow } from '@/components/tontines/information-row';
 import { SessionRow } from '@/components/tontines/session-row';
@@ -21,6 +9,18 @@ import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
 import type { BreadcrumbItem, Session, Tontine } from '@/types';
+import { Head, Link } from '@inertiajs/react';
+import {
+    ArrowRight,
+    CalendarDays,
+    Coins,
+    Eye,
+    EyeOff,
+    Landmark,
+    Pencil,
+    ShieldCheck,
+    Users
+} from 'lucide-react';
 
 type Props = { tontine: Tontine; sessions: Session[] };
 const initials = (name: string) =>
@@ -175,7 +175,7 @@ export default withAppLayout<Props>(
                                     Les dernières activités de la tontine
                                 </p>
                             </div>
-                            <Button asChild variant="ghost" size="sm">
+                            <Button asChild className='w-fit' variant="link" size="sm">
                                 <Link
                                     href={tontines.sessions.index(
                                         tontine.slug!,

@@ -1,8 +1,25 @@
 import { Form, Head } from '@inertiajs/react';
+import { format } from 'date-fns';
+import { CalendarIcon, ListFilterIcon } from 'lucide-react';
+import { useState } from 'react';
 import { CollectionPagination } from '@/components/collection-pagination';
+import type { SelectOption } from '@/components/select-with-items';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import {
     Table,
     TableBody,
@@ -30,17 +47,43 @@ type Props = {
     collection: PaginatedCollection<Transaction>;
     filters: { direction?: string; type?: string; from?: string; to?: string };
     summary: { credits: string; debits: string; balance: string };
+    transaction_types: SelectOption[];
+    transaction_directions: SelectOption[];
 };
 
-const typeLabels: Record<string, string> = {
-    contribution: 'Cotisation',
-    payout: 'Versement',
-    loan: 'Prêt',
-    repayment: 'Remboursement',
-    penalty: 'Pénalité',
-    cash_fund: 'Fonds de caisse',
-    donation: 'Don',
-};
+function DateFilter({
+    value,
+    onChange,
+    placeholder,
+}: {
+    value?: Date;
+    onChange: (date?: Date) => void;
+    placeholder: string;
+}) {
+    return (
+        <Popover>
+            <PopoverTrigger asChild>
+                <Button
+                    type="button"
+                    variant="ghost"
+                    className="w-full justify-start border border-input font-normal"
+                >
+                    <CalendarIcon />
+                    {value ? (
+                        format(value, 'dd/MM/yyyy')
+                    ) : (
+                        <span className="text-muted-foreground">
+                            {placeholder}
+                        </span>
+                    )}
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+                <Calendar mode="single" selected={value} onSelect={onChange} />
+            </PopoverContent>
+        </Popover>
+    );
+}
 
 export default withAppLayout<Props>(
     ({ tontine, session }) =>
@@ -59,145 +102,243 @@ export default withAppLayout<Props>(
             },
             { title: 'Transactions', href: '#' },
         ] as BreadcrumbItem[],
-    ({ tontine, session, collection, filters, summary }) => (
-        <>
-            <Head title="Journal des transactions" />
-            <div className="space-y-6">
-                <div>
-                    <h1 className="text-2xl font-semibold">
-                        Journal financier
-                    </h1>
-                    <p className="text-sm text-muted-foreground">
-                        Mouvements auditables de la session {session.name}.
-                    </p>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-3">
-                    {(
-                        [
-                            ['Crédits', summary.credits],
-                            ['Débits', summary.debits],
-                            ['Solde', summary.balance],
-                        ] as const
-                    ).map(([label, value]) => (
-                        <Card key={label}>
-                            <CardContent>
-                                <p className="text-sm text-muted-foreground">
-                                    {label}
-                                </p>
-                                <p className="mt-1 text-2xl font-semibold">
-                                    {formatCurrency(value)}
-                                </p>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Transactions</CardTitle>
-                        <Form
-                            {...sessions.transactions.index.form({
-                                tontine: tontine.slug!,
-                                session: session.slug,
-                            })}
-                            className="grid gap-2 sm:grid-cols-5"
-                        >
-                            <select
-                                name="direction"
-                                defaultValue={filters.direction ?? ''}
-                                className="h-9 rounded-md border bg-background px-3 text-sm"
+    ({
+        tontine,
+        session,
+        collection,
+        filters,
+        summary,
+        transaction_types,
+        transaction_directions,
+    }) => {
+        const [direction, setDirection] = useState(filters.direction || 'all');
+        const [type, setType] = useState(filters.type || 'all');
+        const [from, setFrom] = useState<Date | undefined>(
+            filters.from ? new Date(`${filters.from}T00:00:00`) : undefined,
+        );
+        const [to, setTo] = useState<Date | undefined>(
+            filters.to ? new Date(`${filters.to}T00:00:00`) : undefined,
+        );
+        const typeLabels = Object.fromEntries(
+            transaction_types.map((option) => [option.value, option.label]),
+        );
+        const directionLabels = Object.fromEntries(
+            transaction_directions.map((option) => [
+                option.value,
+                option.label,
+            ]),
+        );
+
+        const hasSelectedFilters =
+            direction !== 'all' || type !== 'all' || !!from || !!to;
+        const hasAppliedFilters = Object.values(filters).some(Boolean);
+        const canFilter = hasSelectedFilters || hasAppliedFilters;
+
+        return (
+            <>
+                <Head title="Journal des transactions" />
+                <div className="space-y-6">
+                    <div>
+                        <h1 className="text-2xl font-semibold">
+                            Journal financier
+                        </h1>
+                        <p className="text-sm text-muted-foreground">
+                            Mouvements auditables de la session {session.name}.
+                        </p>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-3">
+                        {(
+                            [
+                                ['Crédits', summary.credits],
+                                ['Débits', summary.debits],
+                                ['Solde', summary.balance],
+                            ] as const
+                        ).map(([label, value]) => (
+                            <Card key={label}>
+                                <CardContent>
+                                    <p className="text-sm text-muted-foreground">
+                                        {label}
+                                    </p>
+                                    <p className="mt-1 text-2xl font-semibold">
+                                        {formatCurrency(value)}
+                                    </p>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Transactions</CardTitle>
+                            <Form
+                                {...sessions.transactions.index.form({
+                                    tontine: tontine.slug!,
+                                    session: session.slug,
+                                })}
+                                className="grid gap-2 sm:grid-cols-5"
                             >
-                                <option value="">Toutes directions</option>
-                                <option value="credit">Crédits</option>
-                                <option value="debit">Débits</option>
-                            </select>
-                            <select
-                                name="type"
-                                defaultValue={filters.type ?? ''}
-                                className="h-9 rounded-md border bg-background px-3 text-sm"
-                            >
-                                <option value="">Tous types</option>
-                                {Object.entries(typeLabels).map(
-                                    ([value, label]) => (
-                                        <option key={value} value={value}>
-                                            {label}
-                                        </option>
-                                    ),
-                                )}
-                            </select>
-                            <Input
-                                type="date"
-                                name="from"
-                                defaultValue={filters.from ?? ''}
-                            />
-                            <Input
-                                type="date"
-                                name="to"
-                                defaultValue={filters.to ?? ''}
-                            />
-                            <Button>Filtrer</Button>
-                        </Form>
-                    </CardHeader>
-                    <CardContent className="px-0">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead className="pl-6">Date</TableHead>
-                                    <TableHead>Type</TableHead>
-                                    <TableHead>Membre</TableHead>
-                                    <TableHead>Description</TableHead>
-                                    <TableHead>Direction</TableHead>
-                                    <TableHead className="pr-6 text-right">
-                                        Montant
-                                    </TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {collection.data.map((transaction) => (
-                                    <TableRow key={transaction.id}>
-                                        <TableCell className="pl-6">
-                                            {formatDate(
-                                                transaction.occurred_at,
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            {typeLabels[transaction.type] ??
-                                                transaction.type}
-                                        </TableCell>
-                                        <TableCell>
-                                            {transaction.member_name ?? '—'}
-                                        </TableCell>
-                                        <TableCell className="max-w-xs whitespace-normal">
-                                            {transaction.description ?? '—'}
-                                        </TableCell>
-                                        <TableCell>
-                                            {transaction.direction === 'credit'
-                                                ? 'Crédit'
-                                                : 'Débit'}
-                                        </TableCell>
-                                        <TableCell
-                                            className={`pr-6 text-right font-medium ${transaction.direction === 'credit' ? 'text-emerald-600' : 'text-destructive'}`}
-                                        >
-                                            {transaction.direction === 'credit'
-                                                ? '+'
-                                                : '−'}{' '}
-                                            {formatCurrency(transaction.amount)}
-                                        </TableCell>
+                                <input
+                                    type="hidden"
+                                    name="direction"
+                                    value={direction === 'all' ? '' : direction}
+                                />
+                                <Select
+                                    value={direction}
+                                    onValueChange={setDirection}
+                                >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Toutes directions" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">
+                                            Toutes directions
+                                        </SelectItem>
+                                        {transaction_directions.map(
+                                            (option) => (
+                                                <SelectItem
+                                                    key={option.value}
+                                                    value={option.value}
+                                                >
+                                                    {option.label}
+                                                </SelectItem>
+                                            ),
+                                        )}
+                                    </SelectContent>
+                                </Select>
+                                <input
+                                    type="hidden"
+                                    name="type"
+                                    value={type === 'all' ? '' : type}
+                                />
+                                <Select value={type} onValueChange={setType}>
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Tous types" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">
+                                            Tous types
+                                        </SelectItem>
+                                        {transaction_types.map((option) => (
+                                            <SelectItem
+                                                key={option.value}
+                                                value={option.value}
+                                            >
+                                                {option.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <input
+                                    type="hidden"
+                                    name="from"
+                                    value={
+                                        from ? format(from, 'yyyy-MM-dd') : ''
+                                    }
+                                />
+                                <DateFilter
+                                    value={from}
+                                    onChange={setFrom}
+                                    placeholder="Date de début"
+                                />
+                                <input
+                                    type="hidden"
+                                    name="to"
+                                    value={to ? format(to, 'yyyy-MM-dd') : ''}
+                                />
+                                <DateFilter
+                                    value={to}
+                                    onChange={setTo}
+                                    placeholder="Date de fin"
+                                />
+                                <Button
+                                    variant="outline"
+                                    className="w-fit"
+                                    disabled={!canFilter}
+                                >
+                                    <ListFilterIcon /> Filtrer
+                                </Button>
+                            </Form>
+                        </CardHeader>
+                        <CardContent className="px-0">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead className="pl-6">
+                                            Date
+                                        </TableHead>
+                                        <TableHead>Type</TableHead>
+                                        <TableHead>Membre</TableHead>
+                                        <TableHead>Direction</TableHead>
+                                        <TableHead className="pr-6 text-right">
+                                            Montant
+                                        </TableHead>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                        {collection.data.length === 0 && (
-                            <p className="p-8 text-center text-sm text-muted-foreground">
-                                Aucune transaction pour ces critères.
-                            </p>
-                        )}
-                        <CollectionPagination
-                            className="px-6 pt-6"
-                            collection={collection}
-                        />
-                    </CardContent>
-                </Card>
-            </div>
-        </>
-    ),
+                                </TableHeader>
+                                <TableBody className="[&_td]:py-3">
+                                    {collection.data.map((transaction) => (
+                                        <TableRow
+                                            key={transaction.id}
+                                            className="h-14"
+                                        >
+                                            <TableCell className="pl-6">
+                                                {formatDate(
+                                                    transaction.occurred_at,
+                                                )}
+                                            </TableCell>
+                                            <TableCell>
+                                                <Badge variant="outline">
+                                                    {typeLabels[
+                                                        transaction.type
+                                                    ] ?? transaction.type}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell>
+                                                {transaction.member_name ?? '—'}
+                                            </TableCell>
+                                            <TableCell>
+                                                <Badge
+                                                    variant={
+                                                        transaction.direction ===
+                                                        'credit'
+                                                            ? 'success'
+                                                            : 'secondary'
+                                                    }
+                                                >
+                                                    {
+                                                        directionLabels[
+                                                            transaction
+                                                                .direction
+                                                        ]
+                                                    }
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell
+                                                className={`pr-6 text-right font-medium ${transaction.direction === 'credit' ? 'text-emerald-600' : 'text-destructive'}`}
+                                            >
+                                                {transaction.direction ===
+                                                'credit'
+                                                    ? '+'
+                                                    : '−'}{' '}
+                                                {formatCurrency(
+                                                    transaction.amount,
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                            {collection.data.length === 0 && (
+                                <p className="p-8 text-center text-sm text-muted-foreground">
+                                    Aucune transaction pour ces critères.
+                                </p>
+                            )}
+                            <CollectionPagination
+                                className="px-6 pt-6"
+                                collection={collection}
+                            />
+                        </CardContent>
+                    </Card>
+                </div>
+            </>
+        );
+    },
 );

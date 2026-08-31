@@ -1,5 +1,5 @@
-import { Form, Head } from '@inertiajs/react';
 import { CollectionPagination } from '@/components/collection-pagination';
+import type { SelectOption } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useAuthorization } from '@/hooks/use-authorization';
@@ -15,19 +15,16 @@ import type {
     Session,
     Tontine,
 } from '@/types';
+import { Form, Head } from '@inertiajs/react';
+import { PlusIcon } from 'lucide-react';
 import { CreateDonationForm } from './form';
 
 type Props = {
     tontine: Tontine;
     session: Session;
     collection: PaginatedCollection<Donation>;
+    statuses: SelectOption[];
 };
-
-const statusLabels = {
-    pending: 'En attente',
-    paid: 'Effectué',
-    cancelled: 'Annulé',
-} as const;
 
 export default withAppLayout<Props>(
     ({ tontine, session }) =>
@@ -46,34 +43,39 @@ export default withAppLayout<Props>(
             },
             { title: 'Dons', href: '#' },
         ] as BreadcrumbItem[],
-    ({ tontine, session, collection }) => {
+    ({ tontine, session, collection, statuses }) => {
         const { can } = useAuthorization();
         const routeParameters = {
             tontine: tontine.slug!,
             session: session.slug,
         };
+        const statusLabels = Object.fromEntries(
+            statuses.map((option) => [option.value, option.label]),
+        );
 
         return (
             <>
                 <Head title="Dons" />
                 <div className="space-y-6">
-                    <div>
-                        <h1 className="text-2xl font-semibold">
-                            Dons aux membres
-                        </h1>
-                        <p className="text-sm text-muted-foreground">
-                            Aides sans remboursement accordées pendant la
-                            session {session.name}.
-                        </p>
-                    </div>
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h1 className="text-2xl font-semibold">
+                                Dons aux membres
+                            </h1>
+                            <p className="text-sm text-muted-foreground">
+                                Aides sans remboursement accordées pendant la
+                                session {session.name}.
+                            </p>
+                        </div>
 
-                    {can('donations.create') && (
-                        <CreateDonationForm
-                            tontine={tontine}
-                            session={session}
-                            trigger={<Button>Ajouter un don</Button>}
-                        />
-                    )}
+                        {can('donations.create') && (
+                            <CreateDonationForm
+                                tontine={tontine}
+                                session={session}
+                                trigger={<Button><PlusIcon />Ajouter un don</Button>}
+                            />
+                        )}
+                    </div>
 
                     <div className="grid gap-4">
                         {collection.data.map((donation) => (

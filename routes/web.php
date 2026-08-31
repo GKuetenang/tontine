@@ -12,6 +12,7 @@ use App\Http\Controllers\MeetingNoteController;
 use App\Http\Controllers\MeetingReportController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\PayoutController;
+use App\Http\Controllers\RepaymentController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SessionParticipantController;
 use App\Http\Controllers\TontineController;
@@ -80,7 +81,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::get('/', [LoanController::class, 'index'])->name('index');
                 Route::post('/', [LoanController::class, 'store'])->name('store');
                 Route::patch('/{loan}/approve', [LoanController::class, 'approve'])->whereNumber('loan')->name('approve');
+                Route::post('/{loan}/repayments', [RepaymentController::class, 'store'])->whereNumber('loan')->name('repayments.store');
             });
+
+        Route::get('tontines/{tontine:slug}/sessions/{session:slug}/repayments', [RepaymentController::class, 'index'])
+            ->name('tontines.sessions.repayments.index');
 
         Route::patch(
             'tontines/{tontine:slug}/sessions/{session:slug}/close',

@@ -4,6 +4,7 @@ use App\Actions\Loans\ApproveLoanAction;
 use App\Actions\Loans\CalculateSimpleInterestAction;
 use App\Actions\Loans\CreateLoanAction;
 use App\Actions\Memberships\CreateMembershipAction;
+use App\Actions\Repayments\CreateRepaymentAction;
 use App\Actions\Tontines\CreateDefaultTontineRolesAction;
 use App\Enums\LoanStatus;
 use App\Enums\TransactionDirection;
@@ -111,6 +112,31 @@ it('creates a loan through the form endpoint and returns it in the listing', fun
         'interest_rate' => '7.50',
         'term_months' => 5,
     ]);
+
+    $loan = $session->loans()->firstOrFail();
+    $this->actingAs($president)
+        ->patch(route('tontines.sessions.loans.approve', [$tontine, $session, $loan]))
+        ->assertRedirect();
+    $this->actingAs($president)
+        ->post(route('tontines.sessions.loans.repayments.store', [$tontine, $session, $loan]), [
+            'amount' => '1000.00',
+        ])
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
+
+    $this->assertDatabaseHas('repayments', [
+        'loan_id' => $loan->id,
+        'amount' => '1000.00',
+    ]);
+
+    $this->actingAs($president)
+        ->get(route('tontines.sessions.repayments.index', [$tontine, $session]))
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->component('repayments/index')
+            ->has('collection.data', 1)
+            ->where('collection.data.0.member_name', $borrower->name)
+            ->where('collection.data.0.amount', '1000.00'));
 });
 
 it('returns a visible loan error when the configured term exceeds the session', function (): void {
@@ -128,4 +154,30 @@ it('returns a visible loan error when the configured term exceeds the session', 
             'principal_amount' => '20000.00',
         ])
         ->assertSessionHasErrors('loan');
+});
+
+it('records partial repayments as credits and allocates interest before principal', function (): void {
+    [$session, $membership, $user] = loanContext();
+    $loan = app(CreateLoanAction::class)->execute($session, $membership, $user, '10000.00', null, CarbonImmutable::parse('2026-05-15'));
+    app(ApproveLoanAction::class)->execute($loan, $user);
+
+    $first = app(CreateRepaymentAction::class)->execute($loan, $user, '600.00');
+    $second = app(CreateRepaymentAction::class)->execute($loan, $user, '1000.00');
+
+    expect($first->interest_amount)->toBe('600.00')
+        ->and($first->principal_amount)->toBe('0.00')
+        ->and($second->interest_amount)->toBe('400.00')
+        ->and($second->principal_amount)->toBe('600.00')
+        ->and($loan->fresh()->status)->toBe(LoanStatus::Active)
+        ->and(Transaction::query()->where('type', TransactionType::Repayment)->count())->toBe(2);
+});
+
+it('marks the loan repaid only when the exact remaining balance is paid', function (): void {
+    [$session, $membership, $user] = loanContext();
+    $loan = app(CreateLoanAction::class)->execute($session, $membership, $user, '10000.00', null, CarbonImmutable::parse('2026-05-15'));
+    app(ApproveLoanAction::class)->execute($loan, $user);
+    app(CreateRepaymentAction::class)->execute($loan, $user, '11000.00');
+
+    expect($loan->fresh()->status)->toBe(LoanStatus::Repaid);
+    expect(fn () => app(CreateRepaymentAction::class)->execute($loan, $user, '1.00'))->toThrow(ValidationException::class);
 });

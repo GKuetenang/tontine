@@ -45,6 +45,8 @@ it('shows filtered session transactions with exact totals', function (): void {
         ->assertInertia(fn ($page) => $page
             ->component('transactions/index')
             ->has('collection.data', 2)
+            ->where('transaction_types.1', ['label' => 'Prêt', 'value' => 'loan'])
+            ->where('transaction_directions.0', ['label' => 'Crédit', 'value' => 'credit'])
             ->where('summary.credits', '20000.50')
             ->where('summary.debits', '1250.25')
             ->where('summary.balance', '18750.25'));

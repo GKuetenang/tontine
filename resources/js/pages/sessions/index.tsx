@@ -1,5 +1,3 @@
-import { Form, Head, Link } from '@inertiajs/react';
-import { PlusIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import type { SelectOption } from '@/components/select-with-items';
@@ -23,6 +21,8 @@ import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
 import sessions from '@/routes/tontines/sessions';
 import type { BreadcrumbItem, PaginatedCollection, Session } from '@/types';
+import { Form, Head, Link } from '@inertiajs/react';
+import { PlusIcon, SearchIcon } from 'lucide-react';
 import { Actions } from './actions';
 import { EditSessionForm } from './form';
 
@@ -74,7 +74,6 @@ export default withAppLayout(
                                         trigger={
                                             <Button
                                                 type="button"
-                                                variant="outline"
                                                 className="w-fit"
                                             >
                                                 <PlusIcon />
@@ -95,7 +94,7 @@ export default withAppLayout(
                                         placeholder="Rechercher un membre"
                                         name="q"
                                     />
-                                    <Button>Rechercher</Button>
+                                    <Button variant="outline" ><SearchIcon />Rechercher</Button>
                                 </Form>
                             </div>
                         </CardHeader>

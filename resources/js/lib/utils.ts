@@ -7,6 +7,7 @@ import {
     CircleDollarSignIcon,
     HandHeartIcon,
     LandmarkIcon,
+    ReceiptTextIcon,
     LayoutDashboardIcon,
     SettingsIcon,
     ShuffleIcon,
@@ -142,6 +143,14 @@ export function getSessionNavItems(
                 session: session.slug,
             }),
             icon: LandmarkIcon,
+        },
+        {
+            title: 'Remboursements',
+            href: sessions.repayments.index({
+                tontine: tontine.slug!,
+                session: session.slug,
+            }),
+            icon: ReceiptTextIcon,
         },
     ];
 }

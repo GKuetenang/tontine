@@ -25,10 +25,29 @@ class LoanData extends Data
         public CarbonImmutable $due_at,
         public ?string $reason,
         public LoanStatus $status,
+        public string $paid_amount,
+        public string $remaining_amount,
+        /** @var array<RepaymentData> */
+        public array $repayments,
     ) {}
 
     public static function fromModel(Loan $loan): self
     {
-        return new self($loan->id, $loan->membership->user->name, $loan->principal_amount, $loan->interest_rate, $loan->term_months, $loan->interest_amount, $loan->total_due, $loan->due_at, $loan->reason, $loan->status);
+        $paidCents = $loan->repayments->sum(fn ($repayment): int => self::toCents($repayment->amount));
+        $totalCents = self::toCents($loan->total_due);
+
+        return new self($loan->id, $loan->membership->user->name, $loan->principal_amount, $loan->interest_rate, $loan->term_months, $loan->interest_amount, $loan->total_due, $loan->due_at, $loan->reason, $loan->status, self::format($paidCents), self::format($totalCents - $paidCents), RepaymentData::collect($loan->repayments)->all());
+    }
+
+    private static function toCents(string $amount): int
+    {
+        [$whole, $fraction] = array_pad(explode('.', $amount, 2), 2, '');
+
+        return ((int) $whole * 100) + (int) str_pad($fraction, 2, '0');
+    }
+
+    private static function format(int $cents): string
+    {
+        return sprintf('%d.%02d', intdiv($cents, 100), $cents % 100);
     }
 }

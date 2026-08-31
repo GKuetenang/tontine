@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 #[Fillable(['principal_amount', 'interest_rate', 'term_months', 'interest_amount', 'total_due', 'due_at', 'reason', 'status', 'approved_at'])]
@@ -51,5 +52,10 @@ class Loan extends Model
     public function transactions(): MorphMany
     {
         return $this->morphMany(Transaction::class, 'transactionable');
+    }
+
+    public function repayments(): HasMany
+    {
+        return $this->hasMany(Repayment::class);
     }
 }

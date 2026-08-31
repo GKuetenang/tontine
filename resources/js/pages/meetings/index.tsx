@@ -1,5 +1,3 @@
-import { Form, Head, Link } from '@inertiajs/react';
-import { MapPinIcon, PlusIcon } from 'lucide-react';
 import { MeetingStatusBadge } from '@/components//meeting-status-badge';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
@@ -15,6 +13,8 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { Form, Head, Link } from '@inertiajs/react';
+import { MapPinIcon, PlusIcon, SearchIcon } from 'lucide-react';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
@@ -100,7 +100,6 @@ export default withAppLayout<Props>(
                                             trigger={
                                                 <Button
                                                     type="button"
-                                                    variant="outline"
                                                     className="w-fit"
                                                 >
                                                     <PlusIcon />
@@ -125,7 +124,7 @@ export default withAppLayout<Props>(
                                         name="q"
                                     />
 
-                                    <Button>Rechercher</Button>
+                                    <Button variant="outline"><SearchIcon />Rechercher</Button>
                                 </Form>
                             </div>
                         </CardHeader>

@@ -6,6 +6,7 @@ use App\Actions\Loans\ApproveLoanAction;
 use App\Actions\Loans\CreateLoanAction;
 use App\Data\LoanData;
 use App\Data\SessionData;
+use App\Enums\LoanStatus;
 use App\Http\Requests\StoreLoanRequest;
 use App\Models\Loan;
 use App\Models\Session;
@@ -19,13 +20,14 @@ class LoanController extends WithUserSearchController
     public function index(Tontine $tontine, Session $session): Response
     {
         $this->authorize('viewAny', [Loan::class, $session]);
-        $loans = $session->loans()->with('membership.user')->latest()->paginate();
+        $loans = $session->loans()->with(['membership.user', 'repayments.loan.membership.user'])->latest()->paginate();
 
         return Inertia::render('loans/index', [
             'tontine' => ['id' => $tontine->id, 'name' => $tontine->name, 'slug' => $tontine->slug],
             'session' => SessionData::fromModel($session),
             'collection' => LoanData::collect($loans),
             'users' => fn () => Inertia::optional($this->membershipsInSession(...)),
+            'statuses' => LoanStatus::getOptions(),
         ]);
     }
 

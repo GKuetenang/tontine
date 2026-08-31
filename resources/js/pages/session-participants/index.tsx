@@ -1,7 +1,3 @@
-import { Form, Head } from '@inertiajs/react';
-import { format, isValid, parseISO } from 'date-fns';
-import { frCA } from 'date-fns/locale';
-import { PlusIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SessionParticipantStatusBadge } from '@/components/session-participant-status-badge';
@@ -30,6 +26,10 @@ import type {
     Session,
     SessionParticipant,
 } from '@/types';
+import { Form, Head } from '@inertiajs/react';
+import { format, isValid, parseISO } from 'date-fns';
+import { frCA } from 'date-fns/locale';
+import { PlusIcon, SearchIcon } from 'lucide-react';
 import { Actions } from './actions';
 import { EditSessionParticipantForm } from './form';
 
@@ -101,7 +101,6 @@ export default withAppLayout<Props>(
                                         trigger={
                                             <Button
                                                 type="button"
-                                                variant="outline"
                                                 className="w-fit"
                                             >
                                                 <PlusIcon />
@@ -123,7 +122,7 @@ export default withAppLayout<Props>(
                                         placeholder="Rechercher un membre"
                                         name="q"
                                     />
-                                    <Button>Rechercher</Button>
+                                    <Button variant="outline"><SearchIcon />Rechercher</Button>
                                 </Form>
                             </div>
                         </CardHeader>
