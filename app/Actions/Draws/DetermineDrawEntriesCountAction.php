@@ -16,14 +16,12 @@ final class DetermineDrawEntriesCountAction
         return match ($session->draw_allocation_mode) {
             DrawAllocationMode::OnePerMember => 1,
 
-            DrawAllocationMode::BasedOnContribution =>
-            $this->fromContribution(
+            DrawAllocationMode::BasedOnContribution => $this->fromContribution(
                 session: $session,
                 contributionAmount: $contributionAmount,
             ),
 
-            DrawAllocationMode::Custom =>
-            $customCount
+            DrawAllocationMode::Custom => $customCount
                 ?? throw ValidationException::withMessages([
                     'draw_entries_count' => __(
                         'Le nombre de tours est obligatoire.'

@@ -11,7 +11,7 @@ enum DrawAllocationMode: string
     public static function getOptions(): array
     {
         return array_map(
-            fn(self $mode) => [
+            fn (self $mode) => [
                 'label' => $mode->label(),
                 'value' => $mode->value,
             ],

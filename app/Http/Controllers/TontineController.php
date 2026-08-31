@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Memberships\CreateMembershipAction;
 use App\Actions\Tontines\CreateTontineAction;
 use App\Actions\Tontines\UpdateTontineAction;
 use App\Data\SessionData;
@@ -47,8 +46,7 @@ class TontineController extends Controller
             ->paginate(10)
             ->withQueryString()
             ->through(
-                fn(Tontine $tontine): TontineData =>
-                TontineData::fromModel(
+                fn (Tontine $tontine): TontineData => TontineData::fromModel(
                     tontine: $tontine,
                     can: $tontineAbilities->for(
                         user: $user,
@@ -56,7 +54,6 @@ class TontineController extends Controller
                     ),
                 ),
             );
-
 
         // dd($collection);
         return Inertia::render('tontines/index', [
@@ -81,6 +78,7 @@ class TontineController extends Controller
         $this->handleFormRequest($data, $tontine);
 
         Inertia::flash('success', __('Tontine crée avec succès.'));
+
         return to_route('tontines.index');
     }
 
@@ -119,12 +117,14 @@ class TontineController extends Controller
             ),
         ]);
     }
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Tontine $tontine): Response
     {
         $tontine->load('media');
+
         return Inertia::render('tontines/form', [
             'tontine' => TontineData::from($tontine),
         ]);
@@ -168,6 +168,7 @@ class TontineController extends Controller
         $this->handleFormRequest($data, $tontine);
 
         Inertia::flash('success', __('Tontine mise à jour avec succès.'));
+
         return to_route('tontines.index');
     }
 
@@ -179,6 +180,7 @@ class TontineController extends Controller
         $tontine->deleteOrFail();
 
         Inertia::flash('success', __('Tontine supprimée avec succès.'));
+
         return to_route('tontines.index');
     }
 }

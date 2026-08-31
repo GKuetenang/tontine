@@ -22,8 +22,7 @@ class MeetingDecisionFactory extends Factory
             'created_by' => User::factory(),
 
             'title' => fake()->sentence(4),
-            'description' =>
-            fake()->optional()->paragraph(),
+            'description' => fake()->optional()->paragraph(),
         ];
     }
 }

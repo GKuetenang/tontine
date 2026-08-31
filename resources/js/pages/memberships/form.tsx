@@ -1,3 +1,7 @@
+import { Form } from '@inertiajs/react';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import type { SelectOption } from '@/components/select-with-items';
 import { SelectWithItems } from '@/components/select-with-items';
@@ -17,10 +21,6 @@ import { UserCombobox } from '@/components/user-combobox';
 import { cn } from '@/lib/utils';
 import memberships from '@/routes/tontines/memberships';
 import type { Membership, MemberUser, ResultTontine } from '@/types';
-import { Form } from '@inertiajs/react';
-import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
-import { useState } from 'react';
 
 type Props = {
     trigger: ReactElement;
@@ -54,9 +54,9 @@ export function EditMembershipForm({
 
     const action = membership.id
         ? memberships.update.form({
-            tontine: tontine.slug,
-            membership: membership.id,
-        })
+              tontine: tontine.slug,
+              membership: membership.id,
+          })
         : memberships.store.form({ tontine: tontine.slug });
 
     return (
@@ -104,7 +104,7 @@ export function EditMembershipForm({
                                         className={cn(
                                             'relative cursor-default flex-col items-center gap-2 rounded-sm border bg-accent px-2 py-1.5 text-sm text-shadow-accent-foreground',
                                             errors['user_id'] &&
-                                            'border-destructive bg-destructive/20',
+                                                'border-destructive bg-destructive/20',
                                         )}
                                     >
                                         <p className="text-sm">

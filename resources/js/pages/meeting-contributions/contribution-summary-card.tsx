@@ -14,13 +14,9 @@ export function ContributionSummaryCard({
             </div>
 
             <div>
-                <p className="text-lg font-semibold">
-                    {value}
-                </p>
+                <p className="text-lg font-semibold">{value}</p>
 
-                <p className="text-xs text-muted-foreground">
-                    {title}
-                </p>
+                <p className="text-xs text-muted-foreground">{title}</p>
             </div>
         </div>
     );

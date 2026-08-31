@@ -1,3 +1,13 @@
+import { Link } from '@inertiajs/react';
+import {
+    BanIcon,
+    DoorOpenIcon,
+    EllipsisIcon,
+    LockKeyholeIcon,
+    PencilIcon,
+    TrashIcon,
+} from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -11,24 +21,7 @@ import { useAuthorization } from '@/hooks/use-authorization';
 
 import meetings from '@/routes/tontines/sessions/meetings';
 
-import type {
-    Meeting,
-    Session,
-    Tontine,
-} from '@/types';
-
-import { Link } from '@inertiajs/react';
-
-import {
-    BanIcon,
-    DoorOpenIcon,
-    EllipsisIcon,
-    LockKeyholeIcon,
-    PencilIcon,
-    TrashIcon,
-} from 'lucide-react';
-
-import { toast } from 'sonner';
+import type { Meeting, Session, Tontine } from '@/types';
 
 import { EditMeetingForm } from './form';
 
@@ -38,11 +31,7 @@ type Props = {
     meeting: Meeting;
 };
 
-export function Actions({
-    tontine,
-    session,
-    meeting,
-}: Props) {
+export function Actions({ tontine, session, meeting }: Props) {
     const { can, canAny } = useAuthorization();
 
     const hasActions = canAny(
@@ -99,52 +88,40 @@ export function Actions({
                                         }
                                     >
                                         <PencilIcon className="size-4" />
-
                                         Modifier
                                     </DropdownMenuItem>
                                 }
                             />
                         )}
 
-                    {can('meetings.open') &&
-                        meeting.status === 'scheduled' && (
-                            <DropdownMenuItem asChild>
-                                <Link
-                                    className="w-full"
-                                    href={meetings.open(
-                                        routeParams,
-                                    )}
-                                    onBefore={() =>
-                                        confirm(
-                                            'Voulez-vous vraiment ouvrir cette réunion ?',
-                                        )
-                                    }
-                                    onError={(errors) => {
-                                        const firstError =
-                                            Object.values(
-                                                errors,
-                                            )[0];
+                    {can('meetings.open') && meeting.status === 'scheduled' && (
+                        <DropdownMenuItem asChild>
+                            <Link
+                                className="w-full"
+                                href={meetings.open(routeParams)}
+                                onBefore={() =>
+                                    confirm(
+                                        'Voulez-vous vraiment ouvrir cette réunion ?',
+                                    )
+                                }
+                                onError={(errors) => {
+                                    const firstError = Object.values(errors)[0];
 
-                                        toast.error(
-                                            firstError,
-                                        );
-                                    }}
-                                >
-                                    <DoorOpenIcon className="size-4" />
-
-                                    Ouvrir
-                                </Link>
-                            </DropdownMenuItem>
-                        )}
+                                    toast.error(firstError);
+                                }}
+                            >
+                                <DoorOpenIcon className="size-4" />
+                                Ouvrir
+                            </Link>
+                        </DropdownMenuItem>
+                    )}
 
                     {can('meetings.close') &&
                         meeting.status === 'in_progress' && (
                             <DropdownMenuItem asChild>
                                 <Link
                                     className="w-full"
-                                    href={meetings.close(
-                                        routeParams,
-                                    )}
+                                    href={meetings.close(routeParams)}
                                     onBefore={() =>
                                         confirm(
                                             'Voulez-vous vraiment clôturer cette réunion ?',
@@ -152,17 +129,12 @@ export function Actions({
                                     }
                                     onError={(errors) => {
                                         const firstError =
-                                            Object.values(
-                                                errors,
-                                            )[0];
+                                            Object.values(errors)[0];
 
-                                        toast.error(
-                                            firstError,
-                                        );
+                                        toast.error(firstError);
                                     }}
                                 >
                                     <LockKeyholeIcon className="size-4" />
-
                                     Clôturer
                                 </Link>
                             </DropdownMenuItem>
@@ -173,9 +145,7 @@ export function Actions({
                             <DropdownMenuItem asChild>
                                 <Link
                                     className="w-full"
-                                    href={meetings.cancel(
-                                        routeParams,
-                                    )}
+                                    href={meetings.cancel(routeParams)}
                                     onBefore={() =>
                                         confirm(
                                             'Voulez-vous vraiment annuler cette réunion ?',
@@ -183,17 +153,12 @@ export function Actions({
                                     }
                                     onError={(errors) => {
                                         const firstError =
-                                            Object.values(
-                                                errors,
-                                            )[0];
+                                            Object.values(errors)[0];
 
-                                        toast.error(
-                                            firstError,
-                                        );
+                                        toast.error(firstError);
                                     }}
                                 >
                                     <BanIcon className="size-4" />
-
                                     Annuler
                                 </Link>
                             </DropdownMenuItem>
@@ -204,14 +169,10 @@ export function Actions({
                             <>
                                 <DropdownMenuSeparator />
 
-                                <DropdownMenuItem
-                                    asChild
-                                >
+                                <DropdownMenuItem asChild>
                                     <Link
                                         className="w-full"
-                                        href={meetings.close(
-                                            routeParams,
-                                        )}
+                                        href={meetings.close(routeParams)}
                                         onBefore={() =>
                                             confirm(
                                                 'Voulez-vous vraiment supprimer cette réunion ?',
@@ -219,17 +180,12 @@ export function Actions({
                                         }
                                         onError={(errors) => {
                                             const firstError =
-                                                Object.values(
-                                                    errors,
-                                                )[0];
+                                                Object.values(errors)[0];
 
-                                            toast.error(
-                                                firstError,
-                                            );
+                                            toast.error(firstError);
                                         }}
                                     >
                                         <TrashIcon className="size-4" />
-
                                         Supprimer
                                     </Link>
                                 </DropdownMenuItem>

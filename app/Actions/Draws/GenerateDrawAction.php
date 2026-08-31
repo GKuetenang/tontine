@@ -78,12 +78,10 @@ final class GenerateDrawAction
                             ),
                         )
                             ->map(
-                                fn(int $entryNumber): array => [
-                                    'session_participant_id' =>
-                                    $participant->id,
+                                fn (int $entryNumber): array => [
+                                    'session_participant_id' => $participant->id,
 
-                                    'entry_number' =>
-                                    $entryNumber,
+                                    'entry_number' => $entryNumber,
                                 ],
                             )
                             ->all();
@@ -96,11 +94,9 @@ final class GenerateDrawAction
 
             foreach ($tickets as $index => $ticket) {
                 $draw->entries()->create([
-                    'session_participant_id' =>
-                    $ticket['session_participant_id'],
+                    'session_participant_id' => $ticket['session_participant_id'],
 
-                    'entry_number' =>
-                    $ticket['entry_number'],
+                    'entry_number' => $ticket['entry_number'],
 
                     'position' => $index + 1,
                 ]);

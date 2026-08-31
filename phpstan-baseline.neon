@@ -1,0 +1,2083 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$membership\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Contributions/RecordContributionPaymentAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Contributions/RecordContributionPaymentAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Contributions/RecordContributionPaymentAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Draws/ConfirmDrawAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:participants\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Draws/ConfirmDrawAction.php
+
+		-
+			message: '#^Comparison operation "\<" between int\<1, max\> and 1 is always false\.$#'
+			identifier: smaller.alwaysFalse
+			count: 1
+			path: app/Actions/Draws/DetermineDrawEntriesCountAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:active\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Draws/GenerateDrawAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasOne\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Draws/GenerateDrawAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Draws/ResolveDrawEntryMeetingAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Draws/SwapDrawEntriesAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:Scheduled will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/MeetingAgendaItems/AddMeetingAgendaItemAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/MeetingAgendaItems/AddMeetingAgendaItemAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/MeetingAgendaItems/RemoveMeetingAgendaItemAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:agendaItems\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/MeetingAgendaItems/RemoveMeetingAgendaItemAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:Scheduled will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/MeetingAgendaItems/ReorderMeetingAgendaItemsAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/MeetingAgendaItems/ReorderMeetingAgendaItemsAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/MeetingAgendaItems/UpdateMeetingAgendaItemAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:InProgress will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/MeetingAttendances/BulkUpdateMeetingAttendancesAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/MeetingAttendances/BulkUpdateMeetingAttendancesAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/MeetingAttendances/UpdateMeetingAttendanceAction.php
+
+		-
+			message: '#^Method App\\Actions\\MeetingDecisions\\AddMeetingDecisionAction\:\:ensureAgendaItemBelongsToMeeting\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: app/Actions/MeetingDecisions/AddMeetingDecisionAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:InProgress will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/MeetingDecisions/AddMeetingDecisionAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/MeetingDecisions/AddMeetingDecisionAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/MeetingDecisions/DeleteMeetingDecisionAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/MeetingDecisions/UpdateMeetingDecisionAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:InProgress will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/MeetingNotes/AddMeetingNoteAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/MeetingNotes/AddMeetingNoteAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/MeetingNotes/DeleteMeetingNoteAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/MeetingNotes/UpdateMeetingNoteAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:Scheduled will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/Meetings/CancelMeetingAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/Meetings/CancelMeetingAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:InProgress will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/Meetings/CloseMeetingAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/Meetings/CloseMeetingAction.php
+
+		-
+			message: '#^Property App\\Models\\Meeting\:\:\$status \(string\) does not accept App\\Enums\\MeetingStatus\:\:Scheduled\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Actions/Meetings/CreateMeetingAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:Scheduled will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/Meetings/OpenMeetingAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/Meetings/OpenMeetingAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:Scheduled will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/Meetings/UpdateMeetingAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/Meetings/UpdateMeetingAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:syncRoles\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Memberships/ChangeMembershipRoleAction.php
+
+		-
+			message: '#^Property App\\Actions\\Memberships\\CreateMembershipAction\:\:\$updateMembership is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: app/Actions/Memberships/CreateMembershipAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:syncRoles\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Memberships/DeactivateMembershipAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Memberships/IsLastPresidentAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Memberships/LeaveMembershipAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:syncRoles\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Memberships/LeaveMembershipAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:assignRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Memberships/ReactivateMembershipAction.php
+
+		-
+			message: '#^Parameter \$user of method App\\Actions\\Memberships\\UpdateMembershipAction\:\:syncRole\(\) expects App\\Models\\User, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Memberships/UpdateMembershipAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Payouts/BuildMeetingPayoutContextAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: App\\Data\\PayoutCandidateData, Closure\(App\\Models\\DrawEntry\)\: App\\Data\\PayoutCandidateData given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Payouts/BuildMeetingPayoutContextAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:filter\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: bool\)\|null, Closure\(App\\Models\\DrawEntry\)\: bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Payouts/BuildMeetingPayoutContextAction.php
+
+		-
+			message: '#^Parameter \$entries of method App\\Support\\DrawCalendar\:\:entriesForMeeting\(\) expects Illuminate\\Support\\Collection\<int, App\\Models\\DrawEntry\>, Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Payouts/BuildMeetingPayoutContextAction.php
+
+		-
+			message: '#^Parameter \$session of method App\\Support\\DrawCalendar\:\:entriesForMeeting\(\) expects App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Payouts/BuildMeetingPayoutContextAction.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between string and App\\Enums\\PayoutStatus\:\:Cancelled will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Actions/Payouts/CancelPayoutAction.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between string and App\\Enums\\PayoutStatus\:\:Paid will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Actions/Payouts/CancelPayoutAction.php
+
+		-
+			message: '#^Call to function in_array\(\) with arguments string, array\{App\\Enums\\MeetingStatus\:\:InProgress, App\\Enums\\MeetingStatus\:\:Completed\} and true will always evaluate to false\.$#'
+			identifier: function.impossibleType
+			count: 1
+			path: app/Actions/Payouts/CreatePayoutAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/Payouts/CreatePayoutAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\PayoutStatus\:\:Pending will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/Payouts/PayPayoutAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/Payouts/PayPayoutAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\PayoutStatus\:\:Pending will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/Payouts/UpdatePayoutAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/Payouts/UpdatePayoutAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Support\\HigherOrderCollectionProxy\<string, Illuminate\\Database\\Eloquent\\Model, Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\>\:\:\$transactions\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Reports/BuildMeetingReportAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/SessionParticipants/ReactivateSessionParticipantAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:isActive\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/SessionParticipants/ReactivateSessionParticipantAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/SessionParticipants/RemoveSessionParticipantAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$base_contribution_amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/SessionParticipants/UpdateSessionParticipantAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$draw_allocation_mode\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/SessionParticipants/UpdateSessionParticipantAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/SessionParticipants/UpdateSessionParticipantAction.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: mixed$#'
+			identifier: match.unhandled
+			count: 1
+			path: app/Actions/SessionParticipants/UpdateSessionParticipantAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$contribution_amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Sessions/ActivateSessionAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$draw_entries_count\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Sessions/ActivateSessionAction.php
+
+		-
+			message: '#^Comparison operation "\<" between int\<1, max\> and 1 is always false\.$#'
+			identifier: smaller.alwaysFalse
+			count: 1
+			path: app/Actions/Sessions/ActivateSessionAction.php
+
+		-
+			message: '#^Method App\\Actions\\Sessions\\ActivateSessionAction\:\:validateParticipantDrawEntries\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: app/Actions/Sessions/ActivateSessionAction.php
+
+		-
+			message: '#^Offset ''base_contribution…'' on array\{name\: string, description\?\: string\|null, start_at\: string, end_at\?\: string\|null\} on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Actions/Sessions/CreateSessionAction.php
+
+		-
+			message: '#^Offset ''default…'' on array\{name\: string, description\?\: string\|null, start_at\: string, end_at\?\: string\|null\} on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Actions/Sessions/CreateSessionAction.php
+
+		-
+			message: '#^Offset ''draw_allocation_mode'' on array\{name\: string, description\?\: string\|null, start_at\: string, end_at\?\: string\|null\} on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Actions/Sessions/CreateSessionAction.php
+
+		-
+			message: '#^Offset ''start_at'' on array\{name\: string, description\?\: string\|null, start_at\: string, end_at\?\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Actions/Sessions/CreateSessionAction.php
+
+		-
+			message: '#^Method App\\Actions\\Sessions\\UpdateSessionAction\:\:execute\(\) has parameter \$attributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Sessions/UpdateSessionAction.php
+
+		-
+			message: '#^Parameter \$query of method App\\Support\\UniqueSlug\:\:generate\(\) expects Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>, Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Tontine\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Tontines/CreateTontineAction.php
+
+		-
+			message: '#^Parameter \#1 \$participant of static method App\\Data\\SessionParticipantData\:\:fromModel\(\) expects App\\Models\\SessionParticipant, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/ContributionData.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$meetings\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/DrawData.php
+
+		-
+			message: '#^Method App\\Data\\DrawData\:\:__construct\(\) has parameter \$entries with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Data/DrawData.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: App\\Data\\DrawEntryData, Closure\(App\\Models\\DrawEntry\)\: App\\Data\\DrawEntryData given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/DrawData.php
+
+		-
+			message: '#^Parameter \$confirmed_at of class App\\Data\\DrawData constructor expects Carbon\\CarbonImmutable\|null, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/DrawData.php
+
+		-
+			message: '#^Parameter \$session of method App\\Support\\DrawCalendar\:\:meetingForEntry\(\) expects App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/DrawData.php
+
+		-
+			message: '#^Parameter \#1 \$participant of static method App\\Data\\SessionParticipantData\:\:fromModel\(\) expects App\\Models\\SessionParticipant, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/DrawEntryData.php
+
+		-
+			message: '#^Parameter \$scheduled_at of class App\\Data\\ExpectedDrawMeetingData constructor expects Carbon\\CarbonImmutable, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/ExpectedDrawMeetingData.php
+
+		-
+			message: '#^Parameter \#1 \$participant of static method App\\Data\\SessionParticipantData\:\:fromModel\(\) expects App\\Models\\SessionParticipant, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/MeetingAttendanceData.php
+
+		-
+			message: '#^Parameter \$checked_in_at of class App\\Data\\MeetingAttendanceData constructor expects Carbon\\CarbonImmutable\|null, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/MeetingAttendanceData.php
+
+		-
+			message: '#^Parameter \$status of class App\\Data\\MeetingAttendanceData constructor expects App\\Enums\\AttendanceStatus, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/MeetingAttendanceData.php
+
+		-
+			message: '#^Method App\\Data\\MeetingData\:\:__construct\(\) has parameter \$agenda_items with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Data/MeetingData.php
+
+		-
+			message: '#^Method App\\Data\\MeetingData\:\:__construct\(\) has parameter \$attendances with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Data/MeetingData.php
+
+		-
+			message: '#^Method App\\Data\\MeetingData\:\:__construct\(\) has parameter \$contributions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Data/MeetingData.php
+
+		-
+			message: '#^Method App\\Data\\MeetingData\:\:__construct\(\) has parameter \$decisions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Data/MeetingData.php
+
+		-
+			message: '#^Method App\\Data\\MeetingData\:\:__construct\(\) has parameter \$notes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Data/MeetingData.php
+
+		-
+			message: '#^Method App\\Data\\MeetingData\:\:__construct\(\) has parameter \$payouts with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Data/MeetingData.php
+
+		-
+			message: '#^Parameter \$closed_at of class App\\Data\\MeetingData constructor expects Carbon\\CarbonImmutable\|Spatie\\LaravelData\\Optional\|null, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/MeetingData.php
+
+		-
+			message: '#^Parameter \$opened_at of class App\\Data\\MeetingData constructor expects Carbon\\CarbonImmutable\|Spatie\\LaravelData\\Optional\|null, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/MeetingData.php
+
+		-
+			message: '#^Parameter \$scheduled_at of class App\\Data\\MeetingData constructor expects Carbon\\CarbonImmutable, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/MeetingData.php
+
+		-
+			message: '#^Parameter \$status of class App\\Data\\MeetingData constructor expects App\\Enums\\MeetingStatus, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/MeetingData.php
+
+		-
+			message: '#^Parameter \#1 \$agendaItem of static method App\\Data\\MeetingAgendaItemData\:\:fromModel\(\) expects App\\Models\\MeetingAgendaItem, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/MeetingDecisionData.php
+
+		-
+			message: '#^Parameter \#1 \$agendaItem of static method App\\Data\\MeetingAgendaItemData\:\:fromModel\(\) expects App\\Models\\MeetingAgendaItem, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/MeetingNoteData.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Meeting\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/MeetingSummaryData.php
+
+		-
+			message: '#^Parameter \$scheduled_at of class App\\Data\\MeetingSummaryData constructor expects Carbon\\CarbonImmutable, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/MeetingSummaryData.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Membership\:\:\$creator\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/MembershipData.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$roles\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/MembershipData.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$membership\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/PayoutCandidateData.php
+
+		-
+			message: '#^Parameter \$amount of class App\\Data\\PayoutData constructor expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/PayoutData.php
+
+		-
+			message: '#^Parameter \$paid_at of class App\\Data\\PayoutData constructor expects Carbon\\CarbonImmutable\|null, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/PayoutData.php
+
+		-
+			message: '#^Parameter \$status of class App\\Data\\PayoutData constructor expects App\\Enums\\PayoutStatus, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/PayoutData.php
+
+		-
+			message: '#^Parameter \$joined_at of class App\\Data\\SessionParticipantData constructor expects Carbon\\CarbonImmutable\|Spatie\\LaravelData\\Optional\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/SessionParticipantData.php
+
+		-
+			message: '#^Parameter \$left_at of class App\\Data\\SessionParticipantData constructor expects Carbon\\CarbonImmutable\|Spatie\\LaravelData\\Optional\|null, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/SessionParticipantData.php
+
+		-
+			message: '#^Anonymous function never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Data/TontineData.php
+
+		-
+			message: '#^Method App\\Data\\TontineData\:\:prepareForPipeline\(\) has parameter \$properties with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Data/TontineData.php
+
+		-
+			message: '#^Method App\\Data\\TontineData\:\:prepareForPipeline\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Data/TontineData.php
+
+		-
+			message: '#^Method App\\Enums\\AttendanceStatus\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/AttendanceStatus.php
+
+		-
+			message: '#^Method App\\Enums\\ContributionStatus\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/ContributionStatus.php
+
+		-
+			message: '#^Method App\\Enums\\DrawAllocationMode\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/DrawAllocationMode.php
+
+		-
+			message: '#^Method App\\Enums\\MeetingStatus\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/MeetingStatus.php
+
+		-
+			message: '#^Method App\\Enums\\MembershipStatus\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/MembershipStatus.php
+
+		-
+			message: '#^Match expression does not handle remaining values\: App\\Enums\\TontinePermission\:\:CancelMeetings\|App\\Enums\\TontinePermission\:\:CancelPayouts\|App\\Enums\\TontinePermission\:\:CloseMeetings\|App\\Enums\\TontinePermission\:\:CreateMeetingAgenda\|App\\Enums\\TontinePermission\:\:CreateMeetingDecisions\|App\\Enums\\TontinePermission\:\:CreateMeetingNotes\|App\\Enums\\TontinePermission\:\:CreateMeetings\|App\\Enums\\TontinePermission\:\:CreatePayouts\|App\\Enums\\TontinePermission\:\:DeleteMeetingAgenda\|App\\Enums\\TontinePermission\:\:DeleteMeetingDecisions\|App\\Enums\\TontinePermission\:\:DeleteMeetingNotes\|App\\Enums\\TontinePermission\:\:DeleteMeetings\|App\\Enums\\TontinePermission\:\:OpenMeetings\|App\\Enums\\TontinePermission\:\:PayPayouts\|App\\Enums\\TontinePermission\:\:RecordContributionPayments\|App\\Enums\\TontinePermission\:\:RestoreDraws\|App\\Enums\\TontinePermission\:\:UpdateDraws\|App\\Enums\\TontinePermission\:\:UpdateMeetingAgenda\|App\\Enums\\TontinePermission\:\:UpdateMeetingAttendances\|App\\Enums\\TontinePermission\:\:UpdateMeetingDecisions\|App\\Enums\\TontinePermission\:\:UpdateMeetingNotes\|App\\Enums\\TontinePermission\:\:UpdateMeetings\|App\\Enums\\TontinePermission\:\:UpdatePayouts\|App\\Enums\\TontinePermission\:\:ViewMeetingAgenda\|App\\Enums\\TontinePermission\:\:ViewMeetingAttendances\|App\\Enums\\TontinePermission\:\:ViewMeetingDecisions\|App\\Enums\\TontinePermission\:\:ViewMeetingNotes\|App\\Enums\\TontinePermission\:\:ViewMeetings\|App\\Enums\\TontinePermission\:\:ViewPayouts$#'
+			identifier: match.unhandled
+			count: 1
+			path: app/Enums/TontinePermission.php
+
+		-
+			message: '#^Method App\\Enums\\TontineRole\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/TontineRole.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\ContributionController\:\:create\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/ContributionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\ContributionController\:\:destroy\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/ContributionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\ContributionController\:\:edit\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/ContributionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\ContributionController\:\:index\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/ContributionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\ContributionController\:\:show\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/ContributionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\ContributionController\:\:store\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/ContributionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\ContributionController\:\:update\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/ContributionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\ContributionPaymentController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/ContributionPaymentController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\DrawController\:\:swap\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/DrawController.php
+
+		-
+			message: '#^Parameter \#1 \$draw of method App\\Actions\\Draws\\DeleteDrawAction\:\:execute\(\) expects App\\Models\\Draw, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/DrawController.php
+
+		-
+			message: '#^Parameter \#1 \$draw of method App\\Actions\\Draws\\ResetDrawAction\:\:execute\(\) expects App\\Models\\Draw, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/DrawController.php
+
+		-
+			message: '#^Parameter \#1 \$draw of static method App\\Data\\DrawData\:\:fromModel\(\) expects App\\Models\\Draw, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/DrawController.php
+
+		-
+			message: '#^Parameter \$draw of method App\\Actions\\Draws\\ConfirmDrawAction\:\:execute\(\) expects App\\Models\\Draw, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/DrawController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingAgendaItemController\:\:destroy\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingAgendaItemController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingAgendaItemController\:\:reorder\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingAgendaItemController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingAgendaItemController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingAgendaItemController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingAgendaItemController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingAgendaItemController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingAttendanceController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingAttendanceController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingController\:\:cancel\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingController\:\:close\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingController\:\:open\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingDecisionController\:\:destroy\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingDecisionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingDecisionController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingDecisionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingDecisionController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingDecisionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingNoteController\:\:destroy\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingNoteController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingNoteController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingNoteController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingNoteController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingNoteController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/MembershipController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/MembershipController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/MembershipController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$roles\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/MembershipController.php
+
+		-
+			message: '#^Anonymous function should return Illuminate\\Pagination\\LengthAwarePaginator\<int, array\{id\: int, tontine_id\: int, tontine_slug\: string, member_number\: string, status\: string, role\: array\{name\: mixed, label\: mixed\}\|null, user\: array\{id\: mixed, name\: mixed, email\: mixed\}\}\> but returns Illuminate\\Pagination\\LengthAwarePaginator\<int, array\{id\: int, tontine_id\: int, tontine_slug\: string, member_number\: string, status\: string, role\: array\{name\: mixed, label\: mixed\}\|null, user\: array\{id\: mixed, name\: mixed, email\: mixed\}\}\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MembershipController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MembershipController\:\:destroy\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MembershipController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MembershipController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MembershipController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MembershipController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MembershipController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Pagination\\AbstractPaginator\<int,App\\Models\\Membership\>\:\:through\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/MembershipController.php
+
+		-
+			message: '#^Parameter \$user of method App\\Actions\\Memberships\\CreateMembershipAction\:\:execute\(\) expects App\\Models\\User, App\\Models\\User\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\User\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/MembershipController.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Pagination\\AbstractPaginator\<int,App\\Models\\Membership\>\:\:through\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Http/Controllers/MembershipController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\PayoutController\:\:cancel\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/PayoutController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\PayoutController\:\:pay\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/PayoutController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\PayoutController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/PayoutController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\PayoutController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/PayoutController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SessionController\:\:activate\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/SessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SessionController\:\:close\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/SessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SessionController\:\:destroy\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/SessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SessionController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/SessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SessionController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/SessionController.php
+
+		-
+			message: '#^Parameter \$attributes of method App\\Actions\\Sessions\\CreateSessionAction\:\:execute\(\) expects array\{name\: string, description\?\: string\|null, start_at\: string, end_at\?\: string\|null\}, array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/SessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SessionParticipantController\:\:destroy\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/SessionParticipantController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SessionParticipantController\:\:reactivate\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/SessionParticipantController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SessionParticipantController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/SessionParticipantController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SessionParticipantController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/SessionParticipantController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:create\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/TransactionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:destroy\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/TransactionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:edit\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/TransactionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:index\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/TransactionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:show\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/TransactionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:store\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/TransactionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:update\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:membershipsInTontine\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:users\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:users\(\) should return Illuminate\\Support\\Collection but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:usersInTontine\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:usersInTontine\(\) should return Illuminate\\Support\\Collection but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Membership\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Membership\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Method App\\Http\\Middleware\\HandleInertiaRequests\:\:authorization\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Middleware/HandleInertiaRequests.php
+
+		-
+			message: '#^Method App\\Http\\Middleware\\HandleInertiaRequests\:\:getTranslations\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Middleware/HandleInertiaRequests.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Middleware/HandleInertiaRequests.php
+
+		-
+			message: '#^Parameter \#1 \$boolean of function abort_unless expects bool, App\\Models\\User\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Middleware/SetTontineTeam.php
+
+		-
+			message: '#^Access to an undefined property \(object\|string\)\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Requests/FormMeetingDecisionRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\FormMeetingDecisionRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/FormMeetingDecisionRequest.php
+
+		-
+			message: '#^Access to an undefined property \(object\|string\)\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Requests/FormMeetingNoteRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\FormMeetingNoteRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/FormMeetingNoteRequest.php
+
+		-
+			message: '#^Access to an undefined property \(object\|string\)\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Requests/FormMembershipRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\FormMembershipRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/FormMembershipRequest.php
+
+		-
+			message: '#^Access to an undefined property \(object\|string\)\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Requests/FormSessionRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\SessionParticipants\\StoreSessionParticipantRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/SessionParticipants/StoreSessionParticipantRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\SessionParticipants\\UpdateSessionParticipantRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/SessionParticipants/UpdateSessionParticipantRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\StoreContributionPaymentRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/StoreContributionPaymentRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\StoreMeetingRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/StoreMeetingRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\SwapDrawEntriesRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/SwapDrawEntriesRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\UpdateMeetingRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/UpdateMeetingRequest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:credits\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Contribution.php
+
+		-
+			message: '#^Class App\\Models\\Contribution uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Contribution.php
+
+		-
+			message: '#^Method App\\Models\\Contribution\:\:meeting\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Contribution.php
+
+		-
+			message: '#^Method App\\Models\\Contribution\:\:sessionParticipant\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Contribution.php
+
+		-
+			message: '#^Method App\\Models\\Contribution\:\:transactions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Contribution.php
+
+		-
+			message: '#^Method App\\Models\\Draw\:\:confirmer\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Draw.php
+
+		-
+			message: '#^Method App\\Models\\Draw\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Draw.php
+
+		-
+			message: '#^Method App\\Models\\Draw\:\:entries\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Draw.php
+
+		-
+			message: '#^Method App\\Models\\Draw\:\:session\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Draw.php
+
+		-
+			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperDraw\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Draw.php
+
+		-
+			message: '#^Method App\\Models\\DrawEntry\:\:draw\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/DrawEntry.php
+
+		-
+			message: '#^Method App\\Models\\DrawEntry\:\:payout\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/DrawEntry.php
+
+		-
+			message: '#^Method App\\Models\\DrawEntry\:\:sessionParticipant\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/DrawEntry.php
+
+		-
+			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperDrawEntry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/DrawEntry.php
+
+		-
+			message: '#^Method App\\Models\\Meeting\:\:agendaItems\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Method App\\Models\\Meeting\:\:attendances\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Method App\\Models\\Meeting\:\:contributions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Method App\\Models\\Meeting\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Method App\\Models\\Meeting\:\:decisions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Method App\\Models\\Meeting\:\:notes\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Method App\\Models\\Meeting\:\:payouts\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Method App\\Models\\Meeting\:\:session\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperMeeting\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between string and App\\Enums\\MeetingStatus\:\:Cancelled will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between string and App\\Enums\\MeetingStatus\:\:Completed will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between string and App\\Enums\\MeetingStatus\:\:InProgress will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between string and App\\Enums\\MeetingStatus\:\:Scheduled will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Method App\\Models\\MeetingAgendaItem\:\:meeting\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingAgendaItem.php
+
+		-
+			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperMeetingAgendaItem\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/MeetingAgendaItem.php
+
+		-
+			message: '#^Method App\\Models\\MeetingAttendance\:\:meeting\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingAttendance.php
+
+		-
+			message: '#^Method App\\Models\\MeetingAttendance\:\:sessionParticipant\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingAttendance.php
+
+		-
+			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperMeetingAttendance\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/MeetingAttendance.php
+
+		-
+			message: '#^Class App\\Models\\MeetingDecision uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingDecision.php
+
+		-
+			message: '#^Method App\\Models\\MeetingDecision\:\:agendaItem\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingDecision.php
+
+		-
+			message: '#^Method App\\Models\\MeetingDecision\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingDecision.php
+
+		-
+			message: '#^Method App\\Models\\MeetingDecision\:\:meeting\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingDecision.php
+
+		-
+			message: '#^Class App\\Models\\MeetingNote uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingNote.php
+
+		-
+			message: '#^Method App\\Models\\MeetingNote\:\:agendaItem\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingNote.php
+
+		-
+			message: '#^Method App\\Models\\MeetingNote\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingNote.php
+
+		-
+			message: '#^Method App\\Models\\MeetingNote\:\:meeting\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingNote.php
+
+		-
+			message: '#^Class App\\Models\\Membership uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Method App\\Models\\Membership\:\:inviter\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Method App\\Models\\Membership\:\:orderFromRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Method App\\Models\\Membership\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Method App\\Models\\Membership\:\:scopeActive\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Method App\\Models\\Membership\:\:scopeActive\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Method App\\Models\\Membership\:\:sessionParticipations\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Method App\\Models\\Membership\:\:tontine\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Method App\\Models\\Membership\:\:user\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperMembership\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Property App\\Models\\Membership\:\:\$sortable has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Class App\\Models\\Payout uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Payout.php
+
+		-
+			message: '#^Method App\\Models\\Payout\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Payout.php
+
+		-
+			message: '#^Method App\\Models\\Payout\:\:drawEntry\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Payout.php
+
+		-
+			message: '#^Method App\\Models\\Payout\:\:meeting\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Payout.php
+
+		-
+			message: '#^Method App\\Models\\Payout\:\:transactions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Payout.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:activeParticipants\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:completedMeetings\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:draw\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:meetings\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:orderFromRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:participants\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:sessionParticipations\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:tontine\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperSession\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Property App\\Models\\Session\:\:\$sortable has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\SessionParticipant\:\:drawEntries\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/SessionParticipant.php
+
+		-
+			message: '#^Method App\\Models\\SessionParticipant\:\:meetingAttendances\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/SessionParticipant.php
+
+		-
+			message: '#^Method App\\Models\\SessionParticipant\:\:membership\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/SessionParticipant.php
+
+		-
+			message: '#^Method App\\Models\\SessionParticipant\:\:scopeActive\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/SessionParticipant.php
+
+		-
+			message: '#^Method App\\Models\\SessionParticipant\:\:scopeActive\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/SessionParticipant.php
+
+		-
+			message: '#^Method App\\Models\\SessionParticipant\:\:session\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/SessionParticipant.php
+
+		-
+			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperSessionParticipant\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/SessionParticipant.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Tontine\:\:\$default_membership_role\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Class App\\Models\\Tontine uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Generic type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<App\\Models\\User\> in PHPDoc tag @return does not specify all template types of class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\: TRelatedModel, TDeclaringModel$#'
+			identifier: generics.lessTypes
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Generic type Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership\> in PHPDoc tag @return does not specify all template types of class Illuminate\\Database\\Eloquent\\Relations\\HasMany\: TRelatedModel, TDeclaringModel$#'
+			identifier: generics.lessTypes
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Method App\\Models\\Tontine\:\:activeSession\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Method App\\Models\\Tontine\:\:hasActiveMembership\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Method App\\Models\\Tontine\:\:members\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Method App\\Models\\Tontine\:\:memberships\(\) should return Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership\> but returns Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership, \$this\(App\\Models\\Tontine\)\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Method App\\Models\\Tontine\:\:orderFromRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Method App\\Models\\Tontine\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Method App\\Models\\Tontine\:\:owner\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<App\\Models\\User\> but returns Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<App\\Models\\User, \$this\(App\\Models\\Tontine\)\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Method App\\Models\\Tontine\:\:scopeAccessibleBy\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Method App\\Models\\Tontine\:\:scopeAccessibleBy\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Method App\\Models\\Tontine\:\:sessions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperTontine\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Property App\\Models\\Tontine\:\:\$sortable has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/Tontine.php
+
+		-
+			message: '#^Class App\\Models\\Transaction uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Method App\\Models\\Transaction\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Method App\\Models\\Transaction\:\:meeting\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Method App\\Models\\Transaction\:\:membership\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Method App\\Models\\Transaction\:\:scopeCredits\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Method App\\Models\\Transaction\:\:scopeCredits\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Method App\\Models\\Transaction\:\:scopeDebits\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Method App\\Models\\Transaction\:\:scopeDebits\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Method App\\Models\\Transaction\:\:session\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Method App\\Models\\Transaction\:\:tontine\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Method App\\Models\\Transaction\:\:transactionable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Generic type Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership\> in PHPDoc tag @return does not specify all template types of class Illuminate\\Database\\Eloquent\\Relations\\HasMany\: TRelatedModel, TDeclaringModel$#'
+			identifier: generics.lessTypes
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:memberships\(\) should return Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership\> but returns Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership, \$this\(App\\Models\\User\)\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:ownedTontines\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:tontines\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\<App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Relations\\Pivot, ''pivot''\> but returns Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\<App\\Models\\Tontine, \$this\(App\\Models\\User\), Illuminate\\Database\\Eloquent\\Relations\\Pivot, ''pivot''\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperUser\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Type string in generic type Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\<App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Relations\\Pivot, string\> in PHPDoc tag @return is not subtype of template type TPivotModel of Illuminate\\Database\\Eloquent\\Relations\\Pivot \= Illuminate\\Database\\Eloquent\\Relations\\Pivot of class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\.$#'
+			identifier: generics.notSubtype
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Policies/ContributionPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Policies/ContributionPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Policies/DrawPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasActiveMembership\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/DrawPolicy.php
+
+		-
+			message: '#^Parameter \$tontine of method App\\Policies\\DrawPolicy\:\:can\(\) expects App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Policies/DrawPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Policies/MeetingAgendaItemPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Policies/MeetingAgendaItemPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Policies/MeetingAttendancePolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Policies/MeetingAttendancePolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Policies/MeetingDecisionPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Policies/MeetingDecisionPolicy.php
+
+		-
+			message: '#^Parameter \#2 \$meeting of method App\\Policies\\MeetingDecisionPolicy\:\:viewAny\(\) expects App\\Models\\Meeting, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/MeetingDecisionPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Policies/MeetingNotePolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Policies/MeetingNotePolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			identifier: property.notFound
+			count: 16
+			path: app/Policies/MeetingPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasActiveMembership\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/MeetingPolicy.php
+
+		-
+			message: '#^Parameter \#2 \$tontine of method App\\Policies\\MeetingPolicy\:\:can\(\) expects App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Policies/MeetingPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasActiveMembership\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Policies/MembershipPolicy.php
+
+		-
+			message: '#^Parameter \#2 \$tontine of method App\\Policies\\MembershipPolicy\:\:can\(\) expects App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: app/Policies/MembershipPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Policies/PayoutPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Policies/PayoutPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			identifier: property.notFound
+			count: 8
+			path: app/Policies/SessionParticipantPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasActiveMembership\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/SessionParticipantPolicy.php
+
+		-
+			message: '#^Parameter \#2 \$tontine of method App\\Policies\\SessionParticipantPolicy\:\:can\(\) expects App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Policies/SessionParticipantPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasActiveMembership\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Policies/SessionPolicy.php
+
+		-
+			message: '#^Parameter \#2 \$tontine of method App\\Policies\\SessionPolicy\:\:can\(\) expects App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 5
+			path: app/Policies/SessionPolicy.php
+
+		-
+			message: '#^Method App\\Support\\DrawCalendar\:\:positionsForMeeting\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Support/DrawCalendar.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Support/UniqueSlug.php
+
+		-
+			message: '#^Class Spatie\\MediaLibraryPro\\Models\\TemporaryUpload not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: config/media-library.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Meeting\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Meeting\>\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 2
+			path: database/factories/PayoutFactory.php

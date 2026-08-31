@@ -1,4 +1,4 @@
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent } from '../ui/card';
 
 type OverviewCardProps = {
     title: string;
@@ -17,13 +17,9 @@ export function OverviewCard({
         <Card>
             <CardContent className="flex items-start justify-between">
                 <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">
-                        {title}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{title}</p>
 
-                    <p className="text-2xl font-semibold">
-                        {value}
-                    </p>
+                    <p className="text-2xl font-semibold">{value}</p>
 
                     <p className="text-xs text-muted-foreground">
                         {description}

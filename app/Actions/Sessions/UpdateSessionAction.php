@@ -26,19 +26,15 @@ final class UpdateSessionAction
             }
 
             $session->fill([
-                'name' =>
-                $attributes['name'] ?? $session->name,
+                'name' => $attributes['name'] ?? $session->name,
 
-                'description' =>
-                $attributes['description']
+                'description' => $attributes['description']
                     ?? $session->description,
 
-                'start_at' =>
-                $attributes['start_at']
+                'start_at' => $attributes['start_at']
                     ?? $session->start_at,
 
-                'end_at' =>
-                $attributes['end_at']
+                'end_at' => $attributes['end_at']
                     ?? $session->end_at,
             ]);
 
@@ -60,15 +56,12 @@ final class UpdateSessionAction
                 );
 
                 $session->fill([
-                    'default_contribution_amount' =>
-                    $attributes['default_contribution_amount']
+                    'default_contribution_amount' => $attributes['default_contribution_amount']
                         ?? $session->default_contribution_amount,
 
-                    'draw_allocation_mode' =>
-                    $allocationMode,
+                    'draw_allocation_mode' => $allocationMode,
 
-                    'base_contribution_amount' =>
-                    $baseContributionAmount,
+                    'base_contribution_amount' => $baseContributionAmount,
                 ]);
             }
 

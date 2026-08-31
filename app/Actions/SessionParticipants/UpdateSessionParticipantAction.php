@@ -51,24 +51,20 @@ final class UpdateSessionParticipantAction
             $entriesCount = match ($session->draw_allocation_mode) {
                 DrawAllocationMode::OnePerMember => 1,
 
-                DrawAllocationMode::BasedOnContribution =>
-                $this->entriesFromContribution(
+                DrawAllocationMode::BasedOnContribution => $this->entriesFromContribution(
                     $session->base_contribution_amount,
                     $contributionAmount,
                 ),
 
-                DrawAllocationMode::Custom =>
-                $this->validateCustomCount(
+                DrawAllocationMode::Custom => $this->validateCustomCount(
                     $drawEntriesCount,
                 ),
             };
 
             $participant->fill([
-                'contribution_amount' =>
-                $contributionAmount,
+                'contribution_amount' => $contributionAmount,
 
-                'draw_entries_count' =>
-                $entriesCount,
+                'draw_entries_count' => $entriesCount,
             ]);
 
             $participant->save();

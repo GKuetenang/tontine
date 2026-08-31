@@ -31,7 +31,7 @@ final class SyncTontineRolesAction
                     ]);
 
                 $permissionNames = array_map(
-                    static fn(
+                    static fn (
                         TontinePermission $permission,
                     ): string => $permission->value,
                     $roleName->defaultPermissions(),
@@ -50,7 +50,7 @@ final class SyncTontineRolesAction
                 if ($missingPermissions !== []) {
                     throw new LogicException(
                         'Permissions manquantes : '
-                            . implode(', ', $missingPermissions)
+                            .implode(', ', $missingPermissions)
                     );
                 }
 

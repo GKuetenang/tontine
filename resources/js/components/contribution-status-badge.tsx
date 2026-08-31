@@ -1,11 +1,10 @@
-import { Badge } from '@/components/ui/badge';
-import type { ContributionStatus } from '@/types';
-
 import {
     CheckCircle2Icon,
     CircleDashedIcon,
     CircleDollarSignIcon,
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import type { ContributionStatus } from '@/types';
 
 const config = {
     unpaid: {

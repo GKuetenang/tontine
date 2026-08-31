@@ -47,8 +47,8 @@ final class BuildMeetingPayoutContextAction
 
         $entries =
             $draw->entries
-            ->sortBy('position')
-            ->values();
+                ->sortBy('position')
+                ->values();
 
         /*
          * DrawEntries normalement prévus
@@ -56,11 +56,11 @@ final class BuildMeetingPayoutContextAction
          */
         $expectedEntries =
             $this->calendar
-            ->entriesForMeeting(
-                session: $session,
-                meeting: $meeting,
-                entries: $entries,
-            );
+                ->entriesForMeeting(
+                    session: $session,
+                    meeting: $meeting,
+                    entries: $entries,
+                );
 
         /*
          * Un DrawEntry ayant déjà un Payout
@@ -68,48 +68,44 @@ final class BuildMeetingPayoutContextAction
          */
         $availableEntries =
             $entries
-            ->filter(
-                fn(DrawEntry $entry): bool =>
-                $entry->payout === null,
-            )
-            ->values();
+                ->filter(
+                    fn (DrawEntry $entry): bool => $entry->payout === null,
+                )
+                ->values();
 
         $expectedIds =
             $expectedEntries
-            ->pluck('id')
-            ->all();
+                ->pluck('id')
+                ->all();
 
         $expected =
             $expectedEntries
-            ->filter(
-                fn(DrawEntry $entry): bool =>
-                $entry->payout === null,
-            )
-            ->map(
-                fn(DrawEntry $entry) =>
-                PayoutCandidateData::fromModel(
-                    entry: $entry,
-                    expected: true,
-                ),
-            )
-            ->values()
-            ->all();
+                ->filter(
+                    fn (DrawEntry $entry): bool => $entry->payout === null,
+                )
+                ->map(
+                    fn (DrawEntry $entry) => PayoutCandidateData::fromModel(
+                        entry: $entry,
+                        expected: true,
+                    ),
+                )
+                ->values()
+                ->all();
 
         $available =
             $availableEntries
-            ->map(
-                fn(DrawEntry $entry) =>
-                PayoutCandidateData::fromModel(
-                    entry: $entry,
-                    expected: in_array(
-                        $entry->id,
-                        $expectedIds,
-                        true,
+                ->map(
+                    fn (DrawEntry $entry) => PayoutCandidateData::fromModel(
+                        entry: $entry,
+                        expected: in_array(
+                            $entry->id,
+                            $expectedIds,
+                            true,
+                        ),
                     ),
-                ),
-            )
-            ->values()
-            ->all();
+                )
+                ->values()
+                ->all();
 
         return new MeetingPayoutContextData(
             expected: $expected,

@@ -24,7 +24,7 @@ class UpdateMembershipAction
 
         $membership->fill([
             'status' => $status,
-            'left_at' => null
+            'left_at' => null,
         ]);
 
         $membership->save();

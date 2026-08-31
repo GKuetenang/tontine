@@ -1,37 +1,4 @@
-
-import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-} from '@/components/ui/tabs';
-
-import { withAppLayout } from '@/layouts/app-layout';
-
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
-import meetings from '@/routes/tontines/sessions/meetings';
-
-import type {
-    BreadcrumbItem,
-    Meeting,
-    MeetingPayoutContext,
-    Session,
-    Tontine,
-} from '@/types';
-
 import { Head } from '@inertiajs/react';
-
-import { MeetingHeader } from '@/pages/meetings/components/meeting-header';
-
-
-
-import { MeetingAgenda } from '@/pages/meeting-agendas/show';
-import { MeetingAttendances } from '@/pages/meeting-attendances/show';
-import { MeetingContributions } from '@/pages/meeting-contributions/show';
-import { MeetingDecisions } from '@/pages/meeting-decisions/show';
-import { MeetingNotes } from '@/pages/meeting-notes/show';
-import { MeetingPayouts } from '@/pages/meeting-payouts/show';
 import {
     CheckCircle2Icon,
     ClipboardListIcon,
@@ -39,8 +6,29 @@ import {
     HandCoinsIcon,
     InfoIcon,
     NotebookPenIcon,
-    UsersIcon
+    UsersIcon,
 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import { withAppLayout } from '@/layouts/app-layout';
+
+import { MeetingAgenda } from '@/pages/meeting-agendas/show';
+import { MeetingAttendances } from '@/pages/meeting-attendances/show';
+import { MeetingContributions } from '@/pages/meeting-contributions/show';
+import { MeetingDecisions } from '@/pages/meeting-decisions/show';
+import { MeetingNotes } from '@/pages/meeting-notes/show';
+import { MeetingPayouts } from '@/pages/meeting-payouts/show';
+import { MeetingHeader } from '@/pages/meetings/components/meeting-header';
+import tontines from '@/routes/tontines';
+import sessions from '@/routes/tontines/sessions';
+import meetings from '@/routes/tontines/sessions/meetings';
+import type {
+    BreadcrumbItem,
+    Meeting,
+    MeetingPayoutContext,
+    Session,
+    Tontine,
+} from '@/types';
 import { MeetingOverview } from './components/overview';
 
 type Props = {
@@ -51,7 +39,7 @@ type Props = {
 };
 
 export default withAppLayout<Props>(
-    ({ tontine, session, meeting, }) =>
+    ({ tontine, session, meeting }) =>
         [
             {
                 title: 'Tontines',
@@ -101,14 +89,11 @@ export default withAppLayout<Props>(
                         tontine={tontine}
                     />
 
-                    <Tabs
-                        defaultValue="overview"
-                        className="w-full"
-                    >
-                        <TabsList className="h-auto w-full justify-start gap-2 overflow-x-auto ">
+                    <Tabs defaultValue="overview" className="w-full">
+                        <TabsList className="h-auto w-full justify-start gap-2 overflow-x-auto">
                             <TabsTrigger
                                 value="overview"
-                                className="data-[state=active]:shadow-none! data-[state=active]:bg-sidebar-accent hover:bg-sidebar-accent"
+                                className="hover:bg-sidebar-accent data-[state=active]:bg-sidebar-accent data-[state=active]:shadow-none!"
                             >
                                 <InfoIcon className="size-4" />
                                 Aperçu
@@ -116,7 +101,7 @@ export default withAppLayout<Props>(
 
                             <TabsTrigger
                                 value="agenda"
-                                className="data-[state=active]:shadow-none! data-[state=active]:bg-sidebar-accent hover:bg-sidebar-accent"
+                                className="hover:bg-sidebar-accent data-[state=active]:bg-sidebar-accent data-[state=active]:shadow-none!"
                             >
                                 <ClipboardListIcon className="size-4" />
                                 Ordre du jour
@@ -124,7 +109,7 @@ export default withAppLayout<Props>(
 
                             <TabsTrigger
                                 value="attendances"
-                                className="data-[state=active]:shadow-none! data-[state=active]:bg-sidebar-accent hover:bg-sidebar-accent"
+                                className="hover:bg-sidebar-accent data-[state=active]:bg-sidebar-accent data-[state=active]:shadow-none!"
                             >
                                 <UsersIcon className="size-4" />
                                 Présences
@@ -132,7 +117,7 @@ export default withAppLayout<Props>(
 
                             <TabsTrigger
                                 value="contributions"
-                                className="data-[state=active]:shadow-none! data-[state=active]:bg-sidebar-accent hover:bg-sidebar-accent"
+                                className="hover:bg-sidebar-accent data-[state=active]:bg-sidebar-accent data-[state=active]:shadow-none!"
                             >
                                 <CoinsIcon className="size-4" />
                                 Cotisations
@@ -145,7 +130,7 @@ export default withAppLayout<Props>(
 
                             <TabsTrigger
                                 value="notes"
-                                className="data-[state=active]:shadow-none! data-[state=active]:bg-sidebar-accent hover:bg-sidebar-accent"
+                                className="hover:bg-sidebar-accent data-[state=active]:bg-sidebar-accent data-[state=active]:shadow-none!"
                             >
                                 <NotebookPenIcon className="size-4" />
                                 Notes
@@ -153,7 +138,7 @@ export default withAppLayout<Props>(
 
                             <TabsTrigger
                                 value="decisions"
-                                className="data-[state=active]:shadow-none! data-[state=active]:bg-sidebar-accent hover:bg-sidebar-accent"
+                                className="hover:bg-sidebar-accent data-[state=active]:bg-sidebar-accent data-[state=active]:shadow-none!"
                             >
                                 <CheckCircle2Icon className="size-4" />
                                 Décisions
@@ -164,15 +149,10 @@ export default withAppLayout<Props>(
                             value="overview"
                             className="mt-6 space-y-6"
                         >
-                            <MeetingOverview
-                                meeting={meeting}
-                            />
+                            <MeetingOverview meeting={meeting} />
                         </TabsContent>
 
-                        <TabsContent
-                            value="agenda"
-                            className="mt-6"
-                        >
+                        <TabsContent value="agenda" className="mt-6">
                             <MeetingAgenda
                                 tontine={tontine}
                                 session={session}
@@ -180,10 +160,7 @@ export default withAppLayout<Props>(
                             />
                         </TabsContent>
 
-                        <TabsContent
-                            value="attendances"
-                            className="mt-6"
-                        >
+                        <TabsContent value="attendances" className="mt-6">
                             <MeetingAttendances
                                 tontine={tontine}
                                 session={session}
@@ -191,10 +168,7 @@ export default withAppLayout<Props>(
                             />
                         </TabsContent>
 
-                        <TabsContent
-                            value="contributions"
-                            className="mt-6"
-                        >
+                        <TabsContent value="contributions" className="mt-6">
                             <MeetingContributions
                                 tontine={tontine}
                                 session={session}
@@ -202,7 +176,7 @@ export default withAppLayout<Props>(
                             />
                         </TabsContent>
 
-                        <TabsContent value="payouts" className='mt-6'>
+                        <TabsContent value="payouts" className="mt-6">
                             <MeetingPayouts
                                 tontine={tontine}
                                 session={session}
@@ -211,10 +185,7 @@ export default withAppLayout<Props>(
                             />
                         </TabsContent>
 
-                        <TabsContent
-                            value="notes"
-                            className="mt-6"
-                        >
+                        <TabsContent value="notes" className="mt-6">
                             <MeetingNotes
                                 tontine={tontine}
                                 session={session}
@@ -222,17 +193,13 @@ export default withAppLayout<Props>(
                             />
                         </TabsContent>
 
-                        <TabsContent
-                            value="decisions"
-                            className="mt-6"
-                        >
+                        <TabsContent value="decisions" className="mt-6">
                             <MeetingDecisions
                                 tontine={tontine}
                                 session={session}
                                 meeting={meeting}
                             />
                         </TabsContent>
-
                     </Tabs>
                 </div>
             </>

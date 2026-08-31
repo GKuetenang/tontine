@@ -18,8 +18,7 @@ class MeetingAgendaItemFactory extends Factory
         return [
             'meeting_id' => Meeting::factory(),
             'title' => fake()->sentence(4),
-            'description' =>
-            fake()->optional()->paragraph(),
+            'description' => fake()->optional()->paragraph(),
             'position' => 1,
         ];
     }

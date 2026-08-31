@@ -1,3 +1,7 @@
+import { Form } from '@inertiajs/react';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import { RichTextEditor } from '@/components/rich-text-editor';
 import { SelectWithItems } from '@/components/select-with-items';
@@ -19,26 +23,7 @@ import { Spinner } from '@/components/ui/spinner';
 
 import decisions from '@/routes/tontines/sessions/meetings/decisions';
 
-import type {
-    Meeting,
-    MeetingDecision,
-    Session,
-    Tontine,
-} from '@/types';
-
-import { Form } from '@inertiajs/react';
-
-import {
-    SaveIcon,
-} from 'lucide-react';
-
-import type {
-    ReactElement,
-} from 'react';
-
-import {
-    useState,
-} from 'react';
+import type { Meeting, MeetingDecision, Session, Tontine } from '@/types';
 
 type Props = {
     trigger: ReactElement;
@@ -57,89 +42,50 @@ export function EditMeetingDecisionForm({
     meeting,
     decision,
 }: Props) {
-    const [open, setOpen] =
-        useState(false);
+    const [open, setOpen] = useState(false);
 
-    const [
-        description,
-        setDescription,
-    ] = useState(
-        decision?.description ?? '',
-    );
+    const [description, setDescription] = useState(decision?.description ?? '');
 
-    const isEditing =
-        Boolean(decision?.id);
+    const isEditing = Boolean(decision?.id);
 
     const agendaItems =
-        meeting.agenda_items?.map(
-            (item) => ({
-                value:
-                    String(item.id),
+        meeting.agenda_items?.map((item) => ({
+            value: String(item.id),
 
-                label:
-                    `${item.position}. ${item.title}`,
-            }),
-        ) ?? [];
+            label: `${item.position}. ${item.title}`,
+        })) ?? [];
 
-    const action =
-        decision?.id
-            ? decisions.update.form({
-                tontine:
-                    tontine.slug!,
+    const action = decision?.id
+        ? decisions.update.form({
+              tontine: tontine.slug!,
 
-                session:
-                    session.slug,
+              session: session.slug,
 
-                meeting:
-                    meeting.slug,
+              meeting: meeting.slug,
 
-                decision:
-                    decision.id,
-            })
-            : decisions.store.form({
-                tontine:
-                    tontine.slug!,
+              decision: decision.id,
+          })
+        : decisions.store.form({
+              tontine: tontine.slug!,
 
-                session:
-                    session.slug,
+              session: session.slug,
 
-                meeting:
-                    meeting.slug,
-            });
+              meeting: meeting.slug,
+          });
 
-    const handleOpenChange = (
-        value: boolean,
-    ) => {
+    const handleOpenChange = (value: boolean) => {
         if (value) {
-            setDescription(
-                decision?.description ??
-                '',
-            );
+            setDescription(decision?.description ?? '');
         }
 
         setOpen(value);
     };
 
     return (
-        <Dialog
-            open={open}
-            onOpenChange={
-                handleOpenChange
-            }
-        >
-            <DialogTrigger asChild>
-                {trigger}
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogTrigger asChild>{trigger}</DialogTrigger>
 
-            <DialogContent
-                className="
-                    flex
-                    max-h-[90vh]
-                    flex-col
-                    overflow-hidden
-                    sm:max-w-5xl
-                "
-            >
+            <DialogContent className="flex max-h-[90vh] flex-col overflow-hidden sm:max-w-5xl">
                 <DialogHeader className="shrink-0">
                     <DialogTitle>
                         {isEditing
@@ -148,8 +94,7 @@ export function EditMeetingDecisionForm({
                     </DialogTitle>
 
                     <DialogDescription>
-                        Enregistrer une décision prise
-                        pendant la réunion.
+                        Enregistrer une décision prise pendant la réunion.
                     </DialogDescription>
                 </DialogHeader>
 
@@ -157,28 +102,18 @@ export function EditMeetingDecisionForm({
                     {...action}
                     resetOnSuccess
                     options={{
-                        preserveScroll:
-                            true,
+                        preserveScroll: true,
                     }}
                     className="flex min-h-0 flex-1 flex-col"
-                    onSuccess={() =>
-                        setOpen(false)
-                    }
+                    onSuccess={() => setOpen(false)}
                 >
-                    {({
-                        errors,
-                        processing,
-                    }) => (
+                    {({ errors, processing }) => (
                         <>
                             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-2">
                                 <FormField
                                     label="Point de l’ordre du jour"
                                     htmlFor="meeting_agenda_item_id"
-                                    error={
-                                        errors[
-                                        'meeting_agenda_item_id'
-                                        ]
-                                    }
+                                    error={errors['meeting_agenda_item_id']}
                                     optional
                                 >
                                     <SelectWithItems
@@ -186,24 +121,18 @@ export function EditMeetingDecisionForm({
                                         name="meeting_agenda_item_id"
                                         items={[
                                             {
-                                                value:
-                                                    '',
+                                                value: '',
 
-                                                label:
-                                                    'Décision générale',
+                                                label: 'Décision générale',
                                             },
 
                                             ...agendaItems,
                                         ]}
                                         defaultValue={
-                                            decision
-                                                ?.agenda_item
-                                                ?.id
+                                            decision?.agenda_item?.id
                                                 ? String(
-                                                    decision
-                                                        .agenda_item
-                                                        .id,
-                                                )
+                                                      decision.agenda_item.id,
+                                                  )
                                                 : ''
                                         }
                                     />
@@ -212,19 +141,13 @@ export function EditMeetingDecisionForm({
                                 <FormField
                                     label="Titre"
                                     htmlFor="title"
-                                    error={
-                                        errors.title
-                                    }
+                                    error={errors.title}
                                     required
                                 >
                                     <Input
                                         id="title"
                                         name="title"
-                                        defaultValue={
-                                            decision
-                                                ?.title ??
-                                            ''
-                                        }
+                                        defaultValue={decision?.title ?? ''}
                                         placeholder="Ex. Nouvelle cotisation mensuelle"
                                     />
                                 </FormField>
@@ -232,55 +155,32 @@ export function EditMeetingDecisionForm({
                                 <FormField
                                     label="Description"
                                     htmlFor="description"
-                                    error={
-                                        errors.description
-                                    }
+                                    error={errors.description}
                                     optional
                                 >
                                     <input
                                         type="hidden"
                                         name="description"
-                                        value={
-                                            description
-                                        }
+                                        value={description}
                                     />
 
                                     <RichTextEditor
-                                        value={
-                                            description
-                                        }
-                                        onChange={
-                                            setDescription
-                                        }
+                                        value={description}
+                                        onChange={setDescription}
                                         placeholder="Décrire la décision..."
                                     />
                                 </FormField>
                             </div>
 
                             <DialogFooter className="shrink-0 border-t pt-4">
-                                <DialogClose
-                                    asChild
-                                >
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                    >
+                                <DialogClose asChild>
+                                    <Button type="button" variant="outline">
                                         Annuler
                                     </Button>
                                 </DialogClose>
 
-                                <Button
-                                    type="submit"
-                                    disabled={
-                                        processing
-                                    }
-                                >
-                                    {processing ? (
-                                        <Spinner />
-                                    ) : (
-                                        <SaveIcon />
-                                    )}
-
+                                <Button type="submit" disabled={processing}>
+                                    {processing ? <Spinner /> : <SaveIcon />}
                                     Enregistrer
                                 </Button>
                             </DialogFooter>

@@ -20,8 +20,7 @@ class MeetingAttendanceFactory extends Factory
         return [
             'meeting_id' => Meeting::factory(),
 
-            'session_participant_id' =>
-            SessionParticipant::factory(),
+            'session_participant_id' => SessionParticipant::factory(),
 
             'status' => AttendanceStatus::Pending,
 
@@ -33,7 +32,7 @@ class MeetingAttendanceFactory extends Factory
 
     public function present(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => AttendanceStatus::Present,
             'checked_in_at' => now(),
         ]);
@@ -41,7 +40,7 @@ class MeetingAttendanceFactory extends Factory
 
     public function absent(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => AttendanceStatus::Absent,
             'checked_in_at' => null,
         ]);
@@ -49,7 +48,7 @@ class MeetingAttendanceFactory extends Factory
 
     public function excused(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => AttendanceStatus::Excused,
             'checked_in_at' => null,
         ]);
@@ -57,7 +56,7 @@ class MeetingAttendanceFactory extends Factory
 
     public function late(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => AttendanceStatus::Late,
             'checked_in_at' => now(),
         ]);

@@ -11,7 +11,7 @@ enum ContributionStatus: string
     public static function getOptions(): array
     {
         return array_map(
-            fn(self $status) => [
+            fn (self $status) => [
                 'label' => $status->label(),
                 'value' => $status->value,
             ],

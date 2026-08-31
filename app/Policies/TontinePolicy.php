@@ -48,7 +48,7 @@ class TontinePolicy
     public function delete(User $user, Tontine $tontine): bool
     {
         return $tontine->hasActiveMembership($user)
-            && $user->can(TontinePermission::DeleteTontine->value);;
+            && $user->can(TontinePermission::DeleteTontine->value);
     }
 
     /**

@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 final class ReorderMeetingAgendaItemsAction
 {
     /**
-     * @param array<int> $itemIds
+     * @param  array<int>  $itemIds
      */
     public function execute(
         Meeting $meeting,

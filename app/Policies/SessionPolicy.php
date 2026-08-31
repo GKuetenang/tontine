@@ -2,7 +2,6 @@
 
 namespace App\Policies;
 
-use App\Enums\MembershipStatus;
 use App\Enums\TontinePermission;
 use App\Models\Session;
 use App\Models\Tontine;

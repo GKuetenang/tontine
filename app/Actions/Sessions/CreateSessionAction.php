@@ -8,12 +8,10 @@ use App\Models\Session;
 use App\Models\Tontine;
 use App\Support\UniqueSlug;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 final class CreateSessionAction
 {
-
     public function __construct(
         private readonly UniqueSlug $uniqueSlug
     ) {}
@@ -47,7 +45,7 @@ final class CreateSessionAction
                 $attributes['base_contribution_amount']
                 ?? null;
 
-            $session = new Session();
+            $session = new Session;
 
             $session->tontine()->associate($tontine);
 
@@ -61,10 +59,8 @@ final class CreateSessionAction
                 'name' => $attributes['name'],
                 'description' => $attributes['description'] ?? null,
                 'default_contribution_amount' => $defaultContributionAmount,
-                'draw_allocation_mode' =>
-                $allocationMode,
-                'base_contribution_amount' =>
-                $baseContributionAmount,
+                'draw_allocation_mode' => $allocationMode,
+                'base_contribution_amount' => $baseContributionAmount,
                 'start_at' => $attributes['start_at'] ?? null,
                 'end_at' => $attributes['end_at'] ?? null,
             ]);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\DrawFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,8 +16,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[Fillable(['description', 'created_by', 'confirmed_by'])]
 class Draw extends Model
 {
-    /** @use HasFactory<\Database\Factories\DrawFactory> */
+    /** @use HasFactory<DrawFactory> */
     use HasFactory;
+
     use SoftDeletes;
 
     protected function casts()

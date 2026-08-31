@@ -59,8 +59,8 @@ class DrawPolicy
     ): bool {
         $tontine =
             $draw
-            ->session
-            ->tontine;
+                ->session
+                ->tontine;
 
         return $tontine
             ->hasActiveMembership($user)
@@ -80,8 +80,8 @@ class DrawPolicy
     ): bool {
         $tontine =
             $draw
-            ->session
-            ->tontine;
+                ->session
+                ->tontine;
 
         return $tontine
             ->hasActiveMembership($user)
@@ -101,8 +101,8 @@ class DrawPolicy
     ): bool {
         $tontine =
             $draw
-            ->session
-            ->tontine;
+                ->session
+                ->tontine;
 
         return $tontine
             ->hasActiveMembership($user)
@@ -122,8 +122,8 @@ class DrawPolicy
     ): bool {
         $tontine =
             $draw
-            ->session
-            ->tontine;
+                ->session
+                ->tontine;
 
         return $tontine
             ->hasActiveMembership($user)

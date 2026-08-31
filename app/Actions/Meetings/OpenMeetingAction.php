@@ -6,7 +6,6 @@ use App\Enums\AttendanceStatus;
 use App\Enums\MeetingStatus;
 use App\Enums\SessionStatus;
 use App\Models\Meeting;
-use App\Models\SessionParticipant;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -56,27 +55,22 @@ final class OpenMeetingAction
                     $meeting
                         ->attendances()
                         ->create([
-                            'session_participant_id' =>
-                            $participant->id,
+                            'session_participant_id' => $participant->id,
 
-                            'status' =>
-                            AttendanceStatus::Pending,
+                            'status' => AttendanceStatus::Pending,
                         ]);
 
                     $meeting
                         ->contributions()
                         ->create([
-                            'session_participant_id' =>
-                            $participant->id,
+                            'session_participant_id' => $participant->id,
 
-                            'amount_due' =>
-                            $participant->contribution_amount,
+                            'amount_due' => $participant->contribution_amount,
                         ]);
                 }
 
                 $meeting->forceFill([
-                    'status' =>
-                    MeetingStatus::InProgress,
+                    'status' => MeetingStatus::InProgress,
 
                     'opened_at' => now(),
                 ])->save();

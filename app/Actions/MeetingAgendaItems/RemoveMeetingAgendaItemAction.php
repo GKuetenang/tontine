@@ -32,7 +32,7 @@ final class RemoveMeetingAgendaItemAction
                 ->agendaItems()
                 ->get()
                 ->each(
-                    fn(
+                    fn (
                         MeetingAgendaItem $agendaItem,
                         int $index,
                     ) => $agendaItem->update([

@@ -39,10 +39,10 @@ class FormMembershipRequest extends FormRequest
                 'string',
                 Rule::exists('roles', 'name')
                     ->where('tontine_id', $this->route('tontine')->id)
-                    ->where('guard_name', 'web')
+                    ->where('guard_name', 'web'),
 
             ],
-            'status' => ['nullable', 'string', Rule::enum(MembershipStatus::class)]
+            'status' => ['nullable', 'string', Rule::enum(MembershipStatus::class)],
         ];
     }
 }

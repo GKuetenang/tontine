@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MeetingStatus;
+use Database\Factories\MeetingFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,8 +23,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 ])]
 class Meeting extends Model
 {
-    /** @use HasFactory<\Database\Factories\MeetingFactory> */
+    /** @use HasFactory<MeetingFactory> */
     use HasFactory;
+
     use SoftDeletes;
 
     protected function casts(): array

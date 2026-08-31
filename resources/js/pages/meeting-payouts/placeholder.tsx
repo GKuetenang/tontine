@@ -1,13 +1,5 @@
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
-
-import {
-    HandCoinsIcon,
-} from 'lucide-react';
+import { HandCoinsIcon } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 type Props = {
     message?: string;
@@ -19,9 +11,7 @@ export function MeetingPayoutsPlaceholder({
     return (
         <Card>
             <CardHeader>
-                <CardTitle>
-                    Versements
-                </CardTitle>
+                <CardTitle>Versements</CardTitle>
             </CardHeader>
 
             <CardContent>

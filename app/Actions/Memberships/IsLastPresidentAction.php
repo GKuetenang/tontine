@@ -83,7 +83,7 @@ class IsLastPresidentAction
                     )
                     ->where(
                         'mhr.model_type',
-                        (new User())->getMorphClass()
+                        (new User)->getMorphClass()
                     )
                     ->where(
                         "mhr.{$teamForeignKey}",

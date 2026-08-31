@@ -47,7 +47,7 @@ final class AddMeetingNoteAction
                     ]);
                 }
 
-                $note = new MeetingNote();
+                $note = new MeetingNote;
 
                 $note->fill([
                     'content' => $content,

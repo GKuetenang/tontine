@@ -61,7 +61,7 @@ final class AddSessionParticipantAction
                 customCount: $drawEntriesCount,
             );
 
-            $participant = new SessionParticipant();
+            $participant = new SessionParticipant;
 
             $participant->session()->associate($session);
             $participant->membership()->associate($membership);
@@ -128,14 +128,12 @@ final class AddSessionParticipantAction
         return match ($session->draw_allocation_mode) {
             DrawAllocationMode::OnePerMember => 1,
 
-            DrawAllocationMode::BasedOnContribution =>
-            $this->entriesFromContribution(
+            DrawAllocationMode::BasedOnContribution => $this->entriesFromContribution(
                 $session,
                 $contributionAmount,
             ),
 
-            DrawAllocationMode::Custom =>
-            $this->validateCustomCount($customCount),
+            DrawAllocationMode::Custom => $this->validateCustomCount($customCount),
         };
     }
 

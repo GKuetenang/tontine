@@ -43,7 +43,7 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
-                'authorization' => fn(): array => $this->authorization($request),
+                'authorization' => fn (): array => $this->authorization($request),
             ],
             'flash' => [
                 'success' => $request->session()->get('success'),
@@ -52,7 +52,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'query' => $request->query->all(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
-            'translations' => fn(): array => $this->getTranslations(),
+            'translations' => fn (): array => $this->getTranslations(),
 
         ];
     }
@@ -98,13 +98,13 @@ class HandleInertiaRequests extends Middleware
             return [
                 'tontine_id' => null,
                 'roles' => [],
-                'permissions' => []
+                'permissions' => [],
             ];
         }
 
         $tontine = $request->route('tontine');
 
-        if (!$tontine instanceof Tontine) {
+        if (! $tontine instanceof Tontine) {
             return [
                 'tontine_id' => null,
                 'roles' => [],

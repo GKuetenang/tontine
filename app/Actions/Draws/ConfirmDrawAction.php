@@ -37,7 +37,7 @@ final class ConfirmDrawAction
                 ]);
             }
 
-            $expectedEntries = (int)$draw
+            $expectedEntries = (int) $draw
                 ->session
                 ->participants()
                 ->active()

@@ -1,26 +1,8 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
-
-import {
-    ALLOWED_IMAGE_TYPES,
-    fileToBase64,
-    validateEditorImage,
-} from '@/lib/files';
-
 import FileHandler from '@tiptap/extension-file-handler';
 import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
 
-import {
-    EditorContent,
-    useEditor,
-    useEditorState,
-} from '@tiptap/react';
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react';
 
 import StarterKit from '@tiptap/starter-kit';
 
@@ -41,6 +23,18 @@ import {
 
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+    ALLOWED_IMAGE_TYPES,
+    fileToBase64,
+    validateEditorImage,
+} from '@/lib/files';
 
 type Props = {
     value?: string;
@@ -71,11 +65,9 @@ export function RichTextEditor({
     onChange,
     placeholder = 'Saisir les notes de la réunion...',
 }: Props) {
-    const [linkOpen, setLinkOpen] =
-        useState(false);
+    const [linkOpen, setLinkOpen] = useState(false);
 
-    const [linkUrl, setLinkUrl] =
-        useState('');
+    const [linkUrl, setLinkUrl] = useState('');
 
     const editor = useEditor({
         immediatelyRender: false,
@@ -128,27 +120,18 @@ export function RichTextEditor({
                 },
 
                 HTMLAttributes: {
-                    class:
-                        'my-4 max-w-full rounded-lg',
+                    class: 'my-4 max-w-full rounded-lg',
                 },
             }),
 
             FileHandler.configure({
-                allowedMimeTypes:
-                    ALLOWED_IMAGE_TYPES,
+                allowedMimeTypes: ALLOWED_IMAGE_TYPES,
 
                 consumePasteEvent: true,
 
-                onDrop: async (
-                    editor,
-                    files,
-                    pos,
-                ) => {
+                onDrop: async (editor, files, pos) => {
                     for (const file of files) {
-                        const error =
-                            validateEditorImage(
-                                file,
-                            );
+                        const error = validateEditorImage(file);
 
                         if (error) {
                             toast.error(error);
@@ -157,43 +140,28 @@ export function RichTextEditor({
                         }
 
                         try {
-                            const src =
-                                await fileToBase64(
-                                    file,
-                                );
+                            const src = await fileToBase64(file);
 
                             editor
                                 .chain()
                                 .focus()
-                                .insertContentAt(
-                                    pos,
-                                    {
-                                        type: 'image',
-                                        attrs: {
-                                            src,
-                                            alt:
-                                                file.name,
-                                        },
+                                .insertContentAt(pos, {
+                                    type: 'image',
+                                    attrs: {
+                                        src,
+                                        alt: file.name,
                                     },
-                                )
+                                })
                                 .run();
                         } catch {
-                            toast.error(
-                                'Impossible d’insérer l’image.',
-                            );
+                            toast.error('Impossible d’insérer l’image.');
                         }
                     }
                 },
 
-                onPaste: async (
-                    editor,
-                    files,
-                ) => {
+                onPaste: async (editor, files) => {
                     for (const file of files) {
-                        const error =
-                            validateEditorImage(
-                                file,
-                            );
+                        const error = validateEditorImage(file);
 
                         if (error) {
                             toast.error(error);
@@ -202,24 +170,18 @@ export function RichTextEditor({
                         }
 
                         try {
-                            const src =
-                                await fileToBase64(
-                                    file,
-                                );
+                            const src = await fileToBase64(file);
 
                             editor
                                 .chain()
                                 .focus()
                                 .setImage({
                                     src,
-                                    alt:
-                                        file.name,
+                                    alt: file.name,
                                 })
                                 .run();
                         } catch {
-                            toast.error(
-                                'Impossible d’insérer l’image.',
-                            );
+                            toast.error('Impossible d’insérer l’image.');
                         }
                     }
                 },
@@ -284,137 +246,77 @@ export function RichTextEditor({
                     '[&_.is-editor-empty:first-child::before]:h-0',
                     '[&_.is-editor-empty:first-child::before]:text-muted-foreground',
                     '[&_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]',
-                ].join(' ')
+                ].join(' '),
             },
         },
 
-        onUpdate({
-            editor,
-        }) {
-            onChange(
-                editor.getHTML(),
-            );
+        onUpdate({ editor }) {
+            onChange(editor.getHTML());
         },
     });
 
-    const editorStateResult =
-        useEditorState({
-            editor,
+    const editorStateResult = useEditorState({
+        editor,
 
-            selector: ({
-                editor,
-            }) => {
-                if (!editor) {
-                    return EMPTY_EDITOR_STATE;
-                }
+        selector: ({ editor }) => {
+            if (!editor) {
+                return EMPTY_EDITOR_STATE;
+            }
 
-                return {
-                    canUndo:
-                        editor
-                            .can()
-                            .undo(),
+            return {
+                canUndo: editor.can().undo(),
 
-                    canRedo:
-                        editor
-                            .can()
-                            .redo(),
+                canRedo: editor.can().redo(),
 
-                    isBold:
-                        editor.isActive(
-                            'bold',
-                        ),
+                isBold: editor.isActive('bold'),
 
-                    isItalic:
-                        editor.isActive(
-                            'italic',
-                        ),
+                isItalic: editor.isActive('italic'),
 
-                    isUnderline:
-                        editor.isActive(
-                            'underline',
-                        ),
+                isUnderline: editor.isActive('underline'),
 
-                    isHeading1:
-                        editor.isActive(
-                            'heading',
-                            {
-                                level: 1,
-                            },
-                        ),
+                isHeading1: editor.isActive('heading', {
+                    level: 1,
+                }),
 
-                    isHeading2:
-                        editor.isActive(
-                            'heading',
-                            {
-                                level: 2,
-                            },
-                        ),
+                isHeading2: editor.isActive('heading', {
+                    level: 2,
+                }),
 
-                    isHeading3:
-                        editor.isActive(
-                            'heading',
-                            {
-                                level: 3,
-                            },
-                        ),
+                isHeading3: editor.isActive('heading', {
+                    level: 3,
+                }),
 
-                    isBulletList:
-                        editor.isActive(
-                            'bulletList',
-                        ),
+                isBulletList: editor.isActive('bulletList'),
 
-                    isOrderedList:
-                        editor.isActive(
-                            'orderedList',
-                        ),
+                isOrderedList: editor.isActive('orderedList'),
 
-                    isLink:
-                        editor.isActive(
-                            'link',
-                        ),
-                };
-            },
-        });
+                isLink: editor.isActive('link'),
+            };
+        },
+    });
 
-    const editorState =
-        editorStateResult ??
-        EMPTY_EDITOR_STATE;
+    const editorState = editorStateResult ?? EMPTY_EDITOR_STATE;
 
     if (!editor) {
         return null;
     }
 
-    const toolbarButtonClass =
-        'size-8';
+    const toolbarButtonClass = 'size-8';
 
     const openLinkEditor = () => {
-        const previousUrl =
-            editor.getAttributes(
-                'link',
-            ).href as
-            | string
-            | undefined;
+        const previousUrl = editor.getAttributes('link').href as
+            string | undefined;
 
-        setLinkUrl(
-            previousUrl ?? '',
-        );
+        setLinkUrl(previousUrl ?? '');
 
         setLinkOpen(true);
     };
 
     const applyLink = () => {
-        const url =
-            linkUrl.trim();
+        const url = linkUrl.trim();
 
         if (!url) {
-            editor
-                .chain()
-                .focus()
-                .extendMarkRange(
-                    'link',
-                )
-                .unsetLink()
-                .run();
+            editor.chain().focus().extendMarkRange('link').unsetLink().run();
 
             setLinkOpen(false);
 
@@ -424,9 +326,7 @@ export function RichTextEditor({
         editor
             .chain()
             .focus()
-            .extendMarkRange(
-                'link',
-            )
+            .extendMarkRange('link')
             .setLink({
                 href: url,
             })
@@ -436,14 +336,7 @@ export function RichTextEditor({
     };
 
     const removeLink = () => {
-        editor
-            .chain()
-            .focus()
-            .extendMarkRange(
-                'link',
-            )
-            .unsetLink()
-            .run();
+        editor.chain().focus().extendMarkRange('link').unsetLink().run();
 
         setLinkUrl('');
 
@@ -451,108 +344,62 @@ export function RichTextEditor({
     };
 
     const undo = () => {
-        if (
-            !editorState.canUndo
-        ) {
+        if (!editorState.canUndo) {
             return;
         }
 
-        editor
-            .chain()
-            .focus()
-            .undo()
-            .run();
+        editor.chain().focus().undo().run();
     };
 
     const redo = () => {
-        if (
-            !editorState.canRedo
-        ) {
+        if (!editorState.canRedo) {
             return;
         }
 
-        editor
-            .chain()
-            .focus()
-            .redo()
-            .run();
+        editor.chain().focus().redo().run();
     };
 
     return (
         <div
             className="overflow-hidden rounded-md border bg-background"
-        // onPointerDown={(event) => {
-        //     event.stopPropagation();
-        // }}
-        // onMouseDown={(event) => {
-        //     event.stopPropagation();
-        // }}
+            // onPointerDown={(event) => {
+            //     event.stopPropagation();
+            // }}
+            // onMouseDown={(event) => {
+            //     event.stopPropagation();
+            // }}
         >
             <div className="flex flex-wrap items-center gap-1 border-b bg-muted/30 p-2">
                 <Button
                     type="button"
-                    variant={
-                        editorState.isBold
-                            ? 'secondary'
-                            : 'ghost'
-                    }
+                    variant={editorState.isBold ? 'secondary' : 'ghost'}
                     size="icon"
-                    className={
-                        toolbarButtonClass
-                    }
+                    className={toolbarButtonClass}
                     title="Gras"
-                    onClick={() =>
-                        editor
-                            .chain()
-                            .focus()
-                            .toggleBold()
-                            .run()
-                    }
+                    onClick={() => editor.chain().focus().toggleBold().run()}
                 >
                     <BoldIcon className="size-4" />
                 </Button>
 
                 <Button
                     type="button"
-                    variant={
-                        editorState.isItalic
-                            ? 'secondary'
-                            : 'ghost'
-                    }
+                    variant={editorState.isItalic ? 'secondary' : 'ghost'}
                     size="icon"
-                    className={
-                        toolbarButtonClass
-                    }
+                    className={toolbarButtonClass}
                     title="Italique"
-                    onClick={() =>
-                        editor
-                            .chain()
-                            .focus()
-                            .toggleItalic()
-                            .run()
-                    }
+                    onClick={() => editor.chain().focus().toggleItalic().run()}
                 >
                     <ItalicIcon className="size-4" />
                 </Button>
 
                 <Button
                     type="button"
-                    variant={
-                        editorState.isUnderline
-                            ? 'secondary'
-                            : 'ghost'
-                    }
+                    variant={editorState.isUnderline ? 'secondary' : 'ghost'}
                     size="icon"
-                    className={
-                        toolbarButtonClass
-                    }
+                    className={toolbarButtonClass}
                     title="Souligné"
                     onClick={() =>
-                        editor
-                            .chain()
-                            .focus()
-                            .toggleUnderline()
-                            .run()
+                        editor.chain().focus().toggleUnderline().run()
                     }
                 >
                     <UnderlineIcon className="size-4" />
@@ -562,15 +409,9 @@ export function RichTextEditor({
 
                 <Button
                     type="button"
-                    variant={
-                        editorState.isHeading1
-                            ? 'secondary'
-                            : 'ghost'
-                    }
+                    variant={editorState.isHeading1 ? 'secondary' : 'ghost'}
                     size="icon"
-                    className={
-                        toolbarButtonClass
-                    }
+                    className={toolbarButtonClass}
                     title="Titre 1"
                     onClick={() =>
                         editor
@@ -587,15 +428,9 @@ export function RichTextEditor({
 
                 <Button
                     type="button"
-                    variant={
-                        editorState.isHeading2
-                            ? 'secondary'
-                            : 'ghost'
-                    }
+                    variant={editorState.isHeading2 ? 'secondary' : 'ghost'}
                     size="icon"
-                    className={
-                        toolbarButtonClass
-                    }
+                    className={toolbarButtonClass}
                     title="Titre 2"
                     onClick={() =>
                         editor
@@ -612,15 +447,9 @@ export function RichTextEditor({
 
                 <Button
                     type="button"
-                    variant={
-                        editorState.isHeading3
-                            ? 'secondary'
-                            : 'ghost'
-                    }
+                    variant={editorState.isHeading3 ? 'secondary' : 'ghost'}
                     size="icon"
-                    className={
-                        toolbarButtonClass
-                    }
+                    className={toolbarButtonClass}
                     title="Titre 3"
                     onClick={() =>
                         editor
@@ -639,22 +468,12 @@ export function RichTextEditor({
 
                 <Button
                     type="button"
-                    variant={
-                        editorState.isBulletList
-                            ? 'secondary'
-                            : 'ghost'
-                    }
+                    variant={editorState.isBulletList ? 'secondary' : 'ghost'}
                     size="icon"
-                    className={
-                        toolbarButtonClass
-                    }
+                    className={toolbarButtonClass}
                     title="Liste à puces"
                     onClick={() =>
-                        editor
-                            .chain()
-                            .focus()
-                            .toggleBulletList()
-                            .run()
+                        editor.chain().focus().toggleBulletList().run()
                     }
                 >
                     <ListIcon className="size-4" />
@@ -662,22 +481,12 @@ export function RichTextEditor({
 
                 <Button
                     type="button"
-                    variant={
-                        editorState.isOrderedList
-                            ? 'secondary'
-                            : 'ghost'
-                    }
+                    variant={editorState.isOrderedList ? 'secondary' : 'ghost'}
                     size="icon"
-                    className={
-                        toolbarButtonClass
-                    }
+                    className={toolbarButtonClass}
                     title="Liste numérotée"
                     onClick={() =>
-                        editor
-                            .chain()
-                            .focus()
-                            .toggleOrderedList()
-                            .run()
+                        editor.chain().focus().toggleOrderedList().run()
                     }
                 >
                     <ListOrderedIcon className="size-4" />
@@ -685,39 +494,21 @@ export function RichTextEditor({
 
                 <ToolbarSeparator />
 
-                <Popover
-                    open={linkOpen}
-                    onOpenChange={
-                        setLinkOpen
-                    }
-                >
-                    <PopoverTrigger
-                        asChild
-                    >
+                <Popover open={linkOpen} onOpenChange={setLinkOpen}>
+                    <PopoverTrigger asChild>
                         <Button
                             type="button"
-                            variant={
-                                editorState.isLink
-                                    ? 'secondary'
-                                    : 'ghost'
-                            }
+                            variant={editorState.isLink ? 'secondary' : 'ghost'}
                             size="icon"
-                            className={
-                                toolbarButtonClass
-                            }
+                            className={toolbarButtonClass}
                             title="Lien"
-                            onClick={
-                                openLinkEditor
-                            }
+                            onClick={openLinkEditor}
                         >
                             <LinkIcon className="size-4" />
                         </Button>
                     </PopoverTrigger>
 
-                    <PopoverContent
-                        className="w-80"
-                        align="start"
-                    >
+                    <PopoverContent className="w-80" align="start">
                         <div className="space-y-3">
                             <div className="space-y-1">
                                 <p className="text-sm font-medium">
@@ -725,34 +516,20 @@ export function RichTextEditor({
                                 </p>
 
                                 <p className="text-xs text-muted-foreground">
-                                    Saisissez l’adresse
-                                    du lien.
+                                    Saisissez l’adresse du lien.
                                 </p>
                             </div>
 
                             <Input
                                 type="url"
-                                value={
-                                    linkUrl
-                                }
+                                value={linkUrl}
                                 placeholder="https://example.com"
                                 autoFocus
-                                onChange={(
-                                    event,
-                                ) =>
-                                    setLinkUrl(
-                                        event
-                                            .target
-                                            .value,
-                                    )
+                                onChange={(event) =>
+                                    setLinkUrl(event.target.value)
                                 }
-                                onKeyDown={(
-                                    event,
-                                ) => {
-                                    if (
-                                        event.key ===
-                                        'Enter'
-                                    ) {
+                                onKeyDown={(event) => {
+                                    if (event.key === 'Enter') {
                                         event.preventDefault();
 
                                         applyLink();
@@ -766,12 +543,9 @@ export function RichTextEditor({
                                         type="button"
                                         variant="ghost"
                                         size="sm"
-                                        onClick={
-                                            removeLink
-                                        }
+                                        onClick={removeLink}
                                     >
                                         <Link2OffIcon className="size-4" />
-
                                         Retirer
                                     </Button>
                                 ) : (
@@ -781,9 +555,7 @@ export function RichTextEditor({
                                 <Button
                                     type="button"
                                     size="sm"
-                                    onClick={
-                                        applyLink
-                                    }
+                                    onClick={applyLink}
                                 >
                                     Appliquer
                                 </Button>
@@ -798,13 +570,9 @@ export function RichTextEditor({
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className={
-                        toolbarButtonClass
-                    }
+                    className={toolbarButtonClass}
                     title="Annuler"
-                    disabled={
-                        !editorState.canUndo
-                    }
+                    disabled={!editorState.canUndo}
                     onClick={undo}
                 >
                     <Undo2Icon className="size-4" />
@@ -814,30 +582,21 @@ export function RichTextEditor({
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className={
-                        toolbarButtonClass
-                    }
+                    className={toolbarButtonClass}
                     title="Rétablir"
-                    disabled={
-                        !editorState.canRedo
-                    }
+                    disabled={!editorState.canRedo}
                     onClick={redo}
                 >
                     <Redo2Icon className="size-4" />
                 </Button>
             </div>
 
-            <EditorContent
-                editor={editor}
-            />
+            <EditorContent editor={editor} />
 
             <div className="border-t bg-muted/20 px-4 py-2">
                 <p className="text-xs text-muted-foreground">
-                    Vous pouvez glisser-déposer
-                    ou coller une image JPG,
-                    PNG ou WEBP. Cliquez sur
-                    une image pour la
-                    redimensionner.
+                    Vous pouvez glisser-déposer ou coller une image JPG, PNG ou
+                    WEBP. Cliquez sur une image pour la redimensionner.
                 </p>
             </div>
         </div>
@@ -845,10 +604,5 @@ export function RichTextEditor({
 }
 
 function ToolbarSeparator() {
-    return (
-        <div
-            className="mx-1 h-5 w-px bg-border"
-            aria-hidden="true"
-        />
-    );
+    return <div className="mx-1 h-5 w-px bg-border" aria-hidden="true" />;
 }

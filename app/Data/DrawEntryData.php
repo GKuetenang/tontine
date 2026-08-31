@@ -20,7 +20,7 @@ class DrawEntryData extends Data
 
         public Optional|SessionParticipantData $session_participant,
 
-        public ExpectedDrawMeetingData|null $expected_meeting,
+        public ?ExpectedDrawMeetingData $expected_meeting,
 
         #[WithTransformer(
             DateTimeInterfaceTransformer::class,

@@ -1,4 +1,4 @@
-import { Card, CardContent } from "../../../components/ui/card";
+import { Card, CardContent } from '../../../components/ui/card';
 
 export function SummaryCard({
     title,
@@ -11,15 +11,11 @@ export function SummaryCard({
 }) {
     return (
         <Card>
-            <CardContent className="flex items-start justify-between ">
+            <CardContent className="flex items-start justify-between">
                 <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">
-                        {title}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{title}</p>
 
-                    <p className="text-lg font-semibold">
-                        {value}
-                    </p>
+                    <p className="text-lg font-semibold">{value}</p>
                 </div>
 
                 <div className="rounded-lg bg-primary/10 p-2 text-primary">

@@ -1,24 +1,11 @@
+import { NotebookPenIcon, PlusIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
-import type {
-    Meeting,
-    Session,
-    Tontine,
-} from '@/types';
-
-import {
-    NotebookPenIcon,
-    PlusIcon,
-} from 'lucide-react';
+import type { Meeting, Session, Tontine } from '@/types';
 
 import { EditMeetingNoteForm } from './form';
 import { MeetingNoteItem } from './note-item';
@@ -30,66 +17,37 @@ type Props = {
     meeting: Meeting;
 };
 
-export function MeetingNotes({
-    tontine,
-    session,
-    meeting,
-}: Props) {
-    const { can } =
-        useAuthorization();
+export function MeetingNotes({ tontine, session, meeting }: Props) {
+    const { can } = useAuthorization();
 
-    if (
-        meeting.status ===
-        'scheduled'
-    ) {
-        return (
-            <MeetingNotesPlaceholder />
-        );
+    if (meeting.status === 'scheduled') {
+        return <MeetingNotesPlaceholder />;
     }
 
-    const notes =
-        meeting.notes ?? [];
+    const notes = meeting.notes ?? [];
 
     const canCreate =
-        meeting.status ===
-        'in_progress'
-        && can(
-            'meeting-notes.create',
-        );
+        meeting.status === 'in_progress' && can('meeting-notes.create');
 
     return (
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                    <CardTitle>
-                        Notes
-                    </CardTitle>
+                    <CardTitle>Notes</CardTitle>
 
                     <p className="mt-1 text-sm text-muted-foreground">
-                        {notes.length}{' '}
-                        note
-                        {notes.length > 1
-                            ? 's'
-                            : ''}
+                        {notes.length} note
+                        {notes.length > 1 ? 's' : ''}
                     </p>
                 </div>
 
                 {canCreate && (
                     <EditMeetingNoteForm
-                        tontine={
-                            tontine
-                        }
-                        session={
-                            session
-                        }
-                        meeting={
-                            meeting
-                        }
+                        tontine={tontine}
+                        session={session}
+                        meeting={meeting}
                         trigger={
-                            <Button
-                                variant="outline"
-                                size="sm"
-                            >
+                            <Button variant="outline" size="sm">
                                 <PlusIcon className="size-4" />
                                 Ajouter une note
                             </Button>
@@ -106,40 +64,25 @@ export function MeetingNotes({
                         </div>
 
                         <div className="space-y-1">
-                            <p className="font-medium">
-                                Aucune note
-                            </p>
+                            <p className="font-medium">Aucune note</p>
 
                             <p className="text-sm text-muted-foreground">
-                                Les notes prises
-                                pendant la réunion
-                                apparaîtront ici.
+                                Les notes prises pendant la réunion apparaîtront
+                                ici.
                             </p>
                         </div>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {notes.map(
-                            (note) => (
-                                <MeetingNoteItem
-                                    key={
-                                        note.id
-                                    }
-                                    tontine={
-                                        tontine
-                                    }
-                                    session={
-                                        session
-                                    }
-                                    meeting={
-                                        meeting
-                                    }
-                                    note={
-                                        note
-                                    }
-                                />
-                            ),
-                        )}
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        {notes.map((note) => (
+                            <MeetingNoteItem
+                                key={note.id}
+                                tontine={tontine}
+                                session={session}
+                                meeting={meeting}
+                                note={note}
+                            />
+                        ))}
                     </div>
                 )}
             </CardContent>

@@ -53,8 +53,7 @@ const AppLayout = ({
 };
 
 type BreadcrumbResolver<T extends object> =
-    | BreadcrumbItem[]
-    | ((props: T) => BreadcrumbItem[]);
+    BreadcrumbItem[] | ((props: T) => BreadcrumbItem[]);
 
 type DynamicAppLayoutProps<T extends object> = {
     breadcrumbs: BreadcrumbResolver<T>;
@@ -68,15 +67,11 @@ function DynamicAppLayout<T extends object>({
     const { props } = usePage<T & PageProps>();
 
     const resolvedBreadcrumbs =
-        typeof breadcrumbs === 'function'
-            ? breadcrumbs(props)
-            : breadcrumbs;
+        typeof breadcrumbs === 'function' ? breadcrumbs(props) : breadcrumbs;
 
     return (
         <AppLayout breadcrumbs={resolvedBreadcrumbs}>
-            <div className="p-4 lg:p-6">
-                {children}
-            </div>
+            <div className="p-4 lg:p-6">{children}</div>
         </AppLayout>
     );
 }
@@ -87,9 +82,7 @@ export function withAppLayout<T extends object>(
 ) {
     // @ts-expect-error layout is added by Inertia
     component.layout = (page: ReactNode) => (
-        <DynamicAppLayout<T> breadcrumbs={breadcrumbs}>
-            {page}
-        </DynamicAppLayout>
+        <DynamicAppLayout<T> breadcrumbs={breadcrumbs}>{page}</DynamicAppLayout>
     );
 
     return component;

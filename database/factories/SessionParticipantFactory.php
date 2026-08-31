@@ -32,7 +32,7 @@ class SessionParticipantFactory extends Factory
 
     public function inactive(): static
     {
-        return $this->state(fn(): array => [
+        return $this->state(fn (): array => [
             'is_active' => false,
             'left_at' => now(),
         ]);

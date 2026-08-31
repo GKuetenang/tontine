@@ -36,18 +36,16 @@ class SessionFactory extends Factory
             'name' => $name,
 
             'slug' => Str::slug($name)
-                . '-'
-                . Str::lower(Str::random(8)),
+                .'-'
+                .Str::lower(Str::random(8)),
 
-            'description' =>
-            fake()->optional()->sentence(),
+            'description' => fake()->optional()->sentence(),
 
             'default_contribution_amount' => 50_000,
 
             'base_contribution_amount' => null,
 
-            'draw_allocation_mode' =>
-            DrawAllocationMode::OnePerMember,
+            'draw_allocation_mode' => DrawAllocationMode::OnePerMember,
 
             'start_at' => $startAt,
 
@@ -66,7 +64,7 @@ class SessionFactory extends Factory
 
     public function draft(): static
     {
-        return $this->state(fn(): array => [
+        return $this->state(fn (): array => [
             'status' => SessionStatus::Draft,
             'activated_at' => null,
             'closed_at' => null,
@@ -75,7 +73,7 @@ class SessionFactory extends Factory
 
     public function active(): static
     {
-        return $this->state(fn(): array => [
+        return $this->state(fn (): array => [
             'status' => SessionStatus::Active,
             'activated_at' => now(),
             'closed_at' => null,
@@ -84,7 +82,7 @@ class SessionFactory extends Factory
 
     public function closed(): static
     {
-        return $this->state(fn(): array => [
+        return $this->state(fn (): array => [
             'status' => SessionStatus::Closed,
             'activated_at' => now()->subMonth(),
             'closed_at' => now(),
@@ -94,20 +92,17 @@ class SessionFactory extends Factory
     public function basedOnContribution(
         int $baseAmount = 50_000,
     ): static {
-        return $this->state(fn(): array => [
-            'draw_allocation_mode' =>
-            DrawAllocationMode::BasedOnContribution,
+        return $this->state(fn (): array => [
+            'draw_allocation_mode' => DrawAllocationMode::BasedOnContribution,
 
-            'base_contribution_amount' =>
-            $baseAmount,
+            'base_contribution_amount' => $baseAmount,
         ]);
     }
 
     public function customDrawAllocation(): static
     {
-        return $this->state(fn(): array => [
-            'draw_allocation_mode' =>
-            DrawAllocationMode::Custom,
+        return $this->state(fn (): array => [
+            'draw_allocation_mode' => DrawAllocationMode::Custom,
 
             'base_contribution_amount' => null,
         ]);

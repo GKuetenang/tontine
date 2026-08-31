@@ -1,3 +1,6 @@
+import { Link } from '@inertiajs/react';
+import { EllipsisIcon, Pencil, RotateCcwIcon, TrashIcon } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -7,19 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuthorization } from '@/hooks/use-authorization';
 import sessionParticipants from '@/routes/tontines/sessions/participants';
-import type {
-    ResultTontine,
-    Session,
-    SessionParticipant,
-} from '@/types';
-import { Link } from '@inertiajs/react';
-import {
-    EllipsisIcon,
-    Pencil,
-    RotateCcwIcon,
-    TrashIcon,
-} from 'lucide-react';
-import { toast } from 'sonner';
+import type { ResultTontine, Session, SessionParticipant } from '@/types';
 
 import { EditSessionParticipantForm } from './form';
 
@@ -29,11 +20,7 @@ type Props = {
     participant: SessionParticipant;
 };
 
-export function Actions({
-    tontine,
-    session,
-    participant,
-}: Props) {
+export function Actions({ tontine, session, participant }: Props) {
     const { can, canAny } = useAuthorization();
 
     const hasActions = canAny(

@@ -46,7 +46,7 @@ class DeactivateMembershipAction
 
             $membership->fill([
                 'status' => MembershipStatus::Inactive,
-                'left_at' => now()
+                'left_at' => now(),
             ])->save();
 
             $membership->delete();

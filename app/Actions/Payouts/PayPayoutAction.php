@@ -24,14 +24,14 @@ final class PayPayoutAction
             ): Payout {
                 $lockedPayout =
                     Payout::query()
-                    ->with([
-                        'meeting',
-                        'drawEntry.sessionParticipant.membership',
-                    ])
-                    ->lockForUpdate()
-                    ->findOrFail(
-                        $payout->id,
-                    );
+                        ->with([
+                            'meeting',
+                            'drawEntry.sessionParticipant.membership',
+                        ])
+                        ->lockForUpdate()
+                        ->findOrFail(
+                            $payout->id,
+                        );
 
                 if (
                     $lockedPayout->status
@@ -46,27 +46,25 @@ final class PayPayoutAction
 
                 $membership =
                     $lockedPayout
-                    ->drawEntry
-                    ->sessionParticipant
-                    ->membership;
+                        ->drawEntry
+                        ->sessionParticipant
+                        ->membership;
 
                 $transaction =
-                    new Transaction();
+                    new Transaction;
 
                 $transaction->fill([
                     'type' => TransactionType::Payout,
 
                     'direction' => TransactionDirection::Debit,
 
-                    'amount' =>
-                    $lockedPayout->amount,
+                    'amount' => $lockedPayout->amount,
 
                     'description' => __(
                         'Versement au bénéficiaire de la tontine.'
                     ),
 
-                    'occurred_at' =>
-                    now(),
+                    'occurred_at' => now(),
                 ]);
 
                 $transaction->session()
@@ -95,11 +93,9 @@ final class PayPayoutAction
                 $transaction->save();
 
                 $lockedPayout->update([
-                    'status' =>
-                    PayoutStatus::Paid,
+                    'status' => PayoutStatus::Paid,
 
-                    'paid_at' =>
-                    now(),
+                    'paid_at' => now(),
                 ]);
 
                 return $lockedPayout->refresh();

@@ -1,3 +1,5 @@
+import { Head } from '@inertiajs/react';
+import { PrinterIcon } from 'lucide-react';
 import { RichTextContent } from '@/components/rich-text-content';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,8 +18,6 @@ import tontines from '@/routes/tontines';
 import sessions from '@/routes/tontines/sessions';
 import meetings from '@/routes/tontines/sessions/meetings';
 import type { BreadcrumbItem, MeetingReport, Session, Tontine } from '@/types';
-import { Head } from '@inertiajs/react';
-import { PrinterIcon } from 'lucide-react';
 
 type Props = {
     tontine: Tontine;

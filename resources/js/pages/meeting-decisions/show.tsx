@@ -1,40 +1,17 @@
-import {
-    Button,
-} from '@/components/ui/button';
+import { CheckCircle2Icon, PlusIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import {
-    useAuthorization,
-} from '@/hooks/use-authorization';
+import { useAuthorization } from '@/hooks/use-authorization';
 
-import type {
-    Meeting,
-    Session,
-    Tontine,
-} from '@/types';
+import type { Meeting, Session, Tontine } from '@/types';
 
-import {
-    CheckCircle2Icon,
-    PlusIcon,
-} from 'lucide-react';
+import { MeetingDecisionItem } from './decision-item';
 
-import {
-    MeetingDecisionItem,
-} from './decision-item';
+import { EditMeetingDecisionForm } from './form';
 
-import {
-    EditMeetingDecisionForm,
-} from './form';
-
-import {
-    MeetingDecisionsPlaceholder,
-} from './placeholder';
+import { MeetingDecisionsPlaceholder } from './placeholder';
 
 type Props = {
     tontine: Tontine;
@@ -42,47 +19,27 @@ type Props = {
     meeting: Meeting;
 };
 
-export function MeetingDecisions({
-    tontine,
-    session,
-    meeting,
-}: Props) {
-    const { can } =
-        useAuthorization();
+export function MeetingDecisions({ tontine, session, meeting }: Props) {
+    const { can } = useAuthorization();
 
-    if (
-        meeting.status ===
-        'scheduled'
-    ) {
-        return (
-            <MeetingDecisionsPlaceholder />
-        );
+    if (meeting.status === 'scheduled') {
+        return <MeetingDecisionsPlaceholder />;
     }
 
-    const decisions =
-        meeting.decisions ?? [];
+    const decisions = meeting.decisions ?? [];
 
     const canCreate =
-        meeting.status ===
-        'in_progress'
-        && can(
-            'meeting-decisions.create',
-        );
+        meeting.status === 'in_progress' && can('meeting-decisions.create');
 
     return (
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                    <CardTitle>
-                        Décisions
-                    </CardTitle>
+                    <CardTitle>Décisions</CardTitle>
 
                     <p className="mt-1 text-sm text-muted-foreground">
-                        {decisions.length}{' '}
-                        décision
-                        {decisions.length > 1
-                            ? 's'
-                            : ''}
+                        {decisions.length} décision
+                        {decisions.length > 1 ? 's' : ''}
                     </p>
                 </div>
 
@@ -92,13 +49,8 @@ export function MeetingDecisions({
                         session={session}
                         meeting={meeting}
                         trigger={
-                            <Button
-                                type="button"
-                                variant="outline"
-                                size="sm"
-                            >
+                            <Button type="button" variant="outline" size="sm">
                                 <PlusIcon className="size-4" />
-
                                 Ajouter une décision
                             </Button>
                         }
@@ -114,40 +66,25 @@ export function MeetingDecisions({
                         </div>
 
                         <div className="space-y-1">
-                            <p className="font-medium">
-                                Aucune décision
-                            </p>
+                            <p className="font-medium">Aucune décision</p>
 
                             <p className="text-sm text-muted-foreground">
-                                Les décisions prises
-                                pendant la réunion
+                                Les décisions prises pendant la réunion
                                 apparaîtront ici.
                             </p>
                         </div>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {decisions.map(
-                            (decision) => (
-                                <MeetingDecisionItem
-                                    key={
-                                        decision.id
-                                    }
-                                    tontine={
-                                        tontine
-                                    }
-                                    session={
-                                        session
-                                    }
-                                    meeting={
-                                        meeting
-                                    }
-                                    decision={
-                                        decision
-                                    }
-                                />
-                            ),
-                        )}
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        {decisions.map((decision) => (
+                            <MeetingDecisionItem
+                                key={decision.id}
+                                tontine={tontine}
+                                session={session}
+                                meeting={meeting}
+                                decision={decision}
+                            />
+                        ))}
                     </div>
                 )}
             </CardContent>

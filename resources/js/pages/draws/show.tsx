@@ -1,17 +1,17 @@
-
+import { Head, Link } from '@inertiajs/react';
 import {
-    Alert,
-    AlertDescription,
-    AlertTitle,
-} from '@/components/ui/alert';
+    AlertTriangleIcon,
+    CheckIcon,
+    RefreshCcwIcon,
+    RotateCcwIcon,
+    TrashIcon,
+} from 'lucide-react';
+import { toast } from 'sonner';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 import { Button } from '@/components/ui/button';
 
-import {
-    Card,
-    CardContent,
-    CardHeader,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
@@ -22,30 +22,9 @@ import sessions from '@/routes/tontines/sessions';
 import drawRoutes from '@/routes/tontines/sessions/draw';
 import sessionParticipants from '@/routes/tontines/sessions/participants';
 
-import type {
-    Draw,
-    ResultTontine,
-    Session,
-} from '@/types';
+import type { Draw, ResultTontine, Session } from '@/types';
 
-import {
-    Head,
-    Link,
-} from '@inertiajs/react';
-
-import {
-    AlertTriangleIcon,
-    CheckIcon,
-    RefreshCcwIcon,
-    RotateCcwIcon,
-    TrashIcon,
-} from 'lucide-react';
-
-import { toast } from 'sonner';
-
-import {
-    DrawEntriesTable,
-} from './draw-entries-table';
+import { DrawEntriesTable } from './draw-entries-table';
 
 type Props = {
     tontine: ResultTontine;
@@ -58,38 +37,25 @@ export default withAppLayout<Props>(
         {
             title: 'Tontines',
 
-            href:
-                tontines
-                    .index()
-                    .url,
+            href: tontines.index().url,
         },
 
         {
             title: 'Sessions',
 
-            href:
-                sessions
-                    .index({
-                        tontine:
-                            tontine.slug,
-                    })
-                    .url,
+            href: sessions.index({
+                tontine: tontine.slug,
+            }).url,
         },
 
         {
-            title:
-                session.name,
+            title: session.name,
 
-            href:
-                sessionParticipants
-                    .index({
-                        tontine:
-                            tontine.slug,
+            href: sessionParticipants.index({
+                tontine: tontine.slug,
 
-                        session:
-                            session.slug,
-                    })
-                    .url,
+                session: session.slug,
+            }).url,
         },
 
         {
@@ -98,29 +64,16 @@ export default withAppLayout<Props>(
         },
     ],
 
-    ({
-        tontine,
-        session,
-        draw,
-    }: Props) => {
-        const { can } =
-            useAuthorization();
+    ({ tontine, session, draw }: Props) => {
+        const { can } = useAuthorization();
 
-        const isDraft =
-            session.status ===
-            'draft';
+        const isDraft = session.status === 'draft';
 
-        const isActive =
-            session.status ===
-            'active';
+        const isActive = session.status === 'active';
 
-        const isConfirmed =
-            Boolean(
-                draw?.confirmed_at,
-            );
+        const isConfirmed = Boolean(draw?.confirmed_at);
 
-        const entries =
-            draw?.entries ?? [];
+        const entries = draw?.entries ?? [];
 
         /*
          * Le drag-and-drop n'est disponible
@@ -132,12 +85,7 @@ export default withAppLayout<Props>(
          * - l'utilisateur possède la permission.
          */
         const canSwap =
-            isActive
-            && Boolean(draw)
-            && !isConfirmed
-            && can(
-                'draws.update',
-            );
+            isActive && Boolean(draw) && !isConfirmed && can('draws.update');
 
         /*
          * Permet de recréer DrawEntriesTable
@@ -147,44 +95,25 @@ export default withAppLayout<Props>(
         const entriesKey =
             entries.length > 0
                 ? entries
-                    .map(
-                        (
-                            entry,
-                        ) =>
-                            [
-                                entry.id,
-                                entry.position,
-                                entry.updated_at,
-                            ].join(
-                                ':',
-                            ),
-                    )
-                    .join('|')
+                      .map((entry) =>
+                          [entry.id, entry.position, entry.updated_at].join(
+                              ':',
+                          ),
+                      )
+                      .join('|')
                 : 'empty';
 
-        const handleError = (
-            errors: Record<
-                string,
-                string
-            >,
-        ) => {
-            const firstError =
-                Object.values(
-                    errors,
-                )[0];
+        const handleError = (errors: Record<string, string>) => {
+            const firstError = Object.values(errors)[0];
 
             if (firstError) {
-                toast.error(
-                    firstError,
-                );
+                toast.error(firstError);
             }
         };
 
         return (
             <>
-                <Head
-                    title={`Tirage - ${session.name}`}
-                />
+                <Head title={`Tirage - ${session.name}`} />
                 <div className="space-y-2">
                     <div className="flex flex-wrap items-center gap-2">
                         <h1 className="text-2xl font-semibold tracking-tight">
@@ -200,9 +129,7 @@ export default withAppLayout<Props>(
                                         : 'bg-primary/10 text-primary',
                                 ].join(' ')}
                             >
-                                {isConfirmed
-                                    ? 'Confirmé'
-                                    : 'Non confirmé'}
+                                {isConfirmed ? 'Confirmé' : 'Non confirmé'}
                             </span>
                         )}
                     </div>
@@ -220,7 +147,7 @@ export default withAppLayout<Props>(
                     )} */}
                 </div>
 
-                <div className="space-y-4 mt-6">
+                <div className="mt-6 space-y-4">
                     <Card>
                         <CardHeader>
                             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -239,18 +166,17 @@ export default withAppLayout<Props>(
                                 <div className="flex flex-wrap gap-2">
                                     {!draw &&
                                         can('session-participants.view') && (
-                                            <Button
-                                                variant="outline"
-                                                asChild
-                                            >
+                                            <Button variant="outline" asChild>
                                                 <Link
                                                     href={
-                                                        sessionParticipants.index({
-                                                            tontine:
-                                                                tontine.slug,
-                                                            session:
-                                                                session.slug,
-                                                        }).url
+                                                        sessionParticipants.index(
+                                                            {
+                                                                tontine:
+                                                                    tontine.slug,
+                                                                session:
+                                                                    session.slug,
+                                                            },
+                                                        ).url
                                                     }
                                                 >
                                                     Participants
@@ -258,43 +184,34 @@ export default withAppLayout<Props>(
                                             </Button>
                                         )}
 
-                                    {isActive
-                                        && can(
-                                            'draws.generate',
-                                        ) && (
-                                            <Button asChild>
-                                                <Link
-                                                    href={
-                                                        drawRoutes.generate({
-                                                            tontine:
-                                                                tontine.slug,
-                                                            session:
-                                                                session.slug,
-                                                        })
-                                                    }
-                                                    method="post"
-                                                    as="button"
-                                                    onBefore={() =>
-                                                        draw
-                                                            ? confirm(
-                                                                'Voulez-vous régénérer le tirage ? Le résultat actuel sera remplacé.',
-                                                            )
-                                                            : confirm(
-                                                                'Voulez-vous générer le tirage ?',
-                                                            )
-                                                    }
-                                                    onError={
-                                                        handleError
-                                                    }
-                                                >
-                                                    <RefreshCcwIcon className="size-4" />
+                                    {isActive && can('draws.generate') && (
+                                        <Button asChild>
+                                            <Link
+                                                href={drawRoutes.generate({
+                                                    tontine: tontine.slug,
+                                                    session: session.slug,
+                                                })}
+                                                method="post"
+                                                as="button"
+                                                onBefore={() =>
+                                                    draw
+                                                        ? confirm(
+                                                              'Voulez-vous régénérer le tirage ? Le résultat actuel sera remplacé.',
+                                                          )
+                                                        : confirm(
+                                                              'Voulez-vous générer le tirage ?',
+                                                          )
+                                                }
+                                                onError={handleError}
+                                            >
+                                                <RefreshCcwIcon className="size-4" />
 
-                                                    {draw
-                                                        ? 'Régénérer'
-                                                        : 'Générer le tirage'}
-                                                </Link>
-                                            </Button>
-                                        )}
+                                                {draw
+                                                    ? 'Régénérer'
+                                                    : 'Générer le tirage'}
+                                            </Link>
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
                         </CardHeader>
@@ -305,145 +222,110 @@ export default withAppLayout<Props>(
                                     <AlertTriangleIcon />
 
                                     <AlertDescription>
-                                        La
-                                        session
-                                        est
-                                        encore
-                                        en
-                                        préparation.
-                                        Activez-la
-                                        avant
-                                        de
-                                        générer
-                                        le
-                                        tirage.
+                                        La session est encore en préparation.
+                                        Activez-la avant de générer le tirage.
                                     </AlertDescription>
                                 </Alert>
                             )}
 
-                            {!draw
-                                && !isDraft && (
-                                    <Alert className="border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
-                                        <AlertTriangleIcon />
+                            {!draw && !isDraft && (
+                                <Alert className="border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
+                                    <AlertTriangleIcon />
 
-                                        <AlertTitle>
-                                            Aucun
-                                            tirage
-                                            généré
-                                        </AlertTitle>
+                                    <AlertTitle>Aucun tirage généré</AlertTitle>
 
-                                        <AlertDescription>
-                                            Générez
-                                            le
-                                            tirage
-                                            pour
-                                            déterminer
-                                            l’ordre
-                                            des
-                                            participants.
-                                        </AlertDescription>
-                                    </Alert>
-                                )}
+                                    <AlertDescription>
+                                        Générez le tirage pour déterminer
+                                        l’ordre des participants.
+                                    </AlertDescription>
+                                </Alert>
+                            )}
 
                             {draw && (
                                 <div className="space-y-4">
                                     {!isConfirmed && (
                                         <div className="flex flex-wrap justify-end gap-2">
-                                            {can(
-                                                'draws.reset',
-                                            ) && (
-                                                    <Button
-                                                        variant="outline"
-                                                        asChild
+                                            {can('draws.reset') && (
+                                                <Button
+                                                    variant="outline"
+                                                    asChild
+                                                >
+                                                    <Link
+                                                        href={drawRoutes.reset({
+                                                            tontine:
+                                                                tontine.slug,
+                                                            session:
+                                                                session.slug,
+                                                        })}
+                                                        method="patch"
+                                                        as="button"
+                                                        onBefore={() =>
+                                                            confirm(
+                                                                'Voulez-vous réinitialiser ce tirage ?',
+                                                            )
+                                                        }
+                                                        onError={handleError}
                                                     >
-                                                        <Link
-                                                            href={
-                                                                drawRoutes.reset({
-                                                                    tontine:
-                                                                        tontine.slug,
-                                                                    session:
-                                                                        session.slug,
-                                                                })
-                                                            }
-                                                            method="patch"
-                                                            as="button"
-                                                            onBefore={() =>
-                                                                confirm(
-                                                                    'Voulez-vous réinitialiser ce tirage ?',
-                                                                )
-                                                            }
-                                                            onError={
-                                                                handleError
-                                                            }
-                                                        >
-                                                            <RotateCcwIcon className="size-4" />
-                                                            Réinitialiser
-                                                        </Link>
-                                                    </Button>
-                                                )}
+                                                        <RotateCcwIcon className="size-4" />
+                                                        Réinitialiser
+                                                    </Link>
+                                                </Button>
+                                            )}
 
-                                            {can(
-                                                'draws.delete',
-                                            ) && (
-                                                    <Button
-                                                        variant="destructive-outline"
-                                                        asChild
+                                            {can('draws.delete') && (
+                                                <Button
+                                                    variant="destructive-outline"
+                                                    asChild
+                                                >
+                                                    <Link
+                                                        href={drawRoutes.destroy(
+                                                            {
+                                                                tontine:
+                                                                    tontine.slug,
+                                                                session:
+                                                                    session.slug,
+                                                            },
+                                                        )}
+                                                        method="delete"
+                                                        as="button"
+                                                        onBefore={() =>
+                                                            confirm(
+                                                                'Voulez-vous vraiment supprimer ce tirage ?',
+                                                            )
+                                                        }
+                                                        onError={handleError}
                                                     >
-                                                        <Link
-                                                            href={
-                                                                drawRoutes.destroy({
-                                                                    tontine:
-                                                                        tontine.slug,
-                                                                    session:
-                                                                        session.slug,
-                                                                })
-                                                            }
-                                                            method="delete"
-                                                            as="button"
-                                                            onBefore={() =>
-                                                                confirm(
-                                                                    'Voulez-vous vraiment supprimer ce tirage ?',
-                                                                )
-                                                            }
-                                                            onError={
-                                                                handleError
-                                                            }
-                                                        >
-                                                            <TrashIcon className="size-4" />
-                                                            Supprimer
-                                                        </Link>
-                                                    </Button>
-                                                )}
+                                                        <TrashIcon className="size-4" />
+                                                        Supprimer
+                                                    </Link>
+                                                </Button>
+                                            )}
 
-                                            {can(
-                                                'draws.confirm',
-                                            ) && (
-                                                    <Button asChild>
-                                                        <Link
-                                                            href={
-                                                                drawRoutes.confirm({
-                                                                    tontine:
-                                                                        tontine.slug,
-                                                                    session:
-                                                                        session.slug,
-                                                                })
-                                                            }
-                                                            method="patch"
-                                                            as="button"
-                                                            onBefore={() =>
-                                                                confirm(
-                                                                    'Confirmer définitivement ce tirage ?',
-                                                                )
-                                                            }
-                                                            onError={
-                                                                handleError
-                                                            }
-                                                        >
-                                                            <CheckIcon className="size-4" />
-                                                            Confirmer
-                                                        </Link>
-                                                    </Button>
-                                                )}
+                                            {can('draws.confirm') && (
+                                                <Button asChild>
+                                                    <Link
+                                                        href={drawRoutes.confirm(
+                                                            {
+                                                                tontine:
+                                                                    tontine.slug,
+                                                                session:
+                                                                    session.slug,
+                                                            },
+                                                        )}
+                                                        method="patch"
+                                                        as="button"
+                                                        onBefore={() =>
+                                                            confirm(
+                                                                'Confirmer définitivement ce tirage ?',
+                                                            )
+                                                        }
+                                                        onError={handleError}
+                                                    >
+                                                        <CheckIcon className="size-4" />
+                                                        Confirmer
+                                                    </Link>
+                                                </Button>
+                                            )}
                                         </div>
                                     )}
 
@@ -457,7 +339,8 @@ export default withAppLayout<Props>(
                                         />
                                     ) : (
                                         <div className="rounded-md border border-dashed p-6 text-sm text-muted-foreground">
-                                            Ce tirage ne contient actuellement aucune entrée.
+                                            Ce tirage ne contient actuellement
+                                            aucune entrée.
                                         </div>
                                     )}
                                 </div>

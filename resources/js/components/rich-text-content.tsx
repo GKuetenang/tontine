@@ -53,10 +53,7 @@ const baseClassName = [
     '[&_img]:shadow-md',
 ].join(' ');
 
-export function RichTextContent({
-    content,
-    className = '',
-}: Props) {
+export function RichTextContent({ content, className = '' }: Props) {
     return (
         <div
             className={`${baseClassName} ${className}`}

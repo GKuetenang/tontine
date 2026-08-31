@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\DrawEntryFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,11 +15,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 #[Fillable([
     'position',
     'entry_number',
-    'session_participant_id'
+    'session_participant_id',
 ])]
 class DrawEntry extends Model
 {
-    /** @use HasFactory<\Database\Factories\DrawEntryFactory> */
+    /** @use HasFactory<DrawEntryFactory> */
     use HasFactory;
 
     protected function casts(): array
@@ -26,10 +27,8 @@ class DrawEntry extends Model
         return [
             'position' => 'integer',
             'entry_number' => 'integer',
-            'created_at' =>
-            'immutable_datetime',
-            'updated_at' =>
-            'immutable_datetime',
+            'created_at' => 'immutable_datetime',
+            'updated_at' => 'immutable_datetime',
         ];
     }
 

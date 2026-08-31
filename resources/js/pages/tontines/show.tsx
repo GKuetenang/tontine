@@ -1,36 +1,17 @@
-import { withAppLayout } from '@/layouts/app-layout';
-
-import type {
-    BreadcrumbItem,
-    Session,
-    Tontine,
-} from '@/types';
-
 import { Head, Link } from '@inertiajs/react';
 
-import {
-    CalendarDays,
-    Coins,
-    Eye,
-    EyeOff,
-    Users,
-} from 'lucide-react';
-
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
-
-import { Button } from '@/components/ui/button';
+import { CalendarDays, Coins, Eye, EyeOff, Users } from 'lucide-react';
 
 import { EmptySessions } from '@/components/tontines/empty-session';
 import { InformationRow } from '@/components/tontines/information-row';
 import { OverviewCard } from '@/components/tontines/overview-card';
 import { SessionRow } from '@/components/tontines/session-row';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
+import type { BreadcrumbItem, Session, Tontine } from '@/types';
 
 type Props = {
     tontine: Tontine;
@@ -38,21 +19,20 @@ type Props = {
 };
 
 export default withAppLayout<Props>(
-    ({ tontine }) => [
-        {
-            title: 'Tontines',
-            href: tontines.index(),
-        },
-        {
-            title: tontine.name,
-            href: '#',
-        },
-    ] as BreadcrumbItem[],
+    ({ tontine }) =>
+        [
+            {
+                title: 'Tontines',
+                href: tontines.index(),
+            },
+            {
+                title: tontine.name,
+                href: '#',
+            },
+        ] as BreadcrumbItem[],
     ({ tontine, sessions }: Props) => {
-
         return (
             <>
-
                 <Head title={tontine.name} />
 
                 {/* <div className="flex items-center gap-3">
@@ -75,18 +55,14 @@ export default withAppLayout<Props>(
                     <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                         <OverviewCard
                             title="Membres"
-                            value={
-                                tontine.members_count ?? 0
-                            }
+                            value={tontine.members_count ?? 0}
                             description="Membres de la tontine"
                             icon={Users}
                         />
 
                         <OverviewCard
                             title="Sessions"
-                            value={
-                                tontine.sessions_count ?? 0
-                            }
+                            value={tontine.sessions_count ?? 0}
                             description="Sessions créées"
                             icon={CalendarDays}
                         />
@@ -103,42 +79,26 @@ export default withAppLayout<Props>(
 
                         <OverviewCard
                             title="Visibilité"
-                            value={
-                                tontine.is_public
-                                    ? 'Publique'
-                                    : 'Privée'
-                            }
+                            value={tontine.is_public ? 'Publique' : 'Privée'}
                             description={
                                 tontine.is_public
                                     ? 'Visible publiquement'
                                     : 'Accès limité aux membres'
                             }
-                            icon={
-                                tontine.is_public
-                                    ? Eye
-                                    : EyeOff
-                            }
+                            icon={tontine.is_public ? Eye : EyeOff}
                         />
                     </section>
 
                     <section className="grid gap-6 xl:grid-cols-3">
                         <Card className="xl:col-span-2">
                             <CardHeader className="flex flex-row items-center justify-between">
-                                <CardTitle>
-                                    Sessions récentes
-                                </CardTitle>
+                                <CardTitle>Sessions récentes</CardTitle>
 
-                                <Button
-                                    asChild
-                                    variant="outline"
-                                    size="sm"
-                                >
+                                <Button asChild variant="outline" size="sm">
                                     <Link
-                                        href={
-                                            tontines.sessions.index(
-                                                tontine.slug!,
-                                            )
-                                        }
+                                        href={tontines.sessions.index(
+                                            tontine.slug!,
+                                        )}
                                     >
                                         Voir toutes
                                     </Link>
@@ -147,26 +107,16 @@ export default withAppLayout<Props>(
 
                             <CardContent>
                                 {sessions.length === 0 ? (
-                                    <EmptySessions
-                                        tontine={tontine}
-                                    />
+                                    <EmptySessions tontine={tontine} />
                                 ) : (
                                     <div className="divide-y">
-                                        {sessions.map(
-                                            (session) => (
-                                                <SessionRow
-                                                    key={
-                                                        session.id
-                                                    }
-                                                    tontine={
-                                                        tontine
-                                                    }
-                                                    session={
-                                                        session
-                                                    }
-                                                />
-                                            ),
-                                        )}
+                                        {sessions.map((session) => (
+                                            <SessionRow
+                                                key={session.id}
+                                                tontine={tontine}
+                                                session={session}
+                                            />
+                                        ))}
                                     </div>
                                 )}
                             </CardContent>
@@ -174,25 +124,18 @@ export default withAppLayout<Props>(
 
                         <Card>
                             <CardHeader>
-                                <CardTitle>
-                                    Informations
-                                </CardTitle>
+                                <CardTitle>Informations</CardTitle>
                             </CardHeader>
 
                             <CardContent className="space-y-4">
                                 <InformationRow
                                     label="Préfixe membre"
-                                    value={
-                                        tontine.member_number_prefix
-                                    }
+                                    value={tontine.member_number_prefix}
                                 />
 
                                 <InformationRow
                                     label="Devise"
-                                    value={
-                                        tontine.currency ??
-                                        '—'
-                                    }
+                                    value={tontine.currency ?? '—'}
                                 />
 
                                 <InformationRow

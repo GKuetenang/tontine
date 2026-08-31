@@ -1,4 +1,4 @@
-import { ClipboardListIcon } from "lucide-react";
+import { ClipboardListIcon } from 'lucide-react';
 
 export function EmptyAgenda() {
     return (
@@ -8,15 +8,10 @@ export function EmptyAgenda() {
             </div>
 
             <div className="space-y-1">
-                <p className="font-medium">
-                    Aucun point à
-                    l’ordre du jour
-                </p>
+                <p className="font-medium">Aucun point à l’ordre du jour</p>
 
                 <p className="text-sm text-muted-foreground">
-                    Ajoutez les sujets
-                    qui seront abordés
-                    pendant la réunion.
+                    Ajoutez les sujets qui seront abordés pendant la réunion.
                 </p>
             </div>
         </div>

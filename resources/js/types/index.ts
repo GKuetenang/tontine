@@ -5,4 +5,3 @@ export type * from './navigation';
 export type * from './pagination';
 export type * from './tontine';
 export type * from './ui';
-

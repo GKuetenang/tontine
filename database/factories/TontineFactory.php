@@ -26,21 +26,21 @@ class TontineFactory extends Factory
             'user_id' => $user->id,
             'name' => $name,
             'member_number_prefix' => 'MEM',
-            'slug' => Str::slug($name) . '-' . Str::random(10),
+            'slug' => Str::slug($name).'-'.Str::random(10),
             'description' => $this->faker->text(),
         ];
     }
 
     public function public(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'is_public' => true,
         ]);
     }
 
     public function inactive(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'is_active' => false,
         ]);
     }

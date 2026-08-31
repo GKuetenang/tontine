@@ -27,7 +27,6 @@ import type {
     SessionParticipant,
 } from '@/types';
 
-
 type Props = {
     trigger: ReactElement;
     tontine: ResultTontine;
@@ -43,18 +42,15 @@ export function EditSessionParticipantForm({
 }: Props) {
     const [open, setOpen] = useState(false);
 
-    const [selectedUser, setSelectedUser] =
-        useState<MemberUser | null>(
-            participant?.membership?.user ?? null,
-        );
+    const [selectedUser, setSelectedUser] = useState<MemberUser | null>(
+        participant?.membership?.user ?? null,
+    );
 
     const isEditing = !!participant?.id;
 
     const handleOpenChange = (value: boolean) => {
         if (value) {
-            setSelectedUser(
-                participant?.membership?.user ?? null,
-            );
+            setSelectedUser(participant?.membership?.user ?? null);
         }
 
         setOpen(value);
@@ -62,36 +58,29 @@ export function EditSessionParticipantForm({
 
     const action = isEditing
         ? sessionParticipants.update.form({
-            tontine: tontine.slug,
-            session: session.slug,
-            participant: participant.id,
-        })
+              tontine: tontine.slug,
+              session: session.slug,
+              participant: participant.id,
+          })
         : sessionParticipants.store.form({
-            tontine: tontine.slug,
-            session: session.slug,
-        });
+              tontine: tontine.slug,
+              session: session.slug,
+          });
 
-    const defaultContributionAmount = isEditing ?
-        participant.contribution_amount :
-        participant?.contribution_amount ?? session.default_contribution_amount ?? undefined;
+    const defaultContributionAmount = isEditing
+        ? participant.contribution_amount
+        : (participant?.contribution_amount ??
+          session.default_contribution_amount ??
+          undefined);
 
     return (
-        <Dialog
-            open={open}
-            onOpenChange={handleOpenChange}
-        >
-            <DialogTrigger asChild>
-                {trigger}
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogTrigger asChild>{trigger}</DialogTrigger>
 
             <DialogContent
                 className="sm:max-w-lg"
-                onInteractOutside={(event) =>
-                    event.preventDefault()
-                }
-                onEscapeKeyDown={(event) =>
-                    event.preventDefault()
-                }
+                onInteractOutside={(event) => event.preventDefault()}
+                onEscapeKeyDown={(event) => event.preventDefault()}
             >
                 <Form
                     {...action}
@@ -131,21 +120,17 @@ export function EditSessionParticipantForm({
                                         type="hidden"
                                         id="membership_id"
                                         name="membership_id"
-                                        value={
-                                            selectedUser?.id ?? ''
-                                        }
+                                        value={selectedUser?.id ?? ''}
                                     />
 
-                                    <UserCombobox
-                                        onSelect={setSelectedUser}
-                                    />
+                                    <UserCombobox onSelect={setSelectedUser} />
 
                                     {selectedUser && (
                                         <div
                                             className={cn(
                                                 'relative cursor-default flex-col items-center gap-2 rounded-sm border bg-accent px-2 py-1.5 text-sm text-shadow-accent-foreground',
                                                 errors['user_id'] &&
-                                                'border-destructive bg-destructive/20',
+                                                    'border-destructive bg-destructive/20',
                                             )}
                                         >
                                             <p className="text-sm">
@@ -160,11 +145,7 @@ export function EditSessionParticipantForm({
                             )}
 
                             <FormField
-                                error={
-                                    errors[
-                                    'contribution_amount'
-                                    ]
-                                }
+                                error={errors['contribution_amount']}
                                 label="Montant de cotisation"
                                 htmlFor="contribution_amount"
                                 required
@@ -176,61 +157,40 @@ export function EditSessionParticipantForm({
                                     min={0}
                                     defaultValue={defaultContributionAmount}
                                     aria-invalid={
-                                        !!errors[
-                                        'contribution_amount'
-                                        ]
+                                        !!errors['contribution_amount']
                                     }
                                 />
                             </FormField>
 
-                            {session.draw_allocation_mode ===
-                                'custom' && (
-                                    <FormField
-                                        error={
-                                            errors[
-                                            'draw_entries_count'
-                                            ]
+                            {session.draw_allocation_mode === 'custom' && (
+                                <FormField
+                                    error={errors['draw_entries_count']}
+                                    label="Nombre de tours"
+                                    htmlFor="draw_entries_count"
+                                    required
+                                >
+                                    <Input
+                                        id="draw_entries_count"
+                                        name="draw_entries_count"
+                                        type="number"
+                                        min={1}
+                                        defaultValue={
+                                            participant?.draw_entries_count ?? 1
                                         }
-                                        label="Nombre de tours"
-                                        htmlFor="draw_entries_count"
-                                        required
-                                    >
-                                        <Input
-                                            id="draw_entries_count"
-                                            name="draw_entries_count"
-                                            type="number"
-                                            min={1}
-                                            defaultValue={
-                                                participant
-                                                    ?.draw_entries_count ??
-                                                1
-                                            }
-                                            aria-invalid={
-                                                !!errors[
-                                                'draw_entries_count'
-                                                ]
-                                            }
-                                        />
-                                    </FormField>
-                                )}
+                                        aria-invalid={
+                                            !!errors['draw_entries_count']
+                                        }
+                                    />
+                                </FormField>
+                            )}
 
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button variant="outline">
-                                        Annuler
-                                    </Button>
+                                    <Button variant="outline">Annuler</Button>
                                 </DialogClose>
 
-                                <Button
-                                    type="submit"
-                                    disabled={processing}
-                                >
-                                    {processing ? (
-                                        <Spinner />
-                                    ) : (
-                                        <SaveIcon />
-                                    )}
-
+                                <Button type="submit" disabled={processing}>
+                                    {processing ? <Spinner /> : <SaveIcon />}
                                     Enregistrer
                                 </Button>
                             </DialogFooter>

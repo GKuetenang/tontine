@@ -38,7 +38,7 @@ final class DrawCalendar
     }
 
     /**
-     * @param Collection<int, Meeting> $meetings
+     * @param  Collection<int, Meeting>  $meetings
      */
     public function meetingForEntry(
         Session $session,
@@ -90,8 +90,7 @@ final class DrawCalendar
     }
 
     /**
-     * @param Collection<int, DrawEntry> $entries
-     *
+     * @param  Collection<int, DrawEntry>  $entries
      * @return Collection<int, DrawEntry>
      */
     public function entriesForMeeting(

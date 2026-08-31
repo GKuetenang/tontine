@@ -7,7 +7,6 @@ use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Mimes;
@@ -76,7 +75,7 @@ class TontineData extends Data
             'image' => Lazy::whenLoaded(
                 'media',
                 $tontine,
-                fn(): ?string => $tontine->getFirstMediaUrl(),
+                fn (): ?string => $tontine->getFirstMediaUrl(),
             ),
             'image_file' => Optional::create(),
             'can' => $can ?? Optional::create(),
@@ -125,7 +124,7 @@ class TontineData extends Data
         //     $properties['slug'] = \Str::slug($properties['name']);
         // }
 
-        if (!empty($properties['member_number_prefix'])) {
+        if (! empty($properties['member_number_prefix'])) {
             $properties['member_number_prefix'] = \Str::upper($properties['member_number_prefix']);
         }
 

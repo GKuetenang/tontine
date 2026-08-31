@@ -1,7 +1,3 @@
-import { Badge } from '@/components/ui/badge';
-
-import type { AttendanceStatus } from '@/types';
-
 import {
     CheckCircle2Icon,
     CircleDashedIcon,
@@ -9,6 +5,9 @@ import {
     UserRoundCheckIcon,
     UserRoundXIcon,
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+
+import type { AttendanceStatus } from '@/types';
 
 const attendanceStatusConfig = {
     pending: {
@@ -59,8 +58,7 @@ export function AttendanceStatusBadge({
 }: {
     status: AttendanceStatus;
 }) {
-    const config =
-        attendanceStatusConfig[status];
+    const config = attendanceStatusConfig[status];
 
     const Icon = config.icon;
 

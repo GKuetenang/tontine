@@ -31,7 +31,7 @@ class MembershipFactory extends Factory
 
     public function active(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => MembershipStatus::Active,
             'left_at' => null,
         ]);
@@ -39,7 +39,7 @@ class MembershipFactory extends Factory
 
     public function inactive(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => MembershipStatus::Inactive,
             'left_at' => now(),
         ]);

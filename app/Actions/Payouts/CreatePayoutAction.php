@@ -40,7 +40,7 @@ final class CreatePayoutAction
         );
 
         if (
-            !$drawEntry
+            ! $drawEntry
                 ->draw
                 ->isConfirmed()
         ) {
@@ -64,11 +64,11 @@ final class CreatePayoutAction
 
         if (
             Payout::query()
-            ->where(
-                'draw_entry_id',
-                $drawEntry->id,
-            )
-            ->exists()
+                ->where(
+                    'draw_entry_id',
+                    $drawEntry->id,
+                )
+                ->exists()
         ) {
             throw ValidationException::withMessages([
                 'draw_entry_id' => __(
@@ -78,13 +78,12 @@ final class CreatePayoutAction
         }
 
         $payout =
-            new Payout();
+            new Payout;
 
         $payout->fill([
             'amount' => $amount,
 
-            'status' =>
-            PayoutStatus::Pending,
+            'status' => PayoutStatus::Pending,
         ]);
 
         $payout->meeting()

@@ -1,3 +1,7 @@
+import { Form } from '@inertiajs/react';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 
 import { Button } from '@/components/ui/button';
@@ -32,24 +36,8 @@ import type {
     MeetingPayoutContext,
     PayoutCandidate,
     Session,
-    Tontine
+    Tontine,
 } from '@/types';
-
-import {
-    Form,
-} from '@inertiajs/react';
-
-import {
-    SaveIcon,
-} from 'lucide-react';
-
-import type {
-    ReactElement,
-} from 'react';
-
-import {
-    useState,
-} from 'react';
 
 type Props = {
     trigger: ReactElement;
@@ -71,32 +59,16 @@ export function CreatePayoutForm({
     context,
     defaultCandidate,
 }: Props) {
-    const [open, setOpen] =
-        useState(false);
+    const [open, setOpen] = useState(false);
 
-    const [
-        drawEntryId,
-        setDrawEntryId,
-    ] = useState(
-        defaultCandidate
-            ? String(
-                defaultCandidate
-                    .draw_entry_id,
-            )
-            : '',
+    const [drawEntryId, setDrawEntryId] = useState(
+        defaultCandidate ? String(defaultCandidate.draw_entry_id) : '',
     );
 
-    const handleOpenChange = (
-        value: boolean,
-    ) => {
+    const handleOpenChange = (value: boolean) => {
         if (value) {
             setDrawEntryId(
-                defaultCandidate
-                    ? String(
-                        defaultCandidate
-                            .draw_entry_id,
-                    )
-                    : '',
+                defaultCandidate ? String(defaultCandidate.draw_entry_id) : '',
             );
         }
 
@@ -104,112 +76,73 @@ export function CreatePayoutForm({
     };
 
     return (
-        <Dialog
-            open={open}
-            onOpenChange={
-                handleOpenChange
-            }
-        >
-            <DialogTrigger asChild>
-                {trigger}
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogTrigger asChild>{trigger}</DialogTrigger>
 
             <DialogContent className="sm:max-w-lg">
                 <DialogHeader>
-                    <DialogTitle>
-                        Préparer un versement
-                    </DialogTitle>
+                    <DialogTitle>Préparer un versement</DialogTitle>
 
                     <DialogDescription>
-                        Sélectionnez le bénéficiaire
-                        et saisissez le montant à
+                        Sélectionnez le bénéficiaire et saisissez le montant à
                         verser.
                     </DialogDescription>
                 </DialogHeader>
 
                 <Form
                     {...payouts.store.form({
-                        tontine:
-                            tontine.slug!,
+                        tontine: tontine.slug!,
 
-                        session:
-                            session.slug,
+                        session: session.slug,
 
-                        meeting:
-                            meeting.slug,
+                        meeting: meeting.slug,
                     })}
                     resetOnSuccess
                     options={{
-                        preserveScroll:
-                            true,
+                        preserveScroll: true,
                     }}
-                    onSuccess={() =>
-                        setOpen(false)
-                    }
+                    onSuccess={() => setOpen(false)}
                 >
-                    {({
-                        errors,
-                        processing,
-                    }) => (
+                    {({ errors, processing }) => (
                         <div className="space-y-4">
                             <FormField
                                 label="Bénéficiaire"
                                 htmlFor="draw_entry_id"
-                                error={
-                                    errors.draw_entry_id
-                                }
+                                error={errors.draw_entry_id}
                                 required
                             >
                                 <input
                                     type="hidden"
                                     name="draw_entry_id"
-                                    value={
-                                        drawEntryId
-                                    }
+                                    value={drawEntryId}
                                 />
 
                                 <Select
-                                    value={
-                                        drawEntryId
-                                    }
-                                    onValueChange={
-                                        setDrawEntryId
-                                    }
+                                    value={drawEntryId}
+                                    onValueChange={setDrawEntryId}
                                 >
                                     <SelectTrigger id="draw_entry_id">
                                         <SelectValue placeholder="Sélectionner un bénéficiaire" />
                                     </SelectTrigger>
 
                                     <SelectContent>
-                                        {context.available.map(
-                                            (
-                                                candidate,
-                                            ) => (
-                                                <SelectItem
-                                                    key={
-                                                        candidate.draw_entry_id
-                                                    }
-                                                    value={String(
-                                                        candidate.draw_entry_id,
-                                                    )}
-                                                >
-                                                    {
-                                                        candidate.member_name
-                                                    }{' '}
-                                                    — Position{' '}
-                                                    {
-                                                        candidate.position
-                                                    }
-                                                    {candidate.entry_number
-                                                        > 1
-                                                        ? ` — Part ${candidate.entry_number}`
-                                                        : ''}
-                                                    {candidate.expected
-                                                        ? ' — Prévu'
-                                                        : ''}
-                                                </SelectItem>
-                                            ),
-                                        )}
+                                        {context.available.map((candidate) => (
+                                            <SelectItem
+                                                key={candidate.draw_entry_id}
+                                                value={String(
+                                                    candidate.draw_entry_id,
+                                                )}
+                                            >
+                                                {candidate.member_name} —
+                                                Position {candidate.position}
+                                                {candidate.entry_number > 1
+                                                    ? ` — Part ${candidate.entry_number}`
+                                                    : ''}
+                                                {candidate.expected
+                                                    ? ' — Prévu'
+                                                    : ''}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                             </FormField>
@@ -217,9 +150,7 @@ export function CreatePayoutForm({
                             <FormField
                                 label="Montant"
                                 htmlFor="amount"
-                                error={
-                                    errors.amount
-                                }
+                                error={errors.amount}
                                 required
                             >
                                 <Input
@@ -233,32 +164,21 @@ export function CreatePayoutForm({
                             </FormField>
 
                             <DialogFooter>
-                                <DialogClose
-                                    asChild
-                                >
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                    >
+                                <DialogClose asChild>
+                                    <Button type="button" variant="outline">
                                         Annuler
                                     </Button>
                                 </DialogClose>
 
                                 <Button
                                     type="submit"
-                                    disabled={
-                                        processing
-                                        || !drawEntryId
-                                    }
+                                    disabled={processing || !drawEntryId}
                                 >
-                                    {processing
-                                        ? (
-                                            <Spinner />
-                                        )
-                                        : (
-                                            <SaveIcon className="size-4" />
-                                        )}
-
+                                    {processing ? (
+                                        <Spinner />
+                                    ) : (
+                                        <SaveIcon className="size-4" />
+                                    )}
                                     Préparer
                                 </Button>
                             </DialogFooter>

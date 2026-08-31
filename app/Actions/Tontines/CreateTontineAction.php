@@ -27,7 +27,7 @@ class CreateTontineAction
         $fillableData = $data->only(...$fillable)->toArray();
 
         return DB::transaction(function () use ($fillableData, $owner) {
-            $tontine = new Tontine();
+            $tontine = new Tontine;
 
             $tontine->owner()->associate($owner);
 

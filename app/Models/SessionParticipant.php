@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\SessionParticipantFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 ])]
 class SessionParticipant extends Model
 {
-    /** @use HasFactory<\Database\Factories\SessionParticipantFactory> */
+    /** @use HasFactory<SessionParticipantFactory> */
     use HasFactory;
 
     protected function casts(): array
@@ -33,6 +34,7 @@ class SessionParticipant extends Model
             'updated_at' => 'immutable_datetime',
         ];
     }
+
     public function session(): BelongsTo
     {
         return $this->belongsTo(Session::class);

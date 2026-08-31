@@ -69,7 +69,7 @@ class CreateMembershipAction
         ?User $invitedBy,
         MembershipStatus $status,
     ): Membership {
-        $membership = new Membership();
+        $membership = new Membership;
 
         $membership->user()->associate($user);
         $membership->tontine()->associate($tontine);

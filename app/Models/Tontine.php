@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Override;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -29,7 +28,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
     'description',
     'currency',
     'member_number_prefix',
-    'default_contribution_amount'
+    'default_contribution_amount',
 ])]
 #[UsePolicy(TontinePolicy::class)]
 class Tontine extends Model implements HasMedia
@@ -47,7 +46,7 @@ class Tontine extends Model implements HasMedia
         'description',
         'is_active',
         'is_public',
-        'currency'
+        'currency',
     ];
 
     protected $casts = [
@@ -105,7 +104,6 @@ class Tontine extends Model implements HasMedia
             )
             ->withTimestamps();
     }
-
 
     /**
      * Get the active tontines.

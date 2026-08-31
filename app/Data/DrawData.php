@@ -46,8 +46,8 @@ class DrawData extends Data
 
         $meetings =
             $session
-            ->meetings
-            ->keyBy('number');
+                ->meetings
+                ->keyBy('number');
 
         $calendar =
             app(DrawCalendar::class);
@@ -55,39 +55,39 @@ class DrawData extends Data
         $entries =
             $draw->relationLoaded('entries')
             ? $draw
-            ->entries
-            ->sortBy('position')
-            ->values()
-            ->map(
-                function (
-                    DrawEntry $entry,
-                ) use (
-                    $session,
-                    $meetings,
-                    $calendar,
-                ): DrawEntryData {
-                    $expectedMeeting =
-                        $calendar
-                        ->meetingForEntry(
-                            session: $session,
+                ->entries
+                ->sortBy('position')
+                ->values()
+                ->map(
+                    function (
+                        DrawEntry $entry,
+                    ) use (
+                        $session,
+                        $meetings,
+                        $calendar,
+                    ): DrawEntryData {
+                        $expectedMeeting =
+                            $calendar
+                                ->meetingForEntry(
+                                    session: $session,
 
+                                    entry: $entry,
+
+                                    meetings: $meetings,
+                                );
+
+                        return DrawEntryData::fromModel(
                             entry: $entry,
 
-                            meetings: $meetings,
+                            expectedMeeting: $expectedMeeting
+                                ? ExpectedDrawMeetingData::fromModel(
+                                    $expectedMeeting,
+                                )
+                                : null,
                         );
-
-                    return DrawEntryData::fromModel(
-                        entry: $entry,
-
-                        expectedMeeting: $expectedMeeting
-                            ? ExpectedDrawMeetingData::fromModel(
-                                $expectedMeeting,
-                            )
-                            : null,
-                    );
-                },
-            )
-            ->all()
+                    },
+                )
+                ->all()
             : Optional::create();
 
         return new self(

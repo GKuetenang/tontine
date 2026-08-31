@@ -20,8 +20,7 @@ class SyncTontineRoles extends Command
     ): int {
         Tontine::query()
             ->each(
-                fn(Tontine $tontine) =>
-                $action->execute($tontine),
+                fn (Tontine $tontine) => $action->execute($tontine),
             );
 
         $this->info(

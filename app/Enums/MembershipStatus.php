@@ -11,7 +11,7 @@ enum MembershipStatus: string
 
     public static function getOptions(): array
     {
-        return array_map(fn(self $status) => [
+        return array_map(fn (self $status) => [
             'label' => $status->label(),
             'value' => $status->value,
         ], self::cases());

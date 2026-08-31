@@ -14,7 +14,7 @@ enum TontineRole: string
     public static function getOptions(): array
     {
         return array_map(
-            fn(self $role) => [
+            fn (self $role) => [
                 'label' => $role->label(),
                 'value' => $role->value,
             ],

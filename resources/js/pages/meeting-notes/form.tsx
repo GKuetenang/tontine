@@ -1,8 +1,10 @@
+import { Form } from '@inertiajs/react';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import { RichTextEditor } from '@/components/rich-text-editor';
-import {
-    SelectWithItems,
-} from '@/components/select-with-items';
+import { SelectWithItems } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
 
 import {
@@ -20,19 +22,7 @@ import { Spinner } from '@/components/ui/spinner';
 
 import notes from '@/routes/tontines/sessions/meetings/notes';
 
-import type {
-    Meeting,
-    MeetingNote,
-    Session,
-    Tontine,
-} from '@/types';
-
-import { Form } from '@inertiajs/react';
-
-import { SaveIcon } from 'lucide-react';
-
-import type { ReactElement } from 'react';
-import { useState } from 'react';
+import type { Meeting, MeetingNote, Session, Tontine } from '@/types';
 
 type Props = {
     trigger: ReactElement;
@@ -49,32 +39,21 @@ export function EditMeetingNoteForm({
     meeting,
     note,
 }: Props) {
-    const [open, setOpen] =
-        useState(false);
+    const [open, setOpen] = useState(false);
 
-    const [content, setContent] =
-        useState(
-            note?.content ?? '',
-        );
+    const [content, setContent] = useState(note?.content ?? '');
 
-    const isEditing =
-        Boolean(note?.id);
+    const isEditing = Boolean(note?.id);
 
     const agendaItems =
-        meeting.agenda_items?.map(
-            (item) => ({
-                value: String(item.id),
-                label: `${item.position}. ${item.title}`,
-            }),
-        ) ?? [];
+        meeting.agenda_items?.map((item) => ({
+            value: String(item.id),
+            label: `${item.position}. ${item.title}`,
+        })) ?? [];
 
-    const handleOpenChange = (
-        value: boolean,
-    ) => {
+    const handleOpenChange = (value: boolean) => {
         if (value) {
-            setContent(
-                note?.content ?? '',
-            );
+            setContent(note?.content ?? '');
         }
 
         setOpen(value);
@@ -82,31 +61,24 @@ export function EditMeetingNoteForm({
 
     const action = note?.id
         ? notes.update.form({
-            tontine: tontine.slug!,
-            session: session.slug,
-            meeting: meeting.slug,
-            note: note.id,
-        })
+              tontine: tontine.slug!,
+              session: session.slug,
+              meeting: meeting.slug,
+              note: note.id,
+          })
         : notes.store.form({
-            tontine: tontine.slug!,
-            session: session.slug,
-            meeting: meeting.slug,
-        });
+              tontine: tontine.slug!,
+              session: session.slug,
+              meeting: meeting.slug,
+          });
 
     return (
-        <Dialog
-            open={open}
-            onOpenChange={handleOpenChange}
-        >
-            <DialogTrigger asChild>
-                {trigger}
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogTrigger asChild>{trigger}</DialogTrigger>
 
             <DialogContent
                 className="sm:max-w-4xl"
-                onInteractOutside={(event) =>
-                    event.preventDefault()
-                }
+                onInteractOutside={(event) => event.preventDefault()}
             >
                 <Form
                     {...action}
@@ -114,14 +86,9 @@ export function EditMeetingNoteForm({
                     options={{
                         preserveScroll: true,
                     }}
-                    onSuccess={() =>
-                        setOpen(false)
-                    }
+                    onSuccess={() => setOpen(false)}
                 >
-                    {({
-                        errors,
-                        processing,
-                    }) => (
+                    {({ errors, processing }) => (
                         <div className="min-h-0 flex-1 space-y-4 overflow-y-auto">
                             <DialogHeader>
                                 <DialogTitle>
@@ -131,19 +98,15 @@ export function EditMeetingNoteForm({
                                 </DialogTitle>
 
                                 <DialogDescription>
-                                    Consigner une information
-                                    importante de la réunion.
+                                    Consigner une information importante de la
+                                    réunion.
                                 </DialogDescription>
                             </DialogHeader>
 
                             <FormField
                                 label="Point de l’ordre du jour"
                                 htmlFor="meeting_agenda_item_id"
-                                error={
-                                    errors[
-                                    'meeting_agenda_item_id'
-                                    ]
-                                }
+                                error={errors['meeting_agenda_item_id']}
                                 optional
                             >
                                 <SelectWithItems
@@ -157,13 +120,8 @@ export function EditMeetingNoteForm({
                                         ...agendaItems,
                                     ]}
                                     defaultValue={
-                                        note?.agenda_item
-                                            ?.id
-                                            ? String(
-                                                note
-                                                    .agenda_item
-                                                    .id,
-                                            )
+                                        note?.agenda_item?.id
+                                            ? String(note.agenda_item.id)
                                             : ''
                                     }
                                 />
@@ -189,26 +147,13 @@ export function EditMeetingNoteForm({
 
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                    >
+                                    <Button type="button" variant="outline">
                                         Annuler
                                     </Button>
                                 </DialogClose>
 
-                                <Button
-                                    type="submit"
-                                    disabled={
-                                        processing
-                                    }
-                                >
-                                    {processing ? (
-                                        <Spinner />
-                                    ) : (
-                                        <SaveIcon />
-                                    )}
-
+                                <Button type="submit" disabled={processing}>
+                                    {processing ? <Spinner /> : <SaveIcon />}
                                     Enregistrer
                                 </Button>
                             </DialogFooter>

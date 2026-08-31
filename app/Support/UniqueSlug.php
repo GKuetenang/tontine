@@ -3,12 +3,13 @@
 namespace App\Support;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 final class UniqueSlug
 {
     /**
-     * @param Builder<\Illuminate\Database\Eloquent\Model> $query
+     * @param  Builder<Model>  $query
      */
     public function generate(
         Builder $query,
@@ -22,14 +23,14 @@ final class UniqueSlug
         }
 
         do {
-            $slug = $baseSlug . '-' . Str::lower(
+            $slug = $baseSlug.'-'.Str::lower(
                 Str::random($suffixLength),
             );
         } while (
             (clone $query)
-            ->withTrashed()
-            ->where('slug', $slug)
-            ->exists()
+                ->withTrashed()
+                ->where('slug', $slug)
+                ->exists()
         );
 
         return $slug;

@@ -169,7 +169,7 @@ test('protected tontine fields cannot be mass assigned', function (): void {
     $user = User::factory()->create();
 
     expect(
-        fn() => $user->tontines()->create([
+        fn () => $user->tontines()->create([
             'name' => 'AJERM',
             'slug' => 'slug-interdit',
             'member_number_prefix' => 'AJERM',

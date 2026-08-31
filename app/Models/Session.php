@@ -6,6 +6,7 @@ use App\Enums\DrawAllocationMode;
 use App\Enums\MeetingStatus;
 use App\Enums\SessionStatus;
 use App\Models\Traits\HasSortable;
+use Database\Factories\SessionFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Override;
 
 /**
  * @mixin IdeHelperSession
@@ -33,8 +33,9 @@ use Override;
 )]
 class Session extends Model
 {
-    /** @use HasFactory<\Database\Factories\SessionFactory> */
+    /** @use HasFactory<SessionFactory> */
     use HasFactory;
+
     use HasSortable;
     use SoftDeletes;
 
@@ -50,7 +51,7 @@ class Session extends Model
         'created_at',
         'default_contribution_amount',
         'draw_allocation_mode',
-        'status'
+        'status',
     ];
 
     protected $casts = [

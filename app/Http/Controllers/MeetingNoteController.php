@@ -32,11 +32,11 @@ class MeetingNoteController extends Controller
             'meeting_agenda_item_id',
         )
             ? MeetingAgendaItem::query()
-            ->findOrFail(
-                $request->integer(
-                    'meeting_agenda_item_id',
-                ),
-            )
+                ->findOrFail(
+                    $request->integer(
+                        'meeting_agenda_item_id',
+                    ),
+                )
             : null;
 
         $action->execute(
@@ -76,11 +76,11 @@ class MeetingNoteController extends Controller
             'meeting_agenda_item_id',
         )
             ? MeetingAgendaItem::query()
-            ->findOrFail(
-                $request->integer(
-                    'meeting_agenda_item_id',
-                ),
-            )
+                ->findOrFail(
+                    $request->integer(
+                        'meeting_agenda_item_id',
+                    ),
+                )
             : null;
 
         $action->execute(

@@ -1,8 +1,8 @@
-import { formatCurrency } from "@/lib/utils";
-import tontines from "@/routes/tontines";
-import { Session, Tontine } from "@/types";
-import { Link } from "@inertiajs/react";
-import { SessionStatusBadge } from "../session-status-badge";
+import { Link } from '@inertiajs/react';
+import { formatCurrency } from '@/lib/utils';
+import tontines from '@/routes/tontines';
+import type { Session, Tontine } from '@/types';
+import { SessionStatusBadge } from '../session-status-badge';
 
 export function SessionRow({
     tontine,
@@ -15,12 +15,10 @@ export function SessionRow({
         <div className="flex items-center justify-between gap-4 py-4">
             <div className="min-w-0">
                 <Link
-                    href={
-                        tontines.sessions.show({
-                            tontine: tontine.slug!,
-                            session: session.slug
-                        })
-                    }
+                    href={tontines.sessions.show({
+                        tontine: tontine.slug!,
+                        session: session.slug,
+                    })}
                     className="font-medium hover:underline"
                 >
                     {session.name}
@@ -37,20 +35,13 @@ export function SessionRow({
                     <span>•</span>
 
                     <span>
-                        {session.participants_count ??
-                            0}{' '}
-                        participant
-                        {(session.participants_count ??
-                            0) > 1
-                            ? 's'
-                            : ''}
+                        {session.participants_count ?? 0} participant
+                        {(session.participants_count ?? 0) > 1 ? 's' : ''}
                     </span>
                 </div>
             </div>
 
-            <SessionStatusBadge
-                session={session}
-            />
+            <SessionStatusBadge session={session} />
         </div>
     );
 }

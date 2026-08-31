@@ -17,7 +17,7 @@ enum TontinePermission: string
     case ForceDeleteTontine = 'tontines.force-delete';
     case ManageTontineSettings = 'tontines.settings.manage';
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Membres
     |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ enum TontinePermission: string
     case LeaveMemberships = 'memberships.leave';
     case AssignMembershipRoles = 'memberships.roles.assign';
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Sessions
     |--------------------------------------------------------------------------
@@ -45,7 +45,7 @@ enum TontinePermission: string
     case CloseSessions = 'sessions.close';
     case DeleteSessions = 'sessions.delete';
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Participants aux sessions
     |--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ enum TontinePermission: string
     case RemoveSessionParticipants = 'session-participants.remove';
     case ReactivateSessionParticipants = 'session-participants.reactivate';
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Tirages
     |--------------------------------------------------------------------------
@@ -71,7 +71,7 @@ enum TontinePermission: string
     case RestoreDraws = 'draws.restore';
     case UpdateDraws = 'draws.update';
 
-        // Meetings
+    // Meetings
     case ViewMeetings = 'meetings.view';
     case CreateMeetings = 'meetings.create';
     case UpdateMeetings = 'meetings.update';
@@ -80,29 +80,29 @@ enum TontinePermission: string
     case CancelMeetings = 'meetings.cancel';
     case DeleteMeetings = 'meetings.delete';
 
-        // Meeting agenda
+    // Meeting agenda
     case ViewMeetingAgenda = 'meeting-agenda.view';
     case CreateMeetingAgenda = 'meeting-agenda.create';
     case UpdateMeetingAgenda = 'meeting-agenda.update';
     case DeleteMeetingAgenda = 'meeting-agenda.delete';
 
-        // Attendances
+    // Attendances
     case ViewMeetingAttendances = 'meeting-attendances.view';
     case UpdateMeetingAttendances = 'meeting-attendances.update';
 
-        // Notes
+    // Notes
     case ViewMeetingNotes = 'meeting-notes.view';
     case CreateMeetingNotes = 'meeting-notes.create';
     case UpdateMeetingNotes = 'meeting-notes.update';
     case DeleteMeetingNotes = 'meeting-notes.delete';
 
-        // Decisions
+    // Decisions
     case ViewMeetingDecisions = 'meeting-decisions.view';
     case CreateMeetingDecisions = 'meeting-decisions.create';
     case UpdateMeetingDecisions = 'meeting-decisions.update';
     case DeleteMeetingDecisions = 'meeting-decisions.delete';
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Cotisations
     |--------------------------------------------------------------------------
@@ -114,7 +114,7 @@ enum TontinePermission: string
     case DeleteContributions = 'contributions.delete';
     case RecordContributionPayments = 'contributions.pay';
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Prêts
     |--------------------------------------------------------------------------
@@ -126,7 +126,7 @@ enum TontinePermission: string
     case UpdateLoans = 'loans.update';
     case DeleteLoans = 'loans.delete';
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Remboursements
     |--------------------------------------------------------------------------
@@ -137,7 +137,7 @@ enum TontinePermission: string
     case UpdateRepayments = 'repayments.update';
     case DeleteRepayments = 'repayments.delete';
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Pénalités
     |--------------------------------------------------------------------------
@@ -148,7 +148,7 @@ enum TontinePermission: string
     case UpdatePenalties = 'penalties.update';
     case DeletePenalties = 'penalties.delete';
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Fonds de caisse
     |--------------------------------------------------------------------------
@@ -157,7 +157,7 @@ enum TontinePermission: string
     case ViewCashFund = 'cash-fund.view';
     case ManageCashFund = 'cash-fund.manage';
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Comptabilité
     |--------------------------------------------------------------------------
@@ -166,7 +166,7 @@ enum TontinePermission: string
     case ViewAccounting = 'accounting.view';
     case ExportAccounting = 'accounting.export';
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Rapports
     |--------------------------------------------------------------------------
@@ -257,7 +257,7 @@ enum TontinePermission: string
     public static function values(): array
     {
         return array_map(
-            static fn(self $permission): string => $permission->value,
+            static fn (self $permission): string => $permission->value,
             self::cases(),
         );
     }

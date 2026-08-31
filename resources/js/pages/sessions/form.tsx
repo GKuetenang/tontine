@@ -1,5 +1,11 @@
+import { Form } from '@inertiajs/react';
+import { format } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 import { FormField } from '@/components/form-field';
-import { SelectOption, SelectWithItems } from '@/components/select-with-items';
+import type { SelectOption } from '@/components/select-with-items';
+import { SelectWithItems } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
 import { DateTimePicker } from '@/components/ui/datetime-picker';
 import {
@@ -17,11 +23,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { parseDate } from '@/lib';
 import sessions from '@/routes/tontines/sessions';
 import type { Session } from '@/types';
-import { Form } from '@inertiajs/react';
-import { format } from 'date-fns';
-import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
-import { useState } from 'react';
 import type { ResultTontine } from '.';
 
 type Props = {
@@ -31,7 +32,12 @@ type Props = {
     draw_allocation_modes: SelectOption[];
 };
 
-export function EditSessionForm({ trigger, tontine, session, draw_allocation_modes }: Props) {
+export function EditSessionForm({
+    trigger,
+    tontine,
+    session,
+    draw_allocation_modes,
+}: Props) {
     const [open, setOpen] = useState(false);
 
     const [startDate, setStartDate] = useState<Date | undefined>(() =>
@@ -141,7 +147,9 @@ export function EditSessionForm({ trigger, tontine, session, draw_allocation_mod
                                     id="draw_allocation_mode"
                                     name="draw_allocation_mode"
                                     defaultValue={session.draw_allocation_mode}
-                                    aria-invalid={!!errors['draw_allocation_mode']}
+                                    aria-invalid={
+                                        !!errors['draw_allocation_mode']
+                                    }
                                 />
                             </FormField>
 
@@ -156,9 +164,9 @@ export function EditSessionForm({ trigger, tontine, session, draw_allocation_mod
                                     value={
                                         startDate
                                             ? format(
-                                                startDate,
-                                                'yyyy-MM-dd HH:mm:ss',
-                                            )
+                                                  startDate,
+                                                  'yyyy-MM-dd HH:mm:ss',
+                                              )
                                             : ''
                                     }
                                 />
@@ -189,9 +197,9 @@ export function EditSessionForm({ trigger, tontine, session, draw_allocation_mod
                                     value={
                                         endDate
                                             ? format(
-                                                endDate,
-                                                'yyyy-MM-dd HH:mm:ss',
-                                            )
+                                                  endDate,
+                                                  'yyyy-MM-dd HH:mm:ss',
+                                              )
                                             : ''
                                     }
                                 />

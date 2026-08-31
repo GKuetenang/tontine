@@ -35,7 +35,7 @@ final class AddMeetingDecisionAction
         );
 
         $decision =
-            new MeetingDecision();
+            new MeetingDecision;
 
         $decision->fill([
             'title' => $title,

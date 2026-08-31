@@ -1,9 +1,10 @@
 import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+    BanknoteIcon,
+    CheckCircle2Icon,
+    CircleDollarSignIcon,
+    CoinsIcon,
+} from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import {
     Table,
@@ -16,18 +17,7 @@ import {
 import { useAuthorization } from '@/hooks/use-authorization';
 import { formatCurrency } from '@/lib/utils';
 
-import type {
-    Meeting,
-    Session,
-    Tontine
-} from '@/types';
-
-import {
-    BanknoteIcon,
-    CheckCircle2Icon,
-    CircleDollarSignIcon,
-    CoinsIcon,
-} from 'lucide-react';
+import type { Meeting, Session, Tontine } from '@/types';
 
 import { ContributionRow } from './contribution-row';
 import { ContributionSummaryCard } from './contribution-summary-card';
@@ -39,75 +29,54 @@ type Props = {
     meeting: Meeting;
 };
 
-export function MeetingContributions({
-    tontine,
-    session,
-    meeting,
-}: Props) {
+export function MeetingContributions({ tontine, session, meeting }: Props) {
     const { can } = useAuthorization();
 
     if (meeting.status === 'scheduled') {
         return <ContributionPlaceholder />;
     }
 
-    const contributions =
-        meeting.contributions ?? [];
+    const contributions = meeting.contributions ?? [];
 
     const totalDue = contributions.reduce(
-        (total, contribution) =>
-            total + contribution.amount_due,
+        (total, contribution) => total + contribution.amount_due,
         0,
     );
 
     const totalPaid = contributions.reduce(
-        (total, contribution) =>
-            total + contribution.amount_paid,
+        (total, contribution) => total + contribution.amount_paid,
         0,
     );
 
-    const totalRemaining =
-        totalDue - totalPaid;
+    const totalRemaining = totalDue - totalPaid;
 
-    const paidCount =
-        contributions.filter(
-            (contribution) =>
-                contribution.status === 'paid',
-        ).length;
+    const paidCount = contributions.filter(
+        (contribution) => contribution.status === 'paid',
+    ).length;
 
     return (
         <Card>
             <CardHeader>
-                <CardTitle>
-                    Cotisations
-                </CardTitle>
+                <CardTitle>Cotisations</CardTitle>
             </CardHeader>
 
             <CardContent className="space-y-6 px-0">
                 <div className="grid gap-4 px-6 md:grid-cols-2 xl:grid-cols-4">
                     <ContributionSummaryCard
                         title="Total attendu"
-                        value={formatCurrency(
-                            totalDue,
-                            tontine.currency,
-                        )}
+                        value={formatCurrency(totalDue, tontine.currency)}
                         icon={CoinsIcon}
                     />
 
                     <ContributionSummaryCard
                         title="Encaissé"
-                        value={formatCurrency(
-                            totalPaid,
-                            tontine.currency,
-                        )}
+                        value={formatCurrency(totalPaid, tontine.currency)}
                         icon={BanknoteIcon}
                     />
 
                     <ContributionSummaryCard
                         title="Reste à payer"
-                        value={formatCurrency(
-                            totalRemaining,
-                            tontine.currency,
-                        )}
+                        value={formatCurrency(totalRemaining, tontine.currency)}
                         icon={CircleDollarSignIcon}
                     />
 
@@ -121,61 +90,33 @@ export function MeetingContributions({
                 <Table>
                     <TableHeader>
                         <TableRow className="[&>th:first-child]:pl-6 [&>th:last-child]:pr-6">
-                            <TableHead>
-                                Membre
-                            </TableHead>
+                            <TableHead>Membre</TableHead>
 
-                            <TableHead>
-                                N° membre
-                            </TableHead>
+                            <TableHead>N° membre</TableHead>
 
-                            <TableHead>
-                                Montant dû
-                            </TableHead>
+                            <TableHead>Montant dû</TableHead>
 
-                            <TableHead>
-                                Payé
-                            </TableHead>
+                            <TableHead>Payé</TableHead>
 
-                            <TableHead>
-                                Reste
-                            </TableHead>
+                            <TableHead>Reste</TableHead>
 
-                            <TableHead>
-                                Statut
-                            </TableHead>
+                            <TableHead>Statut</TableHead>
 
                             <TableHead className="text-end" />
                         </TableRow>
                     </TableHeader>
 
                     <TableBody>
-                        {contributions.map(
-                            (contribution) => (
-                                <ContributionRow
-                                    key={
-                                        contribution.id
-                                    }
-                                    tontine={
-                                        tontine
-                                    }
-                                    session={
-                                        session
-                                    }
-                                    meeting={
-                                        meeting
-                                    }
-                                    contribution={
-                                        contribution
-                                    }
-                                    canPay={
-                                        can(
-                                            'contributions.pay',
-                                        )
-                                    }
-                                />
-                            ),
-                        )}
+                        {contributions.map((contribution) => (
+                            <ContributionRow
+                                key={contribution.id}
+                                tontine={tontine}
+                                session={session}
+                                meeting={meeting}
+                                contribution={contribution}
+                                canPay={can('contributions.pay')}
+                            />
+                        ))}
                     </TableBody>
                 </Table>
             </CardContent>

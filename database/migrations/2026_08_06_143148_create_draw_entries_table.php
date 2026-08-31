@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Draw;
-use App\Models\Membership;
 use App\Models\SessionParticipant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

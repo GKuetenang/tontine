@@ -1,3 +1,7 @@
+import { Form, Head } from '@inertiajs/react';
+import { format, isValid, parseISO } from 'date-fns';
+import { frCA } from 'date-fns/locale';
+import { PlusIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SessionParticipantStatusBadge } from '@/components/session-participant-status-badge';
@@ -19,11 +23,13 @@ import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
 import sessions from '@/routes/tontines/sessions';
 import sessionParticipants from '@/routes/tontines/sessions/participants';
-import type { BreadcrumbItem, PaginatedCollection, ResultTontine, Session, SessionParticipant } from '@/types';
-import { Form, Head } from '@inertiajs/react';
-import { format, isValid, parseISO } from 'date-fns';
-import { frCA } from 'date-fns/locale';
-import { PlusIcon } from 'lucide-react';
+import type {
+    BreadcrumbItem,
+    PaginatedCollection,
+    ResultTontine,
+    Session,
+    SessionParticipant,
+} from '@/types';
 import { Actions } from './actions';
 import { EditSessionParticipantForm } from './form';
 
@@ -52,29 +58,30 @@ type Props = {
 };
 
 export default withAppLayout<Props>(
-    ({ tontine, session }) => [
-        {
-            title: 'Tontines',
-            href: tontines.index().url,
-        },
-        {
-            title: 'Sessions',
-            href: sessions.index({
-                tontine: tontine.slug,
-            }).url,
-        },
-        {
-            title: session.name,
-            href: sessionParticipants.index({
-                tontine: tontine.slug,
-                session: session.slug,
-            }).url,
-        },
-        {
-            title: 'Participants',
-            href: '#',
-        },
-    ] as BreadcrumbItem[],
+    ({ tontine, session }) =>
+        [
+            {
+                title: 'Tontines',
+                href: tontines.index().url,
+            },
+            {
+                title: 'Sessions',
+                href: sessions.index({
+                    tontine: tontine.slug,
+                }).url,
+            },
+            {
+                title: session.name,
+                href: sessionParticipants.index({
+                    tontine: tontine.slug,
+                    session: session.slug,
+                }).url,
+            },
+            {
+                title: 'Participants',
+                href: '#',
+            },
+        ] as BreadcrumbItem[],
     ({ collection, q, tontine, sessionParticipant, session }: Props) => {
         const { can } = useAuthorization();
 
@@ -85,7 +92,7 @@ export default withAppLayout<Props>(
                 <div className="space-y-4">
                     <Card className="bg-background pt-0">
                         <CardHeader className="border-b py-4">
-                            <div className="flex justify-between items-center">
+                            <div className="flex items-center justify-between">
                                 {can('session-participants.create') && (
                                     <EditSessionParticipantForm
                                         participant={sessionParticipant}
@@ -106,7 +113,7 @@ export default withAppLayout<Props>(
                                 <Form
                                     {...sessionParticipants.index.form({
                                         tontine: tontine.slug,
-                                        session: ''
+                                        session: '',
                                     })}
                                     className="flex items-center gap-1"
                                 >
@@ -146,7 +153,9 @@ export default withAppLayout<Props>(
                                             key={item.id}
                                             className="[&>td:first-child]:pl-6 [&>td:last-child]:pr-6"
                                         >
-                                            <TableCell>{item.membership?.user?.name}</TableCell>
+                                            <TableCell>
+                                                {item.membership?.user?.name}
+                                            </TableCell>
                                             <TableCell>
                                                 {formatCurrency(
                                                     item.contribution_amount,
@@ -156,7 +165,9 @@ export default withAppLayout<Props>(
                                                 {item.draw_entries_count}
                                             </TableCell>
                                             <TableCell>
-                                                {formatSessionDate(item.joined_at)}
+                                                {formatSessionDate(
+                                                    item.joined_at,
+                                                )}
                                             </TableCell>
                                             <TableCell>
                                                 <SessionParticipantStatusBadge

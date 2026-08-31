@@ -12,9 +12,7 @@ export function EmptySection({
             <Icon className="size-8 text-muted-foreground" />
 
             <div className="space-y-1">
-                <p className="font-medium">
-                    {title}
-                </p>
+                <p className="font-medium">{title}</p>
 
                 <p className="max-w-md text-sm text-muted-foreground">
                     {description}

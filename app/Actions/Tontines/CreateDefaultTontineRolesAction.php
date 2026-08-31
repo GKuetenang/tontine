@@ -12,7 +12,6 @@ use Spatie\Permission\PermissionRegistrar;
 
 class CreateDefaultTontineRolesAction
 {
-
     public function execute(Tontine $tontine): void
     {
         $priviousTeamId = getPermissionsTeamId();
@@ -30,8 +29,7 @@ class CreateDefaultTontineRolesAction
                 ]);
 
                 $permissionNames = array_map(
-                    static fn(TontinePermission $permission): string =>
-                    $permission->value,
+                    static fn (TontinePermission $permission): string => $permission->value,
                     $roleName->defaultPermissions(),
                 );
 
@@ -46,7 +44,7 @@ class CreateDefaultTontineRolesAction
                 );
 
                 if ($missingPermissions != []) {
-                    throw new LogicException("Permisssions manquantes : " . implode(', ', $missingPermissions));
+                    throw new LogicException('Permisssions manquantes : '.implode(', ', $missingPermissions));
                 }
 
                 $role->syncPermissions($permissions);

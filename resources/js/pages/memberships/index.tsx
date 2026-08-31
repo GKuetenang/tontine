@@ -1,3 +1,5 @@
+import { Form, Head } from '@inertiajs/react';
+import { PlusIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { MembershipStatusBadge } from '@/components/membership-status-badge';
@@ -18,9 +20,12 @@ import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 import tontines from '@/routes/tontines';
 import memberships from '@/routes/tontines/memberships';
-import type { BreadcrumbItem, Membership, PaginatedCollection, ResultTontine } from '@/types';
-import { Form, Head } from '@inertiajs/react';
-import { PlusIcon } from 'lucide-react';
+import type {
+    BreadcrumbItem,
+    Membership,
+    PaginatedCollection,
+    ResultTontine,
+} from '@/types';
 import { Actions } from './actions';
 import { EditMembershipForm } from './form';
 
@@ -55,9 +60,8 @@ export default withAppLayout(
                 <Heading title="Tous les membres" />
                 <div className="space-y-4">
                     <Card className="bg-background pt-0">
-
                         <CardHeader className="border-b py-4">
-                            <div className="flex justify-between items-center">
+                            <div className="flex items-center justify-between">
                                 {can('memberships.create') && (
                                     <EditMembershipForm
                                         statuses={[]}

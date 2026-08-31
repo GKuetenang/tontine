@@ -2,10 +2,6 @@ import { usePage } from '@inertiajs/react';
 
 type TranslationValues = Record<string, string | number>;
 
-interface SharedProps {
-    translations: Record<string, unknown>;
-}
-
 function resolveTranslation(
     translations: Record<string, unknown>,
     key: string,
@@ -24,9 +20,7 @@ function resolveTranslation(
 }
 
 export function useTranslation() {
-    const { translations } = usePage<SharedProps>().props;
-
-    console.log('Translations:', translations); // Debugging line to check the translations object
+    const { translations } = usePage().props;
 
     function t(key: string, replacements: TranslationValues = {}): string {
         const translation = resolveTranslation(translations, key);

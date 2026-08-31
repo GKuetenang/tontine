@@ -1,18 +1,14 @@
-import { format, isValid, parseISO } from "date-fns";
-import { frCA } from "date-fns/locale";
+import { format, isValid, parseISO } from 'date-fns';
+import { frCA } from 'date-fns/locale';
 
-export function parseDate(
-    value?: string | null,
-): Date | undefined {
+export function parseDate(value?: string | null): Date | undefined {
     if (!value) {
         return undefined;
     }
 
     const date = parseISO(value);
 
-    return isValid(date)
-        ? date
-        : undefined;
+    return isValid(date) ? date : undefined;
 }
 
 export function formatDate(value?: string | null): string {

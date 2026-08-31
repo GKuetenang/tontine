@@ -104,11 +104,11 @@ final class SwapDrawEntriesAction
                  */
                 $temporaryPosition =
                     DrawEntry::query()
-                    ->where(
-                        'draw_id',
-                        $draw->id,
-                    )
-                    ->max('position')
+                        ->where(
+                            'draw_id',
+                            $draw->id,
+                        )
+                        ->max('position')
                     + 1;
 
                 /*
@@ -121,22 +121,19 @@ final class SwapDrawEntriesAction
 
                 $lockedSource
                     ->forceFill([
-                        'position' =>
-                        $temporaryPosition,
+                        'position' => $temporaryPosition,
                     ])
                     ->save();
 
                 $lockedTarget
                     ->forceFill([
-                        'position' =>
-                        $sourcePosition,
+                        'position' => $sourcePosition,
                     ])
                     ->save();
 
                 $lockedSource
                     ->forceFill([
-                        'position' =>
-                        $targetPosition,
+                        'position' => $targetPosition,
                     ])
                     ->save();
             },

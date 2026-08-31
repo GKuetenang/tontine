@@ -46,18 +46,15 @@ class DrawController extends Controller
         return Inertia::render(
             'draws/show',
             [
-                'tontine' =>
-                TontineData::fromModel(
+                'tontine' => TontineData::fromModel(
                     $tontine,
                 ),
 
-                'session' =>
-                SessionData::fromModel(
+                'session' => SessionData::fromModel(
                     $session,
                 ),
 
-                'draw' =>
-                $draw
+                'draw' => $draw
                     ? DrawData::fromModel(
                         $draw,
                     )

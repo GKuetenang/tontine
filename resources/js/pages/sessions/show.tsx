@@ -1,33 +1,17 @@
-import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
-
+import type { InertiaLinkProps } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
+import { CalendarDays, Coins, Shuffle, Users } from 'lucide-react';
 import { InformationRow } from '@/components/tontines/information-row';
 import { OverviewCard } from '@/components/tontines/overview-card';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 
 import tontines from '@/routes/tontines';
 
-import type {
-    BreadcrumbItem,
-    Session,
-    Tontine,
-} from '@/types';
-
-import type { InertiaLinkProps } from '@inertiajs/react';
-import { Head, Link } from '@inertiajs/react';
-import {
-    CalendarDays,
-    Coins,
-    Shuffle,
-    Users,
-} from 'lucide-react';
+import type { BreadcrumbItem, Session, Tontine } from '@/types';
 
 type Props = {
     tontine: Tontine;
@@ -43,15 +27,11 @@ export default withAppLayout<Props>(
             },
             {
                 title: tontine.name,
-                href: tontines.show(
-                    tontine.slug!,
-                ),
+                href: tontines.show(tontine.slug!),
             },
             {
                 title: 'Sessions',
-                href: tontines.sessions.index(
-                    tontine.slug!,
-                ),
+                href: tontines.sessions.index(tontine.slug!),
             },
             {
                 title: session.name,
@@ -68,20 +48,14 @@ export default withAppLayout<Props>(
                     <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                         <OverviewCard
                             title="Participants"
-                            value={
-                                session.participants_count ??
-                                0
-                            }
+                            value={session.participants_count ?? 0}
                             description="Participants de la session"
                             icon={Users}
                         />
 
                         <OverviewCard
                             title="Réunions"
-                            value={
-                                session.meetings_count ??
-                                0
-                            }
+                            value={session.meetings_count ?? 0}
                             description="Réunions de la session"
                             icon={CalendarDays}
                         />
@@ -98,10 +72,7 @@ export default withAppLayout<Props>(
 
                         <OverviewCard
                             title="Tirage"
-                            value={
-                                session.draw_allocation_mode_label ??
-                                '—'
-                            }
+                            value={session.draw_allocation_mode_label ?? '—'}
                             description="Mode d’attribution des tours"
                             icon={Shuffle}
                         />
@@ -110,9 +81,7 @@ export default withAppLayout<Props>(
                     <section className="grid gap-6 xl:grid-cols-3">
                         <Card className="xl:col-span-2">
                             <CardHeader>
-                                <CardTitle>
-                                    Accès rapides
-                                </CardTitle>
+                                <CardTitle>Accès rapides</CardTitle>
                             </CardHeader>
 
                             <CardContent className="grid gap-4 md:grid-cols-3">
@@ -120,65 +89,43 @@ export default withAppLayout<Props>(
                                     title="Participants"
                                     description="Voir et gérer les participants de la session."
                                     icon={Users}
-                                    href={
-                                        tontines.sessions.participants.index(
-                                            {
-                                                tontine:
-                                                    tontine.slug!,
-                                                session:
-                                                    session.slug,
-                                            },
-                                        )
-                                    }
+                                    href={tontines.sessions.participants.index({
+                                        tontine: tontine.slug!,
+                                        session: session.slug,
+                                    })}
                                 />
 
                                 <SessionModuleCard
                                     title="Réunions"
                                     description="Créer et gérer les réunions de la session."
                                     icon={CalendarDays}
-                                    href={
-                                        tontines.sessions.meetings.index(
-                                            {
-                                                tontine:
-                                                    tontine.slug!,
-                                                session:
-                                                    session.slug,
-                                            },
-                                        )
-                                    }
+                                    href={tontines.sessions.meetings.index({
+                                        tontine: tontine.slug!,
+                                        session: session.slug,
+                                    })}
                                 />
 
                                 <SessionModuleCard
                                     title="Tirage"
                                     description="Configurer et gérer le tirage de la session."
                                     icon={Shuffle}
-                                    href={
-                                        tontines.sessions.draw.show(
-                                            {
-                                                tontine:
-                                                    tontine.slug!,
-                                                session:
-                                                    session.slug,
-                                            },
-                                        )
-                                    }
+                                    href={tontines.sessions.draw.show({
+                                        tontine: tontine.slug!,
+                                        session: session.slug,
+                                    })}
                                 />
                             </CardContent>
                         </Card>
 
                         <Card>
                             <CardHeader>
-                                <CardTitle>
-                                    Informations
-                                </CardTitle>
+                                <CardTitle>Informations</CardTitle>
                             </CardHeader>
 
                             <CardContent className="space-y-4">
                                 <InformationRow
                                     label="Nom"
-                                    value={
-                                        session.name
-                                    }
+                                    value={session.name}
                                 />
 
                                 <InformationRow
@@ -199,23 +146,17 @@ export default withAppLayout<Props>(
 
                                 <InformationRow
                                     label="Date de début"
-                                    value={formatDate(
-                                        session.start_at,
-                                    )}
+                                    value={formatDate(session.start_at)}
                                 />
 
                                 <InformationRow
                                     label="Date de fin"
-                                    value={formatDate(
-                                        session.end_at,
-                                    )}
+                                    value={formatDate(session.end_at)}
                                 />
 
                                 <InformationRow
                                     label="Statut"
-                                    value={getStatusLabel(
-                                        session.status,
-                                    )}
+                                    value={getStatusLabel(session.status)}
                                 />
                             </CardContent>
                         </Card>
@@ -224,9 +165,7 @@ export default withAppLayout<Props>(
                     {session.description && (
                         <Card>
                             <CardHeader>
-                                <CardTitle>
-                                    Description
-                                </CardTitle>
+                                <CardTitle>Description</CardTitle>
                             </CardHeader>
 
                             <CardContent>
@@ -254,26 +193,16 @@ function SessionModuleCard({
     icon: React.ElementType;
 }) {
     return (
-        <Button
-            asChild
-            variant="outline"
-            className="h-auto justify-start p-4"
-        >
-            <Link
-                href={href}
-                prefetch
-                className="flex items-start gap-3"
-            >
+        <Button asChild variant="outline" className="h-auto justify-start p-4">
+            <Link href={href} prefetch className="flex items-start gap-3">
                 <div className="rounded-md bg-primary/10 p-2 text-primary">
                     <Icon className="size-5" />
                 </div>
 
                 <div className="min-w-0 text-left">
-                    <p className="font-medium">
-                        {title}
-                    </p>
+                    <p className="font-medium">{title}</p>
 
-                    <p className="mt-1 whitespace-normal text-sm font-normal text-muted-foreground">
+                    <p className="mt-1 text-sm font-normal whitespace-normal text-muted-foreground">
                         {description}
                     </p>
                 </div>
@@ -282,28 +211,19 @@ function SessionModuleCard({
     );
 }
 
-function formatDate(
-    date?: string | null,
-): string {
+function formatDate(date?: string | null): string {
     if (!date) {
         return '—';
     }
 
-    return new Intl.DateTimeFormat(
-        'fr-CA',
-        {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-        },
-    ).format(
-        new Date(date),
-    );
+    return new Intl.DateTimeFormat('fr-CA', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    }).format(new Date(date));
 }
 
-function getStatusLabel(
-    status: Session['status'],
-): string {
+function getStatusLabel(status: Session['status']): string {
     switch (status) {
         case 'draft':
             return 'Préparation';

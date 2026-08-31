@@ -16,8 +16,8 @@ class PayoutPolicy
     ): bool {
         $tontine =
             $meeting
-            ->session
-            ->tontine;
+                ->session
+                ->tontine;
 
         return $tontine
             ->hasActiveMembership($user)
@@ -34,8 +34,8 @@ class PayoutPolicy
     ): bool {
         $tontine =
             $meeting
-            ->session
-            ->tontine;
+                ->session
+                ->tontine;
 
         return $tontine
             ->hasActiveMembership($user)
@@ -86,9 +86,9 @@ class PayoutPolicy
     ): bool {
         $tontine =
             $payout
-            ->meeting
-            ->session
-            ->tontine;
+                ->meeting
+                ->session
+                ->tontine;
 
         return $tontine
             ->hasActiveMembership($user)

@@ -5,7 +5,6 @@ use App\Actions\Sessions\CloseSessionAction;
 use App\Actions\Sessions\CreateSessionAction;
 use App\Actions\Sessions\DeleteSessionAction;
 use App\Actions\Sessions\UpdateSessionAction;
-use App\Enums\DrawAllocationMode;
 use App\Enums\SessionStatus;
 use App\Models\Session;
 use App\Models\SessionParticipant;

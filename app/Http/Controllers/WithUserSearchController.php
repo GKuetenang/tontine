@@ -7,7 +7,6 @@ use App\Models\Membership;
 use App\Models\Session;
 use App\Models\Tontine;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class WithUserSearchController extends Controller
@@ -29,7 +28,7 @@ class WithUserSearchController extends Controller
             })
             ->whereDoesntHave(
                 'memberships',
-                fn($query) => $query
+                fn ($query) => $query
                     ->where('tontine_id', \request('tontine')->id),
             )
             ->orderBy('name')
@@ -57,13 +56,13 @@ class WithUserSearchController extends Controller
             })
             ->whereHas(
                 'memberships',
-                fn($query) => $query
+                fn ($query) => $query
                     ->where('tontine_id', $tontine->id)
                     ->where('status', MembershipStatus::Active)
             )
             ->whereDoesntHave(
                 'memberships.sessionParticipations',
-                fn($query) => $query
+                fn ($query) => $query
                     ->where('session_id', $session->id),
             )
             ->orderBy('name')
@@ -120,7 +119,7 @@ class WithUserSearchController extends Controller
             )
             ->whereDoesntHave(
                 'sessionParticipations',
-                fn($query) => $query->where(
+                fn ($query) => $query->where(
                     'session_id',
                     $session->id,
                 ),
@@ -129,12 +128,11 @@ class WithUserSearchController extends Controller
             ->limit(10)
             ->get()
             ->map(
-                fn(Membership $membership): array => [
+                fn (Membership $membership): array => [
                     'id' => $membership->id,
                     'name' => $membership->user->name,
                     'email' => $membership->user->email,
-                    'member_number' =>
-                    $membership->member_number,
+                    'member_number' => $membership->member_number,
                 ],
             );
     }

@@ -88,7 +88,7 @@ test('the same user cannot have two memberships in the same tontine', function (
     );
 
     expect(
-        fn() => $action->execute(
+        fn () => $action->execute(
             tontine: $tontine,
             user: $user,
             invitedBy: $creator,
@@ -121,7 +121,7 @@ test('the last president cannot be deactivated', function () {
     );
 
     expect(
-        fn() => app(DeactivateMembershipAction::class)
+        fn () => app(DeactivateMembershipAction::class)
             ->execute($membership)
     )->toThrow(ValidationException::class);
 
@@ -320,7 +320,7 @@ test('a new membership cannot be created when a soft deleted membership already 
         ->execute($membership);
 
     expect(
-        fn() => app(CreateMembershipAction::class)->execute(
+        fn () => app(CreateMembershipAction::class)->execute(
             tontine: $tontine,
             user: $member,
             invitedBy: $owner,

@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Meeting, MeetingAgendaItem, Session, Tontine } from "@/types";
-import { useSortable } from "@dnd-kit/sortable";
-import { GripVerticalIcon } from "lucide-react";
-import { AgendaItem } from "./agenda-item";
+import { useSortable } from '@dnd-kit/sortable';
+import { GripVerticalIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import type { Meeting, MeetingAgendaItem, Session, Tontine } from '@/types';
+import { AgendaItem } from './agenda-item';
 
 export function SortableAgendaItem({
     tontine,
@@ -38,9 +38,7 @@ export function SortableAgendaItem({
             ref={setNodeRef}
             style={style}
             className={
-                isDragging
-                    ? 'relative z-10 bg-background shadow-sm'
-                    : undefined
+                isDragging ? 'relative z-10 bg-background shadow-sm' : undefined
             }
         >
             <AgendaItem

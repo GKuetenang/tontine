@@ -1,4 +1,13 @@
-import { SelectOption } from '@/components/select-with-items';
+import { Link } from '@inertiajs/react';
+import {
+    CheckCircle2Icon,
+    EllipsisIcon,
+    LockKeyholeIcon,
+    Pencil,
+    TrashIcon,
+} from 'lucide-react';
+import { toast } from 'sonner';
+import type { SelectOption } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -9,15 +18,6 @@ import {
 import { useAuthorization } from '@/hooks/use-authorization';
 import sessions from '@/routes/tontines/sessions';
 import type { ResultTontine, Session } from '@/types';
-import { Link } from '@inertiajs/react';
-import {
-    CheckCircle2Icon,
-    EllipsisIcon,
-    LockKeyholeIcon,
-    Pencil,
-    TrashIcon,
-} from 'lucide-react';
-import { toast } from 'sonner';
 import { EditSessionForm } from './form';
 
 type Props = {

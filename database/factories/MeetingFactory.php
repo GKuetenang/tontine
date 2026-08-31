@@ -29,8 +29,8 @@ class MeetingFactory extends Factory
             'title' => $title,
 
             'slug' => Str::slug($title)
-                . '-'
-                . Str::lower(Str::random(8)),
+                .'-'
+                .Str::lower(Str::random(8)),
 
             'description' => fake()->optional()->sentence(),
 
@@ -50,7 +50,7 @@ class MeetingFactory extends Factory
 
     public function scheduled(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => MeetingStatus::Scheduled,
             'opened_at' => null,
             'closed_at' => null,
@@ -59,7 +59,7 @@ class MeetingFactory extends Factory
 
     public function inProgress(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => MeetingStatus::InProgress,
             'opened_at' => now(),
             'closed_at' => null,
@@ -68,7 +68,7 @@ class MeetingFactory extends Factory
 
     public function completed(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => MeetingStatus::Completed,
             'opened_at' => now()->subHours(2),
             'closed_at' => now(),
@@ -77,7 +77,7 @@ class MeetingFactory extends Factory
 
     public function cancelled(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => MeetingStatus::Cancelled,
             'opened_at' => null,
             'closed_at' => null,

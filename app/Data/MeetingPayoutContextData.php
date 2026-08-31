@@ -9,8 +9,8 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 class MeetingPayoutContextData extends Data
 {
     /**
-     * @param array<int, PayoutCandidateData> $expected
-     * @param array<int, PayoutCandidateData> $available
+     * @param  array<int, PayoutCandidateData>  $expected
+     * @param  array<int, PayoutCandidateData>  $available
      */
     public function __construct(
         public array $expected,

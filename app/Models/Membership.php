@@ -21,14 +21,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
     'status',
     'member_number',
     'left_at',
-    'status'
+    'status',
 ])]
 #[UsePolicy(MembershipPolicy::class)]
 class Membership extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     use HasSortable;
+    use SoftDeletes;
 
     protected $sortable = ['member_number'];
 

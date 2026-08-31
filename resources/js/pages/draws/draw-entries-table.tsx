@@ -1,20 +1,4 @@
 import {
-    Table,
-    TableBody,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table';
-
-import drawRoutes from '@/routes/tontines/sessions/draw';
-
-import type {
-    Draw,
-    ResultTontine,
-    Session,
-} from '@/types';
-
-import {
     closestCenter,
     DndContext,
     DragOverlay,
@@ -22,34 +6,29 @@ import {
     PointerSensor,
     useSensor,
     useSensors,
-    type DragEndEvent,
-    type DragStartEvent,
 } from '@dnd-kit/core';
+import type { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
 
+import { router } from '@inertiajs/react';
+
+import { GripVerticalIcon } from 'lucide-react';
+
+import { useState } from 'react';
+
+import { toast } from 'sonner';
 import {
-    router,
-} from '@inertiajs/react';
+    Table,
+    TableBody,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import drawRoutes from '@/routes/tontines/sessions/draw';
+import type { Draw, ResultTontine, Session } from '@/types';
 
-import {
-    GripVerticalIcon,
-} from 'lucide-react';
+import { DrawEntryRow } from './draw-entry-row';
 
-import {
-    useState,
-} from 'react';
-
-import {
-    toast,
-} from 'sonner';
-
-import {
-    DrawEntryRow,
-} from './draw-entry-row';
-
-type DrawEntry =
-    NonNullable<
-        Draw['entries']
-    >[number];
+type DrawEntry = NonNullable<Draw['entries']>[number];
 
 type Props = {
     tontine: ResultTontine;
@@ -58,219 +37,112 @@ type Props = {
     canSwap: boolean;
 };
 
-export function DrawEntriesTable({
-    tontine,
-    session,
-    draw,
-    canSwap,
-}: Props) {
-    const [
-        entries,
-        setEntries,
-    ] = useState<DrawEntry[]>(
-        () =>
-            [
-                ...(draw.entries ?? []),
-            ].sort(
-                (a, b) =>
-                    a.position
-                    - b.position,
-            ),
+export function DrawEntriesTable({ tontine, session, draw, canSwap }: Props) {
+    const [entries, setEntries] = useState<DrawEntry[]>(() =>
+        [...(draw.entries ?? [])].sort((a, b) => a.position - b.position),
     );
 
-    const [
-        activeId,
-        setActiveId,
-    ] = useState<
-        number | null
-    >(null);
+    const [activeId, setActiveId] = useState<number | null>(null);
 
-    const sensors =
-        useSensors(
-            useSensor(
-                PointerSensor,
-                {
-                    activationConstraint:
-                    {
-                        distance: 6,
-                    },
-                },
-            ),
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 6,
+            },
+        }),
 
-            useSensor(
-                KeyboardSensor,
-            ),
-        );
+        useSensor(KeyboardSensor),
+    );
 
-    const handleDragStart = (
-        event: DragStartEvent,
-    ) => {
-        setActiveId(
-            Number(
-                event.active.id,
-            ),
-        );
+    const handleDragStart = (event: DragStartEvent) => {
+        setActiveId(Number(event.active.id));
     };
 
-    const handleDragEnd = (
-        event: DragEndEvent,
-    ) => {
+    const handleDragEnd = (event: DragEndEvent) => {
         setActiveId(null);
 
-        const {
-            active,
-            over,
-        } = event;
+        const { active, over } = event;
 
-        if (
-            !over
-            || active.id === over.id
-        ) {
+        if (!over || active.id === over.id) {
             return;
         }
 
-        const source =
-            entries.find(
-                (entry) =>
-                    entry.id
-                    === active.id,
-            );
+        const source = entries.find((entry) => entry.id === active.id);
 
-        const target =
-            entries.find(
-                (entry) =>
-                    entry.id
-                    === over.id,
-            );
+        const target = entries.find((entry) => entry.id === over.id);
 
-        if (
-            !source
-            || !target
-        ) {
+        if (!source || !target) {
             return;
         }
 
-        const previousEntries =
-            entries;
+        const previousEntries = entries;
 
-        setEntries(
-            swapEntries(
-                entries,
-                source.id,
-                target.id,
-            ),
-        );
+        setEntries(swapEntries(entries, source.id, target.id));
 
         router.patch(
             drawRoutes.swap({
-                tontine:
-                    tontine.slug,
+                tontine: tontine.slug,
 
-                session:
-                    session.slug,
+                session: session.slug,
             }).url,
 
             {
-                source_entry_id:
-                    source.id,
+                source_entry_id: source.id,
 
-                target_entry_id:
-                    target.id,
+                target_entry_id: target.id,
             },
 
             {
-                preserveScroll:
-                    true,
+                preserveScroll: true,
 
-                preserveState:
-                    true,
+                preserveState: true,
 
-                onError: (
-                    errors,
-                ) => {
-                    setEntries(
-                        previousEntries,
-                    );
+                onError: (errors) => {
+                    setEntries(previousEntries);
 
-                    const firstError =
-                        Object.values(
-                            errors,
-                        )[0];
+                    const firstError = Object.values(errors)[0];
 
                     if (firstError) {
-                        toast.error(
-                            firstError,
-                        );
+                        toast.error(firstError);
                     }
                 },
             },
         );
     };
 
-    const activeEntry =
-        entries.find(
-            (entry) =>
-                entry.id
-                === activeId,
-        );
+    const activeEntry = entries.find((entry) => entry.id === activeId);
 
     return (
         <DndContext
             sensors={sensors}
-            collisionDetection={
-                closestCenter
-            }
-            onDragStart={
-                handleDragStart
-            }
-            onDragCancel={() =>
-                setActiveId(null)
-            }
-            onDragEnd={
-                handleDragEnd
-            }
+            collisionDetection={closestCenter}
+            onDragStart={handleDragStart}
+            onDragCancel={() => setActiveId(null)}
+            onDragEnd={handleDragEnd}
         >
             <Table>
                 <TableHeader>
                     <TableRow>
-                        {canSwap && (
-                            <TableHead className="w-12" />
-                        )}
+                        {canSwap && <TableHead className="w-12" />}
 
-                        <TableHead className="w-24">
-                            Position
-                        </TableHead>
+                        <TableHead className="w-24">Position</TableHead>
 
-                        <TableHead>
-                            Participant
-                        </TableHead>
+                        <TableHead>Participant</TableHead>
 
-                        <TableHead>
-                            Part
-                        </TableHead>
+                        <TableHead>Part</TableHead>
 
-                        <TableHead>
-                            Date prévue
-                        </TableHead>
+                        <TableHead>Date prévue</TableHead>
                     </TableRow>
                 </TableHeader>
 
                 <TableBody>
-                    {entries.map(
-                        (entry) => (
-                            <DrawEntryRow
-                                key={
-                                    entry.id
-                                }
-                                entry={
-                                    entry
-                                }
-                                canDrag={
-                                    canSwap
-                                }
-                            />
-                        ),
-                    )}
+                    {entries.map((entry) => (
+                        <DrawEntryRow
+                            key={entry.id}
+                            entry={entry}
+                            canDrag={canSwap}
+                        />
+                    ))}
                 </TableBody>
             </Table>
 
@@ -282,19 +154,12 @@ export function DrawEntriesTable({
 
                             <div>
                                 <p className="font-medium">
-                                    Position{' '}
-                                    {
-                                        activeEntry.position
-                                    }
+                                    Position {activeEntry.position}
                                 </p>
 
                                 <p className="text-sm text-muted-foreground">
-                                    {activeEntry
-                                        .session_participant
-                                        ?.membership
-                                        ?.user
-                                        ?.name
-                                        ?? '—'}
+                                    {activeEntry.session_participant?.membership
+                                        ?.user?.name ?? '—'}
                                 </p>
                             </div>
                         </div>
@@ -310,24 +175,11 @@ function swapEntries(
     sourceId: number,
     targetId: number,
 ): DrawEntry[] {
-    const source =
-        entries.find(
-            (entry) =>
-                entry.id
-                === sourceId,
-        );
+    const source = entries.find((entry) => entry.id === sourceId);
 
-    const target =
-        entries.find(
-            (entry) =>
-                entry.id
-                === targetId,
-        );
+    const target = entries.find((entry) => entry.id === targetId);
 
-    if (
-        !source
-        || !target
-    ) {
+    if (!source || !target) {
         return entries;
     }
 
@@ -342,41 +194,27 @@ function swapEntries(
      */
     return entries
         .map((entry) => {
-            if (
-                entry.id
-                === source.id
-            ) {
+            if (entry.id === source.id) {
                 return {
                     ...entry,
 
-                    position:
-                        target.position,
+                    position: target.position,
 
-                    expected_meeting:
-                        target.expected_meeting,
+                    expected_meeting: target.expected_meeting,
                 };
             }
 
-            if (
-                entry.id
-                === target.id
-            ) {
+            if (entry.id === target.id) {
                 return {
                     ...entry,
 
-                    position:
-                        source.position,
+                    position: source.position,
 
-                    expected_meeting:
-                        source.expected_meeting,
+                    expected_meeting: source.expected_meeting,
                 };
             }
 
             return entry;
         })
-        .sort(
-            (a, b) =>
-                a.position
-                - b.position,
-        );
+        .sort((a, b) => a.position - b.position);
 }

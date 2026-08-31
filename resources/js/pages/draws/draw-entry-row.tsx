@@ -1,62 +1,35 @@
-import {
-    TableCell,
-    TableRow,
-} from '@/components/ui/table';
+import { useDraggable, useDroppable } from '@dnd-kit/core';
+import { GripVerticalIcon } from 'lucide-react';
+import { TableCell, TableRow } from '@/components/ui/table';
 
 import { formatDate } from '@/lib';
 
-import type {
-    Draw,
-} from '@/types';
+import type { Draw } from '@/types';
 
-import {
-    useDraggable,
-    useDroppable,
-} from '@dnd-kit/core';
-
-import {
-    GripVerticalIcon,
-} from 'lucide-react';
-
-type DrawEntry =
-    NonNullable<
-        Draw['entries']
-    >[number];
+type DrawEntry = NonNullable<Draw['entries']>[number];
 
 type Props = {
     entry: DrawEntry;
     canDrag: boolean;
 };
 
-export function DrawEntryRow({
-    entry,
-    canDrag,
-}: Props) {
+export function DrawEntryRow({ entry, canDrag }: Props) {
     const {
         attributes,
         listeners,
-        setNodeRef:
-        setDraggableRef,
+        setNodeRef: setDraggableRef,
         isDragging,
     } = useDraggable({
         id: entry.id,
         disabled: !canDrag,
     });
 
-    const {
-        setNodeRef:
-        setDroppableRef,
-        isOver,
-    } = useDroppable({
+    const { setNodeRef: setDroppableRef, isOver } = useDroppable({
         id: entry.id,
         disabled: !canDrag,
     });
 
-    const setNodeRef = (
-        node:
-            HTMLTableRowElement
-            | null,
-    ) => {
+    const setNodeRef = (node: HTMLTableRowElement | null) => {
         setDraggableRef(node);
         setDroppableRef(node);
     };
@@ -65,13 +38,10 @@ export function DrawEntryRow({
         <TableRow
             ref={setNodeRef}
             className={[
-                isDragging
-                    ? 'opacity-40'
-                    : '',
+                isDragging ? 'opacity-40' : '',
 
-                isOver
-                    && !isDragging
-                    ? 'bg-primary/10 ring-1 ring-inset ring-primary'
+                isOver && !isDragging
+                    ? 'bg-primary/10 ring-1 ring-primary ring-inset'
                     : '',
             ].join(' ')}
         >
@@ -96,41 +66,24 @@ export function DrawEntryRow({
             </TableCell>
 
             <TableCell>
-                {entry
-                    .session_participant
-                    ?.membership
-                    ?.user
-                    ?.name ?? '—'}
+                {entry.session_participant?.membership?.user?.name ?? '—'}
             </TableCell>
 
-            <TableCell>
-                {entry.entry_number}
-            </TableCell>
+            <TableCell>{entry.entry_number}</TableCell>
 
             <TableCell>
                 {entry.expected_meeting ? (
                     <div className="space-y-0.5">
                         <p className="font-medium">
-                            {formatDate(
-                                entry
-                                    .expected_meeting
-                                    .scheduled_at,
-                            )}
+                            {formatDate(entry.expected_meeting.scheduled_at)}
                         </p>
 
                         <p className="text-xs text-muted-foreground">
-                            Réunion #
-                            {
-                                entry
-                                    .expected_meeting
-                                    .number
-                            }
+                            Réunion #{entry.expected_meeting.number}
                         </p>
                     </div>
                 ) : (
-                    <span className="text-muted-foreground">
-                        Non planifiée
-                    </span>
+                    <span className="text-muted-foreground">Non planifiée</span>
                 )}
             </TableCell>
         </TableRow>

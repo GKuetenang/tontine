@@ -11,7 +11,6 @@ use App\Http\Requests\FormMembershipRequest;
 use App\Models\Membership;
 use App\Models\Tontine;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -37,11 +36,9 @@ class MembershipController extends WithUserSearchController
                     $query
                         ->select(['id', 'name', 'email'])
                         ->with([
-                            'roles' => fn($roleQuery) =>
-                            $roleQuery->select(['roles.id', 'roles.name'])
-                                ->where('roles.tontine_id', $tontine->id)
-                        ])
-                    ;
+                            'roles' => fn ($roleQuery) => $roleQuery->select(['roles.id', 'roles.name'])
+                                ->where('roles.tontine_id', $tontine->id),
+                        ]);
                 },
                 'inviter:id,name',
             ])
@@ -50,7 +47,7 @@ class MembershipController extends WithUserSearchController
                 function ($query) use ($search_query): void {
                     $query->whereHas(
                         'user',
-                        fn($userQuery) => $userQuery
+                        fn ($userQuery) => $userQuery
                             ->where('name', 'like', "%{$search_query}%")
                             ->orWhere('email', 'like', "%{$search_query}%"),
                     );
@@ -64,6 +61,7 @@ class MembershipController extends WithUserSearchController
                 $roleEnum = $role
                     ? TontineRole::tryFrom($role->name)
                     : null;
+
                 return [
                     'id' => $membership->id,
                     'tontine_id' => $membership->tontine_id,
@@ -92,26 +90,27 @@ class MembershipController extends WithUserSearchController
             ->get(['id', 'name'])
             ->map(function (Role $role): array {
                 $roleEnum = TontineRole::tryFrom($role->name);
+
                 return [
                     'label' => $roleEnum?->label() ?? $role->name,
-                    'value' => $role->name
+                    'value' => $role->name,
                 ];
             });
 
         return Inertia::render('memberships/index', [
-            'tontine' => fn() => [
+            'tontine' => fn () => [
                 'id' => $tontine->id,
                 'name' => $tontine->name,
                 'slug' => $tontine->slug,
             ],
-            'q' => fn() => $search_query,
-            'collection' => fn() => $memberships,
-            'roles' => fn() => $roles,
-            'users' => fn() => Inertia::optional(
+            'q' => fn () => $search_query,
+            'collection' => fn () => $memberships,
+            'roles' => fn () => $roles,
+            'users' => fn () => Inertia::optional(
                 $this->users(...)
             ),
-            'membership' => fn() => new Membership(),
-            'statuses' => fn() => MembershipStatus::getOptions(),
+            'membership' => fn () => new Membership,
+            'statuses' => fn () => MembershipStatus::getOptions(),
         ]);
     }
 
@@ -126,7 +125,6 @@ class MembershipController extends WithUserSearchController
         );
 
         $validated = $request->validated();
-
 
         $user = User::query()
             ->findOrFail($validated['user_id']);

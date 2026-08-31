@@ -1,19 +1,11 @@
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
-
 import { NotebookPenIcon } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function MeetingNotesPlaceholder() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>
-                    Notes
-                </CardTitle>
+                <CardTitle>Notes</CardTitle>
             </CardHeader>
 
             <CardContent>
@@ -28,8 +20,8 @@ export function MeetingNotesPlaceholder() {
                         </p>
 
                         <p className="max-w-md text-sm text-muted-foreground">
-                            Les notes pourront être ajoutées
-                            lorsque la réunion sera en cours.
+                            Les notes pourront être ajoutées lorsque la réunion
+                            sera en cours.
                         </p>
                     </div>
                 </div>

@@ -1,11 +1,19 @@
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
-import { Meeting, NavItem, Session, Tontine } from '@/types';
 import type { InertiaLinkProps } from '@inertiajs/react';
 import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
-import { CalendarDaysIcon, ChartNoAxesColumnIcon, CircleDollarSignIcon, LayoutDashboardIcon, SettingsIcon, ShuffleIcon, UsersIcon } from 'lucide-react';
+import {
+    CalendarDaysIcon,
+    ChartNoAxesColumnIcon,
+    CircleDollarSignIcon,
+    LayoutDashboardIcon,
+    SettingsIcon,
+    ShuffleIcon,
+    UsersIcon,
+} from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
+import tontines from '@/routes/tontines';
+import sessions from '@/routes/tontines/sessions';
+import type { Meeting, NavItem, Session, Tontine } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -36,9 +44,7 @@ export function formatCurrency(
     }).format(value);
 }
 
-export function getTontineNavItems(
-    tontine: Tontine,
-): NavItem[] {
+export function getTontineNavItems(tontine: Tontine): NavItem[] {
     return [
         {
             title: 'Vue d’ensemble',
@@ -47,16 +53,12 @@ export function getTontineNavItems(
         },
         {
             title: 'Membres',
-            href: tontines.memberships.index(
-                tontine.slug!,
-            ),
+            href: tontines.memberships.index(tontine.slug!),
             icon: UsersIcon,
         },
         {
             title: 'Sessions',
-            href: tontines.sessions.index(
-                tontine.slug!,
-            ),
+            href: tontines.sessions.index(tontine.slug!),
             icon: CalendarDaysIcon,
         },
         {
@@ -84,26 +86,25 @@ export function getSessionNavItems(
     return [
         {
             title: 'Vue d’ensemble',
-            href: sessions.show({ tontine: tontine.slug!, session: session.slug }),
+            href: sessions.show({
+                tontine: tontine.slug!,
+                session: session.slug,
+            }),
             icon: LayoutDashboardIcon,
         },
         {
             title: 'Participants',
-            href: tontines.sessions.participants.index(
-                {
-                    tontine:
-                        tontine.slug!,
-                    session:
-                        session.slug,
-                },
-            ),
+            href: tontines.sessions.participants.index({
+                tontine: tontine.slug!,
+                session: session.slug,
+            }),
             icon: UsersIcon,
         },
         {
             title: 'Réunions',
             href: sessions.meetings.index({
                 tontine: tontine.slug!,
-                session: session.slug
+                session: session.slug,
             }),
             icon: CalendarDaysIcon,
             activeWithParentUrl: true,
@@ -112,16 +113,14 @@ export function getSessionNavItems(
             title: 'Tirage',
             href: sessions.draw.show({
                 tontine: tontine.slug!,
-                session: session.slug
+                session: session.slug,
             }),
             icon: ShuffleIcon,
         },
     ];
 }
 
-export function getMeetingStatusLabel(
-    status: Meeting['status'],
-): string {
+export function getMeetingStatusLabel(status: Meeting['status']): string {
     switch (status) {
         case 'scheduled':
             return 'Prévue';

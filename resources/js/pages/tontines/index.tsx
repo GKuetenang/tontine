@@ -1,3 +1,5 @@
+import { Form, Head, Link } from '@inertiajs/react';
+import { PlusIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SortableTableHead } from '@/components/sortable-table-head';
@@ -16,8 +18,6 @@ import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
 import type { BreadcrumbItem, PaginatedCollection, Tontine } from '@/types';
-import { Form, Head, Link } from '@inertiajs/react';
-import { PlusIcon } from 'lucide-react';
 import { Actions } from './actions';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -45,7 +45,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
             <div className="space-y-4">
                 <Card className="bg-background pt-0">
                     <CardHeader className="border-b py-4">
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                             <Button asChild variant="outline" className="w-fit">
                                 <Link href={tontines.create()}>
                                     <PlusIcon />
@@ -65,7 +65,6 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                 <Button>Rechercher</Button>
                             </Form>
                         </div>
-
                     </CardHeader>
                     <CardContent className="px-0">
                         <Table className="border-spacing-4">

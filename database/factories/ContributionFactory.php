@@ -19,8 +19,7 @@ class ContributionFactory extends Factory
         return [
             'meeting_id' => Meeting::factory(),
 
-            'session_participant_id' =>
-            SessionParticipant::factory(),
+            'session_participant_id' => SessionParticipant::factory(),
 
             'amount_due' => 40_000,
         ];

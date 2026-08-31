@@ -1,19 +1,11 @@
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
-
 import { CoinsIcon } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function ContributionPlaceholder() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>
-                    Cotisations
-                </CardTitle>
+                <CardTitle>Cotisations</CardTitle>
             </CardHeader>
 
             <CardContent>
@@ -28,9 +20,9 @@ export function ContributionPlaceholder() {
                         </p>
 
                         <p className="max-w-md text-sm text-muted-foreground">
-                            Les cotisations seront générées automatiquement
-                            pour les participants actifs lors de l’ouverture
-                            de la réunion.
+                            Les cotisations seront générées automatiquement pour
+                            les participants actifs lors de l’ouverture de la
+                            réunion.
                         </p>
                     </div>
                 </div>

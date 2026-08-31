@@ -1,3 +1,6 @@
+import { Link } from '@inertiajs/react';
+import { EllipsisIcon, Pencil, TrashIcon } from 'lucide-react';
+import { toast } from 'sonner';
 import type { SelectOption } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,9 +12,6 @@ import {
 import { useAuthorization } from '@/hooks/use-authorization';
 import memberships from '@/routes/tontines/memberships';
 import type { Membership, ResultTontine } from '@/types';
-import { Link } from '@inertiajs/react';
-import { EllipsisIcon, Pencil, TrashIcon } from 'lucide-react';
-import { toast } from 'sonner';
 import { EditMembershipForm } from './form';
 
 type Props = {

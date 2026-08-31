@@ -4,15 +4,13 @@ use App\Models\DrawEntry;
 use App\Models\Meeting;
 use App\Models\Session;
 use App\Support\DrawCalendar;
-use Illuminate\Support\Collection;
 
 it(
     'maps one beneficiary per meeting',
     function (): void {
         $session =
             new Session([
-                'beneficiaries_per_meeting'
-                => 1,
+                'beneficiaries_per_meeting' => 1,
             ]);
 
         $entry =
@@ -57,8 +55,7 @@ it(
     function (): void {
         $session =
             new Session([
-                'beneficiaries_per_meeting'
-                => 2,
+                'beneficiaries_per_meeting' => 2,
             ]);
 
         $meetings =
@@ -89,25 +86,22 @@ it(
                 4 => 2,
                 5 => 3,
                 6 => 3,
-            ] as
-            $position
-            => $expectedMeetingNumber
+            ] as $position => $expectedMeetingNumber
         ) {
             $entry =
                 new DrawEntry([
-                    'position' =>
-                    $position,
+                    'position' => $position,
                 ]);
 
             $meeting =
                 $calendar
-                ->meetingForEntry(
-                    session: $session,
+                    ->meetingForEntry(
+                        session: $session,
 
-                    entry: $entry,
+                        entry: $entry,
 
-                    meetings: $meetings,
-                );
+                        meetings: $meetings,
+                    );
 
             expect(
                 $meeting?->number,
@@ -123,8 +117,7 @@ it(
     function (): void {
         $session =
             new Session([
-                'beneficiaries_per_meeting'
-                => 2,
+                'beneficiaries_per_meeting' => 2,
             ]);
 
         $entry =
@@ -167,8 +160,7 @@ it(
     function (): void {
         $session =
             new Session([
-                'beneficiaries_per_meeting'
-                => 3,
+                'beneficiaries_per_meeting' => 3,
             ]);
 
         $meeting =

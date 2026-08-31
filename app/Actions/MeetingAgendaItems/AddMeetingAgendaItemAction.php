@@ -34,11 +34,11 @@ final class AddMeetingAgendaItemAction
 
                 $position = (
                     $meeting
-                    ->agendaItems()
-                    ->max('position') ?? 0
+                        ->agendaItems()
+                        ->max('position') ?? 0
                 ) + 1;
 
-                $item = new MeetingAgendaItem();
+                $item = new MeetingAgendaItem;
 
                 $item->fill([
                     'title' => $title,

@@ -34,11 +34,11 @@ final class CreateMeetingAction
         ): Meeting {
             $number = (
                 $session
-                ->meetings()
-                ->max('number') ?? 0
+                    ->meetings()
+                    ->max('number') ?? 0
             ) + 1;
 
-            $meeting = new Meeting();
+            $meeting = new Meeting;
 
             $meeting->fill([
                 'number' => $number,

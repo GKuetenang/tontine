@@ -2,11 +2,7 @@ import { Badge } from '@/components/ui/badge';
 
 import type { Meeting } from '@/types';
 
-export function MeetingStatusBadge({
-    meeting,
-}: {
-    meeting: Meeting;
-}) {
+export function MeetingStatusBadge({ meeting }: { meeting: Meeting }) {
     switch (meeting.status) {
         case 'scheduled':
             return (

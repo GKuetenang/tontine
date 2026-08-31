@@ -35,19 +35,18 @@ class PayoutController extends Controller
 
         $drawEntry =
             DrawEntry::query()
-            ->whereHas(
-                'draw',
-                fn($query) =>
-                $query->where(
-                    'session_id',
-                    $session->id,
-                ),
-            )
-            ->findOrFail(
-                $request->integer(
-                    'draw_entry_id',
-                ),
-            );
+                ->whereHas(
+                    'draw',
+                    fn ($query) => $query->where(
+                        'session_id',
+                        $session->id,
+                    ),
+                )
+                ->findOrFail(
+                    $request->integer(
+                        'draw_entry_id',
+                    ),
+                );
 
         $action->execute(
             meeting: $meeting,

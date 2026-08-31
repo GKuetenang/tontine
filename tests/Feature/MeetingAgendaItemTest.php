@@ -24,7 +24,6 @@ test('an agenda item can be added to a scheduled meeting', function (): void {
         ->meeting_id->toBe($meeting->id);
 });
 
-
 test('agenda items receive sequential positions', function (): void {
     $meeting = Meeting::factory()
         ->scheduled()
@@ -56,7 +55,6 @@ test('an agenda item cannot be added to an in progress meeting', function (): vo
             title: 'Cotisations',
         );
 })->throws(ValidationException::class);
-
 
 test('removing an agenda item compacts positions', function (): void {
     $meeting = Meeting::factory()

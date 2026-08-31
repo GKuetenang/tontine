@@ -1,3 +1,8 @@
+import { Form } from '@inertiajs/react';
+import { format } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import { Button } from '@/components/ui/button';
 import { DateTimePicker } from '@/components/ui/datetime-picker';
@@ -17,22 +22,7 @@ import { parseDate } from '@/lib';
 
 import meetings from '@/routes/tontines/sessions/meetings';
 
-import type {
-    Meeting,
-    Session,
-    Tontine,
-} from '@/types';
-
-import { Form } from '@inertiajs/react';
-
-import {
-    format
-} from 'date-fns';
-
-import { SaveIcon } from 'lucide-react';
-
-import type { ReactElement } from 'react';
-import { useState } from 'react';
+import type { Meeting, Session, Tontine } from '@/types';
 
 type Props = {
     trigger: ReactElement;
@@ -41,34 +31,16 @@ type Props = {
     meeting: Meeting;
 };
 
-export function EditMeetingForm({
-    trigger,
-    tontine,
-    session,
-    meeting,
-}: Props) {
-    const [open, setOpen] =
-        useState(false);
+export function EditMeetingForm({ trigger, tontine, session, meeting }: Props) {
+    const [open, setOpen] = useState(false);
 
-    const [
-        scheduledAt,
-        setScheduledAt,
-    ] = useState<Date | undefined>(
-        () =>
-            parseDate(
-                meeting?.scheduled_at,
-            ),
+    const [scheduledAt, setScheduledAt] = useState<Date | undefined>(() =>
+        parseDate(meeting?.scheduled_at),
     );
 
-    const handleOpenChange = (
-        value: boolean,
-    ) => {
+    const handleOpenChange = (value: boolean) => {
         if (value) {
-            setScheduledAt(
-                parseDate(
-                    meeting?.scheduled_at,
-                ),
-            );
+            setScheduledAt(parseDate(meeting?.scheduled_at));
         }
 
         setOpen(value);
@@ -76,41 +48,25 @@ export function EditMeetingForm({
 
     const action = meeting.id
         ? meetings.update.form({
-            tontine: tontine.slug!,
-            session: session.slug,
-            meeting: meeting.slug,
-        })
+              tontine: tontine.slug!,
+              session: session.slug,
+              meeting: meeting.slug,
+          })
         : meetings.store.form({
-            tontine: tontine.slug!,
-            session: session.slug,
-        });
+              tontine: tontine.slug!,
+              session: session.slug,
+          });
 
-    const isEditing =
-        Boolean(meeting.id);
+    const isEditing = Boolean(meeting.id);
 
     return (
-        <Dialog
-            open={open}
-            onOpenChange={
-                handleOpenChange
-            }
-        >
-            <DialogTrigger asChild>
-                {trigger}
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogTrigger asChild>{trigger}</DialogTrigger>
 
             <DialogContent
                 className="sm:max-w-lg"
-                onInteractOutside={(
-                    event,
-                ) =>
-                    event.preventDefault()
-                }
-                onEscapeKeyDown={(
-                    event,
-                ) =>
-                    event.preventDefault()
-                }
+                onInteractOutside={(event) => event.preventDefault()}
+                onEscapeKeyDown={(event) => event.preventDefault()}
             >
                 <Form
                     {...action}
@@ -119,10 +75,7 @@ export function EditMeetingForm({
                         setOpen(false);
                     }}
                 >
-                    {({
-                        errors,
-                        processing,
-                    }) => (
+                    {({ errors, processing }) => (
                         <div className="space-y-4">
                             <DialogHeader>
                                 <DialogTitle>
@@ -139,11 +92,7 @@ export function EditMeetingForm({
                             </DialogHeader>
 
                             <FormField
-                                error={
-                                    errors[
-                                    'title'
-                                    ]
-                                }
+                                error={errors['title']}
                                 label="Titre"
                                 htmlFor="title"
                                 required
@@ -151,24 +100,14 @@ export function EditMeetingForm({
                                 <Input
                                     id="title"
                                     name="title"
-                                    defaultValue={
-                                        meeting?.title
-                                    }
+                                    defaultValue={meeting?.title}
                                     placeholder="Ex. Réunion mensuelle"
-                                    aria-invalid={
-                                        !!errors[
-                                        'title'
-                                        ]
-                                    }
+                                    aria-invalid={!!errors['title']}
                                 />
                             </FormField>
 
                             <FormField
-                                error={
-                                    errors[
-                                    'scheduled_at'
-                                    ]
-                                }
+                                error={errors['scheduled_at']}
                                 label="Date et heure"
                                 htmlFor="scheduled_at"
                                 required
@@ -179,9 +118,9 @@ export function EditMeetingForm({
                                     value={
                                         scheduledAt
                                             ? format(
-                                                scheduledAt,
-                                                'yyyy-MM-dd HH:mm:ss',
-                                            )
+                                                  scheduledAt,
+                                                  'yyyy-MM-dd HH:mm:ss',
+                                              )
                                             : ''
                                     }
                                 />
@@ -190,21 +129,13 @@ export function EditMeetingForm({
                                     granularity="minute"
                                     className="text-foreground"
                                     placeholder="Choisir une date et une heure"
-                                    value={
-                                        scheduledAt
-                                    }
-                                    onChange={
-                                        setScheduledAt
-                                    }
+                                    value={scheduledAt}
+                                    onChange={setScheduledAt}
                                 />
                             </FormField>
 
                             <FormField
-                                error={
-                                    errors[
-                                    'location'
-                                    ]
-                                }
+                                error={errors['location']}
                                 label="Lieu"
                                 htmlFor="location"
                                 optional
@@ -212,26 +143,14 @@ export function EditMeetingForm({
                                 <Input
                                     id="location"
                                     name="location"
-                                    defaultValue={
-                                        meeting
-                                            ?.location ??
-                                        ''
-                                    }
+                                    defaultValue={meeting?.location ?? ''}
                                     placeholder="Ex. Domicile du président"
-                                    aria-invalid={
-                                        !!errors[
-                                        'location'
-                                        ]
-                                    }
+                                    aria-invalid={!!errors['location']}
                                 />
                             </FormField>
 
                             <FormField
-                                error={
-                                    errors[
-                                    'description'
-                                    ]
-                                }
+                                error={errors['description']}
                                 label="Description"
                                 htmlFor="description"
                                 optional
@@ -239,48 +158,24 @@ export function EditMeetingForm({
                                 <textarea
                                     id="description"
                                     name="description"
-                                    defaultValue={
-                                        meeting
-                                            ?.description ??
-                                        ''
-                                    }
+                                    defaultValue={meeting?.description ?? ''}
                                     placeholder="Ajouter une description..."
-                                    aria-invalid={
-                                        !!errors[
-                                        'description'
-                                        ]
-                                    }
-                                    className="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive min-h-24 w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs outline-none transition-[color,box-shadow] focus-visible:ring-[3px]"
+                                    aria-invalid={!!errors['description']}
+                                    className="min-h-24 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40"
                                 />
                             </FormField>
 
                             <DialogFooter>
-                                <DialogClose
-                                    asChild
-                                >
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                    >
+                                <DialogClose asChild>
+                                    <Button type="button" variant="outline">
                                         Annuler
                                     </Button>
                                 </DialogClose>
 
-                                <Button
-                                    type="submit"
-                                    disabled={
-                                        processing
-                                    }
-                                >
-                                    {processing ? (
-                                        <Spinner />
-                                    ) : (
-                                        <SaveIcon />
-                                    )}
+                                <Button type="submit" disabled={processing}>
+                                    {processing ? <Spinner /> : <SaveIcon />}
 
-                                    {isEditing
-                                        ? 'Modifier'
-                                        : 'Enregistrer'}
+                                    {isEditing ? 'Modifier' : 'Enregistrer'}
                                 </Button>
                             </DialogFooter>
                         </div>

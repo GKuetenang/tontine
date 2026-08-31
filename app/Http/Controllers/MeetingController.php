@@ -56,7 +56,7 @@ class MeetingController extends Controller
             'collection' => MeetingData::collect(
                 $meetings,
             ),
-            'meeting' => new Meeting()
+            'meeting' => new Meeting,
         ]);
     }
 
@@ -81,8 +81,7 @@ class MeetingController extends Controller
             'decisions.agendaItem',
             'decisions.creator',
 
-            'payouts' => fn($query) =>
-            $query->latest(),
+            'payouts' => fn ($query) => $query->latest(),
 
             'payouts.drawEntry.sessionParticipant.membership.user',
             'payouts.creator',
@@ -103,15 +102,14 @@ class MeetingController extends Controller
                 'slug' => $tontine->slug,
             ],
 
-            'session' => fn() => SessionData::fromModel(
+            'session' => fn () => SessionData::fromModel(
                 $session,
             ),
 
-            'meeting' => fn() => MeetingData::fromModel(
+            'meeting' => fn () => MeetingData::fromModel(
                 $meeting,
             ),
-            'payoutContext' =>
-            $payoutContext,
+            'payoutContext' => $payoutContext,
         ]);
     }
 

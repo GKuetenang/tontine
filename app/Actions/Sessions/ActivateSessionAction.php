@@ -19,7 +19,7 @@ final class ActivateSessionAction
         ): Session {
             $session->loadMissing('participants');
 
-            if (!$session->isDraft()) {
+            if (! $session->isDraft()) {
                 throw ValidationException::withMessages([
                     'session' => __(
                         'Seule une session en préparation peut être activée.'

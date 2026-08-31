@@ -1,9 +1,9 @@
 <?php
 
-use App\Actions\Meetings\CreateMeetingAction;
-use App\Actions\Meetings\UpdateMeetingAction;
 use App\Actions\Meetings\CancelMeetingAction;
+use App\Actions\Meetings\CreateMeetingAction;
 use App\Actions\Meetings\OpenMeetingAction;
+use App\Actions\Meetings\UpdateMeetingAction;
 use App\Enums\AttendanceStatus;
 use App\Enums\MeetingStatus;
 use App\Models\Meeting;
@@ -44,7 +44,6 @@ test('a meeting can be created', function (): void {
         ->opened_at->toBeNull()
         ->closed_at->toBeNull();
 });
-
 
 test('meeting receives the next number in its session', function (): void {
     $session = Session::factory()->create();
@@ -192,10 +191,8 @@ test('opening a meeting creates an attendance for every active participant', fun
         'meeting_attendances',
         [
             'meeting_id' => $meeting->id,
-            'session_participant_id' =>
-            $first->id,
-            'status' =>
-            AttendanceStatus::Pending->value,
+            'session_participant_id' => $first->id,
+            'status' => AttendanceStatus::Pending->value,
         ],
     );
 
@@ -204,8 +201,7 @@ test('opening a meeting creates an attendance for every active participant', fun
         'meeting_attendances',
         [
             'meeting_id' => $meeting->id,
-            'session_participant_id' =>
-            $second->id,
+            'session_participant_id' => $second->id,
         ],
     );
 });
@@ -222,17 +218,17 @@ test('inactive session participants are not added to meeting attendance', functi
 
     $activeParticipant =
         SessionParticipant::factory()
-        ->create([
-            'session_id' => $session->id,
-            'is_active' => true,
-        ]);
+            ->create([
+                'session_id' => $session->id,
+                'is_active' => true,
+            ]);
 
     $inactiveParticipant =
         SessionParticipant::factory()
-        ->inactive()
-        ->create([
-            'session_id' => $session->id,
-        ]);
+            ->inactive()
+            ->create([
+                'session_id' => $session->id,
+            ]);
 
     app(OpenMeetingAction::class)
         ->execute($meeting);
@@ -246,8 +242,7 @@ test('inactive session participants are not added to meeting attendance', functi
         'meeting_attendances',
         [
             'meeting_id' => $meeting->id,
-            'session_participant_id' =>
-            $activeParticipant->id,
+            'session_participant_id' => $activeParticipant->id,
         ],
     );
 
@@ -256,8 +251,7 @@ test('inactive session participants are not added to meeting attendance', functi
         'meeting_attendances',
         [
             'meeting_id' => $meeting->id,
-            'session_participant_id' =>
-            $inactiveParticipant->id,
+            'session_participant_id' => $inactiveParticipant->id,
         ],
     );
 });

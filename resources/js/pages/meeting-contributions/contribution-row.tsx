@@ -1,21 +1,11 @@
-import { Button } from '@/components/ui/button';
-import {
-    TableCell,
-    TableRow,
-} from '@/components/ui/table';
-
+import { BanknoteIcon } from 'lucide-react';
 import { ContributionStatusBadge } from '@/components/contribution-status-badge';
+import { Button } from '@/components/ui/button';
+import { TableCell, TableRow } from '@/components/ui/table';
 
 import { formatCurrency } from '@/lib/utils';
 
-import type {
-    Contribution,
-    Meeting,
-    Session,
-    Tontine,
-} from '@/types';
-
-import { BanknoteIcon } from 'lucide-react';
+import type { Contribution, Meeting, Session, Tontine } from '@/types';
 
 import { RecordContributionPaymentForm } from './form';
 
@@ -34,29 +24,20 @@ export function ContributionRow({
     contribution,
     canPay,
 }: Props) {
-    const membership =
-        contribution
-            .session_participant
-            ?.membership;
+    const membership = contribution.session_participant?.membership;
 
-    const user =
-        membership?.user;
+    const user = membership?.user;
 
     const canRecordPayment =
-        canPay
-        && contribution.remaining_amount > 0
-        && (
-            meeting.status === 'in_progress'
-            || meeting.status === 'completed'
-        );
+        canPay &&
+        contribution.remaining_amount > 0 &&
+        (meeting.status === 'in_progress' || meeting.status === 'completed');
 
     return (
         <TableRow className="[&>td:first-child]:pl-6 [&>td:last-child]:pr-6">
             <TableCell>
                 <div className="flex flex-col">
-                    <span className="font-medium">
-                        {user?.name ?? '—'}
-                    </span>
+                    <span className="font-medium">{user?.name ?? '—'}</span>
 
                     {user?.email && (
                         <span className="text-xs text-muted-foreground">
@@ -66,23 +47,14 @@ export function ContributionRow({
                 </div>
             </TableCell>
 
-            <TableCell>
-                {membership?.member_number ??
-                    '—'}
-            </TableCell>
+            <TableCell>{membership?.member_number ?? '—'}</TableCell>
 
             <TableCell>
-                {formatCurrency(
-                    contribution.amount_due,
-                    tontine.currency,
-                )}
+                {formatCurrency(contribution.amount_due, tontine.currency)}
             </TableCell>
 
             <TableCell className="font-medium text-emerald-600">
-                {formatCurrency(
-                    contribution.amount_paid,
-                    tontine.currency,
-                )}
+                {formatCurrency(contribution.amount_paid, tontine.currency)}
             </TableCell>
 
             <TableCell>
@@ -93,11 +65,7 @@ export function ContributionRow({
             </TableCell>
 
             <TableCell>
-                <ContributionStatusBadge
-                    status={
-                        contribution.status
-                    }
-                />
+                <ContributionStatusBadge status={contribution.status} />
             </TableCell>
 
             <TableCell className="text-end">
@@ -106,16 +74,10 @@ export function ContributionRow({
                         tontine={tontine}
                         session={session}
                         meeting={meeting}
-                        contribution={
-                            contribution
-                        }
+                        contribution={contribution}
                         trigger={
-                            <Button
-                                variant="outline"
-                                size="sm"
-                            >
+                            <Button variant="outline" size="sm">
                                 <BanknoteIcon className="size-4" />
-
                                 Paiement
                             </Button>
                         }

@@ -1,12 +1,11 @@
+import { Form, Head, Link } from '@inertiajs/react';
+import { MapPinIcon, PlusIcon } from 'lucide-react';
+import { MeetingStatusBadge } from '@/components//meeting-status-badge';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SortableTableHead } from '@/components/sortable-table-head';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
     Table,
@@ -20,6 +19,7 @@ import {
 import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 
+import { formatDate } from '@/lib';
 import tontines from '@/routes/tontines';
 import sessions from '@/routes/tontines/sessions';
 import meetings from '@/routes/tontines/sessions/meetings';
@@ -32,17 +32,6 @@ import type {
     Tontine,
 } from '@/types';
 
-import { Form, Head, Link } from '@inertiajs/react';
-
-
-
-import {
-    MapPinIcon,
-    PlusIcon,
-} from 'lucide-react';
-
-import { MeetingStatusBadge } from '@/components//meeting-status-badge';
-import { formatDate } from '@/lib';
 import { Actions } from './actions';
 import { EditMeetingForm } from './form';
 
@@ -86,13 +75,7 @@ export default withAppLayout<Props>(
             },
         ] as BreadcrumbItem[],
 
-    ({
-        collection,
-        q,
-        tontine,
-        session,
-        meeting,
-    }: Props) => {
+    ({ collection, q, tontine, session, meeting }: Props) => {
         const { can } = useAuthorization();
 
         return (
@@ -111,15 +94,9 @@ export default withAppLayout<Props>(
                                 <div>
                                     {can('meetings.create') && (
                                         <EditMeetingForm
-                                            meeting={
-                                                meeting
-                                            }
-                                            tontine={
-                                                tontine
-                                            }
-                                            session={
-                                                session
-                                            }
+                                            meeting={meeting}
+                                            tontine={tontine}
+                                            session={session}
                                             trigger={
                                                 <Button
                                                     type="button"
@@ -127,7 +104,6 @@ export default withAppLayout<Props>(
                                                     className="w-fit"
                                                 >
                                                     <PlusIcon />
-
                                                     Ajouter une réunion
                                                 </Button>
                                             }
@@ -137,25 +113,19 @@ export default withAppLayout<Props>(
 
                                 <Form
                                     {...meetings.index.form({
-                                        tontine:
-                                            tontine.slug!,
-                                        session:
-                                            session.slug,
+                                        tontine: tontine.slug!,
+                                        session: session.slug,
                                     })}
                                     className="flex items-center gap-1"
                                 >
                                     <Input
                                         autoFocus
-                                        defaultValue={
-                                            q ?? ''
-                                        }
+                                        defaultValue={q ?? ''}
                                         placeholder="Rechercher une réunion"
                                         name="q"
                                     />
 
-                                    <Button>
-                                        Rechercher
-                                    </Button>
+                                    <Button>Rechercher</Button>
                                 </Form>
                             </div>
                         </CardHeader>
@@ -184,146 +154,105 @@ export default withAppLayout<Props>(
                                             Statut
                                         </SortableTableHead>
 
-                                        <TableHead>
-                                            Ouverture
-                                        </TableHead>
+                                        <TableHead>Ouverture</TableHead>
 
-                                        <TableHead>
-                                            Clôture
-                                        </TableHead>
+                                        <TableHead>Clôture</TableHead>
 
                                         <TableHead className="text-end" />
                                     </TableRow>
                                 </TableHeader>
 
                                 <TableBody>
-                                    {collection.data.map(
-                                        (item) => (
-                                            <TableRow
-                                                key={
-                                                    item.id
-                                                }
-                                                className="[&>td:first-child]:pl-6 [&>td:last-child]:pr-6"
-                                            >
-                                                <TableCell className="font-medium">
-                                                    #
-                                                    {
-                                                        item.number
-                                                    }
-                                                </TableCell>
+                                    {collection.data.map((item) => (
+                                        <TableRow
+                                            key={item.id}
+                                            className="[&>td:first-child]:pl-6 [&>td:last-child]:pr-6"
+                                        >
+                                            <TableCell className="font-medium">
+                                                #{item.number}
+                                            </TableCell>
 
-                                                <TableCell>
-                                                    <div className="flex flex-col gap-1">
-                                                        <Link
-                                                            href={meetings.show(
-                                                                {
-                                                                    tontine:
-                                                                        tontine.slug!,
-                                                                    session:
-                                                                        session.slug,
-                                                                    meeting:
-                                                                        item.slug,
-                                                                },
-                                                            )}
-                                                            className="font-medium hover:underline"
-                                                        >
-                                                            {
-                                                                item.title
-                                                            }
-                                                        </Link>
+                                            <TableCell>
+                                                <div className="flex flex-col gap-1">
+                                                    <Link
+                                                        href={meetings.show({
+                                                            tontine:
+                                                                tontine.slug!,
+                                                            session:
+                                                                session.slug,
+                                                            meeting: item.slug,
+                                                        })}
+                                                        className="font-medium hover:underline"
+                                                    >
+                                                        {item.title}
+                                                    </Link>
 
-                                                        {item.description && (
-                                                            <span className="line-clamp-1 max-w-sm text-xs text-muted-foreground">
-                                                                {
-                                                                    item.description
-                                                                }
-                                                            </span>
-                                                        )}
+                                                    {item.description && (
+                                                        <span className="line-clamp-1 max-w-sm text-xs text-muted-foreground">
+                                                            {item.description}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {formatDate(item.scheduled_at)}
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {item.location ? (
+                                                    <div className="flex items-center gap-1.5">
+                                                        <MapPinIcon className="size-4 text-muted-foreground" />
+
+                                                        <span>
+                                                            {item.location}
+                                                        </span>
                                                     </div>
-                                                </TableCell>
+                                                ) : (
+                                                    '—'
+                                                )}
+                                            </TableCell>
 
-                                                <TableCell>
-                                                    {formatDate(
-                                                        item.scheduled_at,
-                                                    )}
-                                                </TableCell>
+                                            <TableCell>
+                                                <MeetingStatusBadge
+                                                    meeting={item}
+                                                />
+                                            </TableCell>
 
-                                                <TableCell>
-                                                    {item.location ? (
-                                                        <div className="flex items-center gap-1.5">
-                                                            <MapPinIcon className="size-4 text-muted-foreground" />
+                                            <TableCell>
+                                                {formatDate(item.opened_at)}
+                                            </TableCell>
 
-                                                            <span>
-                                                                {
-                                                                    item.location
-                                                                }
-                                                            </span>
-                                                        </div>
-                                                    ) : (
-                                                        '—'
-                                                    )}
-                                                </TableCell>
+                                            <TableCell>
+                                                {formatDate(item.closed_at)}
+                                            </TableCell>
 
-                                                <TableCell>
-                                                    <MeetingStatusBadge
-                                                        meeting={
-                                                            item
-                                                        }
-                                                    />
-                                                </TableCell>
+                                            <TableCell className="text-end">
+                                                <Actions
+                                                    tontine={tontine}
+                                                    session={session}
+                                                    meeting={item}
+                                                />
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
 
-                                                <TableCell>
-                                                    {formatDate(
-                                                        item.opened_at,
-                                                    )}
-                                                </TableCell>
-
-                                                <TableCell>
-                                                    {formatDate(
-                                                        item.closed_at,
-                                                    )}
-                                                </TableCell>
-
-                                                <TableCell className="text-end">
-                                                    <Actions
-                                                        tontine={
-                                                            tontine
-                                                        }
-                                                        session={
-                                                            session
-                                                        }
-                                                        meeting={
-                                                            item
-                                                        }
-                                                    />
-                                                </TableCell>
-                                            </TableRow>
-                                        ),
+                                    {collection.data.length === 0 && (
+                                        <TableRow>
+                                            <TableCell
+                                                colSpan={8}
+                                                className="h-32 text-center text-muted-foreground"
+                                            >
+                                                Aucune réunion trouvée.
+                                            </TableCell>
+                                        </TableRow>
                                     )}
-
-                                    {collection.data.length ===
-                                        0 && (
-                                            <TableRow>
-                                                <TableCell
-                                                    colSpan={
-                                                        8
-                                                    }
-                                                    className="h-32 text-center text-muted-foreground"
-                                                >
-                                                    Aucune
-                                                    réunion
-                                                    trouvée.
-                                                </TableCell>
-                                            </TableRow>
-                                        )}
                                 </TableBody>
                             </Table>
 
                             <CollectionPagination
                                 className="px-6 pt-6"
-                                collection={
-                                    collection
-                                }
+                                collection={collection}
                             />
                         </CardContent>
                     </Card>

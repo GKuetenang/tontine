@@ -1,3 +1,5 @@
+import { Link, usePage } from '@inertiajs/react';
+import { LayoutGrid, ListIcon } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavContext } from '@/components/nav-context';
 import { NavMain } from '@/components/nav-main';
@@ -19,19 +21,10 @@ import tontines from '@/routes/tontines';
 
 import type { NavItem, Session, Tontine } from '@/types';
 
-import { Link, usePage } from '@inertiajs/react';
-
-import {
-    LayoutGrid,
-    ListIcon
-} from 'lucide-react';
-
 type SidebarPageProps = {
     tontine?: Tontine;
     session?: Session;
 };
-
-
 
 export function AppSidebar() {
     const { props } = usePage<SidebarPageProps>();
@@ -53,21 +46,12 @@ export function AppSidebar() {
     ];
 
     return (
-        <Sidebar
-            collapsible="icon"
-            variant="inset"
-        >
+        <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton
-                            size="lg"
-                            asChild
-                        >
-                            <Link
-                                href={dashboard()}
-                                prefetch
-                            >
+                        <SidebarMenuButton size="lg" asChild>
+                            <Link href={dashboard()} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
@@ -78,28 +62,19 @@ export function AppSidebar() {
             <SidebarContent>
                 <NavMain items={mainNavItems} />
 
-                {(tontine?.slug) && (
+                {tontine?.slug && (
                     <NavContext
                         label="Tontine"
                         title={tontine.name}
-                        items={
-                            getTontineNavItems(
-                                tontine,
-                            )
-                        }
+                        items={getTontineNavItems(tontine)}
                     />
                 )}
 
-                {(tontine && session?.slug) && (
+                {tontine && session?.slug && (
                     <NavContext
                         label="Session"
                         title={session.name}
-                        items={
-                            getSessionNavItems(
-                                tontine,
-                                session,
-                            )
-                        }
+                        items={getSessionNavItems(tontine, session)}
                     />
                 )}
             </SidebarContent>

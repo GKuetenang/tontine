@@ -49,7 +49,7 @@ class SessionController extends Controller
                 'slug' => $tontine->slug,
             ],
             'collection' => $sessions,
-            'session' => fn() => new Session(),
+            'session' => fn () => new Session,
             'draw_allocation_modes' => DrawAllocationMode::getOptions(),
         ]);
     }

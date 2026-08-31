@@ -1,21 +1,11 @@
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
-
-import {
-    CheckCircle2Icon,
-} from 'lucide-react';
+import { CheckCircle2Icon } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function MeetingDecisionsPlaceholder() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>
-                    Décisions
-                </CardTitle>
+                <CardTitle>Décisions</CardTitle>
             </CardHeader>
 
             <CardContent>
@@ -30,9 +20,8 @@ export function MeetingDecisionsPlaceholder() {
                         </p>
 
                         <p className="max-w-md text-sm text-muted-foreground">
-                            Les décisions pourront être
-                            enregistrées lorsque la réunion
-                            sera en cours.
+                            Les décisions pourront être enregistrées lorsque la
+                            réunion sera en cours.
                         </p>
                     </div>
                 </div>

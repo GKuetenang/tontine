@@ -30,8 +30,7 @@ final class CancelPayoutAction
         }
 
         $payout->update([
-            'status' =>
-            PayoutStatus::Cancelled,
+            'status' => PayoutStatus::Cancelled,
         ]);
 
         return $payout->refresh();

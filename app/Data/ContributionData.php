@@ -56,14 +56,11 @@ class ContributionData extends Data
         );
 
         $status = match (true) {
-            $amountPaid === 0 =>
-            ContributionStatus::Unpaid,
+            $amountPaid === 0 => ContributionStatus::Unpaid,
 
-            $amountPaid < $contribution->amount_due =>
-            ContributionStatus::Partial,
+            $amountPaid < $contribution->amount_due => ContributionStatus::Partial,
 
-            default =>
-            ContributionStatus::Paid,
+            default => ContributionStatus::Paid,
         };
 
         return new self(
