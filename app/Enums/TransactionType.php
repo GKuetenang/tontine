@@ -8,16 +8,16 @@ enum TransactionType: string
     case Loan = 'loan';
     case Repayment = 'repayment';
     case Penalty = 'penalty';
-    case CashFund = 'cash_fund';
+    case Insurance = 'insurance';
     case Donation = 'donation';
     case Payout = 'payout';
 
     public static function getOptions(): array
     {
         return array_map(
-            fn(self $type): array => [
+            fn (self $type): array => [
                 'label' => $type->label(),
-                'value' => $type->value
+                'value' => $type->value,
             ],
             self::cases()
         );
@@ -30,7 +30,7 @@ enum TransactionType: string
             self::Loan => __('Prêt'),
             self::Repayment => __('Remboursement'),
             self::Penalty => __('Pénalité'),
-            self::CashFund => __('Fonds de caisse'),
+            self::Insurance => __('Assurance'),
             self::Donation => __('Don'),
             self::Payout => __('Versement'),
         };

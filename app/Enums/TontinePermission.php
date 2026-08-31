@@ -155,12 +155,12 @@ enum TontinePermission: string
 
     /*
     |--------------------------------------------------------------------------
-    | Fonds de caisse
+    | Assurance
     |--------------------------------------------------------------------------
     */
 
-    case ViewCashFund = 'cash-fund.view';
-    case ManageCashFund = 'cash-fund.manage';
+    case ViewInsurance = 'insurance.view';
+    case ManageInsurance = 'insurance.manage';
 
     /*
     |--------------------------------------------------------------------------
@@ -250,8 +250,8 @@ enum TontinePermission: string
             self::UpdatePenalties => __('Modifier les pénalités'),
             self::DeletePenalties => __('Supprimer les pénalités'),
 
-            self::ViewCashFund => __('Consulter le fonds de caisse'),
-            self::ManageCashFund => __('Gérer le fonds de caisse'),
+            self::ViewInsurance => __('Consulter l’assurance'),
+            self::ManageInsurance => __('Gérer l’assurance'),
 
             self::ViewAccounting => __('Consulter la comptabilité'),
             self::ExportAccounting => __('Exporter la comptabilité'),

@@ -1,4 +1,4 @@
-import type {
+import {
     ContributionStatus,
     DonationStatus,
     LoanStatus,
@@ -51,6 +51,14 @@ export type ExpectedDrawMeeting = {
     number: number;
     slug: string;
     scheduled_at: undefined;
+};
+export type InsuranceContribution = {
+    id: number;
+    amount: string;
+    description: string | null;
+    member_name: string;
+    creator_name: string | null;
+    occurred_at: undefined;
 };
 export type Loan = {
     id: number;

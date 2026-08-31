@@ -92,7 +92,7 @@ git commit -m "docs: add project README"
 ### Phase 4 - Comptabilité et reporting
 
 - [ ] Création du journal financier central
-- [ ] Calcul des soldes et du fonds de caisse
+- [ ] Calcul des soldes et de l’assurance
 - [ ] Ajout des rapports
 
 ## Sécurité

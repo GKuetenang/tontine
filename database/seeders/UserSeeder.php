@@ -37,8 +37,88 @@ class UserSeeder extends Seeder
             ]
         );
 
-        User::factory(10)->create([
-            'password' => 'secret',
-        ]);
+        User::firstOrCreate(
+            [
+                'email' => 'nelsonnoumbon@gmail.com',
+            ],
+            [
+                'name' => 'Nelson Noumbo',
+                'email' => 'nelsonnoumbon@gmail.com',
+                'password' => Hash::make('secret'),
+                'username' => 'nelsonnoumbon',
+            ]
+        );
+
+        User::firstOrCreate(
+            [
+                'email' => 'donaldzangue@gmail.com',
+            ],
+            [
+                'name' => 'Donald Zangue',
+                'email' => 'donaldzangue@gmail.com',
+                'password' => Hash::make('secret'),
+                'username' => 'donaldzangue',
+            ]
+        );
+
+        User::firstOrCreate(
+            [
+                'email' => 'cyrilledonfact@gmail.com',
+            ],
+            [
+                'name' => 'Cyrille Donfack',
+                'email' => 'cyrilledonfact@gmail.com',
+                'password' => Hash::make('secret'),
+                'username' => 'cyrilledonfact',
+            ]
+        );
+
+        User::firstOrCreate(
+            [
+                'email' => 'ferdiandyonta@gmail.com',
+            ],
+            [
+                'name' => 'Ferdinand Yonta',
+                'email' => 'ferdiandyonta@gmail.com',
+                'password' => Hash::make('secret'),
+                'username' => 'ferdiandyonta',
+            ]
+        );
+
+        User::firstOrCreate(
+            [
+                'email' => 'hygelinkana@gmail.com',
+            ],
+            [
+                'name' => 'Hygelin Duplex Kana',
+                'email' => 'hygelinkana@gmail.com',
+                'password' => Hash::make('secret'),
+                'username' => 'hygelinkana',
+            ]
+        );
+
+        User::firstOrCreate(
+            [
+                'email' => 'rogersokeng@gmail.com',
+            ],
+            [
+                'name' => 'Roger Sokeng',
+                'email' => 'rogersokeng@gmail.com',
+                'password' => Hash::make('secret'),
+                'username' => 'rogersokeng',
+            ]
+        );
+
+        User::firstOrCreate(
+            [
+                'email' => 'gautierfouejio@gmail.com',
+            ],
+            [
+                'name' => 'Gautier Fouejio',
+                'email' => 'gautierfouejio@gmail.com',
+                'password' => Hash::make('secret'),
+                'username' => 'gautierfouejio',
+            ]
+        );
     }
 }

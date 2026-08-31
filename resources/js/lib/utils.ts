@@ -7,6 +7,7 @@ import {
     CircleDollarSignIcon,
     HandHeartIcon,
     LandmarkIcon,
+    PiggyBankIcon,
     ReceiptTextIcon,
     LayoutDashboardIcon,
     SettingsIcon,
@@ -151,6 +152,14 @@ export function getSessionNavItems(
                 session: session.slug,
             }),
             icon: ReceiptTextIcon,
+        },
+        {
+            title: 'Assurance',
+            href: sessions.insurance.index({
+                tontine: tontine.slug!,
+                session: session.slug,
+            }),
+            icon: PiggyBankIcon,
         },
     ];
 }

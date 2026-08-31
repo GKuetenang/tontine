@@ -1,0 +1,163 @@
+import { Head } from '@inertiajs/react';
+import { PlusIcon } from 'lucide-react';
+import { CollectionPagination } from '@/components/collection-pagination';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { useAuthorization } from '@/hooks/use-authorization';
+import { withAppLayout } from '@/layouts/app-layout';
+import { formatDate } from '@/lib';
+import { formatCurrency } from '@/lib/utils';
+import tontines from '@/routes/tontines';
+import sessions from '@/routes/tontines/sessions';
+import type {
+    BreadcrumbItem,
+    InsuranceContribution,
+    PaginatedCollection,
+    Session,
+    Tontine,
+} from '@/types';
+import { CreateInsuranceContributionForm } from './form';
+
+type Props = {
+    tontine: Tontine;
+    session: Session;
+    collection: PaginatedCollection<InsuranceContribution>;
+    summary: {
+        total: string;
+        contributions_count: number;
+        contributors_count: number;
+    };
+};
+
+export default withAppLayout<Props>(
+    ({ tontine, session }) =>
+        [
+            { title: 'Tontines', href: tontines.index() },
+            {
+                title: tontine.name,
+                href: tontines.show({ tontine: tontine.slug! }),
+            },
+            {
+                title: session.name,
+                href: sessions.show({
+                    tontine: tontine.slug!,
+                    session: session.slug,
+                }),
+            },
+            { title: 'Assurance', href: '#' },
+        ] as BreadcrumbItem[],
+    ({ tontine, session, collection, summary }) => {
+        const { can } = useAuthorization();
+        const cards = [
+            {
+                label: 'Assurance constituée',
+                value: formatCurrency(summary.total),
+            },
+            { label: 'Versements', value: summary.contributions_count },
+            {
+                label: 'Membres contributeurs',
+                value: summary.contributors_count,
+            },
+        ];
+
+        return (
+            <>
+                <Head title="Assurance" />
+                <div className="space-y-6">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h1 className="text-2xl font-semibold">
+                                Assurance
+                            </h1>
+                            <p className="text-sm text-muted-foreground">
+                                Versements des membres pendant la session{' '}
+                                {session.name}.
+                            </p>
+                        </div>
+                        {can('insurance.manage') && (
+                            <CreateInsuranceContributionForm
+                                tontine={tontine}
+                                session={session}
+                                trigger={
+                                    <Button>
+                                        <PlusIcon /> Nouveau versement
+                                    </Button>
+                                }
+                            />
+                        )}
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-3">
+                        {cards.map((card) => (
+                            <Card key={card.label}>
+                                <CardContent>
+                                    <p className="text-sm text-muted-foreground">
+                                        {card.label}
+                                    </p>
+                                    <p className="mt-1 text-2xl font-semibold">
+                                        {card.value}
+                                    </p>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                    <Card>
+                        <CardContent className="px-0">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead className="pl-6">
+                                            Date
+                                        </TableHead>
+                                        <TableHead>Membre</TableHead>
+                                        <TableHead>Enregistré par</TableHead>
+                                        <TableHead className="pr-6 text-right">
+                                            Montant versé
+                                        </TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody className="[&_td]:py-3">
+                                    {collection.data.map((entry) => (
+                                        <TableRow
+                                            key={entry.id}
+                                            className="h-14"
+                                        >
+                                            <TableCell className="pl-6">
+                                                {formatDate(entry.occurred_at)}
+                                            </TableCell>
+                                            <TableCell className="font-medium">
+                                                {entry.member_name}
+                                            </TableCell>
+                                            <TableCell>
+                                                {entry.creator_name ?? '—'}
+                                            </TableCell>
+                                            <TableCell className="pr-6 text-right font-medium text-emerald-600">
+                                                + {formatCurrency(entry.amount)}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                            {collection.data.length === 0 && (
+                                <p className="p-8 text-center text-sm text-muted-foreground">
+                                    Aucun versement d’assurance.
+                                </p>
+                            )}
+                            <CollectionPagination
+                                className="px-6 pt-6"
+                                collection={collection}
+                            />
+                        </CardContent>
+                    </Card>
+                </div>
+            </>
+        );
+    },
+);

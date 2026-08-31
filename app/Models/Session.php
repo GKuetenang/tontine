@@ -92,6 +92,11 @@ class Session extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function insuranceContributions(): HasMany
+    {
+        return $this->hasMany(InsuranceContribution::class);
+    }
+
     public function donations(): HasMany
     {
         return $this->hasMany(Donation::class);

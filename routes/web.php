@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContributionPaymentController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\DrawController;
+use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\MeetingAgendaItemController;
 use App\Http\Controllers\MeetingAttendanceController;
@@ -61,6 +62,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'tontines/{tontine:slug}/sessions/{session:slug}/transactions',
             [TransactionController::class, 'index'],
         )->name('tontines.sessions.transactions.index');
+
+        Route::prefix('tontines/{tontine:slug}/sessions/{session:slug}/insurance')
+            ->name('tontines.sessions.insurance.')
+            ->group(function (): void {
+                Route::get('/', [InsuranceController::class, 'index'])->name('index');
+                Route::post('/', [InsuranceController::class, 'store'])->name('store');
+            });
 
         Route::prefix('tontines/{tontine:slug}/sessions/{session:slug}/donations')
             ->name('tontines.sessions.donations.')

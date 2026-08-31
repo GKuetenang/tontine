@@ -86,8 +86,8 @@ export type TontinePermission =
     | 'penalties.create'
     | 'penalties.update'
     | 'penalties.delete'
-    | 'cash-fund.view'
-    | 'cash-fund.manage'
+    | 'insurance.view'
+    | 'insurance.manage'
     | 'accounting.view'
     | 'accounting.export'
     | 'payouts.view'
@@ -105,6 +105,6 @@ export type TransactionType =
     | 'loan'
     | 'repayment'
     | 'penalty'
-    | 'cash_fund'
+    | 'insurance'
     | 'donation'
     | 'payout';

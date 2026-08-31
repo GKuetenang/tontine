@@ -98,8 +98,8 @@ enum TontineRole: string
                 TontinePermission::CreateRepayments,
                 TontinePermission::UpdateRepayments,
 
-                TontinePermission::ViewCashFund,
-                TontinePermission::ManageCashFund,
+                TontinePermission::ViewInsurance,
+                TontinePermission::ManageInsurance,
 
                 TontinePermission::ViewAccounting,
                 TontinePermission::ExportAccounting,
@@ -143,7 +143,7 @@ enum TontineRole: string
                 TontinePermission::ViewLoans,
                 TontinePermission::ViewRepayments,
                 TontinePermission::ViewPenalties,
-                TontinePermission::ViewCashFund,
+                TontinePermission::ViewInsurance,
 
                 TontinePermission::ViewAccounting,
                 TontinePermission::ExportAccounting,
