@@ -7,14 +7,13 @@ import {
     CircleDollarSignIcon,
     HandHeartIcon,
     LandmarkIcon,
+    LayoutDashboardIcon,
     PiggyBankIcon,
     ReceiptTextIcon,
-    LayoutDashboardIcon,
     ShieldCheckIcon,
-    SettingsIcon,
     ShuffleIcon,
-    UsersIcon,
     UserRoundCogIcon,
+    UsersIcon,
 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import tontines from '@/routes/tontines';
@@ -79,7 +78,7 @@ export function getTontineNavItems(tontine: Tontine): NavItem[] {
         },
         {
             title: 'Finances',
-            href: '#',
+            href: tontines.finances.index({ tontine: tontine.slug! }),
             icon: CircleDollarSignIcon,
         },
         {
@@ -87,11 +86,11 @@ export function getTontineNavItems(tontine: Tontine): NavItem[] {
             href: '#',
             icon: ChartNoAxesColumnIcon,
         },
-        {
-            title: 'Paramètres',
-            href: '#',
-            icon: SettingsIcon,
-        },
+        // {
+        //     title: 'Paramètres',
+        //     href: '#',
+        //     icon: SettingsIcon,
+        // },
     ];
 }
 

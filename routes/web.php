@@ -19,6 +19,7 @@ use App\Http\Controllers\RepaymentController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SessionParticipantController;
 use App\Http\Controllers\TontineController;
+use App\Http\Controllers\TontineFinanceController;
 use App\Http\Controllers\TontineRoleController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -57,6 +58,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('tontines.roles', TontineRoleController::class)
             ->only(['index', 'store', 'update'])
             ->scoped(['tontine' => 'slug', 'role' => 'id']);
+
+        Route::get('tontines/{tontine:slug}/finances', [TontineFinanceController::class, 'index'])
+            ->name('tontines.finances.index');
 
         Route::resource('tontines.memberships', MembershipController::class)
             ->only(['index', 'store', 'update', 'destroy'])
