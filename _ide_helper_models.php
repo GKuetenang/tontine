@@ -39,6 +39,41 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property int $session_id
+ * @property int $membership_id
+ * @property numeric $amount
+ * @property string $reason
+ * @property \App\Enums\DonationStatus $status
+ * @property \Carbon\CarbonImmutable|null $paid_at
+ * @property int|null $created_by
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\Membership|null $membership
+ * @property-read \App\Models\Session|null $session
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transaction> $transactions
+ * @property-read int|null $transactions_count
+ * @method static \Database\Factories\DonationFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation whereMembershipId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation wherePaidAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation whereSessionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation whereUpdatedAt($value)
+ */
+	class Donation extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @mixin IdeHelperDraw
  * @property int $id
  * @property int $session_id
@@ -85,6 +120,7 @@ namespace App\Models{
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read \App\Models\Draw|null $draw
+ * @property-read \App\Models\Payout|null $payout
  * @property-read \App\Models\SessionParticipant $sessionParticipant
  * @method static \Database\Factories\DrawEntryFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DrawEntry newModelQuery()
@@ -99,6 +135,89 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DrawEntry whereUpdatedAt($value)
  */
 	class DrawEntry extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property int $session_id
+ * @property int $membership_id
+ * @property numeric $amount
+ * @property string|null $description
+ * @property \Carbon\CarbonImmutable $occurred_at
+ * @property int|null $created_by
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\Membership|null $membership
+ * @property-read \App\Models\Session|null $session
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transaction> $transactions
+ * @property-read int|null $transactions_count
+ * @method static \Database\Factories\InsuranceContributionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution whereMembershipId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution whereOccurredAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution whereSessionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution whereUpdatedAt($value)
+ */
+	class InsuranceContribution extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property int $session_id
+ * @property int $membership_id
+ * @property numeric $principal_amount
+ * @property numeric $interest_rate
+ * @property int $term_months
+ * @property numeric $interest_amount
+ * @property numeric $total_due
+ * @property \Carbon\CarbonImmutable $due_at
+ * @property string|null $reason
+ * @property \App\Enums\LoanStatus $status
+ * @property \Carbon\CarbonImmutable|null $approved_at
+ * @property int|null $created_by
+ * @property int|null $approved_by
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property-read \App\Models\User|null $approver
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\Membership|null $membership
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Repayment> $repayments
+ * @property-read int|null $repayments_count
+ * @property-read \App\Models\Session|null $session
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transaction> $transactions
+ * @property-read int|null $transactions_count
+ * @method static \Database\Factories\LoanFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereApprovedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereApprovedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereDueAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereInterestAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereInterestRate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereMembershipId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan wherePrincipalAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereSessionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereTermMonths($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereTotalDue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereUpdatedAt($value)
+ */
+	class Loan extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -130,6 +249,8 @@ namespace App\Models{
  * @property-read int|null $decisions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MeetingNote> $notes
  * @property-read int|null $notes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payout> $payouts
+ * @property-read int|null $payouts_count
  * @property-read \App\Models\Session|null $session
  * @method static \Database\Factories\MeetingFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting newModelQuery()
@@ -245,7 +366,7 @@ namespace App\Models{
 /**
  * @property int $id
  * @property int $meeting_id
- * @property int|null $agenda_item_id
+ * @property int|null $meeting_agenda_item_id
  * @property string $content
  * @property int|null $created_by
  * @property \Carbon\CarbonImmutable|null $created_at
@@ -257,11 +378,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereAgendaItemId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereMeetingAgendaItemId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereMeetingId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereUpdatedAt($value)
  */
@@ -315,11 +436,66 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property int $meeting_id
+ * @property int $draw_entry_id
+ * @property numeric $amount
+ * @property \App\Enums\PayoutStatus $status
+ * @property \Carbon\CarbonImmutable|null $paid_at
+ * @property int|null $created_by
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\DrawEntry $drawEntry
+ * @property-read \App\Models\Meeting|null $meeting
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transaction> $transactions
+ * @property-read int|null $transactions_count
+ * @method static \Database\Factories\PayoutFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout whereDrawEntryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout whereMeetingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout wherePaidAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payout whereUpdatedAt($value)
  */
 	class Payout extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property int $loan_id
+ * @property numeric $amount
+ * @property numeric $interest_amount
+ * @property numeric $principal_amount
+ * @property \Carbon\CarbonImmutable $paid_at
+ * @property int|null $created_by
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\Loan $loan
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transaction> $transactions
+ * @property-read int|null $transactions_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment whereInterestAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment whereLoanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment wherePaidAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment wherePrincipalAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment whereUpdatedAt($value)
+ */
+	class Repayment extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -331,6 +507,7 @@ namespace App\Models{
  * @property string $slug
  * @property string|null $description
  * @property int|null $default_contribution_amount
+ * @property int $beneficiaries_per_meeting
  * @property \App\Enums\DrawAllocationMode $draw_allocation_mode
  * @property int|null $base_contribution_amount
  * @property \Carbon\CarbonImmutable|null $start_at
@@ -345,7 +522,13 @@ namespace App\Models{
  * @property-read int|null $active_participants_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Meeting> $completedMeetings
  * @property-read int|null $completed_meetings_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Donation> $donations
+ * @property-read int|null $donations_count
  * @property-read \App\Models\Draw|null $draw
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InsuranceContribution> $insuranceContributions
+ * @property-read int|null $insurance_contributions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Loan> $loans
+ * @property-read int|null $loans_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Meeting> $meetings
  * @property-read int|null $meetings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SessionParticipant> $participants
@@ -353,6 +536,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SessionParticipant> $sessionParticipations
  * @property-read int|null $session_participations_count
  * @property-read \App\Models\Tontine|null $tontine
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transaction> $transactions
+ * @property-read int|null $transactions_count
  * @method static \Database\Factories\SessionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session newQuery()
@@ -361,6 +546,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereActivatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereBaseContributionAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereBeneficiariesPerMeeting($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereClosedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereDefaultContributionAmount($value)
@@ -433,6 +619,8 @@ namespace App\Models{
  * @property bool $is_verified
  * @property string $currency
  * @property int|null $default_contribution_amount
+ * @property numeric $default_loan_interest_rate
+ * @property int $default_loan_term_months
  * @property \Carbon\CarbonImmutable|null $deleted_at
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
@@ -457,6 +645,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tontine whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tontine whereCurrency($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tontine whereDefaultContributionAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tontine whereDefaultLoanInterestRate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tontine whereDefaultLoanTermMonths($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tontine whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tontine whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tontine whereId($value)
@@ -484,17 +674,15 @@ namespace App\Models{
  * @property int|null $transactionable_id
  * @property \App\Enums\TransactionType $type
  * @property \App\Enums\TransactionDirection $direction
- * @property int $amount
+ * @property numeric $amount
  * @property string|null $description
  * @property \Carbon\CarbonImmutable $occurred_at
  * @property int|null $created_by
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read \App\Models\User|null $creator
- * @property-read \App\Models\Meeting|null $meeting
  * @property-read \App\Models\Membership|null $membership
  * @property-read \App\Models\Session|null $session
- * @property-read \App\Models\Tontine|null $tontine
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $transactionable
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction credits()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction debits()
@@ -524,6 +712,7 @@ namespace App\Models{
  * @mixin IdeHelperUser
  * @property int $id
  * @property string $name
+ * @property string|null $first_name
  * @property string $email
  * @property string $username
  * @property \Carbon\CarbonImmutable|null $email_verified_at
@@ -550,6 +739,7 @@ namespace App\Models{
  * @property-read int|null $teams_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tontine> $tontines
  * @property-read int|null $tontines_count
+ * @property-read string $with_full_name
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -560,6 +750,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFirstName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)

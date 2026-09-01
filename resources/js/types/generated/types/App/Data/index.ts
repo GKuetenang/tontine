@@ -218,6 +218,7 @@ export type Session = {
     start_at: undefined | undefined | null;
     end_at: undefined | undefined | null;
     default_contribution_amount: undefined | number | null;
+    base_contribution_amount: undefined | number | null;
     beneficiaries_per_meeting: number;
     status: undefined | SessionStatus;
     participants_count: undefined | number;

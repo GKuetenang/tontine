@@ -73,7 +73,7 @@ it('shows the insurance total and contributions to an authorized user', function
         ->assertInertia(fn ($page) => $page
             ->component('insurance/index')
             ->has('collection.data', 2)
-            ->where('collection.data.0.member_name', $member->name)
+            ->where('collection.data.0.member_name', $member->full_name)
             ->where('summary.total', '6250.50')
             ->where('summary.contributions_count', 2)
             ->where('summary.contributors_count', 1));

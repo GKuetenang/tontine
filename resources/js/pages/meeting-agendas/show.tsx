@@ -1,3 +1,4 @@
+import type { DragEndEvent } from '@dnd-kit/core';
 import {
     DndContext,
     KeyboardSensor,
@@ -6,7 +7,6 @@ import {
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
-import type { DragEndEvent } from '@dnd-kit/core';
 
 import {
     SortableContext,
@@ -21,12 +21,12 @@ import { PlusIcon } from 'lucide-react';
 
 import { useState } from 'react';
 
-import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuthorization } from '@/hooks/use-authorization';
 import agenda from '@/routes/tontines/sessions/meetings/agenda';
 import type { Meeting, MeetingAgendaItem, Session, Tontine } from '@/types';
+import { toast } from 'sonner';
 
 import { AgendaItem } from './agenda-item';
 import { EmptyAgenda } from './empty-agenda';
@@ -135,7 +135,7 @@ function MeetingAgendaContent({ tontine, session, meeting }: Props) {
                         session={session}
                         meeting={meeting}
                         trigger={
-                            <Button variant="outline" size="sm">
+                            <Button size="sm">
                                 <PlusIcon className="size-4" />
                                 Ajouter un point
                             </Button>

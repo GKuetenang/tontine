@@ -159,8 +159,7 @@ export function EditSessionForm({
                                     id="beneficiaries_per_meeting"
                                     name="beneficiaries_per_meeting"
                                     defaultValue={
-                                        session.beneficiaries_per_meeting ??
-                                        undefined
+                                        session.beneficiaries_per_meeting ?? 1
                                     }
                                     aria-invalid={
                                         !!errors['beneficiaries_per_meeting']
@@ -178,7 +177,10 @@ export function EditSessionForm({
                                     items={draw_allocation_modes}
                                     id="draw_allocation_mode"
                                     name="draw_allocation_mode"
-                                    defaultValue={session.draw_allocation_mode}
+                                    defaultValue={
+                                        session.draw_allocation_mode ??
+                                        'one_per_member'
+                                    }
                                     aria-invalid={
                                         !!errors['draw_allocation_mode']
                                     }
@@ -191,6 +193,27 @@ export function EditSessionForm({
                                         value={session.draw_allocation_mode}
                                     />
                                 )}
+                            </FormField>
+
+                            <FormField
+                                error={errors['base_contribution_amount']}
+                                label="Montant de base pour l’attribution des tours"
+                                htmlFor="base_contribution_amount"
+                                optional
+                            >
+                                <Input
+                                    id="base_contribution_amount"
+                                    name="base_contribution_amount"
+                                    inputMode="decimal"
+                                    defaultValue={
+                                        session.base_contribution_amount ??
+                                        undefined
+                                    }
+                                    aria-invalid={
+                                        !!errors['base_contribution_amount']
+                                    }
+                                    readOnly={configurationLocked}
+                                />
                             </FormField>
 
                             <FormField
@@ -247,13 +270,15 @@ export function EditSessionForm({
 
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button variant="outline">Cancel</Button>
+                                    <Button type="button" variant="outline">
+                                        Annuler
+                                    </Button>
                                 </DialogClose>
                                 <Button
                                     type="submit"
                                     tabIndex={4}
                                     disabled={processing}
-                                    data-test="login-button"
+                                    data-test="save-session-button"
                                 >
                                     {processing ? <Spinner /> : <SaveIcon />}
                                     Enregistrer

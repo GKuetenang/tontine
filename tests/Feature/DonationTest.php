@@ -90,7 +90,7 @@ it('allows the president to manage donations through the session routes', functi
         ->assertInertia(fn ($page) => $page
             ->component('donations/index')
             ->has('collection.data', 1)
-            ->where('collection.data.0.member_name', $beneficiary->name));
+            ->where('collection.data.0.member_name', $beneficiary->full_name));
 
     $this->actingAs($president)
         ->patch(route('tontines.sessions.donations.pay', [$tontine, $session, $donation]))

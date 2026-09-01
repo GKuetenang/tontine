@@ -18,7 +18,8 @@ test('profile information can be updated', function () {
     $response = $this
         ->actingAs($user)
         ->patch(route('profile.update'), [
-            'name' => 'Test User',
+            'first_name' => 'Test',
+            'name' => 'User',
             'email' => 'test@example.com',
             'username' => 'testuser',
         ]);
@@ -29,10 +30,34 @@ test('profile information can be updated', function () {
 
     $user->refresh();
 
-    expect($user->name)->toBe('Test User');
+    expect($user->first_name)->toBe('Test');
+    expect($user->name)->toBe('User');
+    expect($user->full_name)->toBe('Test User');
     expect($user->username)->toBe('testuser');
     expect($user->email)->toBe('test@example.com');
     expect($user->email_verified_at)->toBeNull();
+
+    $this->actingAs($user)
+        ->get(route('profile.edit'))
+        ->assertInertia(fn ($page) => $page
+            ->where('auth.user.first_name', 'Test')
+            ->where('auth.user.name', 'User')
+            ->where('auth.user.full_name', 'Test User'));
+});
+
+test('first name is required when updating profile information', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->patch(route('profile.update'), [
+            'first_name' => '',
+            'name' => 'User',
+            'email' => $user->email,
+            'username' => $user->username,
+        ])
+        ->assertSessionHasErrors('first_name');
+
+    expect($user->refresh()->first_name)->not->toBe('');
 });
 
 test('email verification status is unchanged when the email address is unchanged', function () {
@@ -41,7 +66,8 @@ test('email verification status is unchanged when the email address is unchanged
     $response = $this
         ->actingAs($user)
         ->patch(route('profile.update'), [
-            'name' => 'Test User',
+            'first_name' => $user->first_name,
+            'name' => $user->name,
             'username' => $user->username,
             'email' => $user->email,
         ]);

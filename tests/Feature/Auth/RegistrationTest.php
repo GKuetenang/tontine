@@ -14,7 +14,8 @@ test('registration screen can be rendered', function () {
 
 test('new users can register', function () {
     $response = $this->post(route('register.store'), [
-        'name' => 'Test User',
+        'first_name' => 'Test',
+        'name' => 'User',
         'email' => 'test@example.com',
         'username' => 'tes-username',
         'password' => 'password',
@@ -23,4 +24,8 @@ test('new users can register', function () {
 
     $this->assertAuthenticated();
     $response->assertRedirect(route('dashboard', absolute: false));
+
+    expect(auth()->user()->first_name)->toBe('Test')
+        ->and(auth()->user()->name)->toBe('User')
+        ->and(auth()->user()->full_name)->toBe('Test User');
 });

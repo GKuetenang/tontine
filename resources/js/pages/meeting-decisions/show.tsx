@@ -1,5 +1,5 @@
-import { CheckCircle2Icon, PlusIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { CheckCircle2Icon, PlusIcon } from 'lucide-react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -49,7 +49,7 @@ export function MeetingDecisions({ tontine, session, meeting }: Props) {
                         session={session}
                         meeting={meeting}
                         trigger={
-                            <Button type="button" variant="outline" size="sm">
+                            <Button type="button" size="sm">
                                 <PlusIcon className="size-4" />
                                 Ajouter une décision
                             </Button>

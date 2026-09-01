@@ -135,7 +135,7 @@ it('creates a loan through the form endpoint and returns it in the listing', fun
         ->assertInertia(fn ($page) => $page
             ->component('repayments/index')
             ->has('collection.data', 1)
-            ->where('collection.data.0.member_name', $borrower->name)
+            ->where('collection.data.0.member_name', $borrower->full_name)
             ->where('collection.data.0.amount', '1000.00'));
 });
 

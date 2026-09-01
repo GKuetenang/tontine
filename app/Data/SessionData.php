@@ -27,6 +27,7 @@ class SessionData extends Data
         #[WithTransformer(DateTimeInterfaceTransformer::class, format: 'Y-m-d\TH:i:s')]
         public Optional|CarbonImmutable|null $end_at,
         public Optional|int|null $default_contribution_amount,
+        public Optional|int|null $base_contribution_amount,
         public int $beneficiaries_per_meeting,
 
         public Optional|SessionStatus $status,
@@ -75,6 +76,8 @@ class SessionData extends Data
             end_at: $session->end_at,
 
             default_contribution_amount: $session->default_contribution_amount,
+
+            base_contribution_amount: $session->base_contribution_amount,
 
             status: $session->status,
 

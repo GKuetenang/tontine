@@ -228,6 +228,35 @@ test('a draft session can be updated through the form endpoint', function (): vo
         ->beneficiaries_per_meeting->toBe(3);
 });
 
+test('a session can be created through the form endpoint', function (): void {
+    app(PermissionSeeder::class)->run();
+    $president = User::factory()->create();
+    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
+    app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
+
+    $this->actingAs($president)
+        ->post(route('tontines.sessions.store', $tontine), [
+            'name' => 'Session 2028',
+            'default_contribution_amount' => 50000,
+            'beneficiaries_per_meeting' => 1,
+            'draw_allocation_mode' => 'based_on_contribution',
+            'base_contribution_amount' => 25000,
+            'start_at' => '2028-01-01 09:00:00',
+            'end_at' => '2028-12-31 09:00:00',
+        ])
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
+
+    $this->assertDatabaseHas('tontine_sessions', [
+        'tontine_id' => $tontine->id,
+        'name' => 'Session 2028',
+        'beneficiaries_per_meeting' => 1,
+        'draw_allocation_mode' => 'based_on_contribution',
+        'base_contribution_amount' => 25000,
+    ]);
+});
+
 test('a closed session cannot be updated', function (): void {
     $session = Session::factory()
         ->closed()

@@ -35,7 +35,7 @@ class PayoutCandidateData extends Data
                 ->sessionParticipant
                 ->membership
                 ->user
-                ->name,
+                ->full_name,
 
             expected: $expected,
         );

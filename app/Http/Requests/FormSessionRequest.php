@@ -57,6 +57,7 @@ class FormSessionRequest extends FormRequest
             'end_at' => ['nullable', 'date_format:Y-m-d H:i:s', 'after_or_equal:start_at'],
             'draw_allocation_mode' => Rule::enum(DrawAllocationMode::class),
             'default_contribution_amount' => ['nullable', 'numeric'],
+            'base_contribution_amount' => ['nullable', 'integer', 'min:1'],
             'beneficiaries_per_meeting' => [
                 'required',
                 'integer',

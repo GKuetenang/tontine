@@ -35,8 +35,8 @@ class TransactionData extends Data
             direction: $transaction->direction,
             amount: $transaction->amount,
             description: $transaction->description,
-            member_name: $transaction->membership?->user?->name,
-            creator_name: $transaction->creator?->name,
+            member_name: $transaction->membership?->user?->full_name,
+            creator_name: $transaction->creator?->full_name,
             source_type: $transaction->transactionable_type
                 ? class_basename($transaction->transactionable_type)
                 : null,

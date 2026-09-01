@@ -4,8 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,8 +21,9 @@ use Spatie\Permission\Traits\HasRoles;
 /**
  * @mixin IdeHelperUser
  */
-#[Fillable(['name', 'email', 'password', 'username'])]
+#[Fillable(['first_name', 'name', 'email', 'password', 'username'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
+#[Appends(['full_name'])]
 class User extends Authenticatable implements PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
@@ -47,6 +50,11 @@ class User extends Authenticatable implements PasskeyUser
     public function memberships(): HasMany
     {
         return $this->hasMany(Membership::class);
+    }
+
+    protected function fullName(): Attribute
+    {
+        return Attribute::get(fn(): string => trim("{$this->first_name} {$this->name}"));
     }
 
     /**

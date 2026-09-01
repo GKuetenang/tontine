@@ -32,7 +32,7 @@ class DonationData extends Data
             amount: $donation->amount,
             reason: $donation->reason,
             status: $donation->status,
-            member_name: $donation->membership->user->name,
+            member_name: $donation->membership->user->full_name,
             paid_at: $donation->paid_at,
             created_at: $donation->created_at,
         );

@@ -32,7 +32,8 @@ class UserFactory extends Factory
         $suffix = fake()->unique()->numberBetween(1, 99999);
 
         return [
-            'name' => "{$firstName} {$lastName}",
+            'first_name' => $firstName,
+            'name' => $lastName,
             'username' => "{$identifier}{$suffix}",
             'email' => "{$identifier}{$suffix}@example.com",
             'email_verified_at' => now(),

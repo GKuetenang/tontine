@@ -1,5 +1,5 @@
-import { NotebookPenIcon, PlusIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { NotebookPenIcon, PlusIcon } from 'lucide-react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -47,7 +47,7 @@ export function MeetingNotes({ tontine, session, meeting }: Props) {
                         session={session}
                         meeting={meeting}
                         trigger={
-                            <Button variant="outline" size="sm">
+                            <Button size="sm">
                                 <PlusIcon className="size-4" />
                                 Ajouter une note
                             </Button>

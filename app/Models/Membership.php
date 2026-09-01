@@ -42,11 +42,6 @@ class Membership extends Model
         'deleted_at' => 'immutable_datetime',
     ];
 
-    public function getRouteKeyName(): string
-    {
-        return 'slug';
-    }
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

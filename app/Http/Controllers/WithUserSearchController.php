@@ -20,20 +20,29 @@ class WithUserSearchController extends Controller
         }
 
         return User::query()
-            ->select(['id', 'name', 'email'])
+            ->select(['id', 'first_name', 'name', 'email'])
             ->where(function ($query) use ($searchQuery): void {
                 $query
                     ->where('name', 'like', "%{$searchQuery}%")
+                    ->orWhere('first_name', 'like', "%{$searchQuery}%")
                     ->orWhere('email', 'like', "%{$searchQuery}%");
             })
             ->whereDoesntHave(
                 'memberships',
-                fn ($query) => $query
+                fn($query) => $query
                     ->where('tontine_id', \request('tontine')->id),
             )
             ->orderBy('name')
             ->limit(10)
-            ->get();
+            ->get()
+            ->map(
+                fn(User $user): array => [
+                    'id' => $user->id,
+                    'name' => $user->full_name,
+                    'email' => $user->email,
+                    'member_number' => $user->member_number,
+                ],
+            );
     }
 
     protected function usersInTontine(): Collection
@@ -48,26 +57,35 @@ class WithUserSearchController extends Controller
         $session = \request('session');
 
         return User::query()
-            ->select(['id', 'name', 'email'])
+            ->select(['id', 'first_name', 'name', 'email'])
             ->where(function ($query) use ($searchQuery): void {
                 $query
                     ->where('name', 'like', "%{$searchQuery}%")
+                    ->orWhere('first_name', 'like', "%{$searchQuery}%")
                     ->orWhere('email', 'like', "%{$searchQuery}%");
             })
             ->whereHas(
                 'memberships',
-                fn ($query) => $query
+                fn($query) => $query
                     ->where('tontine_id', $tontine->id)
                     ->where('status', MembershipStatus::Active)
             )
             ->whereDoesntHave(
                 'memberships.sessionParticipations',
-                fn ($query) => $query
+                fn($query) => $query
                     ->where('session_id', $session->id),
             )
             ->orderBy('name')
             ->limit(10)
-            ->get();
+            ->get()
+            ->map(
+                fn(User $user): array => [
+                    'id' => $user->id,
+                    'name' => $user->full_name,
+                    'email' => $user->email,
+                    'member_number' => $user->member_number,
+                ],
+            );
     }
 
     protected function membershipsInTontine(): Collection
@@ -94,7 +112,7 @@ class WithUserSearchController extends Controller
                 'member_number',
             ])
             ->with([
-                'user:id,name,email',
+                'user:id,first_name,name,email',
             ])
             ->where('tontine_id', $tontine->id)
             ->where(
@@ -111,6 +129,11 @@ class WithUserSearchController extends Controller
                             "%{$searchQuery}%",
                         )
                         ->orWhere(
+                            'first_name',
+                            'like',
+                            "%{$searchQuery}%",
+                        )
+                        ->orWhere(
                             'email',
                             'like',
                             "%{$searchQuery}%",
@@ -119,7 +142,7 @@ class WithUserSearchController extends Controller
             )
             ->whereDoesntHave(
                 'sessionParticipations',
-                fn ($query) => $query->where(
+                fn($query) => $query->where(
                     'session_id',
                     $session->id,
                 ),
@@ -128,9 +151,9 @@ class WithUserSearchController extends Controller
             ->limit(10)
             ->get()
             ->map(
-                fn (Membership $membership): array => [
+                fn(Membership $membership): array => [
                     'id' => $membership->id,
-                    'name' => $membership->user->name,
+                    'name' => $membership->user->full_name,
                     'email' => $membership->user->email,
                     'member_number' => $membership->member_number,
                 ],
@@ -150,19 +173,20 @@ class WithUserSearchController extends Controller
 
         return Membership::query()
             ->select(['memberships.id', 'memberships.user_id', 'memberships.member_number'])
-            ->with('user:id,name,email')
-            ->whereHas('sessionParticipations', fn ($query) => $query
+            ->with('user:id,first_name,name,email')
+            ->whereHas('sessionParticipations', fn($query) => $query
                 ->where('session_id', $session->id)
                 ->active())
-            ->whereHas('user', fn ($query) => $query
+            ->whereHas('user', fn($query) => $query
                 ->where('name', 'like', "%{$searchQuery}%")
+                ->orWhere('first_name', 'like', "%{$searchQuery}%")
                 ->orWhere('email', 'like', "%{$searchQuery}%"))
             ->orderBy('memberships.id')
             ->limit(10)
             ->get()
-            ->map(fn (Membership $membership): array => [
+            ->map(fn(Membership $membership): array => [
                 'id' => $membership->id,
-                'name' => $membership->user->name,
+                'name' => $membership->user->full_name,
                 'email' => $membership->user->email,
                 'member_number' => $membership->member_number,
             ]);

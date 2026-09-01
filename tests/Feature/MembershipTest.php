@@ -337,3 +337,40 @@ test('a new membership cannot be created when a soft deleted membership already 
             ->count()
     )->toBe(1);
 });
+
+test('a membership can be updated through its numeric scoped route', function (): void {
+    $owner = User::factory()->create();
+    $member = User::factory()->create();
+    $tontine = Tontine::factory()->create([
+        'user_id' => $owner->id,
+        'slug' => 'association-test',
+    ]);
+
+    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
+    app(CreateMembershipAction::class)->execute(
+        tontine: $tontine,
+        user: $owner,
+        roleName: TontineRole::President->value,
+    );
+    $membership = app(CreateMembershipAction::class)->execute(
+        tontine: $tontine,
+        user: $member,
+        invitedBy: $owner,
+        roleName: TontineRole::Member->value,
+    );
+
+    $this->actingAs($owner)
+        ->put(route('tontines.memberships.update', [$tontine, $membership->id]), [
+            'user_id' => $member->id,
+            'role' => TontineRole::Secretary->value,
+            'status' => MembershipStatus::Active->value,
+        ])
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
+
+    setPermissionsTeamId($tontine->id);
+    $member->unsetRelation('roles');
+
+    expect($membership->fresh()->status)->toBe(MembershipStatus::Active)
+        ->and($member->hasRole(TontineRole::Secretary->value))->toBeTrue();
+});

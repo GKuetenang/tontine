@@ -20,7 +20,7 @@ class MemberUserData extends Data
     {
         return new self(
             id: $user->id,
-            name: $user->name,
+            name: $user->full_name,
             email: $user->email,
             username: $user->username,
         );

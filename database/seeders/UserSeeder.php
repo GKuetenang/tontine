@@ -18,7 +18,8 @@ class UserSeeder extends Seeder
                 'email' => 'gustaveckt@gmail.com',
             ],
             [
-                'name' => 'Gustave Kuetenang',
+                'first_name' => 'Gustave',
+                'name' => 'Kuetenang',
                 'email' => 'gustaveckt@gmail.com',
                 'password' => Hash::make('secret'),
                 'username' => 'gkuetenang',
@@ -27,22 +28,11 @@ class UserSeeder extends Seeder
 
         User::firstOrCreate(
             [
-                'email' => 'debiangtk@gmail.com',
-            ],
-            [
-                'name' => 'Debian GTK',
-                'email' => 'debiangtk@gmail.com',
-                'password' => Hash::make('secret'),
-                'username' => 'debiangtk',
-            ]
-        );
-
-        User::firstOrCreate(
-            [
                 'email' => 'nelsonnoumbon@gmail.com',
             ],
             [
-                'name' => 'Nelson Noumbo',
+                'first_name' => 'Nelson',
+                'name' => 'Noumbo',
                 'email' => 'nelsonnoumbon@gmail.com',
                 'password' => Hash::make('secret'),
                 'username' => 'nelsonnoumbon',
@@ -54,7 +44,8 @@ class UserSeeder extends Seeder
                 'email' => 'donaldzangue@gmail.com',
             ],
             [
-                'name' => 'Donald Zangue',
+                'first_name' => 'Donald',
+                'name' => 'Zangue',
                 'email' => 'donaldzangue@gmail.com',
                 'password' => Hash::make('secret'),
                 'username' => 'donaldzangue',
@@ -66,7 +57,8 @@ class UserSeeder extends Seeder
                 'email' => 'cyrilledonfact@gmail.com',
             ],
             [
-                'name' => 'Cyrille Donfack',
+                'first_name' => 'Cyrille',
+                'name' => 'Donfack',
                 'email' => 'cyrilledonfact@gmail.com',
                 'password' => Hash::make('secret'),
                 'username' => 'cyrilledonfact',
@@ -78,7 +70,8 @@ class UserSeeder extends Seeder
                 'email' => 'ferdiandyonta@gmail.com',
             ],
             [
-                'name' => 'Ferdinand Yonta',
+                'first_name' => 'Ferdinand',
+                'name' => 'Yonta',
                 'email' => 'ferdiandyonta@gmail.com',
                 'password' => Hash::make('secret'),
                 'username' => 'ferdiandyonta',
@@ -90,7 +83,8 @@ class UserSeeder extends Seeder
                 'email' => 'hygelinkana@gmail.com',
             ],
             [
-                'name' => 'Hygelin Duplex Kana',
+                'first_name' => 'Hygelin Duplex',
+                'name' => 'Kana',
                 'email' => 'hygelinkana@gmail.com',
                 'password' => Hash::make('secret'),
                 'username' => 'hygelinkana',
@@ -102,7 +96,8 @@ class UserSeeder extends Seeder
                 'email' => 'rogersokeng@gmail.com',
             ],
             [
-                'name' => 'Roger Sokeng',
+                'first_name' => 'Roger',
+                'name' => 'Sokeng',
                 'email' => 'rogersokeng@gmail.com',
                 'password' => Hash::make('secret'),
                 'username' => 'rogersokeng',
@@ -114,7 +109,8 @@ class UserSeeder extends Seeder
                 'email' => 'gautierfouejio@gmail.com',
             ],
             [
-                'name' => 'Gautier Fouejio',
+                'first_name' => 'Gautier',
+                'name' => 'Fouejio',
                 'email' => 'gautierfouejio@gmail.com',
                 'password' => Hash::make('secret'),
                 'username' => 'gautierfouejio',

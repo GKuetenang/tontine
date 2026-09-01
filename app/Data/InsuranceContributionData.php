@@ -28,8 +28,8 @@ class InsuranceContributionData extends Data
             id: $contribution->id,
             amount: $contribution->amount,
             description: $contribution->description,
-            member_name: $contribution->membership->user->name,
-            creator_name: $contribution->creator?->name,
+            member_name: $contribution->membership->user->full_name,
+            creator_name: $contribution->creator?->full_name,
             occurred_at: $contribution->occurred_at,
         );
     }

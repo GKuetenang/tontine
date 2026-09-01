@@ -46,7 +46,26 @@ export default function Profile({
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="first_name">First name</Label>
+
+                                <Input
+                                    id="first_name"
+                                    className="mt-1 block w-full"
+                                    defaultValue={auth.user.first_name}
+                                    name="first_name"
+                                    required
+                                    autoComplete="given-name"
+                                    placeholder="First name"
+                                />
+
+                                <InputError
+                                    className="mt-2"
+                                    message={errors.first_name}
+                                />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="name">Last name</Label>
 
                                 <Input
                                     id="name"
@@ -54,8 +73,8 @@ export default function Profile({
                                     defaultValue={auth.user.name}
                                     name="name"
                                     required
-                                    autoComplete="name"
-                                    placeholder="Full name"
+                                    autoComplete="family-name"
+                                    placeholder="Last name"
                                 />
 
                                 <InputError
@@ -85,7 +104,7 @@ export default function Profile({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Username</Label>
+                                <Label htmlFor="username">Username</Label>
 
                                 <Input
                                     id="username"

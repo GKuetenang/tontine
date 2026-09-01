@@ -34,9 +34,9 @@ class MembershipController extends WithUserSearchController
             ->with([
                 'user' => function ($query) use ($tontine): void {
                     $query
-                        ->select(['id', 'name', 'email'])
+                        ->select(['id', 'first_name', 'name', 'email'])
                         ->with([
-                            'roles' => fn ($roleQuery) => $roleQuery->select(['roles.id', 'roles.name'])
+                            'roles' => fn($roleQuery) => $roleQuery->select(['roles.id', 'roles.name'])
                                 ->where('roles.tontine_id', $tontine->id),
                         ]);
                 },
@@ -47,8 +47,9 @@ class MembershipController extends WithUserSearchController
                 function ($query) use ($search_query): void {
                     $query->whereHas(
                         'user',
-                        fn ($userQuery) => $userQuery
+                        fn($userQuery) => $userQuery
                             ->where('name', 'like', "%{$search_query}%")
+                            ->orWhere('first_name', 'like', "%{$search_query}%")
                             ->orWhere('email', 'like', "%{$search_query}%"),
                     );
                 },
@@ -76,7 +77,7 @@ class MembershipController extends WithUserSearchController
                         : null,
                     'user' => [
                         'id' => $membership->user->id,
-                        'name' => $membership->user->name,
+                        'name' => $membership->user->full_name,
                         'email' => $membership->user->email,
                     ],
 
@@ -98,19 +99,19 @@ class MembershipController extends WithUserSearchController
             });
 
         return Inertia::render('memberships/index', [
-            'tontine' => fn () => [
+            'tontine' => fn() => [
                 'id' => $tontine->id,
                 'name' => $tontine->name,
                 'slug' => $tontine->slug,
             ],
-            'q' => fn () => $search_query,
-            'collection' => fn () => $memberships,
-            'roles' => fn () => $roles,
-            'users' => fn () => Inertia::optional(
+            'q' => fn() => $search_query,
+            'collection' => fn() => $memberships,
+            'roles' => fn() => $roles,
+            'users' => fn() => Inertia::optional(
                 $this->users(...)
             ),
-            'membership' => fn () => new Membership,
-            'statuses' => fn () => MembershipStatus::getOptions(),
+            'membership' => fn() => new Membership,
+            'statuses' => fn() => MembershipStatus::getOptions(),
         ]);
     }
 
@@ -180,6 +181,7 @@ class MembershipController extends WithUserSearchController
             404,
         );
         $validated = $request->validated();
+
 
         $updateMembership->execute(
             tontine: $tontine,

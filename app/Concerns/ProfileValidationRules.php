@@ -16,8 +16,9 @@ trait ProfileValidationRules
     protected function profileRules(?int $userId = null): array
     {
         return [
+            'first_name' => $this->nameRules(),
             'name' => $this->nameRules(),
-            'username' => $this->usernameRules($userId),
+            // 'username' => $this->usernameRules($userId),
             'email' => $this->emailRules($userId),
         ];
     }
@@ -40,7 +41,7 @@ trait ProfileValidationRules
     protected function usernameRules(?int $userId = null): array
     {
         return [
-            'required',
+            'nullable',
             'string',
             'max:255',
             $userId === null

@@ -25,6 +25,6 @@ class RepaymentData extends Data
 
     public static function fromModel(Repayment $repayment): self
     {
-        return new self($repayment->id, $repayment->loan_id, $repayment->loan->membership->user->name, $repayment->amount, $repayment->interest_amount, $repayment->principal_amount, $repayment->paid_at);
+        return new self($repayment->id, $repayment->loan_id, $repayment->loan->membership->user->full_name, $repayment->amount, $repayment->interest_amount, $repayment->principal_amount, $repayment->paid_at);
     }
 }

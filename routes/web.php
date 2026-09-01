@@ -46,7 +46,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::resource('tontines.memberships', MembershipController::class)
             ->only(['index', 'store', 'update', 'destroy'])
-            ->where(['tontine' => '[a-z0-9-]+']);
+            ->scoped([
+                'tontine' => 'slug',
+                'membership' => 'id',
+            ])
+            ->where([
+                'tontine' => '[a-z0-9-]+',
+                'membership' => '[0-9]+',
+            ]);
 
         Route::resource('tontines.sessions', SessionController::class)
             ->except(['create'])
