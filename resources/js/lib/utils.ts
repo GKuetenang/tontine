@@ -14,6 +14,7 @@ import {
     SettingsIcon,
     ShuffleIcon,
     UsersIcon,
+    UserRoundCogIcon,
 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import tontines from '@/routes/tontines';
@@ -70,6 +71,11 @@ export function getTontineNavItems(tontine: Tontine): NavItem[] {
             title: 'Règles de pénalité',
             href: tontines.penaltyRules.index({ tontine: tontine.slug! }),
             icon: ShieldCheckIcon,
+        },
+        {
+            title: 'Rôles et permissions',
+            href: tontines.roles.index({ tontine: tontine.slug! }),
+            icon: UserRoundCogIcon,
         },
         {
             title: 'Finances',

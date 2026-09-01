@@ -19,6 +19,7 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Permission\Models\Role;
 
 /**
  * @mixin IdeHelperTontine
@@ -78,6 +79,11 @@ class Tontine extends Model implements HasMedia
     public function penaltyRules(): HasMany
     {
         return $this->hasMany(PenaltyRule::class);
+    }
+
+    public function roles(): HasMany
+    {
+        return $this->hasMany(Role::class, 'tontine_id');
     }
 
     public function activeSession(): HasOne

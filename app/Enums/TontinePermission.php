@@ -32,6 +32,10 @@ enum TontinePermission: string
     case LeaveMemberships = 'memberships.leave';
     case AssignMembershipRoles = 'memberships.roles.assign';
 
+    case ViewRoles = 'roles.view';
+    case CreateRoles = 'roles.create';
+    case UpdateRoles = 'roles.update';
+
     /*
     |--------------------------------------------------------------------------
     | Sessions
@@ -204,6 +208,9 @@ enum TontinePermission: string
             self::SuspendMemberships => __('Suspendre les membres'),
             self::LeaveMemberships => __('Enregistrer le départ des membres'),
             self::AssignMembershipRoles => __('Attribuer les rôles aux membres'),
+            self::ViewRoles => __('Consulter les rôles'),
+            self::CreateRoles => __('Créer des rôles'),
+            self::UpdateRoles => __('Modifier les rôles et leurs permissions'),
 
             self::ViewSessions => __('Consulter les sessions'),
             self::CreateSessions => __('Créer des sessions'),
@@ -223,11 +230,40 @@ enum TontinePermission: string
             self::ConfirmDraws => __('Confirmer les tirages'),
             self::ResetDraws => __('Réinitialiser les tirages'),
             self::DeleteDraws => __('Supprimer les tirages'),
+            self::RestoreDraws => __('Restaurer les tirages'),
+            self::UpdateDraws => __('Modifier les tirages'),
+
+            self::ViewMeetings => __('Consulter les réunions'),
+            self::CreateMeetings => __('Créer les réunions'),
+            self::UpdateMeetings => __('Modifier les réunions'),
+            self::OpenMeetings => __('Ouvrir les réunions'),
+            self::CloseMeetings => __('Clôturer les réunions'),
+            self::CancelMeetings => __('Annuler les réunions'),
+            self::DeleteMeetings => __('Supprimer les réunions'),
+
+            self::ViewMeetingAgenda => __('Consulter les ordres du jour'),
+            self::CreateMeetingAgenda => __('Créer les éléments d’ordre du jour'),
+            self::UpdateMeetingAgenda => __('Modifier les éléments d’ordre du jour'),
+            self::DeleteMeetingAgenda => __('Supprimer les éléments d’ordre du jour'),
+
+            self::ViewMeetingAttendances => __('Consulter les présences'),
+            self::UpdateMeetingAttendances => __('Gérer les présences'),
+
+            self::ViewMeetingNotes => __('Consulter les notes'),
+            self::CreateMeetingNotes => __('Créer les notes'),
+            self::UpdateMeetingNotes => __('Modifier les notes'),
+            self::DeleteMeetingNotes => __('Supprimer les notes'),
+
+            self::ViewMeetingDecisions => __('Consulter les décisions'),
+            self::CreateMeetingDecisions => __('Créer les décisions'),
+            self::UpdateMeetingDecisions => __('Modifier les décisions'),
+            self::DeleteMeetingDecisions => __('Supprimer les décisions'),
 
             self::ViewContributions => __('Consulter les cotisations'),
             self::CreateContributions => __('Enregistrer les cotisations'),
             self::UpdateContributions => __('Modifier les cotisations'),
             self::DeleteContributions => __('Supprimer les cotisations'),
+            self::RecordContributionPayments => __('Enregistrer les paiements de cotisations'),
 
             self::ViewDonations => __('Consulter les dons'),
             self::CreateDonations => __('Créer les dons'),
@@ -255,6 +291,12 @@ enum TontinePermission: string
 
             self::ViewAccounting => __('Consulter la comptabilité'),
             self::ExportAccounting => __('Exporter la comptabilité'),
+
+            self::ViewPayouts => __('Consulter les versements'),
+            self::CreatePayouts => __('Créer les versements'),
+            self::UpdatePayouts => __('Modifier les versements'),
+            self::PayPayouts => __('Payer les versements'),
+            self::CancelPayouts => __('Annuler les versements'),
 
             self::ViewReports => __('Consulter les rapports'),
             self::ExportReports => __('Exporter les rapports'),
