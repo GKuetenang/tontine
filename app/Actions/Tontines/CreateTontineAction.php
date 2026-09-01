@@ -3,6 +3,7 @@
 namespace App\Actions\Tontines;
 
 use App\Actions\Memberships\CreateMembershipAction;
+use App\Actions\Penalties\CreateDefaultPenaltyRulesAction;
 use App\Data\TontineData;
 use App\Enums\TontineRole;
 use App\Models\Tontine;
@@ -19,6 +20,7 @@ class CreateTontineAction
         private CreateDefaultTontineRolesAction $createRoles,
         private CreateMembershipAction $createMembershipAction,
         private UniqueSlug $uniqueSlug,
+        private CreateDefaultPenaltyRulesAction $createPenaltyRules,
     ) {}
 
     public function execute(TontineData $data, User $owner): Tontine
@@ -41,6 +43,7 @@ class CreateTontineAction
             $tontine->save();
 
             $this->createRoles->execute($tontine);
+            $this->createPenaltyRules->execute($tontine);
 
             $this->createMembershipAction->execute(
                 tontine: $tontine,

@@ -25,17 +25,17 @@ final class TontineAbilities
             return new TontineAbilitiesData(
                 view: Gate::forUser($user)->allows(
                     'view',
-                    [Tontine::class, $tontine],
+                    $tontine,
                 ),
 
                 update: Gate::forUser($user)->allows(
                     'update',
-                    [Tontine::class, $tontine],
+                    $tontine,
                 ),
 
                 delete: Gate::forUser($user)->allows(
                     'delete',
-                    [Tontine::class, $tontine],
+                    $tontine,
                 ),
                 view_memberships: Gate::forUser($user)->allows(
                     'viewAny',

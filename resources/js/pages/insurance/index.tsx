@@ -1,8 +1,11 @@
-import { Head } from '@inertiajs/react';
-import { PlusIcon } from 'lucide-react';
+import { Form, Head } from '@inertiajs/react';
+import { PlusIcon, SearchIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
+import Heading from '@/components/heading';
+import { SortableTableHead } from '@/components/sortable-table-head';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
     Table,
     TableBody,
@@ -35,6 +38,7 @@ type Props = {
         contributions_count: number;
         contributors_count: number;
     };
+    q: string | null;
 };
 
 export default withAppLayout<Props>(
@@ -54,7 +58,7 @@ export default withAppLayout<Props>(
             },
             { title: 'Assurance', href: '#' },
         ] as BreadcrumbItem[],
-    ({ tontine, session, collection, summary }) => {
+    ({ tontine, session, collection, summary, q }) => {
         const { can } = useAuthorization();
         const cards = [
             {
@@ -72,28 +76,10 @@ export default withAppLayout<Props>(
             <>
                 <Head title="Assurance" />
                 <div className="space-y-6">
-                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            <h1 className="text-2xl font-semibold">
-                                Assurance
-                            </h1>
-                            <p className="text-sm text-muted-foreground">
-                                Versements des membres pendant la session{' '}
-                                {session.name}.
-                            </p>
-                        </div>
-                        {can('insurance.manage') && (
-                            <CreateInsuranceContributionForm
-                                tontine={tontine}
-                                session={session}
-                                trigger={
-                                    <Button>
-                                        <PlusIcon /> Nouveau versement
-                                    </Button>
-                                }
-                            />
-                        )}
-                    </div>
+                    <Heading
+                        title="Assurance"
+                        description={`Versements des membres pendant la session ${session.name}.`}
+                    />
                     <div className="grid gap-4 sm:grid-cols-3">
                         {cards.map((card) => (
                             <Card key={card.label}>
@@ -108,19 +94,57 @@ export default withAppLayout<Props>(
                             </Card>
                         ))}
                     </div>
-                    <Card>
+                    <Card className="bg-background pt-0">
+                        <CardHeader className="border-b py-4">
+                            <div className="flex items-center justify-between">
+                                {can('insurance.manage') && (
+                                    <CreateInsuranceContributionForm
+                                        tontine={tontine}
+                                        session={session}
+                                        trigger={
+                                            <Button className="w-fit">
+                                                <PlusIcon /> Nouveau versement
+                                            </Button>
+                                        }
+                                    />
+                                )}
+                                <Form
+                                    {...sessions.insurance.index.form({
+                                        tontine: tontine.slug!,
+                                        session: session.slug,
+                                    })}
+                                    className="flex items-center gap-1"
+                                >
+                                    <Input
+                                        autoFocus
+                                        defaultValue={q ?? ''}
+                                        placeholder="Rechercher un membre"
+                                        name="q"
+                                    />
+                                    <Button variant="outline">
+                                        <SearchIcon /> Rechercher
+                                    </Button>
+                                </Form>
+                            </div>
+                        </CardHeader>
                         <CardContent className="px-0">
-                            <Table>
+                            <Table className="border-spacing-4">
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead className="pl-6">
+                                        <SortableTableHead
+                                            field="occurred_at"
+                                            className="pl-6"
+                                        >
                                             Date
-                                        </TableHead>
+                                        </SortableTableHead>
                                         <TableHead>Membre</TableHead>
                                         <TableHead>Enregistré par</TableHead>
-                                        <TableHead className="pr-6 text-right">
+                                        <SortableTableHead
+                                            field="amount"
+                                            className="pr-6 text-right"
+                                        >
                                             Montant versé
-                                        </TableHead>
+                                        </SortableTableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody className="[&_td]:py-3">
@@ -147,7 +171,9 @@ export default withAppLayout<Props>(
                             </Table>
                             {collection.data.length === 0 && (
                                 <p className="p-8 text-center text-sm text-muted-foreground">
-                                    Aucun versement d’assurance.
+                                    {q
+                                        ? `Aucun versement d’assurance ne correspond à la recherche « ${q} ».`
+                                        : 'Aucun versement d’assurance enregistré.'}
                                 </p>
                             )}
                             <CollectionPagination

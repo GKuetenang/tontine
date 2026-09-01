@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\LoanStatus;
+use App\Models\Traits\HasSortable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,12 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Loan extends Model
 {
     use HasFactory;
+    use HasSortable;
+
+    protected $sortable = [
+        'id', 'principal_amount', 'interest_rate', 'interest_amount',
+        'total_due', 'due_at', 'status', 'created_at',
+    ];
 
     protected function casts(): array
     {

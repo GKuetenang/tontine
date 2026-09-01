@@ -1,3 +1,5 @@
+import { Form, Head } from '@inertiajs/react';
+import { PlusIcon, SearchIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { MembershipStatusBadge } from '@/components/membership-status-badge';
@@ -24,8 +26,6 @@ import type {
     PaginatedCollection,
     ResultTontine,
 } from '@/types';
-import { Form, Head } from '@inertiajs/react';
-import { PlusIcon, SearchIcon } from 'lucide-react';
 import { Actions } from './actions';
 import { EditMembershipForm } from './form';
 
@@ -58,100 +58,104 @@ export default withAppLayout(
             <>
                 <Head title="Tous les membres" />
                 <Heading title="Tous les membres" />
-                <div className="space-y-4">
-                    <Card className="bg-background pt-0">
-                        <CardHeader className="border-b py-4">
-                            <div className="flex items-center justify-between">
-                                {can('memberships.create') && (
-                                    <EditMembershipForm
-                                        statuses={[]}
-                                        membership={membership}
-                                        roles={roles}
-                                        tontine={tontine}
-                                        trigger={
-                                            <Button
-                                                type="button"
-                                                className="w-fit"
-                                            >
-                                                <PlusIcon />
-                                                Ajouter un membre
-                                            </Button>
-                                        }
-                                    />
-                                )}
-                                <Form
-                                    {...memberships.index.form({
-                                        tontine: tontine.slug,
-                                    })}
-                                    className="flex items-center gap-1"
-                                >
-                                    <Input
-                                        autoFocus
-                                        defaultValue={q ?? ''}
-                                        placeholder="Rechercher un membre"
-                                        name="q"
-                                    />
-                                    <Button variant="outline"><SearchIcon />Rechercher</Button>
-                                </Form>
-                            </div>
-                        </CardHeader>
-                        <CardContent className="px-0">
-                            <Table className="border-spacing-4">
-                                <TableHeader>
-                                    <TableRow className="[&>th:first-child]:pl-6 [&>th:last-child]:pr-6">
-                                        <SortableTableHead field="member_number">
-                                            Numéro
-                                        </SortableTableHead>
-                                        <TableHead>Nom</TableHead>
-                                        <TableHead>Email</TableHead>
-                                        <TableHead>Role</TableHead>
-                                        <TableHead>Statut</TableHead>
-                                        <TableHead className="text-end"></TableHead>
+                <Card className="bg-background pt-0">
+                    <CardHeader className="border-b py-4">
+                        <div className="flex items-center justify-between">
+                            {can('memberships.create') && (
+                                <EditMembershipForm
+                                    statuses={[]}
+                                    membership={membership}
+                                    roles={roles}
+                                    tontine={tontine}
+                                    trigger={
+                                        <Button type="button" className="w-fit">
+                                            <PlusIcon />
+                                            Ajouter un membre
+                                        </Button>
+                                    }
+                                />
+                            )}
+                            <Form
+                                {...memberships.index.form({
+                                    tontine: tontine.slug,
+                                })}
+                                className="flex items-center gap-1"
+                            >
+                                <Input
+                                    autoFocus
+                                    defaultValue={q ?? ''}
+                                    placeholder="Rechercher un membre"
+                                    name="q"
+                                />
+                                <Button variant="outline">
+                                    <SearchIcon />
+                                    Rechercher
+                                </Button>
+                            </Form>
+                        </div>
+                    </CardHeader>
+                    <CardContent className="px-0">
+                        <Table className="border-spacing-4">
+                            <TableHeader>
+                                <TableRow className="[&>th:first-child]:pl-6 [&>th:last-child]:pr-6">
+                                    <SortableTableHead field="member_number">
+                                        Numéro
+                                    </SortableTableHead>
+                                    <TableHead>Nom</TableHead>
+                                    <TableHead>Email</TableHead>
+                                    <TableHead>Role</TableHead>
+                                    <TableHead>Statut</TableHead>
+                                    <TableHead className="text-end"></TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {collection.data.map((item) => (
+                                    <TableRow
+                                        key={item.id}
+                                        className="[&>td:first-child]:pl-6 [&>td:last-child]:pr-6"
+                                    >
+                                        <TableCell>
+                                            {item.member_number}
+                                        </TableCell>
+                                        <TableCell>{item.user?.name}</TableCell>
+                                        <TableCell>
+                                            {item.user?.email}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.role?.label}
+                                        </TableCell>
+                                        <TableCell>
+                                            <MembershipStatusBadge
+                                                status={item.status}
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Actions
+                                                membership={item}
+                                                roles={roles}
+                                                tontine={tontine}
+                                                statuses={statuses}
+                                            />
+                                        </TableCell>
                                     </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {collection.data.map((item) => (
-                                        <TableRow
-                                            key={item.id}
-                                            className="[&>td:first-child]:pl-6 [&>td:last-child]:pr-6"
-                                        >
-                                            <TableCell>
-                                                {item.member_number}
-                                            </TableCell>
-                                            <TableCell>
-                                                {item.user?.name}
-                                            </TableCell>
-                                            <TableCell>
-                                                {item.user?.email}
-                                            </TableCell>
-                                            <TableCell>
-                                                {item.role?.label}
-                                            </TableCell>
-                                            <TableCell>
-                                                <MembershipStatusBadge
-                                                    status={item.status}
-                                                />
-                                            </TableCell>
-                                            <TableCell>
-                                                <Actions
-                                                    membership={item}
-                                                    roles={roles}
-                                                    tontine={tontine}
-                                                    statuses={statuses}
-                                                />
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                                ))}
+                            </TableBody>
+                        </Table>
 
-                            <CollectionPagination
-                                className="px-6 pt-6"
-                                collection={collection}
-                            />
-                        </CardContent>
-                    </Card>
-                </div>
+                        {collection.data.length === 0 && (
+                            <p className="p-8 text-center text-sm text-muted-foreground">
+                                {q
+                                    ? `Aucun membre ne correspond à la recherche « ${q} ».`
+                                    : 'Aucun membre enregistré.'}
+                            </p>
+                        )}
+
+                        <CollectionPagination
+                            className="px-6 pt-6"
+                            collection={collection}
+                        />
+                    </CardContent>
+                </Card>
             </>
         );
     },

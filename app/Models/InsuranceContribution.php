@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasSortable;
 use Database\Factories\InsuranceContributionFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,6 +15,10 @@ class InsuranceContribution extends Model
 {
     /** @use HasFactory<InsuranceContributionFactory> */
     use HasFactory;
+
+    use HasSortable;
+
+    protected $sortable = ['id', 'amount', 'occurred_at', 'created_at'];
 
     protected function casts(): array
     {

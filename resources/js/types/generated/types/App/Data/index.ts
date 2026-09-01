@@ -7,6 +7,9 @@ import {
     MeetingRecurrence,
     MembershipStatus,
     PayoutStatus,
+    PenaltyTrigger,
+    PenaltyCalculationType,
+    PenaltyGraceUnit,
     SessionStatus,
     DrawAllocationMode,
     TransactionType,
@@ -213,6 +216,25 @@ export type PayoutCandidate = {
     session_participant_id: number;
     member_name: string;
     expected: boolean;
+};
+export type PenaltyRule = {
+    id: number;
+    code: string;
+    name: string;
+    trigger: PenaltyTrigger;
+    trigger_label: string;
+    calculation_type: PenaltyCalculationType;
+    calculation_type_label: string;
+    value: string | null;
+    value_label: string;
+    grace_period: number | null;
+    grace_unit: PenaltyGraceUnit | null;
+    grace_unit_label: string | null;
+    grace_period_label: string;
+    is_automatic: boolean;
+    application_label: string;
+    is_active: boolean;
+    status_label: string;
 };
 export type Repayment = {
     id: number;

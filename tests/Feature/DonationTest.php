@@ -66,7 +66,10 @@ it('cancels only a pending donation without creating a transaction', function ()
 it('allows the president to manage donations through the session routes', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $beneficiary = User::factory()->create();
+    $beneficiary = User::factory()->create([
+        'first_name' => 'Gustave',
+        'name' => 'Kamga',
+    ]);
     $tontine = Tontine::factory()->create(['user_id' => $president->id]);
     app(CreateDefaultTontineRolesAction::class)->execute($tontine);
     app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
@@ -85,7 +88,11 @@ it('allows the president to manage donations through the session routes', functi
     $donation = $session->donations()->firstOrFail();
 
     $this->actingAs($president)
-        ->get(route('tontines.sessions.donations.index', [$tontine, $session]))
+        ->get(route('tontines.sessions.donations.index', [
+            'tontine' => $tontine,
+            'session' => $session,
+            'q' => 'Gustave',
+        ]))
         ->assertOk()
         ->assertInertia(fn ($page) => $page
             ->component('donations/index')

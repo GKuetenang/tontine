@@ -22,7 +22,12 @@ final class BuildSessionTransactionJournalAction
         $debits = (string) (clone $query)->debits()->sum('amount');
 
         return [
-            'collection' => TransactionData::collect($query->latest('occurred_at')->paginate(20)->withQueryString()),
+            'collection' => TransactionData::collect(
+                $query
+                    ->orderBy($filters['sort'] ?? 'occurred_at', $filters['dir'] ?? 'desc')
+                    ->paginate(20)
+                    ->withQueryString(),
+            ),
             'summary' => [
                 'credits' => $this->formatMoney($credits),
                 'debits' => $this->formatMoney($debits),

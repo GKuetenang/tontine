@@ -10,6 +10,7 @@ import {
     PiggyBankIcon,
     ReceiptTextIcon,
     LayoutDashboardIcon,
+    ShieldCheckIcon,
     SettingsIcon,
     ShuffleIcon,
     UsersIcon,
@@ -64,6 +65,11 @@ export function getTontineNavItems(tontine: Tontine): NavItem[] {
             title: 'Sessions',
             href: tontines.sessions.index(tontine.slug!),
             icon: CalendarDaysIcon,
+        },
+        {
+            title: 'Règles de pénalité',
+            href: tontines.penaltyRules.index({ tontine: tontine.slug! }),
+            icon: ShieldCheckIcon,
         },
         {
             title: 'Finances',

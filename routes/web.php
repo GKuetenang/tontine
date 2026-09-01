@@ -14,6 +14,7 @@ use App\Http\Controllers\MeetingReportController;
 use App\Http\Controllers\MeetingScheduleController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\PayoutController;
+use App\Http\Controllers\PenaltyRuleController;
 use App\Http\Controllers\RepaymentController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SessionParticipantController;
@@ -44,6 +45,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['tontine.team'])->scopeBindings()->group(function () {
         Route::resource('tontines', TontineController::class)
             ->only(['show', 'edit', 'update', 'destroy']);
+
+        Route::resource('tontines.penalty-rules', PenaltyRuleController::class)
+            ->only(['index', 'store', 'update'])
+            ->scoped([
+                'tontine' => 'slug',
+                'penalty_rule' => 'id',
+            ]);
 
         Route::resource('tontines.memberships', MembershipController::class)
             ->only(['index', 'store', 'update', 'destroy'])

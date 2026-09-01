@@ -217,7 +217,10 @@ test('loan settings are serialized on the tontine listing, details and edit form
         ->get(route('tontines.show', $tontine))
         ->assertInertia(fn ($page) => $page
             ->where('tontine.default_loan_interest_rate', '8.75')
-            ->where('tontine.default_loan_term_months', 6));
+            ->where('tontine.default_loan_term_months', 6)
+            ->where('tontine.can.view', true)
+            ->where('tontine.can.update', true)
+            ->where('tontine.can.delete', true));
 
     $this->actingAs($user)
         ->get(route('tontines.edit', $tontine))

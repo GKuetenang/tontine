@@ -7,9 +7,17 @@ use App\Models\Session;
 
 final class BuildInsuranceJournalAction
 {
-    public function execute(Session $session): array
+    public function execute(Session $session, array $filters = []): array
     {
-        $contributions = $session->insuranceContributions()->with(['creator', 'membership.user'])->latest('occurred_at')->paginate();
+        $q = trim($filters['q'] ?? '');
+        $contributions = $session->insuranceContributions()
+            ->with(['creator', 'membership.user'])
+            ->when($q, fn ($query) => $query->whereHas('membership.user', fn ($query) => $query
+                ->where('first_name', 'like', "%{$q}%")
+                ->orWhere('name', 'like', "%{$q}%")))
+            ->orderBy($filters['sort'] ?? 'occurred_at', $filters['dir'] ?? 'desc')
+            ->paginate()
+            ->withQueryString();
         $total = 0;
 
         $session->insuranceContributions()

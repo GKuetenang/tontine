@@ -1,8 +1,13 @@
+import { Form, Head } from '@inertiajs/react';
+import { CheckIcon, PlusIcon, SearchIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
+import Heading from '@/components/heading';
 import type { SelectOption } from '@/components/select-with-items';
+import { SortableTableHead } from '@/components/sortable-table-head';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
     Table,
     TableBody,
@@ -24,8 +29,6 @@ import type {
     Session,
     Tontine,
 } from '@/types';
-import { Form, Head } from '@inertiajs/react';
-import { PlusIcon } from 'lucide-react';
 import { CreateLoanForm } from './form';
 import { CreateRepaymentForm } from './repayment-form';
 
@@ -34,6 +37,7 @@ type Props = {
     session: Session;
     collection: PaginatedCollection<Loan>;
     statuses: SelectOption[];
+    q: string | null;
 };
 
 export default withAppLayout<Props>(
@@ -53,7 +57,7 @@ export default withAppLayout<Props>(
             },
             { title: 'Prêts', href: '#' },
         ] as BreadcrumbItem[],
-    ({ tontine, session, collection, statuses }) => {
+    ({ tontine, session, collection, statuses, q }) => {
         const { can } = useAuthorization();
         const params = { tontine: tontine.slug!, session: session.slug };
         const statusLabels = Object.fromEntries(
@@ -64,40 +68,63 @@ export default withAppLayout<Props>(
             <>
                 <Head title="Prêts" />
                 <div className="space-y-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-2xl font-semibold">Prêts</h1>
-                            <p className="text-sm text-muted-foreground">
-                                Prêts et échéances de la session.
-                            </p>
-                        </div>
-                        {can('loans.create') && (
-                            <CreateLoanForm
-                                tontine={tontine}
-                                session={session}
-                                trigger={
-                                    <Button>
-                                        {' '}
-                                        <PlusIcon /> Ajouter un prêt
+                    <Heading
+                        title="Prêts"
+                        description="Prêts et échéances de la session."
+                    />
+                    <Card className="bg-background pt-0">
+                        <CardHeader className="border-b py-4">
+                            <div className="flex items-center justify-between">
+                                {can('loans.create') && (
+                                    <CreateLoanForm
+                                        tontine={tontine}
+                                        session={session}
+                                        trigger={
+                                            <Button className="w-fit">
+                                                <PlusIcon /> Ajouter un prêt
+                                            </Button>
+                                        }
+                                    />
+                                )}
+                                <Form
+                                    {...sessions.loans.index.form(params)}
+                                    className="flex items-center gap-1"
+                                >
+                                    <Input
+                                        autoFocus
+                                        defaultValue={q ?? ''}
+                                        placeholder="Rechercher un emprunteur"
+                                        name="q"
+                                    />
+                                    <Button variant="outline">
+                                        <SearchIcon /> Rechercher
                                     </Button>
-                                }
-                            />
-                        )}
-                    </div>
-                    <Card>
+                                </Form>
+                            </div>
+                        </CardHeader>
                         <CardContent className="px-0">
-                            <Table>
+                            <Table className="border-spacing-4">
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead className="pl-6">
                                             Emprunteur
                                         </TableHead>
-                                        <TableHead>Échéance</TableHead>
-                                        <TableHead>Capital</TableHead>
-                                        <TableHead>Intérêt</TableHead>
-                                        <TableHead>Total dû</TableHead>
+                                        <SortableTableHead field="due_at">
+                                            Échéance
+                                        </SortableTableHead>
+                                        <SortableTableHead field="principal_amount">
+                                            Capital
+                                        </SortableTableHead>
+                                        <SortableTableHead field="interest_amount">
+                                            Intérêt
+                                        </SortableTableHead>
+                                        <SortableTableHead field="total_due">
+                                            Total dû
+                                        </SortableTableHead>
                                         <TableHead>Solde</TableHead>
-                                        <TableHead>Statut</TableHead>
+                                        <SortableTableHead field="status">
+                                            Statut
+                                        </SortableTableHead>
                                         <TableHead className="pr-6 text-right">
                                             Actions
                                         </TableHead>
@@ -145,8 +172,8 @@ export default withAppLayout<Props>(
                                                             ? 'success'
                                                             : loan.status ===
                                                                 'cancelled'
-                                                                ? 'destructive'
-                                                                : 'secondary'
+                                                              ? 'destructive'
+                                                              : 'secondary'
                                                     }
                                                 >
                                                     {statusLabels[loan.status]}
@@ -172,7 +199,11 @@ export default withAppLayout<Props>(
                                                                     )
                                                                 }
                                                             >
-                                                                <Button size="sm">
+                                                                <Button
+                                                                    size="sm"
+                                                                    variant="outline"
+                                                                >
+                                                                    <CheckIcon />
                                                                     Approuver et
                                                                     décaisser
                                                                 </Button>
@@ -208,12 +239,17 @@ export default withAppLayout<Props>(
                             </Table>
                             {collection.data.length === 0 && (
                                 <div className="py-10 text-center text-sm text-muted-foreground">
-                                    Aucun prêt enregistré.
+                                    {q
+                                        ? `Aucun prêt ne correspond à la recherche « ${q} ».`
+                                        : 'Aucun prêt enregistré.'}
                                 </div>
                             )}
+                            <CollectionPagination
+                                className="px-6 pt-6"
+                                collection={collection}
+                            />
                         </CardContent>
                     </Card>
-                    <CollectionPagination collection={collection} />
                 </div>
             </>
         );

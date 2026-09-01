@@ -1,3 +1,7 @@
+import { Form, Head } from '@inertiajs/react';
+import { format, isValid, parseISO } from 'date-fns';
+import { frCA } from 'date-fns/locale';
+import { PlusIcon, SearchIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SessionParticipantStatusBadge } from '@/components/session-participant-status-badge';
@@ -26,10 +30,6 @@ import type {
     Session,
     SessionParticipant,
 } from '@/types';
-import { Form, Head } from '@inertiajs/react';
-import { format, isValid, parseISO } from 'date-fns';
-import { frCA } from 'date-fns/locale';
-import { PlusIcon, SearchIcon } from 'lucide-react';
 import { Actions } from './actions';
 import { EditSessionParticipantForm } from './form';
 
@@ -122,7 +122,10 @@ export default withAppLayout<Props>(
                                         placeholder="Rechercher un membre"
                                         name="q"
                                     />
-                                    <Button variant="outline"><SearchIcon />Rechercher</Button>
+                                    <Button variant="outline">
+                                        <SearchIcon />
+                                        Rechercher
+                                    </Button>
                                 </Form>
                             </div>
                         </CardHeader>
@@ -184,6 +187,14 @@ export default withAppLayout<Props>(
                                     ))}
                                 </TableBody>
                             </Table>
+
+                            {collection.data.length === 0 && (
+                                <p className="p-8 text-center text-sm text-muted-foreground">
+                                    {q
+                                        ? `Aucun participant ne correspond à la recherche « ${q} ».`
+                                        : 'Aucun participant enregistré.'}
+                                </p>
+                            )}
 
                             <CollectionPagination
                                 className="px-6 pt-6"

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\DonationStatus;
+use App\Models\Traits\HasSortable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Donation extends Model
 {
     use HasFactory;
+    use HasSortable;
+
+    protected $sortable = ['id', 'amount', 'status', 'paid_at', 'created_at'];
 
     protected function casts(): array
     {

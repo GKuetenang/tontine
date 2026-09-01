@@ -81,7 +81,10 @@ it('approves and disburses a loan with exactly one debit of principal', function
 it('creates a loan through the form endpoint and returns it in the listing', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $borrower = User::factory()->create();
+    $borrower = User::factory()->create([
+        'first_name' => 'Gustave',
+        'name' => 'Kamga',
+    ]);
     $tontine = Tontine::factory()->create([
         'user_id' => $president->id,
         'default_loan_interest_rate' => '7.50',
@@ -115,6 +118,17 @@ it('creates a loan through the form endpoint and returns it in the listing', fun
 
     $loan = $session->loans()->firstOrFail();
     $this->actingAs($president)
+        ->get(route('tontines.sessions.loans.index', [
+            'tontine' => $tontine,
+            'session' => $session,
+            'q' => 'Gustave',
+        ]))
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->has('collection.data', 1)
+            ->where('collection.data.0.member_name', $borrower->full_name));
+
+    $this->actingAs($president)
         ->patch(route('tontines.sessions.loans.approve', [$tontine, $session, $loan]))
         ->assertRedirect();
     $this->actingAs($president)
@@ -130,7 +144,11 @@ it('creates a loan through the form endpoint and returns it in the listing', fun
     ]);
 
     $this->actingAs($president)
-        ->get(route('tontines.sessions.repayments.index', [$tontine, $session]))
+        ->get(route('tontines.sessions.repayments.index', [
+            'tontine' => $tontine,
+            'session' => $session,
+            'q' => 'Gustave',
+        ]))
         ->assertOk()
         ->assertInertia(fn ($page) => $page
             ->component('repayments/index')

@@ -75,6 +75,11 @@ class Tontine extends Model implements HasMedia
         return $this->hasMany(Session::class);
     }
 
+    public function penaltyRules(): HasMany
+    {
+        return $this->hasMany(PenaltyRule::class);
+    }
+
     public function activeSession(): HasOne
     {
         return $this->hasOne(Session::class)

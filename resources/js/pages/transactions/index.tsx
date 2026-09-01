@@ -3,7 +3,9 @@ import { format } from 'date-fns';
 import { CalendarIcon, ListFilterIcon } from 'lucide-react';
 import { useState } from 'react';
 import { CollectionPagination } from '@/components/collection-pagination';
+import Heading from '@/components/heading';
 import type { SelectOption } from '@/components/select-with-items';
+import { SortableTableHead } from '@/components/sortable-table-head';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -138,14 +140,10 @@ export default withAppLayout<Props>(
             <>
                 <Head title="Journal des transactions" />
                 <div className="space-y-6">
-                    <div>
-                        <h1 className="text-2xl font-semibold">
-                            Journal financier
-                        </h1>
-                        <p className="text-sm text-muted-foreground">
-                            Mouvements auditables de la session {session.name}.
-                        </p>
-                    </div>
+                    <Heading
+                        title="Journal financier"
+                        description={`Mouvements auditables de la session ${session.name}.`}
+                    />
                     <div className="grid gap-4 sm:grid-cols-3">
                         {(
                             [
@@ -166,111 +164,132 @@ export default withAppLayout<Props>(
                             </Card>
                         ))}
                     </div>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Transactions</CardTitle>
-                            <Form
-                                {...sessions.transactions.index.form({
-                                    tontine: tontine.slug!,
-                                    session: session.slug,
-                                })}
-                                className="grid gap-2 sm:grid-cols-5"
-                            >
-                                <input
-                                    type="hidden"
-                                    name="direction"
-                                    value={direction === 'all' ? '' : direction}
-                                />
-                                <Select
-                                    value={direction}
-                                    onValueChange={setDirection}
+                    <Card className="bg-background pt-0">
+                        <CardHeader className="border-b py-4">
+                            <div className="flex items-center justify-between gap-4">
+                                <CardTitle>Transactions</CardTitle>
+                                <Form
+                                    {...sessions.transactions.index.form({
+                                        tontine: tontine.slug!,
+                                        session: session.slug,
+                                    })}
+                                    className="grid flex-1 gap-2 sm:grid-cols-5"
                                 >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Toutes directions" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all">
-                                            Toutes directions
-                                        </SelectItem>
-                                        {transaction_directions.map(
-                                            (option) => (
+                                    <input
+                                        type="hidden"
+                                        name="direction"
+                                        value={
+                                            direction === 'all' ? '' : direction
+                                        }
+                                    />
+                                    <Select
+                                        value={direction}
+                                        onValueChange={setDirection}
+                                    >
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Toutes directions" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="all">
+                                                Toutes directions
+                                            </SelectItem>
+                                            {transaction_directions.map(
+                                                (option) => (
+                                                    <SelectItem
+                                                        key={option.value}
+                                                        value={option.value}
+                                                    >
+                                                        {option.label}
+                                                    </SelectItem>
+                                                ),
+                                            )}
+                                        </SelectContent>
+                                    </Select>
+                                    <input
+                                        type="hidden"
+                                        name="type"
+                                        value={type === 'all' ? '' : type}
+                                    />
+                                    <Select
+                                        value={type}
+                                        onValueChange={setType}
+                                    >
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Tous types" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="all">
+                                                Tous types
+                                            </SelectItem>
+                                            {transaction_types.map((option) => (
                                                 <SelectItem
                                                     key={option.value}
                                                     value={option.value}
                                                 >
                                                     {option.label}
                                                 </SelectItem>
-                                            ),
-                                        )}
-                                    </SelectContent>
-                                </Select>
-                                <input
-                                    type="hidden"
-                                    name="type"
-                                    value={type === 'all' ? '' : type}
-                                />
-                                <Select value={type} onValueChange={setType}>
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Tous types" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all">
-                                            Tous types
-                                        </SelectItem>
-                                        {transaction_types.map((option) => (
-                                            <SelectItem
-                                                key={option.value}
-                                                value={option.value}
-                                            >
-                                                {option.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                <input
-                                    type="hidden"
-                                    name="from"
-                                    value={
-                                        from ? format(from, 'yyyy-MM-dd') : ''
-                                    }
-                                />
-                                <DateFilter
-                                    value={from}
-                                    onChange={setFrom}
-                                    placeholder="Date de début"
-                                />
-                                <input
-                                    type="hidden"
-                                    name="to"
-                                    value={to ? format(to, 'yyyy-MM-dd') : ''}
-                                />
-                                <DateFilter
-                                    value={to}
-                                    onChange={setTo}
-                                    placeholder="Date de fin"
-                                />
-                                <Button
-                                    variant="outline"
-                                    className="w-fit"
-                                    disabled={!canFilter}
-                                >
-                                    <ListFilterIcon /> Filtrer
-                                </Button>
-                            </Form>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <input
+                                        type="hidden"
+                                        name="from"
+                                        value={
+                                            from
+                                                ? format(from, 'yyyy-MM-dd')
+                                                : ''
+                                        }
+                                    />
+                                    <DateFilter
+                                        value={from}
+                                        onChange={setFrom}
+                                        placeholder="Date de début"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        name="to"
+                                        value={
+                                            to ? format(to, 'yyyy-MM-dd') : ''
+                                        }
+                                    />
+                                    <DateFilter
+                                        value={to}
+                                        onChange={setTo}
+                                        placeholder="Date de fin"
+                                    />
+                                    <Button
+                                        variant="outline"
+                                        className="w-fit"
+                                        disabled={!canFilter}
+                                    >
+                                        <ListFilterIcon /> Filtrer
+                                    </Button>
+                                </Form>
+                            </div>
                         </CardHeader>
                         <CardContent className="px-0">
-                            <Table>
+                            <Table className="border-spacing-4">
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead className="pl-6">
+                                        <SortableTableHead
+                                            field="occurred_at"
+                                            className="pl-6"
+                                        >
                                             Date
-                                        </TableHead>
-                                        <TableHead>Type</TableHead>
+                                        </SortableTableHead>
+                                        <SortableTableHead field="type">
+                                            Type
+                                        </SortableTableHead>
                                         <TableHead>Membre</TableHead>
-                                        <TableHead>Direction</TableHead>
-                                        <TableHead className="pr-6 text-right">
+                                        <SortableTableHead field="direction">
+                                            Direction
+                                        </SortableTableHead>
+                                        <SortableTableHead
+                                            field="amount"
+                                            className="pr-6 text-right"
+                                        >
                                             Montant
-                                        </TableHead>
+                                        </SortableTableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody className="[&_td]:py-3">

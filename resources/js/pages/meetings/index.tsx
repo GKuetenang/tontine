@@ -394,7 +394,9 @@ export default withAppLayout<Props>(
                                                 colSpan={9}
                                                 className="h-32 text-center text-muted-foreground"
                                             >
-                                                Aucune réunion trouvée.
+                                                {q
+                                                    ? `Aucune réunion ne correspond à la recherche « ${q} ».`
+                                                    : 'Aucune réunion enregistrée.'}
                                             </TableCell>
                                         </TableRow>
                                     )}

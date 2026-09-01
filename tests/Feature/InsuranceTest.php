@@ -51,7 +51,10 @@ it('shows the insurance total and contributions to an authorized user', function
     $tontine = Tontine::factory()->create(['user_id' => $president->id]);
     app(CreateDefaultTontineRolesAction::class)->execute($tontine);
     app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    $member = User::factory()->create();
+    $member = User::factory()->create([
+        'first_name' => 'Gustave',
+        'name' => 'Kamga',
+    ]);
     $membership = app(CreateMembershipAction::class)->execute($tontine, $member, 'member');
     $session = Session::factory()->for($tontine)->active()->create();
     SessionParticipant::factory()->for($session)->for($membership)->create();
@@ -68,7 +71,11 @@ it('shows the insurance total and contributions to an authorized user', function
     }
 
     $this->actingAs($president)
-        ->get(route('tontines.sessions.insurance.index', [$tontine, $session]))
+        ->get(route('tontines.sessions.insurance.index', [
+            'tontine' => $tontine,
+            'session' => $session,
+            'q' => 'Gustave',
+        ]))
         ->assertOk()
         ->assertInertia(fn ($page) => $page
             ->component('insurance/index')

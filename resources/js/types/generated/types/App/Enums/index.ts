@@ -11,6 +11,14 @@ export type MeetingStatus =
     'scheduled' | 'in_progress' | 'completed' | 'cancelled';
 export type MembershipStatus = 'active' | 'inactive' | 'suspended' | 'left';
 export type PayoutStatus = 'pending' | 'paid' | 'cancelled';
+export type PenaltyCalculationType = 'fixed' | 'percentage';
+export type PenaltyGraceUnit = 'minutes' | 'days';
+export type PenaltyTrigger =
+    | 'meeting_late'
+    | 'meeting_absent'
+    | 'contribution_late'
+    | 'contribution_incomplete'
+    | 'manual';
 export type SessionStatus = 'draft' | 'active' | 'closed';
 export type TontinePermission =
     | 'tontines.view'

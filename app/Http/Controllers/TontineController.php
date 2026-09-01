@@ -93,7 +93,9 @@ class TontineController extends Controller
     }
 
     public function show(
+        Request $request,
         Tontine $tontine,
+        TontineAbilities $tontineAbilities,
     ): Response {
         $tontine->loadCount([
             'members',
@@ -110,6 +112,10 @@ class TontineController extends Controller
         return Inertia::render('tontines/show', [
             'tontine' => TontineData::fromModel(
                 tontine: $tontine,
+                can: $tontineAbilities->for(
+                    user: $request->user(),
+                    tontine: $tontine,
+                ),
             ),
 
             'sessions' => SessionData::collect(

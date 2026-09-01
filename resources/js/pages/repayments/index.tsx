@@ -1,7 +1,12 @@
-import { Head } from '@inertiajs/react';
+import { Form, Head } from '@inertiajs/react';
+import { SearchIcon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
+import Heading from '@/components/heading';
+import { SortableTableHead } from '@/components/sortable-table-head';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
     Table,
     TableBody,
@@ -27,6 +32,7 @@ type Props = {
     tontine: Tontine;
     session: Session;
     collection: PaginatedCollection<Repayment>;
+    q: string | null;
 };
 
 export default withAppLayout<Props>(
@@ -46,73 +52,96 @@ export default withAppLayout<Props>(
             },
             { title: 'Remboursements', href: '#' },
         ] as BreadcrumbItem[],
-    ({ collection }) => (
+    ({ tontine, session, collection, q }) => (
         <>
             <Head title="Remboursements" />
-            <div className="space-y-6">
-                <div>
-                    <h1 className="text-2xl font-semibold">Remboursements</h1>
-                    <p className="text-sm text-muted-foreground">
-                        Historique des remboursements de prêts de la session.
-                    </p>
-                </div>
-                <Card>
-                    <CardHeader>
+            <Heading
+                title="Remboursements"
+                description="Historique des remboursements de prêts de la session."
+            />
+            <Card className="bg-background pt-0">
+                <CardHeader className="border-b py-4">
+                    <div className="flex items-center justify-between">
                         <CardTitle>Mouvements enregistrés</CardTitle>
-                    </CardHeader>
-                    <CardContent className="px-0">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead className="pl-6">Date</TableHead>
-                                    <TableHead>Membre</TableHead>
-                                    <TableHead>Montant</TableHead>
-                                    <TableHead>Intérêt</TableHead>
-                                    <TableHead className="pr-6 text-right">
-                                        Capital
-                                    </TableHead>
+                        <Form
+                            {...sessions.repayments.index.form({
+                                tontine: tontine.slug!,
+                                session: session.slug,
+                            })}
+                            className="flex items-center gap-1"
+                        >
+                            <Input
+                                autoFocus
+                                defaultValue={q ?? ''}
+                                placeholder="Rechercher un membre"
+                                name="q"
+                            />
+                            <Button variant="outline">
+                                <SearchIcon /> Rechercher
+                            </Button>
+                        </Form>
+                    </div>
+                </CardHeader>
+                <CardContent className="px-0">
+                    <Table className="border-spacing-4">
+                        <TableHeader>
+                            <TableRow>
+                                <SortableTableHead
+                                    field="paid_at"
+                                    className="pl-6"
+                                >
+                                    Date
+                                </SortableTableHead>
+                                <TableHead>Membre</TableHead>
+                                <SortableTableHead field="amount">
+                                    Montant
+                                </SortableTableHead>
+                                <SortableTableHead field="interest_amount">
+                                    Intérêt
+                                </SortableTableHead>
+                                <SortableTableHead
+                                    field="principal_amount"
+                                    className="pr-6 text-right"
+                                >
+                                    Capital
+                                </SortableTableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody className="[&_td]:py-3">
+                            {collection.data.map((item) => (
+                                <TableRow key={item.id} className="h-14">
+                                    <TableCell className="pl-6">
+                                        {formatDate(item.paid_at)}
+                                    </TableCell>
+                                    <TableCell>{item.member_name}</TableCell>
+                                    <TableCell>
+                                        <Badge variant="success">
+                                            + {formatCurrency(item.amount)}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        {formatCurrency(item.interest_amount)}
+                                    </TableCell>
+                                    <TableCell className="pr-6 text-right">
+                                        {formatCurrency(item.principal_amount)}
+                                    </TableCell>
                                 </TableRow>
-                            </TableHeader>
-                            <TableBody className="[&_td]:py-3">
-                                {collection.data.map((item) => (
-                                    <TableRow key={item.id} className="h-14">
-                                        <TableCell className="pl-6">
-                                            {formatDate(item.paid_at)}
-                                        </TableCell>
-                                        <TableCell>
-                                            {item.member_name}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge variant="success">
-                                                + {formatCurrency(item.amount)}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell>
-                                            {formatCurrency(
-                                                item.interest_amount,
-                                            )}
-                                        </TableCell>
-                                        <TableCell className="pr-6 text-right">
-                                            {formatCurrency(
-                                                item.principal_amount,
-                                            )}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                        {collection.data.length === 0 && (
-                            <p className="p-8 text-center text-sm text-muted-foreground">
-                                Aucun remboursement enregistré.
-                            </p>
-                        )}
-                        <CollectionPagination
-                            className="px-6 pt-6"
-                            collection={collection}
-                        />
-                    </CardContent>
-                </Card>
-            </div>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    {collection.data.length === 0 && (
+                        <p className="p-8 text-center text-sm text-muted-foreground">
+                            {q
+                                ? `Aucun remboursement ne correspond à la recherche « ${q} ».`
+                                : 'Aucun remboursement enregistré.'}
+                        </p>
+                    )}
+                    <CollectionPagination
+                        className="px-6 pt-6"
+                        collection={collection}
+                    />
+                </CardContent>
+            </Card>
         </>
     ),
 );

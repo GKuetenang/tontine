@@ -11,24 +11,31 @@ use App\Models\Repayment;
 use App\Models\Session;
 use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class RepaymentController extends Controller
 {
-    public function index(Tontine $tontine, Session $session): Response
+    public function index(Request $request, Tontine $tontine, Session $session): Response
     {
         $this->authorize('viewAny', [Repayment::class, $session]);
+        $q = $request->string('q')->trim()->toString();
         $repayments = Repayment::query()
             ->whereHas('loan', fn ($query) => $query->where('session_id', $session->id))
             ->with('loan.membership.user')
-            ->latest('paid_at')
-            ->paginate();
+            ->when($q, fn ($query) => $query->whereHas('loan.membership.user', fn ($query) => $query
+                ->where('first_name', 'like', "%{$q}%")
+                ->orWhere('name', 'like', "%{$q}%")))
+            ->orderFromRequest($request)
+            ->paginate()
+            ->withQueryString();
 
         return Inertia::render('repayments/index', [
             'tontine' => ['id' => $tontine->id, 'name' => $tontine->name, 'slug' => $tontine->slug],
             'session' => SessionData::fromModel($session),
             'collection' => RepaymentData::collect($repayments),
+            'q' => $q ?: null,
         ]);
     }
 

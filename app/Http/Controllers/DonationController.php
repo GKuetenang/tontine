@@ -13,24 +13,31 @@ use App\Models\Donation;
 use App\Models\Session;
 use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class DonationController extends WithUserSearchController
 {
-    public function index(Tontine $tontine, Session $session): Response
+    public function index(Request $request, Tontine $tontine, Session $session): Response
     {
         $this->authorize('viewAny', [Donation::class, $session]);
 
+        $q = $request->string('q')->trim()->toString();
         $donations = $session->donations()
             ->with('membership.user')
-            ->latest()
-            ->paginate();
+            ->when($q, fn ($query) => $query->whereHas('membership.user', fn ($query) => $query
+                ->where('first_name', 'like', "%{$q}%")
+                ->orWhere('name', 'like', "%{$q}%")))
+            ->orderFromRequest($request)
+            ->paginate()
+            ->withQueryString();
 
         return Inertia::render('donations/index', [
             'tontine' => ['id' => $tontine->id, 'name' => $tontine->name, 'slug' => $tontine->slug],
             'session' => SessionData::fromModel($session),
             'collection' => DonationData::collect($donations),
+            'q' => $q ?: null,
             'users' => fn () => Inertia::optional($this->membershipsInSession(...)),
             'statuses' => DonationStatus::getOptions(),
         ]);

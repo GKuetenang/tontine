@@ -10,6 +10,7 @@ use App\Models\Session;
 use App\Models\Tontine;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -26,7 +27,14 @@ class TransactionController extends Controller
             [Transaction::class, $session],
         );
 
-        $filters = $request->only(['direction', 'type', 'from', 'to']);
+        $filters = $request->validate([
+            'direction' => ['nullable', Rule::enum(TransactionDirection::class)],
+            'type' => ['nullable', Rule::enum(TransactionType::class)],
+            'from' => ['nullable', 'date'],
+            'to' => ['nullable', 'date'],
+            'sort' => ['nullable', Rule::in(['type', 'direction', 'amount', 'occurred_at', 'created_at'])],
+            'dir' => ['nullable', Rule::in(['asc', 'desc'])],
+        ]);
         $journal = $buildJournal->execute($session, $filters);
 
         return Inertia::render('transactions/index', [

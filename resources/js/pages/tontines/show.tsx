@@ -1,3 +1,15 @@
+import { Head, Link } from '@inertiajs/react';
+import {
+    ArrowRight,
+    CalendarDays,
+    Coins,
+    Eye,
+    EyeOff,
+    Landmark,
+    Pencil,
+    ShieldCheck,
+    Users,
+} from 'lucide-react';
 import { EmptySessions } from '@/components/tontines/empty-session';
 import { InformationRow } from '@/components/tontines/information-row';
 import { SessionRow } from '@/components/tontines/session-row';
@@ -9,18 +21,6 @@ import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import tontines from '@/routes/tontines';
 import type { BreadcrumbItem, Session, Tontine } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import {
-    ArrowRight,
-    CalendarDays,
-    Coins,
-    Eye,
-    EyeOff,
-    Landmark,
-    Pencil,
-    ShieldCheck,
-    Users
-} from 'lucide-react';
 
 type Props = { tontine: Tontine; sessions: Session[] };
 const initials = (name: string) =>
@@ -41,7 +41,7 @@ export default withAppLayout<Props>(
         <>
             <Head title={tontine.name} />
             <div className="space-y-6">
-                <section className="relative overflow-hidden rounded-2xl border bg-gradient-to-br from-primary/12 via-background to-background p-6 shadow-sm md:p-8">
+                <section className="relative overflow-hidden rounded-2xl border bg-linear-to-br from-primary/12 via-background to-background p-6 shadow-sm md:p-8">
                     <div className="absolute -top-24 -right-20 size-64 rounded-full bg-primary/10 blur-3xl" />
                     <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
                         <div className="flex items-center gap-4">
@@ -94,20 +94,22 @@ export default withAppLayout<Props>(
                             </div>
                         </div>
                         {tontine.can?.update && (
-                            <Button
-                                asChild
-                                variant="outline"
-                                className="bg-background/80"
-                            >
-                                <Link
-                                    href={tontines.edit({
-                                        tontine: tontine.slug!,
-                                    })}
+                            <div className="flex flex-wrap gap-2">
+                                <Button
+                                    asChild
+                                    variant="outline"
+                                    className="bg-background/80"
                                 >
-                                    <Pencil />
-                                    Modifier
-                                </Link>
-                            </Button>
+                                    <Link
+                                        href={tontines.edit({
+                                            tontine: tontine.slug!,
+                                        })}
+                                    >
+                                        <Pencil />
+                                        Modifier
+                                    </Link>
+                                </Button>
+                            </div>
                         )}
                     </div>
                 </section>
@@ -175,7 +177,12 @@ export default withAppLayout<Props>(
                                     Les dernières activités de la tontine
                                 </p>
                             </div>
-                            <Button asChild className='w-fit' variant="link" size="sm">
+                            <Button
+                                asChild
+                                className="w-fit"
+                                variant="link"
+                                size="sm"
+                            >
                                 <Link
                                     href={tontines.sessions.index(
                                         tontine.slug!,

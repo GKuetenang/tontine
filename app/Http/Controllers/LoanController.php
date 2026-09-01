@@ -12,20 +12,30 @@ use App\Models\Loan;
 use App\Models\Session;
 use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class LoanController extends WithUserSearchController
 {
-    public function index(Tontine $tontine, Session $session): Response
+    public function index(Request $request, Tontine $tontine, Session $session): Response
     {
         $this->authorize('viewAny', [Loan::class, $session]);
-        $loans = $session->loans()->with(['membership.user', 'repayments.loan.membership.user'])->latest()->paginate();
+        $q = $request->string('q')->trim()->toString();
+        $loans = $session->loans()
+            ->with(['membership.user', 'repayments.loan.membership.user'])
+            ->when($q, fn ($query) => $query->whereHas('membership.user', fn ($query) => $query
+                ->where('first_name', 'like', "%{$q}%")
+                ->orWhere('name', 'like', "%{$q}%")))
+            ->orderFromRequest($request)
+            ->paginate()
+            ->withQueryString();
 
         return Inertia::render('loans/index', [
             'tontine' => ['id' => $tontine->id, 'name' => $tontine->name, 'slug' => $tontine->slug],
             'session' => SessionData::fromModel($session),
             'collection' => LoanData::collect($loans),
+            'q' => $q ?: null,
             'users' => fn () => Inertia::optional($this->membershipsInSession(...)),
             'statuses' => LoanStatus::getOptions(),
         ]);
