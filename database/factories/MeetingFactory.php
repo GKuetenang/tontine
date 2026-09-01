@@ -40,6 +40,7 @@ class MeetingFactory extends Factory
             ),
 
             'location' => fake()->optional()->city(),
+            'duration_minutes' => fake()->numberBetween(1, 4) * 30,
 
             'status' => MeetingStatus::Scheduled,
 

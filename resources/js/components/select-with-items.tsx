@@ -20,6 +20,7 @@ type Props = {
     className?: string;
     name: string;
     defaultValue?: string;
+    onValueChange?: (value: string) => void;
 } & ComponentProps<typeof SelectTrigger>;
 
 export function SelectWithItems({
@@ -27,10 +28,15 @@ export function SelectWithItems({
     placeholder,
     name,
     defaultValue,
+    onValueChange,
     ...props
 }: Props) {
     return (
-        <Select name={name} defaultValue={defaultValue}>
+        <Select
+            name={name}
+            defaultValue={defaultValue}
+            onValueChange={onValueChange}
+        >
             <SelectTrigger {...props}>
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>

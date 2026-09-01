@@ -11,6 +11,7 @@ use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\MeetingDecisionController;
 use App\Http\Controllers\MeetingNoteController;
 use App\Http\Controllers\MeetingReportController;
+use App\Http\Controllers\MeetingScheduleController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\RepaymentController;
@@ -200,6 +201,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'session' => 'slug',
                 'meeting' => 'slug',
             ]);
+
+        Route::post(
+            'tontines/{tontine:slug}/sessions/{session:slug}/meeting-schedule',
+            [MeetingScheduleController::class, 'store'],
+        )->name('tontines.sessions.meeting-schedule.store');
+
+        Route::put(
+            'tontines/{tontine:slug}/sessions/{session:slug}/meeting-schedule',
+            [MeetingScheduleController::class, 'update'],
+        )->name('tontines.sessions.meeting-schedule.update');
 
         Route::patch(
             'tontines/{tontine:slug}/sessions/{session:slug}/meetings/{meeting:slug}/open',

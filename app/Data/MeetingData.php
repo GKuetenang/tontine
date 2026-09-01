@@ -21,6 +21,7 @@ class MeetingData extends Data
         public string $slug,
         public ?string $description,
         public ?string $location,
+        public ?int $duration_minutes,
         public MeetingStatus $status,
 
         #[WithTransformer(
@@ -70,6 +71,7 @@ class MeetingData extends Data
             slug: $meeting->slug,
             description: $meeting->description,
             location: $meeting->location,
+            duration_minutes: $meeting->duration_minutes,
             status: $meeting->status,
             scheduled_at: $meeting->scheduled_at,
             opened_at: $meeting->opened_at,

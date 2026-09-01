@@ -9,13 +9,17 @@ use App\Actions\Meetings\OpenMeetingAction;
 use App\Actions\Meetings\UpdateMeetingAction;
 use App\Actions\Payouts\BuildMeetingPayoutContextAction;
 use App\Data\MeetingData;
+use App\Data\MeetingScheduleData;
 use App\Data\SessionData;
+use App\Enums\MeetingMonthlyPattern;
+use App\Enums\MeetingRecurrence;
 use App\Http\Requests\StoreMeetingRequest;
 use App\Http\Requests\UpdateMeetingRequest;
 use App\Models\Meeting;
 use App\Models\Session;
 use App\Models\Tontine;
 use Carbon\CarbonImmutable;
+use DateTimeZone;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -41,6 +45,7 @@ class MeetingController extends Controller
             ->orderByDesc('scheduled_at')
             ->paginate(10)
             ->withQueryString();
+        $session->load('meetingSchedule');
 
         return Inertia::render('meetings/index', [
             'tontine' => [
@@ -57,6 +62,16 @@ class MeetingController extends Controller
                 $meetings,
             ),
             'meeting' => new Meeting,
+            'meeting_schedule' => $session->meetingSchedule
+                ? MeetingScheduleData::fromModel($session->meetingSchedule)
+                : null,
+            'meeting_recurrences' => MeetingRecurrence::getOptions(),
+            'meeting_monthly_patterns' => MeetingMonthlyPattern::getOptions(),
+            'timezones' => collect(DateTimeZone::listIdentifiers())
+                ->map(fn(string $timezone): array => [
+                    'label' => $timezone,
+                    'value' => $timezone,
+                ]),
         ]);
     }
 
@@ -81,7 +96,7 @@ class MeetingController extends Controller
             'decisions.agendaItem',
             'decisions.creator',
 
-            'payouts' => fn ($query) => $query->latest(),
+            'payouts' => fn($query) => $query->latest(),
 
             'payouts.drawEntry.sessionParticipant.membership.user',
             'payouts.creator',
@@ -102,11 +117,11 @@ class MeetingController extends Controller
                 'slug' => $tontine->slug,
             ],
 
-            'session' => fn () => SessionData::fromModel(
+            'session' => fn() => SessionData::fromModel(
                 $session,
             ),
 
-            'meeting' => fn () => MeetingData::fromModel(
+            'meeting' => fn() => MeetingData::fromModel(
                 $meeting,
             ),
             'payoutContext' => $payoutContext,

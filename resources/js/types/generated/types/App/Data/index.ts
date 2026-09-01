@@ -4,6 +4,7 @@ import {
     LoanStatus,
     MeetingStatus,
     AttendanceStatus,
+    MeetingRecurrence,
     MembershipStatus,
     PayoutStatus,
     SessionStatus,
@@ -82,6 +83,7 @@ export type Meeting = {
     slug: string;
     description: string | null;
     location: string | null;
+    duration_minutes: number | null;
     status: MeetingStatus;
     scheduled_at: undefined;
     agenda_items: undefined | Array<any>;
@@ -150,6 +152,17 @@ export type MeetingReportSummary = {
     contributions_paid: string;
     contributions_remaining: string;
     payouts_paid: string;
+};
+export type MeetingSchedule = {
+    id: number;
+    recurrence: MeetingRecurrence;
+    rrule: string;
+    timezone: string;
+    default_title: string;
+    default_location: string | null;
+    default_duration_minutes: number;
+    starts_at: undefined;
+    generated_at: undefined | null;
 };
 export type MeetingSummaryData = {
     id: number;

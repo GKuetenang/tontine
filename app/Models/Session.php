@@ -139,6 +139,11 @@ class Session extends Model
         return $this->hasMany(Meeting::class);
     }
 
+    public function meetingSchedule(): HasOne
+    {
+        return $this->hasOne(MeetingSchedule::class);
+    }
+
     public function completedMeetings(): HasMany
     {
         return $this->meetings()

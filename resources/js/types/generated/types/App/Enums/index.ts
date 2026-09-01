@@ -5,6 +5,8 @@ export type DonationStatus = 'pending' | 'paid' | 'cancelled';
 export type DrawAllocationMode =
     'one_per_member' | 'based_on_contribution' | 'custom';
 export type LoanStatus = 'pending' | 'active' | 'repaid' | 'cancelled';
+export type MeetingMonthlyPattern = 'day_of_month' | 'weekday_ordinal';
+export type MeetingRecurrence = 'weekly' | 'monthly';
 export type MeetingStatus =
     'scheduled' | 'in_progress' | 'completed' | 'cancelled';
 export type MembershipStatus = 'active' | 'inactive' | 'suspended' | 'left';

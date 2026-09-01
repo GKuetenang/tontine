@@ -1,8 +1,3 @@
-import { Form } from '@inertiajs/react';
-import { format } from 'date-fns';
-import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
-import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import type { SelectOption } from '@/components/select-with-items';
 import { SelectWithItems } from '@/components/select-with-items';
@@ -24,6 +19,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { parseDate } from '@/lib';
 import sessions from '@/routes/tontines/sessions';
 import type { Session } from '@/types';
+import { Form } from '@inertiajs/react';
+import { format } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 import type { ResultTontine } from '.';
 
 type Props = {
@@ -227,9 +227,9 @@ export function EditSessionForm({
                                     value={
                                         startDate
                                             ? format(
-                                                  startDate,
-                                                  'yyyy-MM-dd HH:mm:ss',
-                                              )
+                                                startDate,
+                                                'yyyy-MM-dd HH:mm:ss',
+                                            )
                                             : ''
                                     }
                                 />
@@ -260,9 +260,9 @@ export function EditSessionForm({
                                     value={
                                         endDate
                                             ? format(
-                                                  endDate,
-                                                  'yyyy-MM-dd HH:mm:ss',
-                                              )
+                                                endDate,
+                                                'yyyy-MM-dd HH:mm:ss',
+                                            )
                                             : ''
                                     }
                                 />

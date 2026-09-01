@@ -1,9 +1,27 @@
-import { MeetingStatusBadge } from '@/components//meeting-status-badge';
+import { Form, Head, Link } from '@inertiajs/react';
+import {
+    CalendarRangeIcon,
+    ClockIcon,
+    MapPinIcon,
+    PencilIcon,
+    PlusIcon,
+    RepeatIcon,
+    SearchIcon,
+} from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
+import { MeetingStatusBadge } from '@/components/meeting-status-badge';
+import type { SelectOption } from '@/components/select-with-items';
 import { SortableTableHead } from '@/components/sortable-table-head';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
     Table,
@@ -13,8 +31,6 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { Form, Head, Link } from '@inertiajs/react';
-import { MapPinIcon, PlusIcon, SearchIcon } from 'lucide-react';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
@@ -27,6 +43,7 @@ import meetings from '@/routes/tontines/sessions/meetings';
 import type {
     BreadcrumbItem,
     Meeting,
+    MeetingSchedule,
     PaginatedCollection,
     Session,
     Tontine,
@@ -34,6 +51,7 @@ import type {
 
 import { Actions } from './actions';
 import { EditMeetingForm } from './form';
+import { MeetingScheduleForm } from './schedule-form';
 
 type Props = {
     collection: PaginatedCollection<Meeting>;
@@ -41,6 +59,10 @@ type Props = {
     tontine: Tontine;
     session: Session;
     meeting: Meeting;
+    meeting_schedule: MeetingSchedule | null;
+    meeting_recurrences: SelectOption[];
+    meeting_monthly_patterns: SelectOption[];
+    timezones: SelectOption[];
 };
 
 export default withAppLayout<Props>(
@@ -75,8 +97,36 @@ export default withAppLayout<Props>(
             },
         ] as BreadcrumbItem[],
 
-    ({ collection, q, tontine, session, meeting }: Props) => {
+    ({
+        collection,
+        q,
+        tontine,
+        session,
+        meeting,
+        meeting_schedule: schedule,
+        meeting_recurrences: recurrences,
+        meeting_monthly_patterns: monthlyPatterns,
+        timezones,
+    }: Props) => {
         const { can } = useAuthorization();
+        const recurrenceInterval = Number(
+            schedule?.rrule.match(/INTERVAL=(\d+)/)?.[1] ?? 1,
+        );
+        const recurrenceDescription =
+            schedule?.recurrence === 'monthly'
+                ? recurrenceInterval === 1
+                    ? 'Chaque mois'
+                    : `Tous les ${recurrenceInterval} mois`
+                : recurrenceInterval === 1
+                  ? 'Chaque semaine'
+                  : `Toutes les ${recurrenceInterval} semaines`;
+        const monthlyPatternLabel = monthlyPatterns.find(
+            (option) =>
+                option.value ===
+                (schedule?.rrule.includes('BYDAY=')
+                    ? 'weekday_ordinal'
+                    : 'day_of_month'),
+        )?.label;
 
         return (
             <>
@@ -88,6 +138,97 @@ export default withAppLayout<Props>(
                 />
 
                 <div className="space-y-4">
+                    <Card>
+                        <CardHeader className="flex items-start justify-between gap-4">
+                            <div className="space-y-1.5">
+                                <CardTitle className="flex items-center gap-2 text-base">
+                                    <CalendarRangeIcon className="size-5" />
+                                    Calendrier des réunions
+                                </CardTitle>
+                                <CardDescription>
+                                    {schedule
+                                        ? 'Les réunions récurrentes de cette session ont été générées.'
+                                        : 'Définissez une récurrence pour générer les réunions de toute la session.'}
+                                </CardDescription>
+                            </div>
+
+                            {session.status === 'draft' &&
+                                can('meetings.create') && (
+                                    <MeetingScheduleForm
+                                        tontine={tontine}
+                                        session={session}
+                                        recurrences={recurrences}
+                                        monthlyPatterns={monthlyPatterns}
+                                        timezones={timezones}
+                                        schedule={schedule}
+                                        trigger={
+                                            <Button
+                                                type="button"
+                                                className="w-fit"
+                                                variant="outline"
+                                            >
+                                                {schedule ? (
+                                                    <PencilIcon />
+                                                ) : (
+                                                    <RepeatIcon />
+                                                )}
+                                                {schedule
+                                                    ? 'Modifier'
+                                                    : 'Configurer'}
+                                            </Button>
+                                        }
+                                    />
+                                )}
+                        </CardHeader>
+
+                        {schedule && (
+                            <CardContent className="grid gap-4 border-t pt-5 sm:grid-cols-2 lg:grid-cols-4">
+                                <div>
+                                    <p className="text-xs text-muted-foreground">
+                                        Récurrence
+                                    </p>
+                                    <Badge variant="secondary" className="mt-1">
+                                        <RepeatIcon />
+                                        {recurrenceDescription}
+                                    </Badge>
+                                    {schedule.recurrence === 'monthly' && (
+                                        <p className="mt-1 text-xs text-muted-foreground">
+                                            {monthlyPatternLabel}
+                                        </p>
+                                    )}
+                                </div>
+                                <div>
+                                    <p className="text-xs text-muted-foreground">
+                                        Première réunion
+                                    </p>
+                                    <p className="mt-1 font-medium">
+                                        {formatDate(schedule.starts_at)}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p className="text-xs text-muted-foreground">
+                                        Lieu par défaut
+                                    </p>
+                                    <p className="mt-1 flex items-center gap-1.5 font-medium">
+                                        <MapPinIcon className="size-4 text-muted-foreground" />
+                                        {schedule.default_location ??
+                                            'Non défini'}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p className="text-xs text-muted-foreground">
+                                        Durée et fuseau
+                                    </p>
+                                    <p className="mt-1 flex items-center gap-1.5 font-medium">
+                                        <ClockIcon className="size-4 text-muted-foreground" />
+                                        {schedule.default_duration_minutes} min
+                                        · {schedule.timezone}
+                                    </p>
+                                </div>
+                            </CardContent>
+                        )}
+                    </Card>
+
                     <Card className="bg-background pt-0">
                         <CardHeader className="border-b py-4">
                             <div className="flex items-center justify-between gap-4">
@@ -124,7 +265,10 @@ export default withAppLayout<Props>(
                                         name="q"
                                     />
 
-                                    <Button variant="outline"><SearchIcon />Rechercher</Button>
+                                    <Button variant="outline">
+                                        <SearchIcon />
+                                        Rechercher
+                                    </Button>
                                 </Form>
                             </div>
                         </CardHeader>
@@ -148,6 +292,8 @@ export default withAppLayout<Props>(
                                         <SortableTableHead field="location">
                                             Lieu
                                         </SortableTableHead>
+
+                                        <TableHead>Durée</TableHead>
 
                                         <SortableTableHead field="status">
                                             Statut
@@ -213,6 +359,12 @@ export default withAppLayout<Props>(
                                             </TableCell>
 
                                             <TableCell>
+                                                {item.duration_minutes
+                                                    ? `${item.duration_minutes} min`
+                                                    : '—'}
+                                            </TableCell>
+
+                                            <TableCell>
                                                 <MeetingStatusBadge
                                                     meeting={item}
                                                 />
@@ -239,7 +391,7 @@ export default withAppLayout<Props>(
                                     {collection.data.length === 0 && (
                                         <TableRow>
                                             <TableCell
-                                                colSpan={8}
+                                                colSpan={9}
                                                 className="h-32 text-center text-muted-foreground"
                                             >
                                                 Aucune réunion trouvée.

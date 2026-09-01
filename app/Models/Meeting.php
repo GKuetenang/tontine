@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MeetingStatus;
+use App\Models\Traits\HasSortable;
 use Database\Factories\MeetingFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,18 +21,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
     'description',
     'scheduled_at',
     'location',
+    'duration_minutes',
 ])]
 class Meeting extends Model
 {
     /** @use HasFactory<MeetingFactory> */
     use HasFactory;
 
+    use HasSortable;
     use SoftDeletes;
 
     protected function casts(): array
     {
         return [
             'number' => 'integer',
+            'duration_minutes' => 'integer',
             'status' => MeetingStatus::class,
 
             'scheduled_at' => 'immutable_datetime',
@@ -42,6 +46,17 @@ class Meeting extends Model
             'updated_at' => 'immutable_datetime',
         ];
     }
+
+    protected $sortable = [
+        'title',
+        'number',
+        'scheduled_at',
+        'location',
+        'duration_minutes',
+        'status',
+        'opened_at',
+        'closed_at',
+    ];
 
     public function getRouteKeyName(): string
     {
@@ -59,6 +74,11 @@ class Meeting extends Model
             User::class,
             'created_by',
         );
+    }
+
+    public function meetingSchedule(): BelongsTo
+    {
+        return $this->belongsTo(MeetingSchedule::class);
     }
 
     public function isScheduled(): bool

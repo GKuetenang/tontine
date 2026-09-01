@@ -225,12 +225,14 @@ namespace App\Models{
  * @mixin IdeHelperMeeting
  * @property int $id
  * @property int $session_id
+ * @property int|null $meeting_schedule_id
  * @property int $number
  * @property string $title
  * @property string $slug
  * @property string|null $description
  * @property \Carbon\CarbonImmutable $scheduled_at
  * @property string|null $location
+ * @property int|null $duration_minutes
  * @property \App\Enums\MeetingStatus $status
  * @property \Carbon\CarbonImmutable|null $opened_at
  * @property \Carbon\CarbonImmutable|null $closed_at
@@ -247,6 +249,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MeetingDecision> $decisions
  * @property-read int|null $decisions_count
+ * @property-read \App\Models\MeetingSchedule|null $meetingSchedule
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MeetingNote> $notes
  * @property-read int|null $notes_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payout> $payouts
@@ -262,8 +265,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereDurationMinutes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereLocation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereMeetingScheduleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereOpenedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereScheduledAt($value)
@@ -387,6 +392,45 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingNote whereUpdatedAt($value)
  */
 	class MeetingNote extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property int $session_id
+ * @property \App\Enums\MeetingRecurrence $recurrence
+ * @property string $rrule
+ * @property \Carbon\CarbonImmutable $starts_at
+ * @property string $timezone
+ * @property string $default_title
+ * @property string|null $default_location
+ * @property int $default_duration_minutes
+ * @property \Carbon\CarbonImmutable|null $generated_at
+ * @property int|null $created_by
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Meeting> $meetings
+ * @property-read int|null $meetings_count
+ * @property-read \App\Models\Session|null $session
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereDefaultDurationMinutes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereDefaultLocation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereDefaultTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereGeneratedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereRecurrence($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereRrule($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereSessionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereStartsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereTimezone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereUpdatedAt($value)
+ */
+	class MeetingSchedule extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -529,6 +573,7 @@ namespace App\Models{
  * @property-read int|null $insurance_contributions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Loan> $loans
  * @property-read int|null $loans_count
+ * @property-read \App\Models\MeetingSchedule|null $meetingSchedule
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Meeting> $meetings
  * @property-read int|null $meetings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SessionParticipant> $participants
@@ -723,6 +768,7 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property-read string $full_name
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Membership> $memberships
  * @property-read int|null $memberships_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
@@ -739,7 +785,6 @@ namespace App\Models{
  * @property-read int|null $teams_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tontine> $tontines
  * @property-read int|null $tontines_count
- * @property-read string $with_full_name
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
