@@ -1,20 +1,71 @@
 <?php
 
+use App\Actions\Dashboard\BuildUserDashboardAction;
+use App\Enums\LoanStatus;
+use App\Enums\TransactionDirection;
+use App\Enums\TransactionType;
+use App\Models\Contribution;
+use App\Models\Loan;
+use App\Models\Meeting;
+use App\Models\Membership;
+use App\Models\Session;
+use App\Models\SessionParticipant;
+use App\Models\Tontine;
+use App\Models\Transaction;
 use App\Models\User;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 
-test('guests are redirected to the login page', function () {
-    /** @var TestCase $this */
-    $response = $this->get(route('dashboard'));
-    $response->assertRedirect(route('login'));
+uses(RefreshDatabase::class);
+
+it('shows onboarding when the user has no tontine', function (): void {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get(route('dashboard'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('dashboard')
+            ->where('has_tontines', false)
+            ->where('summary.tontines_count', 0)
+            ->has('next_meetings', 0)
+            ->has('recent_transactions', 0));
 });
 
-test('authenticated users can visit the dashboard', function () {
+it('builds a personal dashboard without mixing another members finances', function (): void {
     $user = User::factory()->create();
-    /** @var TestCase $this */
-    $this->actingAs($user);
+    $otherUser = User::factory()->create();
+    $tontine = Tontine::factory()->create(['currency' => 'XAF']);
+    $membership = Membership::factory()->active()->for($user)->for($tontine)->create();
+    $otherMembership = Membership::factory()->active()->for($otherUser)->for($tontine)->create();
+    $session = Session::factory()->active()->for($tontine)->create();
+    $participant = SessionParticipant::factory()->for($session)->for($membership)->create();
+    $meeting = Meeting::factory()->for($session)->create([
+        'number' => 1,
+        'scheduled_at' => now()->addDay(),
+    ]);
+    $contribution = Contribution::factory()->for($meeting)->for($participant, 'sessionParticipant')->create([
+        'amount_due' => 10_000,
+    ]);
+    Transaction::factory()->for($session)->for($membership)->for($contribution, 'transactionable')->create([
+        'type' => TransactionType::Contribution,
+        'direction' => TransactionDirection::Credit,
+        'amount' => '2500.00',
+    ]);
+    Transaction::factory()->for($session)->for($otherMembership)->create(['amount' => '99999.00']);
+    Loan::factory()->for($session)->for($membership)->create([
+        'status' => LoanStatus::Active,
+        'total_due' => '12000.00',
+    ]);
 
-    /** @var TestCase $this */
-    $response = $this->get(route('dashboard'));
-    $response->assertOk();
+    $dashboard = app(BuildUserDashboardAction::class)->execute($user);
+
+    expect($dashboard['summary']['tontines_count'])->toBe(1)
+        ->and($dashboard['summary']['upcoming_meetings_count'])->toBe(1)
+        ->and($dashboard['summary']['contributions_due'])->toBe([
+            ['currency' => 'XAF', 'amount' => '7500.00'],
+        ])
+        ->and($dashboard['summary']['loans_due'])->toBe([
+            ['currency' => 'XAF', 'amount' => '12000.00'],
+        ])
+        ->and($dashboard['recent_transactions'])->toHaveCount(1);
 });

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MembershipStatus;
+use App\Enums\SessionStatus;
 use App\Models\Traits\HasSortable;
 use App\Policies\TontinePolicy;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -89,7 +90,7 @@ class Tontine extends Model implements HasMedia
     public function activeSession(): HasOne
     {
         return $this->hasOne(Session::class)
-            ->where('is_active', true);
+            ->where('status', SessionStatus::Active);
     }
 
     /**

@@ -57,6 +57,7 @@ namespace App\Models{
  * @method static \Database\Factories\DonationFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation orderFromRequest(\Illuminate\Http\Request $request)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Donation whereCreatedAt($value)
@@ -156,6 +157,7 @@ namespace App\Models{
  * @method static \Database\Factories\InsuranceContributionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution orderFromRequest(\Illuminate\Http\Request $request)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InsuranceContribution whereCreatedAt($value)
@@ -199,6 +201,7 @@ namespace App\Models{
  * @method static \Database\Factories\LoanFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan orderFromRequest(\Illuminate\Http\Request $request)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereApprovedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Loan whereApprovedBy($value)
@@ -259,6 +262,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting orderFromRequest(\Illuminate\Http\Request $request)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereClosedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Meeting whereCreatedAt($value)
@@ -398,7 +402,6 @@ namespace App\Models{
 /**
  * @property int $id
  * @property int $session_id
- * @property \App\Enums\MeetingRecurrence $recurrence
  * @property string $rrule
  * @property \Carbon\CarbonImmutable $starts_at
  * @property string $timezone
@@ -423,7 +426,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereDefaultTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereGeneratedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereRecurrence($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereRrule($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereSessionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingSchedule whereStartsAt($value)
@@ -514,6 +516,43 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int $tontine_id
+ * @property string $code
+ * @property string $name
+ * @property \App\Enums\PenaltyTrigger $trigger
+ * @property \App\Enums\PenaltyCalculationType $calculation_type
+ * @property numeric|null $value
+ * @property int|null $grace_period
+ * @property \App\Enums\PenaltyGraceUnit|null $grace_unit
+ * @property bool $is_automatic
+ * @property bool $is_active
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property-read \App\Models\Tontine|null $tontine
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule orderFromRequest(\Illuminate\Http\Request $request)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereCalculationType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereGracePeriod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereGraceUnit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereIsAutomatic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereTontineId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereTrigger($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenaltyRule whereValue($value)
+ */
+	class PenaltyRule extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
  * @property int $loan_id
  * @property numeric $amount
  * @property numeric $interest_amount
@@ -528,6 +567,7 @@ namespace App\Models{
  * @property-read int|null $transactions_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment orderFromRequest(\Illuminate\Http\Request $request)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repayment whereCreatedAt($value)
@@ -677,6 +717,10 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Membership> $memberships
  * @property-read int|null $memberships_count
  * @property-read \App\Models\User $owner
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PenaltyRule> $penaltyRules
+ * @property-read int|null $penalty_rules_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
+ * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $sessions
  * @property-read int|null $sessions_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tontine accessibleBy(\App\Models\User $user)
@@ -734,6 +778,7 @@ namespace App\Models{
  * @method static \Database\Factories\TransactionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction orderFromRequest(\Illuminate\Http\Request $request)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereCreatedAt($value)
