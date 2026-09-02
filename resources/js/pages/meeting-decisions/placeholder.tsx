@@ -16,12 +16,12 @@ export function MeetingDecisionsPlaceholder() {
 
                     <div className="space-y-1">
                         <p className="font-medium">
-                            La réunion n’est pas encore ouverte
+                            L’assise n’est pas encore ouverte
                         </p>
 
                         <p className="max-w-md text-sm text-muted-foreground">
                             Les décisions pourront être enregistrées lorsque la
-                            réunion sera en cours.
+                            assise sera en cours.
                         </p>
                     </div>
                 </div>

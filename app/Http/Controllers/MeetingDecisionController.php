@@ -6,11 +6,11 @@ use App\Actions\MeetingDecisions\AddMeetingDecisionAction;
 use App\Actions\MeetingDecisions\DeleteMeetingDecisionAction;
 use App\Actions\MeetingDecisions\UpdateMeetingDecisionAction;
 use App\Http\Requests\FormMeetingDecisionRequest;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\MeetingAgendaItem;
 use App\Models\MeetingDecision;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 
@@ -18,7 +18,7 @@ class MeetingDecisionController extends Controller
 {
     public function store(
         FormMeetingDecisionRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         AddMeetingDecisionAction $action,
@@ -65,7 +65,7 @@ class MeetingDecisionController extends Controller
 
     public function update(
         FormMeetingDecisionRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         MeetingDecision $decision,
@@ -114,7 +114,7 @@ class MeetingDecisionController extends Controller
     }
 
     public function destroy(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         MeetingDecision $decision,

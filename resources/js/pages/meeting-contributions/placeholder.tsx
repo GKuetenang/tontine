@@ -16,13 +16,13 @@ export function ContributionPlaceholder() {
 
                     <div className="space-y-1">
                         <p className="font-medium">
-                            La réunion n’est pas encore ouverte
+                            L’assise n’est pas encore ouverte
                         </p>
 
                         <p className="max-w-md text-sm text-muted-foreground">
                             Les cotisations seront générées automatiquement pour
                             les participants actifs lors de l’ouverture de la
-                            réunion.
+                            assise.
                         </p>
                     </div>
                 </div>

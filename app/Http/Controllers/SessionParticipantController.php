@@ -6,15 +6,15 @@ use App\Actions\SessionParticipants\AddSessionParticipantAction;
 use App\Actions\SessionParticipants\ReactivateSessionParticipantAction;
 use App\Actions\SessionParticipants\RemoveSessionParticipantAction;
 use App\Actions\SessionParticipants\UpdateSessionParticipantAction;
+use App\Data\GroupData;
 use App\Data\SessionData;
 use App\Data\SessionParticipantData;
-use App\Data\TontineData;
 use App\Http\Requests\SessionParticipants\StoreSessionParticipantRequest;
 use App\Http\Requests\SessionParticipants\UpdateSessionParticipantRequest;
+use App\Models\Group;
 use App\Models\Membership;
 use App\Models\Session;
 use App\Models\SessionParticipant;
-use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -22,7 +22,7 @@ use Inertia\Response;
 class SessionParticipantController extends WithUserSearchController
 {
     public function index(
-        Tontine $tontine,
+        Group $group,
         Session $session,
     ): Response {
         $this->authorize(
@@ -41,13 +41,13 @@ class SessionParticipantController extends WithUserSearchController
         return Inertia::render(
             'session-participants/index',
             [
-                'tontine' => TontineData::from($tontine),
+                'group' => GroupData::from($group),
                 'session' => SessionData::from($session),
                 'collection' => SessionParticipantData::collect(
                     $participants
                 ),
                 'users' => fn () => Inertia::optional(
-                    $this->membershipsInTontine(...)
+                    $this->membershipsInGroup(...)
                 ),
             ],
         );
@@ -55,12 +55,12 @@ class SessionParticipantController extends WithUserSearchController
 
     public function store(
         StoreSessionParticipantRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         AddSessionParticipantAction $action,
     ): RedirectResponse {
         $membership = Membership::query()
-            ->where('tontine_id', $tontine->id)
+            ->where('group_id', $group->id)
             ->findOrFail(
                 $request->integer('membership_id')
             );
@@ -82,7 +82,7 @@ class SessionParticipantController extends WithUserSearchController
 
     public function update(
         UpdateSessionParticipantRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         SessionParticipant $participant,
         UpdateSessionParticipantAction $action,
@@ -102,7 +102,7 @@ class SessionParticipantController extends WithUserSearchController
     }
 
     public function destroy(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         SessionParticipant $participant,
         RemoveSessionParticipantAction $action,
@@ -121,7 +121,7 @@ class SessionParticipantController extends WithUserSearchController
     }
 
     public function reactivate(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         SessionParticipant $participant,
         ReactivateSessionParticipantAction $action,

@@ -37,7 +37,7 @@ final class UpdateRecurringMeetingsAction
 
             if (! $lockedSession->isDraft()) {
                 throw ValidationException::withMessages([
-                    'schedule' => __('Le calendrier des réunions ne peut être modifié que pour une session en brouillon.'),
+                    'schedule' => __('Le calendrier des assises ne peut être modifié que pour une session en brouillon.'),
                 ]);
             }
 
@@ -51,7 +51,7 @@ final class UpdateRecurringMeetingsAction
 
             if ($schedule === null) {
                 throw ValidationException::withMessages([
-                    'schedule' => __('Aucun calendrier de réunions n’a été configuré pour cette session.'),
+                    'schedule' => __('Aucun calendrier d’assises n’a été configuré pour cette session.'),
                 ]);
             }
 
@@ -61,7 +61,7 @@ final class UpdateRecurringMeetingsAction
 
             if ($firstOccurrence->lt($lockedSession->start_at) || $firstOccurrence->gt($lockedSession->end_at)) {
                 throw ValidationException::withMessages([
-                    'starts_at' => __('La première réunion doit être comprise dans les dates de la session.'),
+                    'starts_at' => __('La première assise doit être comprise dans les dates de la session.'),
                 ]);
             }
 
@@ -130,7 +130,7 @@ final class UpdateRecurringMeetingsAction
     {
         if ($meetings->contains(fn (Meeting $meeting): bool => ! $meeting->isScheduled())) {
             throw ValidationException::withMessages([
-                'schedule' => __('Le calendrier ne peut plus être modifié globalement car une réunion a déjà changé de statut.'),
+                'schedule' => __('Le calendrier ne peut plus être modifié globalement car une assise a déjà changé de statut.'),
             ]);
         }
 
@@ -139,7 +139,7 @@ final class UpdateRecurringMeetingsAction
         foreach ($surplusMeetings as $meeting) {
             if ($this->hasBusinessData($meeting)) {
                 throw ValidationException::withMessages([
-                    'schedule' => __('La nouvelle récurrence retirerait une réunion qui contient déjà des données.'),
+                    'schedule' => __('La nouvelle récurrence retirerait une assise qui contient déjà des données.'),
                 ]);
             }
         }

@@ -10,8 +10,8 @@ use App\Data\SessionData;
 use App\Enums\DonationStatus;
 use App\Http\Requests\StoreDonationRequest;
 use App\Models\Donation;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -19,7 +19,7 @@ use Inertia\Response;
 
 class DonationController extends WithUserSearchController
 {
-    public function index(Request $request, Tontine $tontine, Session $session): Response
+    public function index(Request $request, Group $group, Session $session): Response
     {
         $this->authorize('viewAny', [Donation::class, $session]);
 
@@ -34,7 +34,7 @@ class DonationController extends WithUserSearchController
             ->withQueryString();
 
         return Inertia::render('donations/index', [
-            'tontine' => ['id' => $tontine->id, 'name' => $tontine->name, 'slug' => $tontine->slug],
+            'group' => ['id' => $group->id, 'name' => $group->name, 'slug' => $group->slug],
             'session' => SessionData::fromModel($session),
             'collection' => DonationData::collect($donations),
             'q' => $q ?: null,
@@ -43,7 +43,7 @@ class DonationController extends WithUserSearchController
         ]);
     }
 
-    public function store(StoreDonationRequest $request, Tontine $tontine, Session $session, CreateDonationAction $action): RedirectResponse
+    public function store(StoreDonationRequest $request, Group $group, Session $session, CreateDonationAction $action): RedirectResponse
     {
         $this->authorize('create', [Donation::class, $session]);
 
@@ -64,7 +64,7 @@ class DonationController extends WithUserSearchController
         return Inertia::flash('success', __('Le don a été créé avec succès.'))->back();
     }
 
-    public function pay(Tontine $tontine, Session $session, Donation $donation, PayDonationAction $action): RedirectResponse
+    public function pay(Group $group, Session $session, Donation $donation, PayDonationAction $action): RedirectResponse
     {
         abort_unless($donation->session_id === $session->id, 404);
         $this->authorize('pay', $donation);
@@ -74,7 +74,7 @@ class DonationController extends WithUserSearchController
         return Inertia::flash('success', __('Le don a été effectué avec succès.'))->back();
     }
 
-    public function cancel(Tontine $tontine, Session $session, Donation $donation, CancelDonationAction $action): RedirectResponse
+    public function cancel(Group $group, Session $session, Donation $donation, CancelDonationAction $action): RedirectResponse
     {
         abort_unless($donation->session_id === $session->id, 404);
         $this->authorize('cancel', $donation);

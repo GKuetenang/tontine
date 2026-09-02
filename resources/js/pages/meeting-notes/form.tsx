@@ -20,13 +20,13 @@ import {
 
 import { Spinner } from '@/components/ui/spinner';
 
-import notes from '@/routes/tontines/sessions/meetings/notes';
+import notes from '@/routes/groups/sessions/meetings/notes';
 
-import type { Meeting, MeetingNote, Session, Tontine } from '@/types';
+import type { Meeting, MeetingNote, Session, Group } from '@/types';
 
 type Props = {
     trigger: ReactElement;
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     note?: MeetingNote;
@@ -34,7 +34,7 @@ type Props = {
 
 export function EditMeetingNoteForm({
     trigger,
-    tontine,
+    group,
     session,
     meeting,
     note,
@@ -61,13 +61,13 @@ export function EditMeetingNoteForm({
 
     const action = note?.id
         ? notes.update.form({
-              tontine: tontine.slug!,
+              group: group.slug!,
               session: session.slug,
               meeting: meeting.slug,
               note: note.id,
           })
         : notes.store.form({
-              tontine: tontine.slug!,
+              group: group.slug!,
               session: session.slug,
               meeting: meeting.slug,
           });
@@ -99,7 +99,7 @@ export function EditMeetingNoteForm({
 
                                 <DialogDescription>
                                     Consigner une information importante de la
-                                    réunion.
+                                    assise.
                                 </DialogDescription>
                             </DialogHeader>
 

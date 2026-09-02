@@ -18,7 +18,7 @@ class InsuranceContributionFactory extends Factory
         return [
             'membership_id' => Membership::factory(),
             'session_id' => fn (array $attributes) => Session::factory()->create([
-                'tontine_id' => Membership::query()->findOrFail($attributes['membership_id'])->tontine_id,
+                'group_id' => Membership::query()->findOrFail($attributes['membership_id'])->group_id,
             ]),
             'amount' => '1000.00',
             'description' => fake()->optional()->sentence(),

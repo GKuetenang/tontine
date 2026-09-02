@@ -7,18 +7,18 @@ import { Button } from '@/components/ui/button';
 import { useAuthorization } from '@/hooks/use-authorization';
 
 import { formatCurrency } from '@/lib/utils';
-import payouts from '@/routes/tontines/sessions/meetings/payouts';
+import payouts from '@/routes/groups/sessions/meetings/payouts';
 
-import type { Meeting, Payout, Session, Tontine } from '@/types';
+import type { Meeting, Payout, Session, Group } from '@/types';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     payout: Payout;
 };
 
-export function PayoutItem({ tontine, session, meeting, payout }: Props) {
+export function PayoutItem({ group, session, meeting, payout }: Props) {
     const { can } = useAuthorization();
 
     const beneficiary =
@@ -75,7 +75,7 @@ export function PayoutItem({ tontine, session, meeting, payout }: Props) {
                         <Button variant="outline" asChild>
                             <Link
                                 href={payouts.cancel({
-                                    tontine: tontine.slug!,
+                                    group: group.slug!,
 
                                     session: session.slug,
 
@@ -102,7 +102,7 @@ export function PayoutItem({ tontine, session, meeting, payout }: Props) {
                         <Button asChild>
                             <Link
                                 href={payouts.pay({
-                                    tontine: tontine.slug!,
+                                    group: group.slug!,
 
                                     session: session.slug,
 

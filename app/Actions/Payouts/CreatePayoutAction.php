@@ -30,7 +30,7 @@ final class CreatePayoutAction
         ) {
             throw ValidationException::withMessages([
                 'meeting' => __(
-                    'Un versement ne peut être préparé que pour une réunion en cours ou terminée.'
+                    'Un versement ne peut être préparé que pour une assise en cours ou terminée.'
                 ),
             ]);
         }

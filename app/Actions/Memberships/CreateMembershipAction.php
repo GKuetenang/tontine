@@ -3,8 +3,8 @@
 namespace App\Actions\Memberships;
 
 use App\Enums\MembershipStatus;
+use App\Models\Group;
 use App\Models\Membership;
-use App\Models\Tontine;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -16,26 +16,26 @@ class CreateMembershipAction
     ) {}
 
     public function execute(
-        Tontine $tontine,
+        Group $group,
         User $user,
         string $roleName,
         ?User $invitedBy = null,
         MembershipStatus $status = MembershipStatus::Active,
     ): Membership {
         return DB::transaction(function () use (
-            $tontine,
+            $group,
             $user,
             $roleName,
             $invitedBy,
             $status,
         ): Membership {
-            $lockedTontine = Tontine::query()
+            $lockedGroup = Group::query()
                 ->lockForUpdate()
-                ->findOrFail($tontine->id);
+                ->findOrFail($group->id);
 
             $existingMembership = Membership::query()
                 ->withTrashed()
-                ->where('tontine_id', $lockedTontine->id)
+                ->where('group_id', $lockedGroup->id)
                 ->where('user_id', $user->id)
                 ->lockForUpdate()
                 ->first();
@@ -47,13 +47,13 @@ class CreateMembershipAction
                             'Cet utilisateur possède déjà une ancienne adhésion. Réactivez-la plutôt que d’en créer une nouvelle.'
                         )
                         : __(
-                            'Cet utilisateur est déjà membre de cette tontine.'
+                            'Cet utilisateur est déjà membre de cette réunion.'
                         ),
                 ]);
             }
 
             return $this->createNewMembership(
-                tontine: $lockedTontine,
+                group: $lockedGroup,
                 user: $user,
                 roleName: $roleName,
                 invitedBy: $invitedBy,
@@ -63,7 +63,7 @@ class CreateMembershipAction
     }
 
     private function createNewMembership(
-        Tontine $tontine,
+        Group $group,
         User $user,
         string $roleName,
         ?User $invitedBy,
@@ -72,21 +72,21 @@ class CreateMembershipAction
         $membership = new Membership;
 
         $membership->user()->associate($user);
-        $membership->tontine()->associate($tontine);
+        $membership->group()->associate($group);
 
         if ($invitedBy !== null) {
             $membership->inviter()->associate($invitedBy);
         }
 
         $membership->forceFill([
-            'member_number' => $this->generateMemberNumber($tontine),
+            'member_number' => $this->generateMemberNumber($group),
             'status' => $status,
         ]);
 
         $membership->save();
 
         $this->assignRole(
-            tontine: $tontine,
+            group: $group,
             user: $user,
             roleName: $roleName,
         );
@@ -95,14 +95,14 @@ class CreateMembershipAction
     }
 
     private function assignRole(
-        Tontine $tontine,
+        Group $group,
         User $user,
         string $roleName,
     ): void {
         $previousTeamId = getPermissionsTeamId();
 
         try {
-            setPermissionsTeamId($tontine->id);
+            setPermissionsTeamId($group->id);
 
             $user->unsetRelation('roles');
             $user->unsetRelation('permissions');
@@ -116,17 +116,17 @@ class CreateMembershipAction
         }
     }
 
-    private function generateMemberNumber(Tontine $tontine): string
+    private function generateMemberNumber(Group $group): string
     {
-        $prefix = $tontine->member_number_prefix
+        $prefix = $group->member_number_prefix
             ?: config('memberships.default_member_number_prefix', 'MEM');
         $memberNumber = sprintf(
             '%s-%06d',
             strtoupper($prefix),
-            $tontine->next_member_number,
+            $group->next_member_number,
         );
 
-        $tontine->increment('next_member_number');
+        $group->increment('next_member_number');
 
         return $memberNumber;
     }

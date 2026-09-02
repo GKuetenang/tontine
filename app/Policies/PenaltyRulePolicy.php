@@ -2,28 +2,28 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
+use App\Models\Group;
 use App\Models\PenaltyRule;
-use App\Models\Tontine;
 use App\Models\User;
 
 class PenaltyRulePolicy
 {
-    public function viewAny(User $user, Tontine $tontine): bool
+    public function viewAny(User $user, Group $group): bool
     {
-        return $tontine->hasActiveMembership($user)
-            && $user->can(TontinePermission::ViewPenalties->value);
+        return $group->hasActiveMembership($user)
+            && $user->can(GroupPermission::ViewPenalties->value);
     }
 
-    public function create(User $user, Tontine $tontine): bool
+    public function create(User $user, Group $group): bool
     {
-        return $tontine->hasActiveMembership($user)
-            && $user->can(TontinePermission::CreatePenalties->value);
+        return $group->hasActiveMembership($user)
+            && $user->can(GroupPermission::CreatePenalties->value);
     }
 
     public function update(User $user, PenaltyRule $rule): bool
     {
-        return $rule->tontine->hasActiveMembership($user)
-            && $user->can(TontinePermission::UpdatePenalties->value);
+        return $rule->group->hasActiveMembership($user)
+            && $user->can(GroupPermission::UpdatePenalties->value);
     }
 }

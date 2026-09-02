@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\Session;
-use App\Models\Tontine;
 use App\Models\User;
 
 class MeetingPolicy
@@ -14,11 +14,11 @@ class MeetingPolicy
         User $user,
         Session $session,
     ): bool {
-        return $session->tontine->hasActiveMembership($user)
+        return $session->group->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $session->tontine,
-                TontinePermission::ViewMeetings,
+                $session->group,
+                GroupPermission::ViewMeetings,
             );
     }
 
@@ -26,12 +26,12 @@ class MeetingPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        return $meeting->session->tontine
+        return $meeting->session->group
             ->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $meeting->session->tontine,
-                TontinePermission::ViewMeetings,
+                $meeting->session->group,
+                GroupPermission::ViewMeetings,
             );
     }
 
@@ -39,11 +39,11 @@ class MeetingPolicy
         User $user,
         Session $session,
     ): bool {
-        return $session->tontine->hasActiveMembership($user)
+        return $session->group->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $session->tontine,
-                TontinePermission::CreateMeetings,
+                $session->group,
+                GroupPermission::CreateMeetings,
             );
     }
 
@@ -51,12 +51,12 @@ class MeetingPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        return $meeting->session->tontine
+        return $meeting->session->group
             ->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $meeting->session->tontine,
-                TontinePermission::UpdateMeetings,
+                $meeting->session->group,
+                GroupPermission::UpdateMeetings,
             );
     }
 
@@ -64,12 +64,12 @@ class MeetingPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        return $meeting->session->tontine
+        return $meeting->session->group
             ->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $meeting->session->tontine,
-                TontinePermission::OpenMeetings,
+                $meeting->session->group,
+                GroupPermission::OpenMeetings,
             );
     }
 
@@ -77,12 +77,12 @@ class MeetingPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        return $meeting->session->tontine
+        return $meeting->session->group
             ->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $meeting->session->tontine,
-                TontinePermission::CloseMeetings,
+                $meeting->session->group,
+                GroupPermission::CloseMeetings,
             );
     }
 
@@ -90,12 +90,12 @@ class MeetingPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        return $meeting->session->tontine
+        return $meeting->session->group
             ->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $meeting->session->tontine,
-                TontinePermission::CancelMeetings,
+                $meeting->session->group,
+                GroupPermission::CancelMeetings,
             );
     }
 
@@ -103,12 +103,12 @@ class MeetingPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        return $meeting->session->tontine
+        return $meeting->session->group
             ->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $meeting->session->tontine,
-                TontinePermission::DeleteMeetings,
+                $meeting->session->group,
+                GroupPermission::DeleteMeetings,
             );
     }
 
@@ -116,12 +116,12 @@ class MeetingPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        return $meeting->session->tontine
+        return $meeting->session->group
             ->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $meeting->session->tontine,
-                TontinePermission::ViewReports,
+                $meeting->session->group,
+                GroupPermission::ViewReports,
             );
     }
 
@@ -129,24 +129,24 @@ class MeetingPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        return $meeting->session->tontine
+        return $meeting->session->group
             ->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $meeting->session->tontine,
-                TontinePermission::ExportReports,
+                $meeting->session->group,
+                GroupPermission::ExportReports,
             );
     }
 
     private function can(
         User $user,
-        Tontine $tontine,
-        TontinePermission $permission,
+        Group $group,
+        GroupPermission $permission,
     ): bool {
         $previousTeamId = getPermissionsTeamId();
 
         try {
-            setPermissionsTeamId($tontine->id);
+            setPermissionsTeamId($group->id);
 
             $user->unsetRelation('roles');
             $user->unsetRelation('permissions');

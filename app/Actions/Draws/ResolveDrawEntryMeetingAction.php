@@ -23,11 +23,11 @@ final class ResolveDrawEntryMeetingAction
         /*
          * Positions:
          *
-         * 1 bénéficiaire/réunion:
+         * 1 bénéficiaire/assise:
          * 1 -> index 0
          * 2 -> index 1
          *
-         * 2 bénéficiaires/réunion:
+         * 2 bénéficiaires/assise:
          * 1 -> index 0
          * 2 -> index 0
          * 3 -> index 1

@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Enums\DrawAllocationMode;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
@@ -17,10 +17,10 @@ class FormSessionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $tontine = $this->route('tontine');
+        $group = $this->route('group');
         $session = $this->route('session');
 
-        if (! $tontine instanceof Tontine) {
+        if (! $group instanceof Group) {
             return false;
         }
 
@@ -30,7 +30,7 @@ class FormSessionRequest extends FormRequest
 
         return Gate::allows(
             'create',
-            [Session::class, $tontine],
+            [Session::class, $group],
         );
     }
 
@@ -41,15 +41,15 @@ class FormSessionRequest extends FormRequest
      */
     public function rules(): array
     {
-        $tontine = $this->route('tontine');
+        $group = $this->route('group');
 
         return [
             'name' => [
                 'required',
                 'string',
                 'max:200',
-                Rule::unique('tontine_sessions', 'name')
-                    ->where('tontine_id', $tontine->id)
+                Rule::unique('group_sessions', 'name')
+                    ->where('group_id', $group->id)
                     ->ignore($this->route()->parameter('session')),
             ],
             'description' => ['nullable', 'string'],

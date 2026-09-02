@@ -19,12 +19,12 @@ import {
 import { Spinner } from '@/components/ui/spinner';
 import { UserCombobox } from '@/components/user-combobox';
 import { cn } from '@/lib/utils';
-import memberships from '@/routes/tontines/memberships';
-import type { Membership, MemberUser, ResultTontine } from '@/types';
+import memberships from '@/routes/groups/memberships';
+import type { Membership, MemberUser, ResultGroup } from '@/types';
 
 type Props = {
     trigger: ReactElement;
-    tontine: ResultTontine;
+    group: ResultGroup;
     roles: SelectOption[];
     membership: Membership;
     statuses: SelectOption[];
@@ -32,7 +32,7 @@ type Props = {
 
 export function EditMembershipForm({
     trigger,
-    tontine,
+    group,
     roles,
     membership,
     statuses,
@@ -54,10 +54,10 @@ export function EditMembershipForm({
 
     const action = membership.id
         ? memberships.update.form({
-              tontine: tontine.slug,
+              group: group.slug,
               membership: membership.id,
           })
-        : memberships.store.form({ tontine: tontine.slug });
+        : memberships.store.form({ group: group.slug });
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>

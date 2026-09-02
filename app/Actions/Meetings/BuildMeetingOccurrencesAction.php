@@ -28,7 +28,7 @@ final class BuildMeetingOccurrencesAction
 
         if (count($occurrences) > self::MAX_OCCURRENCES) {
             throw ValidationException::withMessages([
-                'schedule' => __('Le calendrier contient trop de réunions.'),
+                'schedule' => __('Le calendrier contient trop d’assises.'),
             ]);
         }
 

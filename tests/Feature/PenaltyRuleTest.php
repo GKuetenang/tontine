@@ -1,10 +1,10 @@
 <?php
 
+use App\Actions\Groups\CreateDefaultGroupRolesAction;
 use App\Actions\Memberships\CreateMembershipAction;
 use App\Actions\Penalties\CreateDefaultPenaltyRulesAction;
-use App\Actions\Tontines\CreateDefaultTontineRolesAction;
 use App\Enums\PenaltyTrigger;
-use App\Models\Tontine;
+use App\Models\Group;
 use App\Models\User;
 use Database\Seeders\PermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,29 +13,29 @@ use Inertia\Testing\AssertableInertia as Assert;
 uses(RefreshDatabase::class);
 
 it('creates inactive default penalty rules idempotently', function (): void {
-    $tontine = Tontine::factory()->create();
+    $group = Group::factory()->create();
     $action = app(CreateDefaultPenaltyRulesAction::class);
 
-    $action->execute($tontine);
-    $action->execute($tontine);
+    $action->execute($group);
+    $action->execute($group);
 
-    expect($tontine->penaltyRules()->count())->toBe(3)
-        ->and($tontine->penaltyRules()->pluck('trigger')->all())
+    expect($group->penaltyRules()->count())->toBe(3)
+        ->and($group->penaltyRules()->pluck('trigger')->all())
         ->toContain(
             PenaltyTrigger::MeetingLate,
             PenaltyTrigger::MeetingAbsent,
             PenaltyTrigger::ContributionLate,
         )
-        ->and($tontine->penaltyRules()->where('is_active', true)->exists())
+        ->and($group->penaltyRules()->where('is_active', true)->exists())
         ->toBeFalse();
 });
 
-it('creates default penalty rules with a new tontine', function (): void {
+it('creates default penalty rules with a new group', function (): void {
     app(PermissionSeeder::class)->run();
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->post(route('tontines.store'), [
+        ->post(route('groups.store'), [
             'name' => 'Association pénalités',
             'member_number_prefix' => 'AP',
             'default_loan_interest_rate' => '5.00',
@@ -43,21 +43,21 @@ it('creates default penalty rules with a new tontine', function (): void {
         ])
         ->assertSessionHasNoErrors();
 
-    expect(Tontine::query()->where('user_id', $user->id)->firstOrFail()
+    expect(Group::query()->where('user_id', $user->id)->firstOrFail()
         ->penaltyRules()->count())->toBe(3);
 });
 
 it('allows the president to configure a penalty rule', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    app(CreateDefaultPenaltyRulesAction::class)->execute($tontine);
-    $rule = $tontine->penaltyRules()->where('code', 'meeting_late')->firstOrFail();
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    app(CreateDefaultPenaltyRulesAction::class)->execute($group);
+    $rule = $group->penaltyRules()->where('code', 'meeting_late')->firstOrFail();
 
     $this->actingAs($president)
-        ->put(route('tontines.penalty-rules.update', [$tontine, $rule]), [
+        ->put(route('groups.penalty-rules.update', [$group, $rule]), [
             'name' => 'Retard supérieur à quinze minutes',
             'trigger' => PenaltyTrigger::MeetingLate->value,
             'calculation_type' => 'fixed',
@@ -79,13 +79,13 @@ it('allows the president to configure a penalty rule', function (): void {
 it('paginates the penalty rules listing', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    app(CreateDefaultPenaltyRulesAction::class)->execute($tontine);
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    app(CreateDefaultPenaltyRulesAction::class)->execute($group);
 
     foreach (range(1, 8) as $number) {
-        $tontine->penaltyRules()->create([
+        $group->penaltyRules()->create([
             'code' => 'manual_'.$number,
             'name' => 'Pénalité manuelle '.$number,
             'trigger' => PenaltyTrigger::Manual,
@@ -96,15 +96,15 @@ it('paginates the penalty rules listing', function (): void {
     }
 
     $this->actingAs($president)
-        ->get(route('tontines.penalty-rules.index', [
-            'tontine' => $tontine,
+        ->get(route('groups.penalty-rules.index', [
+            'group' => $group,
             'sort' => 'id',
             'dir' => 'asc',
         ]))
         ->assertInertia(fn (Assert $page) => $page
             ->component('penalty-rules/index')
             ->has('collection.data', 10)
-            ->where('collection.data.0.trigger_label', 'Retard à une réunion')
+            ->where('collection.data.0.trigger_label', 'Retard à une assise')
             ->where('collection.data.0.calculation_type_label', 'Montant fixe')
             ->where('collection.data.0.value_label', 'À configurer')
             ->where('collection.data.0.grace_unit_label', 'Minute(s)')
@@ -119,19 +119,19 @@ it('paginates the penalty rules listing', function (): void {
 it('sorts penalty rules from the listing query', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    app(CreateDefaultPenaltyRulesAction::class)->execute($tontine);
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    app(CreateDefaultPenaltyRulesAction::class)->execute($group);
 
     $this->actingAs($president)
-        ->get(route('tontines.penalty-rules.index', [
-            'tontine' => $tontine,
+        ->get(route('groups.penalty-rules.index', [
+            'group' => $group,
             'sort' => 'name',
             'dir' => 'asc',
         ]))
         ->assertInertia(fn (Assert $page) => $page
-            ->where('collection.data.0.name', 'Absence à une réunion')
+            ->where('collection.data.0.name', 'Absence à une assise')
             ->where('query.sort', 'name')
             ->where('query.dir', 'asc'));
 });

@@ -17,13 +17,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 
-import agenda from '@/routes/tontines/sessions/meetings/agenda';
+import agenda from '@/routes/groups/sessions/meetings/agenda';
 
-import type { Meeting, MeetingAgendaItem, Session, Tontine } from '@/types';
+import type { Meeting, MeetingAgendaItem, Session, Group } from '@/types';
 
 type Props = {
     trigger: ReactElement;
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     agendaItem?: MeetingAgendaItem;
@@ -31,7 +31,7 @@ type Props = {
 
 export function EditAgendaItemForm({
     trigger,
-    tontine,
+    group,
     session,
     meeting,
     agendaItem,
@@ -42,13 +42,13 @@ export function EditAgendaItemForm({
 
     const action = agendaItem?.id
         ? agenda.update.form({
-              tontine: tontine.slug!,
+              group: group.slug!,
               session: session.slug,
               meeting: meeting.slug,
               agendaItem: agendaItem.id,
           })
         : agenda.store.form({
-              tontine: tontine.slug!,
+              group: group.slug!,
               session: session.slug,
               meeting: meeting.slug,
           });
@@ -87,7 +87,7 @@ export function EditAgendaItemForm({
                                 </DialogTitle>
 
                                 <DialogDescription>
-                                    Préparer l’ordre du jour de cette réunion.
+                                    Préparer l’ordre du jour de cette assise.
                                 </DialogDescription>
                             </DialogHeader>
 

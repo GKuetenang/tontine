@@ -20,16 +20,16 @@ import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
+import groups from '@/routes/groups';
+import sessions from '@/routes/groups/sessions';
 import type { BreadcrumbItem, PaginatedCollection, Session } from '@/types';
 import { Actions } from './actions';
 import { EditSessionForm } from './form';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Tontines',
-        href: tontines.index().url,
+        title: 'Réunions',
+        href: groups.index().url,
     },
     {
         title: 'Sessions',
@@ -37,7 +37,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export type ResultTontine = {
+export type ResultGroup = {
     id: number;
     name: string;
     slug: string;
@@ -46,14 +46,14 @@ export type ResultTontine = {
 type Props = {
     collection: PaginatedCollection<Session>;
     q: string | null;
-    tontine: ResultTontine;
+    group: ResultGroup;
     session: Session;
     draw_allocation_modes: SelectOption[];
 };
 
 export default withAppLayout(
     breadcrumbs,
-    ({ collection, q, tontine, session, draw_allocation_modes }: Props) => {
+    ({ collection, q, group, session, draw_allocation_modes }: Props) => {
         const { can } = useAuthorization();
 
         return (
@@ -69,7 +69,7 @@ export default withAppLayout(
                                         draw_allocation_modes
                                     }
                                     session={session}
-                                    tontine={tontine}
+                                    group={group}
                                     trigger={
                                         <Button type="button" className="w-fit">
                                             <PlusIcon />
@@ -80,7 +80,7 @@ export default withAppLayout(
                             )}
                             <Form
                                 {...sessions.index.form({
-                                    tontine: tontine.slug,
+                                    group: group.slug,
                                 })}
                                 className="flex items-center gap-1"
                             >
@@ -133,7 +133,7 @@ export default withAppLayout(
                                                 disabled={true}
                                                 className="hover:underline"
                                                 href={sessions.show({
-                                                    tontine: tontine.slug!,
+                                                    group: group.slug!,
                                                     session: item.slug,
                                                 })}
                                             >
@@ -164,7 +164,7 @@ export default withAppLayout(
                                                 draw_allocation_modes={
                                                     draw_allocation_modes
                                                 }
-                                                tontine={tontine}
+                                                group={group}
                                                 session={item}
                                             />
                                         </TableCell>

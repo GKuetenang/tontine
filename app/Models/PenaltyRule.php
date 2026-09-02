@@ -53,8 +53,8 @@ class PenaltyRule extends Model
         ];
     }
 
-    public function tontine(): BelongsTo
+    public function group(): BelongsTo
     {
-        return $this->belongsTo(Tontine::class);
+        return $this->belongsTo(Group::class);
     }
 }

@@ -22,7 +22,7 @@ type Item = {
     amount: string;
     occurred_at: string;
     session_name: string;
-    tontine: { name: string; currency: string };
+    group: { name: string; currency: string };
 };
 type Props = {
     collection: PaginatedCollection<Item>;
@@ -38,7 +38,7 @@ export default withAppLayout<Props>(
             <Head title="Mon assurance" />
             <Heading
                 title="Mon assurance"
-                description="Historique de vos versements d’assurance dans vos différentes tontines."
+                description="Historique de vos versements d’assurance dans vos différentes réunions."
             />
             <div className="grid gap-4 sm:grid-cols-3">
                 {totals.map((total) => (
@@ -63,7 +63,7 @@ export default withAppLayout<Props>(
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="pl-6">Date</TableHead>
-                                <TableHead>Tontine</TableHead>
+                                <TableHead>Réunion</TableHead>
                                 <TableHead>Session</TableHead>
                                 <TableHead className="pr-6 text-right">
                                     Montant
@@ -76,12 +76,12 @@ export default withAppLayout<Props>(
                                     <TableCell className="pl-6">
                                         {formatDate(item.occurred_at)}
                                     </TableCell>
-                                    <TableCell>{item.tontine.name}</TableCell>
+                                    <TableCell>{item.group.name}</TableCell>
                                     <TableCell>{item.session_name}</TableCell>
                                     <TableCell className="pr-6 text-right font-medium">
                                         {formatCurrency(
                                             item.amount,
-                                            item.tontine.currency,
+                                            item.group.currency,
                                         )}
                                     </TableCell>
                                 </TableRow>

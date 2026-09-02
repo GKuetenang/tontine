@@ -1,23 +1,23 @@
-import { Button } from '@/components/ui/button';
 import { NotebookPenIcon, PlusIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
-import type { Meeting, Session, Tontine } from '@/types';
+import type { Meeting, Session, Group } from '@/types';
 
 import { EditMeetingNoteForm } from './form';
 import { MeetingNoteItem } from './note-item';
 import { MeetingNotesPlaceholder } from './placeholder';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
 };
 
-export function MeetingNotes({ tontine, session, meeting }: Props) {
+export function MeetingNotes({ group, session, meeting }: Props) {
     const { can } = useAuthorization();
 
     if (meeting.status === 'scheduled') {
@@ -43,7 +43,7 @@ export function MeetingNotes({ tontine, session, meeting }: Props) {
 
                 {canCreate && (
                     <EditMeetingNoteForm
-                        tontine={tontine}
+                        group={group}
                         session={session}
                         meeting={meeting}
                         trigger={
@@ -67,7 +67,7 @@ export function MeetingNotes({ tontine, session, meeting }: Props) {
                             <p className="font-medium">Aucune note</p>
 
                             <p className="text-sm text-muted-foreground">
-                                Les notes prises pendant la réunion apparaîtront
+                                Les notes prises pendant l’assise apparaîtront
                                 ici.
                             </p>
                         </div>
@@ -77,7 +77,7 @@ export function MeetingNotes({ tontine, session, meeting }: Props) {
                         {notes.map((note) => (
                             <MeetingNoteItem
                                 key={note.id}
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                                 note={note}

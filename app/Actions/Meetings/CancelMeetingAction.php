@@ -18,7 +18,7 @@ final class CancelMeetingAction
             ) {
                 throw ValidationException::withMessages([
                     'meeting' => __(
-                        'Seule une réunion prévue peut être annulée.'
+                        'Seule une assise prévue peut être annulée.'
                     ),
                 ]);
             }

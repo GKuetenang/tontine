@@ -19,19 +19,19 @@ import {
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
-import meetings from '@/routes/tontines/sessions/meetings';
+import meetings from '@/routes/groups/sessions/meetings';
 
-import type { Meeting, Session, Tontine } from '@/types';
+import type { Meeting, Session, Group } from '@/types';
 
 import { EditMeetingForm } from './form';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
 };
 
-export function Actions({ tontine, session, meeting }: Props) {
+export function Actions({ group, session, meeting }: Props) {
     const { can, canAny } = useAuthorization();
 
     const hasActions = canAny(
@@ -55,7 +55,7 @@ export function Actions({ tontine, session, meeting }: Props) {
     }
 
     const routeParams = {
-        tontine: tontine.slug!,
+        group: group.slug!,
         session: session.slug,
         meeting: meeting.slug,
     };
@@ -68,7 +68,7 @@ export function Actions({ tontine, session, meeting }: Props) {
                         className="ml-auto"
                         variant="ghost"
                         size="icon"
-                        aria-label="Actions de la réunion"
+                        aria-label="Actions de l’assise"
                     >
                         <EllipsisIcon className="size-4" />
                     </Button>
@@ -78,7 +78,7 @@ export function Actions({ tontine, session, meeting }: Props) {
                     {can('meetings.update') &&
                         meeting.status === 'scheduled' && (
                             <EditMeetingForm
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                                 trigger={
@@ -101,7 +101,7 @@ export function Actions({ tontine, session, meeting }: Props) {
                                 href={meetings.open(routeParams)}
                                 onBefore={() =>
                                     confirm(
-                                        'Voulez-vous vraiment ouvrir cette réunion ?',
+                                        'Voulez-vous vraiment ouvrir cette assise ?',
                                     )
                                 }
                                 onError={(errors) => {
@@ -124,7 +124,7 @@ export function Actions({ tontine, session, meeting }: Props) {
                                     href={meetings.close(routeParams)}
                                     onBefore={() =>
                                         confirm(
-                                            'Voulez-vous vraiment clôturer cette réunion ?',
+                                            'Voulez-vous vraiment clôturer cette assise ?',
                                         )
                                     }
                                     onError={(errors) => {
@@ -148,7 +148,7 @@ export function Actions({ tontine, session, meeting }: Props) {
                                     href={meetings.cancel(routeParams)}
                                     onBefore={() =>
                                         confirm(
-                                            'Voulez-vous vraiment annuler cette réunion ?',
+                                            'Voulez-vous vraiment annuler cette assise ?',
                                         )
                                     }
                                     onError={(errors) => {
@@ -175,7 +175,7 @@ export function Actions({ tontine, session, meeting }: Props) {
                                         href={meetings.close(routeParams)}
                                         onBefore={() =>
                                             confirm(
-                                                'Voulez-vous vraiment supprimer cette réunion ?',
+                                                'Voulez-vous vraiment supprimer cette assise ?',
                                             )
                                         }
                                         onError={(errors) => {

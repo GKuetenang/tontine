@@ -2,31 +2,31 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use App\Models\User;
 
 class InsuranceContributionPolicy
 {
     public function viewAny(User $user, Session $session): bool
     {
-        return $session->tontine->hasActiveMembership($user)
-            && $this->can($user, $session->tontine, TontinePermission::ViewInsurance);
+        return $session->group->hasActiveMembership($user)
+            && $this->can($user, $session->group, GroupPermission::ViewInsurance);
     }
 
     public function create(User $user, Session $session): bool
     {
-        return $session->tontine->hasActiveMembership($user)
-            && $this->can($user, $session->tontine, TontinePermission::ManageInsurance);
+        return $session->group->hasActiveMembership($user)
+            && $this->can($user, $session->group, GroupPermission::ManageInsurance);
     }
 
-    private function can(User $user, Tontine $tontine, TontinePermission $permission): bool
+    private function can(User $user, Group $group, GroupPermission $permission): bool
     {
         $previousTeamId = getPermissionsTeamId();
 
         try {
-            setPermissionsTeamId($tontine->id);
+            setPermissionsTeamId($group->id);
             $user->unsetRelation('roles');
             $user->unsetRelation('permissions');
 

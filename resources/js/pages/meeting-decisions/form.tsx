@@ -21,14 +21,14 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 
-import decisions from '@/routes/tontines/sessions/meetings/decisions';
+import decisions from '@/routes/groups/sessions/meetings/decisions';
 
-import type { Meeting, MeetingDecision, Session, Tontine } from '@/types';
+import type { Meeting, MeetingDecision, Session, Group } from '@/types';
 
 type Props = {
     trigger: ReactElement;
 
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
 
@@ -37,7 +37,7 @@ type Props = {
 
 export function EditMeetingDecisionForm({
     trigger,
-    tontine,
+    group,
     session,
     meeting,
     decision,
@@ -57,7 +57,7 @@ export function EditMeetingDecisionForm({
 
     const action = decision?.id
         ? decisions.update.form({
-              tontine: tontine.slug!,
+              group: group.slug!,
 
               session: session.slug,
 
@@ -66,7 +66,7 @@ export function EditMeetingDecisionForm({
               decision: decision.id,
           })
         : decisions.store.form({
-              tontine: tontine.slug!,
+              group: group.slug!,
 
               session: session.slug,
 
@@ -94,7 +94,7 @@ export function EditMeetingDecisionForm({
                     </DialogTitle>
 
                     <DialogDescription>
-                        Enregistrer une décision prise pendant la réunion.
+                        Enregistrer une décision prise pendant l’assise.
                     </DialogDescription>
                 </DialogHeader>
 

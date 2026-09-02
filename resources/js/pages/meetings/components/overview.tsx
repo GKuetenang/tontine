@@ -4,7 +4,7 @@ import {
     MapPinIcon,
     UsersIcon,
 } from 'lucide-react';
-import { InformationRow } from '@/components/tontines/information-row';
+import { InformationRow } from '@/components/groups/information-row';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatDate } from '@/lib';
 import { getMeetingStatusLabel } from '@/lib/utils';

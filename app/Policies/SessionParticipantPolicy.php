@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
+use App\Models\Group;
 use App\Models\Session;
 use App\Models\SessionParticipant;
-use App\Models\Tontine;
 use App\Models\User;
 
 class SessionParticipantPolicy
@@ -17,11 +17,11 @@ class SessionParticipantPolicy
         User $user,
         Session $session,
     ): bool {
-        return $session->tontine->hasActiveMembership($user)
+        return $session->group->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $session->tontine,
-                TontinePermission::ViewSessionParticipants,
+                $session->group,
+                GroupPermission::ViewSessionParticipants,
             );
     }
 
@@ -32,12 +32,12 @@ class SessionParticipantPolicy
         User $user,
         SessionParticipant $participant,
     ): bool {
-        return $participant->session->tontine
+        return $participant->session->group
             ->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $participant->session->tontine,
-                TontinePermission::ViewSessionParticipants,
+                $participant->session->group,
+                GroupPermission::ViewSessionParticipants,
             );
     }
 
@@ -48,11 +48,11 @@ class SessionParticipantPolicy
         User $user,
         Session $session,
     ): bool {
-        return $session->tontine->hasActiveMembership($user)
+        return $session->group->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $session->tontine,
-                TontinePermission::CreateSessionParticipants,
+                $session->group,
+                GroupPermission::CreateSessionParticipants,
             );
     }
 
@@ -63,12 +63,12 @@ class SessionParticipantPolicy
         User $user,
         SessionParticipant $participant,
     ): bool {
-        return $participant->session->tontine
+        return $participant->session->group
             ->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $participant->session->tontine,
-                TontinePermission::UpdateSessionParticipants,
+                $participant->session->group,
+                GroupPermission::UpdateSessionParticipants,
             );
     }
 
@@ -79,12 +79,12 @@ class SessionParticipantPolicy
         User $user,
         SessionParticipant $participant,
     ): bool {
-        return $participant->session->tontine
+        return $participant->session->group
             ->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $participant->session->tontine,
-                TontinePermission::RemoveSessionParticipants,
+                $participant->session->group,
+                GroupPermission::RemoveSessionParticipants,
             );
     }
 
@@ -95,28 +95,28 @@ class SessionParticipantPolicy
         User $user,
         SessionParticipant $participant,
     ): bool {
-        return $participant->session->tontine
+        return $participant->session->group
             ->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $participant->session->tontine,
-                TontinePermission::ReactivateSessionParticipants,
+                $participant->session->group,
+                GroupPermission::ReactivateSessionParticipants,
             );
     }
 
     /**
      * Vérifie une permission dans le contexte exact
-     * de la tontine concernée.
+     * de la réunion concernée.
      */
     private function can(
         User $user,
-        Tontine $tontine,
-        TontinePermission $permission,
+        Group $group,
+        GroupPermission $permission,
     ): bool {
         $previousTeamId = getPermissionsTeamId();
 
         try {
-            setPermissionsTeamId($tontine->id);
+            setPermissionsTeamId($group->id);
 
             $user->unsetRelation('roles');
             $user->unsetRelation('permissions');

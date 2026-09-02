@@ -6,7 +6,7 @@ type Props = {
 };
 
 export function MeetingPayoutsPlaceholder({
-    message = 'Les versements pourront être enregistrés lorsque la réunion sera en cours.',
+    message = 'Les versements pourront être enregistrés lorsque l’assise sera en cours.',
 }: Props) {
     return (
         <Card>

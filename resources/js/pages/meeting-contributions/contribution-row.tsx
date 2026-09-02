@@ -5,12 +5,12 @@ import { TableCell, TableRow } from '@/components/ui/table';
 
 import { formatCurrency } from '@/lib/utils';
 
-import type { Contribution, Meeting, Session, Tontine } from '@/types';
+import type { Contribution, Meeting, Session, Group } from '@/types';
 
 import { RecordContributionPaymentForm } from './form';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     contribution: Contribution;
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export function ContributionRow({
-    tontine,
+    group,
     session,
     meeting,
     contribution,
@@ -50,18 +50,15 @@ export function ContributionRow({
             <TableCell>{membership?.member_number ?? '—'}</TableCell>
 
             <TableCell>
-                {formatCurrency(contribution.amount_due, tontine.currency)}
+                {formatCurrency(contribution.amount_due, group.currency)}
             </TableCell>
 
             <TableCell className="font-medium text-emerald-600">
-                {formatCurrency(contribution.amount_paid, tontine.currency)}
+                {formatCurrency(contribution.amount_paid, group.currency)}
             </TableCell>
 
             <TableCell>
-                {formatCurrency(
-                    contribution.remaining_amount,
-                    tontine.currency,
-                )}
+                {formatCurrency(contribution.remaining_amount, group.currency)}
             </TableCell>
 
             <TableCell>
@@ -71,7 +68,7 @@ export function ContributionRow({
             <TableCell className="text-end">
                 {canRecordPayment && (
                     <RecordContributionPaymentForm
-                        tontine={tontine}
+                        group={group}
                         session={session}
                         meeting={meeting}
                         contribution={contribution}

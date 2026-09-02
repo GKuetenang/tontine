@@ -16,13 +16,13 @@ import {
 } from '@/components/ui/dialog';
 import { Spinner } from '@/components/ui/spinner';
 
-import attendances from '@/routes/tontines/sessions/meetings/attendances';
+import attendances from '@/routes/groups/sessions/meetings/attendances';
 
-import type { Meeting, MeetingAttendance, Session, Tontine } from '@/types';
+import type { Meeting, MeetingAttendance, Session, Group } from '@/types';
 
 type Props = {
     trigger: ReactElement;
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     attendance: MeetingAttendance;
@@ -53,7 +53,7 @@ const attendanceStatuses = [
 
 export function EditAttendanceForm({
     trigger,
-    tontine,
+    group,
     session,
     meeting,
     attendance,
@@ -61,7 +61,7 @@ export function EditAttendanceForm({
     const [open, setOpen] = useState(false);
 
     const action = attendances.update.form({
-        tontine: tontine.slug!,
+        group: group.slug!,
         session: session.slug,
         meeting: meeting.slug,
         attendance: attendance.id,

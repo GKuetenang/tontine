@@ -1,27 +1,27 @@
 import { usePage } from '@inertiajs/react';
-import type { TontinePermission, TontineRole } from '@/types';
+import type { GroupPermission, GroupRole } from '@/types';
 
 export function useAuthorization() {
     const page = usePage();
     const { auth } = page.props;
 
-    const can = (permission: TontinePermission): boolean => {
+    const can = (permission: GroupPermission): boolean => {
         return auth.authorization.permissions.includes(permission);
     };
 
-    const canAny = (...permissions: TontinePermission[]): boolean => {
+    const canAny = (...permissions: GroupPermission[]): boolean => {
         return permissions.some((permission) => can(permission));
     };
 
-    const canAll = (...permissions: TontinePermission[]): boolean => {
+    const canAll = (...permissions: GroupPermission[]): boolean => {
         return permissions.every((permission) => can(permission));
     };
 
-    const hasRole = (role: TontineRole): boolean => {
+    const hasRole = (role: GroupRole): boolean => {
         return auth.authorization.roles.includes(role);
     };
 
-    const hasAnyRole = (...roles: TontineRole[]): boolean => {
+    const hasAnyRole = (...roles: GroupRole[]): boolean => {
         return roles.some((role) => hasRole(role));
     };
 

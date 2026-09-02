@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignIdFor(Session::class)
-                ->constrained('tontine_sessions')
+                ->constrained('group_sessions')
                 ->restrictOnDelete();
 
             $table->foreignIdFor(Membership::class)

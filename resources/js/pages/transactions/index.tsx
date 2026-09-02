@@ -33,18 +33,18 @@ import {
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
+import groups from '@/routes/groups';
+import sessions from '@/routes/groups/sessions';
 import type {
     BreadcrumbItem,
     PaginatedCollection,
     Session,
-    Tontine,
+    Group,
     Transaction,
 } from '@/types';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     collection: PaginatedCollection<Transaction>;
     filters: { direction?: string; type?: string; from?: string; to?: string };
@@ -88,24 +88,24 @@ function DateFilter({
 }
 
 export default withAppLayout<Props>(
-    ({ tontine, session }) =>
+    ({ group, session }) =>
         [
-            { title: 'Tontines', href: tontines.index() },
+            { title: 'Réunions', href: groups.index() },
             {
-                title: tontine.name,
-                href: tontines.show({ tontine: tontine.slug! }),
+                title: group.name,
+                href: groups.show({ group: group.slug! }),
             },
             {
                 title: session.name,
                 href: sessions.show({
-                    tontine: tontine.slug!,
+                    group: group.slug!,
                     session: session.slug,
                 }),
             },
             { title: 'Transactions', href: '#' },
         ] as BreadcrumbItem[],
     ({
-        tontine,
+        group,
         session,
         collection,
         filters,
@@ -170,7 +170,7 @@ export default withAppLayout<Props>(
                                 <CardTitle>Transactions</CardTitle>
                                 <Form
                                     {...sessions.transactions.index.form({
-                                        tontine: tontine.slug!,
+                                        group: group.slug!,
                                         session: session.slug,
                                     })}
                                     className="grid flex-1 gap-2 sm:grid-cols-5"

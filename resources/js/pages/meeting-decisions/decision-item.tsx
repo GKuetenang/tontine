@@ -16,21 +16,21 @@ import { useAuthorization } from '@/hooks/use-authorization';
 
 import { formatDate } from '@/lib';
 
-import decisions from '@/routes/tontines/sessions/meetings/decisions';
+import decisions from '@/routes/groups/sessions/meetings/decisions';
 
-import type { Meeting, MeetingDecision, Session, Tontine } from '@/types';
+import type { Meeting, MeetingDecision, Session, Group } from '@/types';
 
 import { EditMeetingDecisionForm } from './form';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     decision: MeetingDecision;
 };
 
 export function MeetingDecisionItem({
-    tontine,
+    group,
     session,
     meeting,
     decision,
@@ -65,7 +65,7 @@ export function MeetingDecisionItem({
                     <CardAction className="flex items-center gap-2">
                         {can('meeting-decisions.update') && (
                             <EditMeetingDecisionForm
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                                 decision={decision}
@@ -91,7 +91,7 @@ export function MeetingDecisionItem({
                             >
                                 <Link
                                     href={decisions.destroy({
-                                        tontine: tontine.slug!,
+                                        group: group.slug!,
 
                                         session: session.slug,
 

@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\MeetingAgendaItem;
-use App\Models\Tontine;
 use App\Models\User;
 
 class MeetingAgendaItemPolicy
@@ -16,8 +16,8 @@ class MeetingAgendaItemPolicy
     ): bool {
         return $this->can(
             $user,
-            $meeting->session->tontine,
-            TontinePermission::ViewMeetingAgenda,
+            $meeting->session->group,
+            GroupPermission::ViewMeetingAgenda,
         );
     }
 
@@ -27,8 +27,8 @@ class MeetingAgendaItemPolicy
     ): bool {
         return $this->can(
             $user,
-            $agendaItem->meeting->session->tontine,
-            TontinePermission::ViewMeetingAgenda,
+            $agendaItem->meeting->session->group,
+            GroupPermission::ViewMeetingAgenda,
         );
     }
 
@@ -38,8 +38,8 @@ class MeetingAgendaItemPolicy
     ): bool {
         return $this->can(
             $user,
-            $meeting->session->tontine,
-            TontinePermission::CreateMeetingAgenda,
+            $meeting->session->group,
+            GroupPermission::CreateMeetingAgenda,
         );
     }
 
@@ -49,8 +49,8 @@ class MeetingAgendaItemPolicy
     ): bool {
         return $this->can(
             $user,
-            $agendaItem->meeting->session->tontine,
-            TontinePermission::UpdateMeetingAgenda,
+            $agendaItem->meeting->session->group,
+            GroupPermission::UpdateMeetingAgenda,
         );
     }
 
@@ -58,16 +58,16 @@ class MeetingAgendaItemPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        $tontine = $meeting
+        $group = $meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::UpdateMeetingAgenda,
+                group: $group,
+                permission: GroupPermission::UpdateMeetingAgenda,
             );
     }
 
@@ -77,21 +77,21 @@ class MeetingAgendaItemPolicy
     ): bool {
         return $this->can(
             $user,
-            $agendaItem->meeting->session->tontine,
-            TontinePermission::DeleteMeetingAgenda,
+            $agendaItem->meeting->session->group,
+            GroupPermission::DeleteMeetingAgenda,
         );
     }
 
     private function can(
         User $user,
-        Tontine $tontine,
-        TontinePermission $permission,
+        Group $group,
+        GroupPermission $permission,
     ): bool {
         $previousTeamId = getPermissionsTeamId();
 
         try {
             setPermissionsTeamId(
-                $tontine->id,
+                $group->id,
             );
 
             $user->unsetRelation('roles');

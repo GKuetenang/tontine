@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 final class DrawCalendar
 {
     /**
-     * Retourne le numéro de réunion auquel
+     * Retourne le numéro d’assise auquel
      * une position du tirage est rattachée.
      *
      * Ex:
@@ -58,7 +58,7 @@ final class DrawCalendar
 
     /**
      * Retourne les positions prévues
-     * pour une réunion donnée.
+     * pour une assise donnée.
      *
      * Ex:
      * beneficiaries_per_meeting = 2

@@ -16,14 +16,14 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { withAppLayout } from '@/layouts/app-layout';
-import tontines from '@/routes/tontines';
-import roles from '@/routes/tontines/roles';
-import type { BreadcrumbItem, PaginatedCollection, Tontine } from '@/types';
+import groups from '@/routes/groups';
+import roles from '@/routes/groups/roles';
+import type { BreadcrumbItem, PaginatedCollection, Group } from '@/types';
 import type { PermissionOption, RoleItem } from './form';
 import { RoleForm } from './form';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     collection: PaginatedCollection<RoleItem>;
     permissions: PermissionOption[];
     q: string | null;
@@ -31,28 +31,28 @@ type Props = {
 };
 
 export default withAppLayout<Props>(
-    ({ tontine }) =>
+    ({ group }) =>
         [
-            { title: 'Tontines', href: tontines.index() },
+            { title: 'Réunions', href: groups.index() },
             {
-                title: tontine.name,
-                href: tontines.show({ tontine: tontine.slug! }),
+                title: group.name,
+                href: groups.show({ group: group.slug! }),
             },
             { title: 'Rôles et permissions', href: '#' },
         ] as BreadcrumbItem[],
-    ({ tontine, collection, permissions, q, can }) => (
+    ({ group, collection, permissions, q, can }) => (
         <>
             <Head title="Rôles et permissions" />
             <Heading
                 title="Rôles et permissions"
-                description={`Gérez les responsabilités au sein de ${tontine.name}.`}
+                description={`Gérez les responsabilités au sein de ${group.name}.`}
             />
             <Card className="bg-background pt-0">
                 <CardHeader className="border-b py-4">
                     <div className="flex items-center justify-between">
                         {can.create && (
                             <RoleForm
-                                tontine={tontine}
+                                group={group}
                                 permissions={permissions}
                                 trigger={
                                     <Button className="w-fit">
@@ -62,7 +62,7 @@ export default withAppLayout<Props>(
                             />
                         )}
                         <Form
-                            {...roles.index.form({ tontine: tontine.slug! })}
+                            {...roles.index.form({ group: group.slug! })}
                             className="flex items-center gap-1"
                         >
                             <Input
@@ -110,7 +110,7 @@ export default withAppLayout<Props>(
                                     <TableCell className="pr-6 text-right">
                                         {can.update && role.editable && (
                                             <RoleForm
-                                                tontine={tontine}
+                                                group={group}
                                                 permissions={permissions}
                                                 role={role}
                                                 trigger={

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Tontine;
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,7 +13,7 @@ return new class extends Migration
         Schema::create('memberships', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->restrictOnDelete();
-            $table->foreignIdFor(Tontine::class)->constrained()->restrictOnDelete();
+            $table->foreignIdFor(Group::class)->constrained()->restrictOnDelete();
             $table->string('member_number', 30);
             $table->string('status', 20)->default('active');
             $table->timestamp('verified_at')->useCurrent();
@@ -23,10 +23,10 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->unique(['user_id', 'tontine_id']);
-            $table->unique(['tontine_id', 'member_number']);
-            $table->index(['tontine_id', 'status']);
-            $table->index(['tontine_id', 'joined_at']);
+            $table->unique(['user_id', 'group_id']);
+            $table->unique(['group_id', 'member_number']);
+            $table->index(['group_id', 'status']);
+            $table->index(['group_id', 'joined_at']);
             $table->index(['user_id', 'status']);
             $table->index(['status', 'left_at']);
         });

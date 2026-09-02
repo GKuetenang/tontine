@@ -27,7 +27,7 @@ final class UpdateMeetingAttendanceAction
                 ) {
                     throw ValidationException::withMessages([
                         'attendance' => __(
-                            'Les présences ne peuvent être modifiées que pendant une réunion en cours.'
+                            'Les présences ne peuvent être modifiées que pendant une assise en cours.'
                         ),
                     ]);
                 }

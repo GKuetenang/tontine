@@ -1,6 +1,3 @@
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
-import type { Meeting, NavItem, Session, Tontine } from '@/types';
 import type { InertiaLinkProps } from '@inertiajs/react';
 import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
@@ -19,6 +16,9 @@ import {
     UsersIcon,
 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
+import groups from '@/routes/groups';
+import sessions from '@/routes/groups/sessions';
+import type { Meeting, NavItem, Session, Group } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -49,36 +49,36 @@ export function formatCurrency(
     }).format(value);
 }
 
-export function getTontineNavItems(tontine: Tontine): NavItem[] {
+export function getGroupNavItems(group: Group): NavItem[] {
     return [
         {
             title: 'Vue d’ensemble',
-            href: tontines.show(tontine.slug!),
+            href: groups.show(group.slug!),
             icon: LayoutDashboardIcon,
         },
         {
             title: 'Membres',
-            href: tontines.memberships.index(tontine.slug!),
+            href: groups.memberships.index(group.slug!),
             icon: UsersIcon,
         },
         {
             title: 'Sessions',
-            href: tontines.sessions.index(tontine.slug!),
+            href: groups.sessions.index(group.slug!),
             icon: CalendarDaysIcon,
         },
         {
             title: 'Règles de pénalité',
-            href: tontines.penaltyRules.index({ tontine: tontine.slug! }),
+            href: groups.penaltyRules.index({ group: group.slug! }),
             icon: ShieldCheckIcon,
         },
         {
             title: 'Rôles et permissions',
-            href: tontines.roles.index({ tontine: tontine.slug! }),
+            href: groups.roles.index({ group: group.slug! }),
             icon: UserRoundCogIcon,
         },
         {
             title: 'Finances',
-            href: tontines.finances.index({ tontine: tontine.slug! }),
+            href: groups.finances.index({ group: group.slug! }),
             icon: CircleDollarSignIcon,
         },
         // {
@@ -94,31 +94,28 @@ export function getTontineNavItems(tontine: Tontine): NavItem[] {
     ];
 }
 
-export function getSessionNavItems(
-    tontine: Tontine,
-    session: Session,
-): NavItem[] {
+export function getSessionNavItems(group: Group, session: Session): NavItem[] {
     return [
         {
             title: 'Vue d’ensemble',
             href: sessions.show({
-                tontine: tontine.slug!,
+                group: group.slug!,
                 session: session.slug,
             }),
             icon: LayoutDashboardIcon,
         },
         {
             title: 'Participants',
-            href: tontines.sessions.participants.index({
-                tontine: tontine.slug!,
+            href: groups.sessions.participants.index({
+                group: group.slug!,
                 session: session.slug,
             }),
             icon: UsersIcon,
         },
         {
-            title: 'Réunions',
+            title: 'Assises',
             href: sessions.meetings.index({
-                tontine: tontine.slug!,
+                group: group.slug!,
                 session: session.slug,
             }),
             icon: CalendarDaysIcon,
@@ -127,7 +124,7 @@ export function getSessionNavItems(
         {
             title: 'Tirage',
             href: sessions.draw.show({
-                tontine: tontine.slug!,
+                group: group.slug!,
                 session: session.slug,
             }),
             icon: ShuffleIcon,
@@ -135,7 +132,7 @@ export function getSessionNavItems(
         {
             title: 'Dons',
             href: sessions.donations.index({
-                tontine: tontine.slug!,
+                group: group.slug!,
                 session: session.slug,
             }),
             icon: HandHeartIcon,
@@ -143,7 +140,7 @@ export function getSessionNavItems(
         {
             title: 'Transactions',
             href: sessions.transactions.index({
-                tontine: tontine.slug!,
+                group: group.slug!,
                 session: session.slug,
             }),
             icon: ChartNoAxesColumnIcon,
@@ -151,7 +148,7 @@ export function getSessionNavItems(
         {
             title: 'Prêts',
             href: sessions.loans.index({
-                tontine: tontine.slug!,
+                group: group.slug!,
                 session: session.slug,
             }),
             icon: LandmarkIcon,
@@ -159,7 +156,7 @@ export function getSessionNavItems(
         {
             title: 'Remboursements',
             href: sessions.repayments.index({
-                tontine: tontine.slug!,
+                group: group.slug!,
                 session: session.slug,
             }),
             icon: ReceiptTextIcon,
@@ -167,7 +164,7 @@ export function getSessionNavItems(
         {
             title: 'Assurance',
             href: sessions.insurance.index({
-                tontine: tontine.slug!,
+                group: group.slug!,
                 session: session.slug,
             }),
             icon: PiggyBankIcon,

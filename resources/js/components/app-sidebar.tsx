@@ -14,22 +14,22 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { getSessionNavItems, getTontineNavItems } from '@/lib/utils';
+import { getSessionNavItems, getGroupNavItems } from '@/lib/utils';
 
 import { dashboard } from '@/routes';
-import tontines from '@/routes/tontines';
+import groups from '@/routes/groups';
 
-import type { NavItem, Session, Tontine } from '@/types';
+import type { NavItem, Session, Group } from '@/types';
 
 type SidebarPageProps = {
-    tontine?: Tontine;
+    group?: Group;
     session?: Session;
 };
 
 export function AppSidebar() {
     const { props } = usePage<SidebarPageProps>();
 
-    const tontine = props.tontine;
+    const group = props.group;
     const session = props.session;
 
     const mainNavItems: NavItem[] = [
@@ -39,8 +39,8 @@ export function AppSidebar() {
             icon: LayoutGrid,
         },
         {
-            title: 'Tontines',
-            href: tontines.index(),
+            title: 'Réunions',
+            href: groups.index(),
             icon: ListIcon,
         },
     ];
@@ -62,19 +62,19 @@ export function AppSidebar() {
             <SidebarContent>
                 <NavMain items={mainNavItems} />
 
-                {tontine?.slug && (
+                {group?.slug && (
                     <NavContext
-                        label="Tontine"
-                        title={tontine.name}
-                        items={getTontineNavItems(tontine)}
+                        label="Réunion"
+                        title={group.name}
+                        items={getGroupNavItems(group)}
                     />
                 )}
 
-                {tontine && session?.slug && (
+                {group && session?.slug && (
                     <NavContext
                         label="Session"
                         title={session.name}
-                        items={getSessionNavItems(tontine, session)}
+                        items={getSessionNavItems(group, session)}
                     />
                 )}
             </SidebarContent>

@@ -1,15 +1,15 @@
 <?php
 
+use App\Actions\Groups\CreateDefaultGroupRolesAction;
 use App\Actions\Insurance\CreateInsuranceContributionAction;
 use App\Actions\Memberships\CreateMembershipAction;
-use App\Actions\Tontines\CreateDefaultTontineRolesAction;
 use App\Enums\TransactionDirection;
 use App\Enums\TransactionType;
+use App\Models\Group;
 use App\Models\InsuranceContribution;
 use App\Models\Membership;
 use App\Models\Session;
 use App\Models\SessionParticipant;
-use App\Models\Tontine;
 use App\Models\Transaction;
 use App\Models\User;
 use Carbon\CarbonImmutable;
@@ -20,7 +20,7 @@ uses(RefreshDatabase::class);
 
 it('records a member insurance contribution with exactly one credit transaction', function (): void {
     $session = Session::factory()->active()->create();
-    $membership = Membership::factory()->active()->create(['tontine_id' => $session->tontine_id]);
+    $membership = Membership::factory()->active()->create(['group_id' => $session->group_id]);
     SessionParticipant::factory()->for($session)->for($membership)->create();
     $actor = User::factory()->create();
 
@@ -49,15 +49,15 @@ it('records a member insurance contribution with exactly one credit transaction'
 it('shows the insurance total and contributions to an authorized user', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, 'president');
     $member = User::factory()->create([
         'first_name' => 'Gustave',
         'name' => 'Kamga',
     ]);
-    $membership = app(CreateMembershipAction::class)->execute($tontine, $member, 'member');
-    $session = Session::factory()->for($tontine)->active()->create();
+    $membership = app(CreateMembershipAction::class)->execute($group, $member, 'member');
+    $session = Session::factory()->for($group)->active()->create();
     SessionParticipant::factory()->for($session)->for($membership)->create();
 
     foreach (['5000.00', '1250.50'] as $amount) {
@@ -72,8 +72,8 @@ it('shows the insurance total and contributions to an authorized user', function
     }
 
     $this->actingAs($president)
-        ->get(route('tontines.sessions.insurance.index', [
-            'tontine' => $tontine,
+        ->get(route('groups.sessions.insurance.index', [
+            'group' => $group,
             'session' => $session,
             'q' => 'Gustave',
         ]))
@@ -90,14 +90,14 @@ it('shows the insurance total and contributions to an authorized user', function
 it('allows an authorized user to record an insurance contribution through the session route', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    $membership = app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    $session = Session::factory()->for($tontine)->active()->create();
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    $membership = app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    $session = Session::factory()->for($group)->active()->create();
     SessionParticipant::factory()->for($session)->for($membership)->create();
 
     $this->actingAs($president)
-        ->post(route('tontines.sessions.insurance.store', [$tontine, $session]), [
+        ->post(route('groups.sessions.insurance.store', [$group, $session]), [
             'membership_id' => $membership->id,
             'amount' => '8500.25',
             'description' => 'Approvisionnement initial',
@@ -113,14 +113,14 @@ it('uses the current date and accepts no description for an insurance contributi
     CarbonImmutable::setTestNow('2026-09-02 14:37:18');
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    $membership = app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    $session = Session::factory()->for($tontine)->active()->create();
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    $membership = app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    $session = Session::factory()->for($group)->active()->create();
     SessionParticipant::factory()->for($session)->for($membership)->create();
 
     $this->actingAs($president)
-        ->post(route('tontines.sessions.insurance.store', [$tontine, $session]), [
+        ->post(route('groups.sessions.insurance.store', [$group, $session]), [
             'membership_id' => $membership->id,
             'amount' => '50000.00',
         ])
@@ -137,14 +137,14 @@ it('uses the current date and accepts no description for an insurance contributi
 it('rejects invalid insurance contributions', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    $membership = app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    $session = Session::factory()->for($tontine)->active()->create();
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    $membership = app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    $session = Session::factory()->for($group)->active()->create();
     SessionParticipant::factory()->for($session)->for($membership)->create();
 
     $this->actingAs($president)
-        ->post(route('tontines.sessions.insurance.store', [$tontine, $session]), [
+        ->post(route('groups.sessions.insurance.store', [$group, $session]), [
             'membership_id' => null,
             'amount' => '0',
             'description' => '',

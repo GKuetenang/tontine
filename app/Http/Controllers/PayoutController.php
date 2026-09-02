@@ -9,10 +9,10 @@ use App\Actions\Payouts\UpdatePayoutAction;
 use App\Http\Requests\StorePayoutRequest;
 use App\Http\Requests\UpdatePayoutRequest;
 use App\Models\DrawEntry;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\Payout;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 
@@ -20,7 +20,7 @@ class PayoutController extends Controller
 {
     public function store(
         StorePayoutRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         CreatePayoutAction $action,
@@ -70,7 +70,7 @@ class PayoutController extends Controller
 
     public function update(
         UpdatePayoutRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         Payout $payout,
@@ -104,7 +104,7 @@ class PayoutController extends Controller
     }
 
     public function pay(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         Payout $payout,
@@ -136,7 +136,7 @@ class PayoutController extends Controller
     }
 
     public function cancel(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         Payout $payout,

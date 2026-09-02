@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Tontine;
+use App\Models\Group;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('penalty_rules', function (Blueprint $table): void {
             $table->id();
-            $table->foreignIdFor(Tontine::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Group::class)->constrained()->cascadeOnDelete();
             $table->string('code');
             $table->string('name');
             $table->string('trigger');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('is_automatic')->default(false);
             $table->boolean('is_active')->default(false);
             $table->timestamps();
-            $table->unique(['tontine_id', 'code']);
+            $table->unique(['group_id', 'code']);
         });
     }
 

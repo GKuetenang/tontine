@@ -18,17 +18,17 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { withAppLayout } from '@/layouts/app-layout';
-import tontines from '@/routes/tontines';
+import groups from '@/routes/groups';
 import type {
     BreadcrumbItem,
     PaginatedCollection,
     PenaltyRule,
-    Tontine,
+    Group,
 } from '@/types';
 import { PenaltyRuleForm } from './form';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     collection: PaginatedCollection<PenaltyRule>;
     triggers: SelectOption[];
     calculation_types: SelectOption[];
@@ -37,17 +37,17 @@ type Props = {
 };
 
 export default withAppLayout<Props>(
-    ({ tontine }) =>
+    ({ group }) =>
         [
-            { title: 'Tontines', href: tontines.index() },
+            { title: 'Réunions', href: groups.index() },
             {
-                title: tontine.name,
-                href: tontines.show({ tontine: tontine.slug! }),
+                title: group.name,
+                href: groups.show({ group: group.slug! }),
             },
             { title: 'Règles de pénalité', href: '#' },
         ] as BreadcrumbItem[],
     ({
-        tontine,
+        group,
         collection,
         triggers,
         calculation_types: calculationTypes,
@@ -61,14 +61,14 @@ export default withAppLayout<Props>(
                     <Heading
                         title="Règles de pénalité"
                         description={
-                            'Configuration des pénalités de ' + tontine.name
+                            'Configuration des pénalités de ' + group.name
                         }
                     />
                     <Card className="bg-background pt-0">
                         <CardHeader className="border-b py-4">
                             <div className="flex items-center justify-between">
                                 <PenaltyRuleForm
-                                    tontine={tontine}
+                                    group={group}
                                     triggers={triggers}
                                     calculationTypes={calculationTypes}
                                     graceUnits={graceUnits}
@@ -80,8 +80,8 @@ export default withAppLayout<Props>(
                                     }
                                 />
                                 <Form
-                                    {...tontines.penaltyRules.index.form({
-                                        tontine: tontine.slug!,
+                                    {...groups.penaltyRules.index.form({
+                                        group: group.slug!,
                                     })}
                                     className="flex items-center gap-1"
                                 >
@@ -171,7 +171,7 @@ export default withAppLayout<Props>(
                                             </TableCell>
                                             <TableCell className="pr-6 text-right">
                                                 <PenaltyRuleForm
-                                                    tontine={tontine}
+                                                    group={group}
                                                     rule={rule}
                                                     triggers={triggers}
                                                     calculationTypes={

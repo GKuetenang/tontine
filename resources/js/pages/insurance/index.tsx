@@ -18,19 +18,19 @@ import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
+import groups from '@/routes/groups';
+import sessions from '@/routes/groups/sessions';
 import type {
     BreadcrumbItem,
     InsuranceContribution,
     PaginatedCollection,
     Session,
-    Tontine,
+    Group,
 } from '@/types';
 import { CreateInsuranceContributionForm } from './form';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     collection: PaginatedCollection<InsuranceContribution>;
     summary: {
@@ -42,23 +42,23 @@ type Props = {
 };
 
 export default withAppLayout<Props>(
-    ({ tontine, session }) =>
+    ({ group, session }) =>
         [
-            { title: 'Tontines', href: tontines.index() },
+            { title: 'Réunions', href: groups.index() },
             {
-                title: tontine.name,
-                href: tontines.show({ tontine: tontine.slug! }),
+                title: group.name,
+                href: groups.show({ group: group.slug! }),
             },
             {
                 title: session.name,
                 href: sessions.show({
-                    tontine: tontine.slug!,
+                    group: group.slug!,
                     session: session.slug,
                 }),
             },
             { title: 'Assurance', href: '#' },
         ] as BreadcrumbItem[],
-    ({ tontine, session, collection, summary, q }) => {
+    ({ group, session, collection, summary, q }) => {
         const { can } = useAuthorization();
         const cards = [
             {
@@ -99,7 +99,7 @@ export default withAppLayout<Props>(
                             <div className="flex items-center justify-between">
                                 {can('insurance.manage') && (
                                     <CreateInsuranceContributionForm
-                                        tontine={tontine}
+                                        group={group}
                                         session={session}
                                         trigger={
                                             <Button className="w-fit">
@@ -110,7 +110,7 @@ export default withAppLayout<Props>(
                                 )}
                                 <Form
                                     {...sessions.insurance.index.form({
-                                        tontine: tontine.slug!,
+                                        group: group.slug!,
                                         session: session.slug,
                                     })}
                                     className="flex items-center gap-1"

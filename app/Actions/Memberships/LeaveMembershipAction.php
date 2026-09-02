@@ -2,8 +2,8 @@
 
 namespace App\Actions\Memberships;
 
+use App\Enums\GroupRole;
 use App\Enums\MembershipStatus;
-use App\Enums\TontineRole;
 use App\Models\Membership;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +17,7 @@ final class LeaveMembershipAction
         DB::transaction(function () use ($membership): void {
             $membership->loadMissing([
                 'user',
-                'tontine',
+                'group',
             ]);
 
             $this->ensureMembershipCanLeave($membership);
@@ -41,7 +41,7 @@ final class LeaveMembershipAction
         if ($membership->trashed()) {
             throw ValidationException::withMessages([
                 'membership' => __(
-                    'Ce membre a déjà quitté la tontine.'
+                    'Ce membre a déjà quitté la réunion.'
                 ),
             ]);
         }
@@ -49,7 +49,7 @@ final class LeaveMembershipAction
         if ($membership->status === MembershipStatus::Left) {
             throw ValidationException::withMessages([
                 'membership' => __(
-                    'Ce membre a déjà quitté la tontine.'
+                    'Ce membre a déjà quitté la réunion.'
                 ),
             ]);
         }
@@ -64,7 +64,7 @@ final class LeaveMembershipAction
 
         try {
             setPermissionsTeamId(
-                $membership->tontine_id,
+                $membership->group_id,
             );
 
             $user->unsetRelation('roles');
@@ -72,20 +72,20 @@ final class LeaveMembershipAction
 
             if (
                 ! $user->hasRole(
-                    TontineRole::President->value,
+                    GroupRole::President->value,
                 )
             ) {
                 return;
             }
 
             $presidentsCount = User::role(
-                TontineRole::President->value,
+                GroupRole::President->value,
             )->count();
 
             if ($presidentsCount <= 1) {
                 throw ValidationException::withMessages([
                     'membership' => __(
-                        'Le dernier président de la tontine ne peut pas quitter la tontine.'
+                        'Le dernier président de la réunion ne peut pas quitter la réunion.'
                     ),
                 ]);
             }
@@ -106,7 +106,7 @@ final class LeaveMembershipAction
 
         try {
             setPermissionsTeamId(
-                $membership->tontine_id,
+                $membership->group_id,
             );
 
             $user->unsetRelation('roles');

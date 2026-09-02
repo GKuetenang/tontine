@@ -29,20 +29,20 @@ import {
 
 import { Spinner } from '@/components/ui/spinner';
 
-import payouts from '@/routes/tontines/sessions/meetings/payouts';
+import payouts from '@/routes/groups/sessions/meetings/payouts';
 
 import type {
     Meeting,
     MeetingPayoutContext,
     PayoutCandidate,
     Session,
-    Tontine,
+    Group,
 } from '@/types';
 
 type Props = {
     trigger: ReactElement;
 
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
 
@@ -53,7 +53,7 @@ type Props = {
 
 export function CreatePayoutForm({
     trigger,
-    tontine,
+    group,
     session,
     meeting,
     context,
@@ -91,7 +91,7 @@ export function CreatePayoutForm({
 
                 <Form
                     {...payouts.store.form({
-                        tontine: tontine.slug!,
+                        group: group.slug!,
 
                         session: session.slug,
 

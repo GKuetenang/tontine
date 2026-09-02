@@ -1,0 +1,191 @@
+<?php
+
+namespace App\Models;
+
+use App\Enums\MembershipStatus;
+use App\Enums\SessionStatus;
+use App\Models\Traits\HasSortable;
+use App\Policies\GroupPolicy;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Permission\Models\Role;
+
+/**
+ * @mixin IdeHelperGroup
+ */
+#[Fillable([
+    'name',
+    'description',
+    'currency',
+    'member_number_prefix',
+    'default_contribution_amount',
+    'default_loan_interest_rate',
+    'default_loan_term_months',
+])]
+#[UsePolicy(GroupPolicy::class)]
+class Group extends Model implements HasMedia
+{
+    use HasFactory;
+    use HasSortable;
+    use InteractsWithMedia;
+    use SoftDeletes;
+
+    protected $sortable = [
+        'id',
+        'name',
+        'member_number_prefix',
+        'slug',
+        'description',
+        'is_active',
+        'is_public',
+        'currency',
+        'default_contribution_amount',
+        'default_loan_interest_rate',
+        'default_loan_term_months',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'is_public' => 'boolean',
+        'is_verified' => 'boolean',
+        'created_at' => 'immutable_datetime',
+        'updated_at' => 'immutable_datetime',
+        'default_contribution_amount' => 'integer',
+        'default_loan_interest_rate' => 'decimal:2',
+        'default_loan_term_months' => 'integer',
+    ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public function sessions(): HasMany
+    {
+        return $this->hasMany(Session::class);
+    }
+
+    public function penaltyRules(): HasMany
+    {
+        return $this->hasMany(PenaltyRule::class);
+    }
+
+    public function roles(): HasMany
+    {
+        return $this->hasMany(Role::class, 'group_id');
+    }
+
+    public function activeSession(): HasOne
+    {
+        return $this->hasOne(Session::class)
+            ->where('status', SessionStatus::Active);
+    }
+
+    /**
+     * @return BelongsTo<User>
+     */
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * @return HasMany<Membership>
+     */
+    public function memberships(): HasMany
+    {
+        return $this->hasMany(Membership::class);
+    }
+
+    public function members(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'memberships')
+            ->withPivot(
+                'id',
+                'member_number',
+                'status',
+                'joined_at',
+                'left_at',
+                'verified_at',
+                'invited_by',
+            )
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the active groups.
+     *
+     * @param  Builder<Group>  $query
+     * @return Builder<Group>
+     */
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * Get the default role name for a membership in this group.
+     */
+    public function defaultMembershipRoleName(): string
+    {
+        return $this->default_membership_role ?: config('memberships.default_role', 'member');
+    }
+
+    /**
+     * Register the media collections for the model.
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')->singleFile();
+    }
+
+    /**
+     * Register the media conversions for the model.
+     */
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')->fit(Fit::Crop, 160, 160);
+    }
+
+    public function scopeAccessibleBy(
+        Builder $query,
+        User $user
+    ): Builder {
+
+        return $query->where(function (Builder $query) use ($user): void {
+            $query
+                ->where('user_id', $user->id)
+                ->orWhereHas(
+                    'memberships',
+                    function (Builder $membershiptQuery) use ($user): void {
+                        $membershiptQuery
+                            ->where('user_id', $user->id)
+                            ->where(
+                                'status',
+                                MembershipStatus::Active
+                            );
+                    }
+                );
+        });
+    }
+
+    public function hasActiveMembership(User $user)
+    {
+        return $this->memberships()
+            ->where('user_id', $user->id)
+            ->where('status', MembershipStatus::Active)
+            ->exists();
+    }
+}

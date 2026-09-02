@@ -13,8 +13,8 @@ final class CreateDonationAction
 {
     public function execute(Session $session, Membership $membership, User $creator, string $amount, string $reason): Donation
     {
-        if ($membership->tontine_id !== $session->tontine_id || ! $membership->isActive()) {
-            throw ValidationException::withMessages(['membership_id' => __('Ce membre actif n’appartient pas à la tontine de cette session.')]);
+        if ($membership->group_id !== $session->group_id || ! $membership->isActive()) {
+            throw ValidationException::withMessages(['membership_id' => __('Ce membre actif n’appartient pas à la réunion de cette session.')]);
         }
 
         if (! $session->participants()->active()->where('membership_id', $membership->id)->exists()) {

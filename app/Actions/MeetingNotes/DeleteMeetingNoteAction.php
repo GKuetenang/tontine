@@ -20,7 +20,7 @@ final class DeleteMeetingNoteAction
                 ) {
                     throw ValidationException::withMessages([
                         'meeting' => __(
-                            'Les notes ne peuvent être supprimées que pendant une réunion en cours.'
+                            'Les notes ne peuvent être supprimées que pendant une assise en cours.'
                         ),
                     ]);
                 }

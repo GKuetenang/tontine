@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Actions\Reports\BuildMeetingReportAction;
 use App\Data\SessionData;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\Session;
-use App\Models\Tontine;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class MeetingReportController extends Controller
 {
     public function show(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         BuildMeetingReportAction $buildReport,
@@ -24,10 +24,10 @@ class MeetingReportController extends Controller
         );
 
         return Inertia::render('meeting-reports/show', [
-            'tontine' => [
-                'id' => $tontine->id,
-                'name' => $tontine->name,
-                'slug' => $tontine->slug,
+            'group' => [
+                'id' => $group->id,
+                'name' => $group->name,
+                'slug' => $group->slug,
             ],
             'session' => SessionData::fromModel($session),
             'report' => $buildReport->execute($meeting),

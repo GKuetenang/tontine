@@ -25,7 +25,7 @@ type Item = {
     status_label: string;
     meeting_title: string;
     scheduled_at: string;
-    tontine: { name: string; currency: string };
+    group: { name: string; currency: string };
 };
 type Props = { collection: PaginatedCollection<Item> };
 export default withAppLayout<Props>(
@@ -48,8 +48,8 @@ export default withAppLayout<Props>(
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="pl-6">Réunion</TableHead>
-                                <TableHead>Tontine</TableHead>
+                                <TableHead className="pl-6">Assise</TableHead>
+                                <TableHead>Réunion</TableHead>
                                 <TableHead>Statut</TableHead>
                                 <TableHead>Attendu</TableHead>
                                 <TableHead className="pr-6 text-right">
@@ -68,7 +68,7 @@ export default withAppLayout<Props>(
                                             {formatDate(item.scheduled_at)}
                                         </p>
                                     </TableCell>
-                                    <TableCell>{item.tontine.name}</TableCell>
+                                    <TableCell>{item.group.name}</TableCell>
                                     <TableCell>
                                         <Badge variant="outline">
                                             {item.status_label}
@@ -77,13 +77,13 @@ export default withAppLayout<Props>(
                                     <TableCell>
                                         {formatCurrency(
                                             item.amount_due,
-                                            item.tontine.currency,
+                                            item.group.currency,
                                         )}
                                     </TableCell>
                                     <TableCell className="pr-6 text-right font-medium">
                                         {formatCurrency(
                                             item.amount_paid,
-                                            item.tontine.currency,
+                                            item.group.currency,
                                         )}
                                     </TableCell>
                                 </TableRow>

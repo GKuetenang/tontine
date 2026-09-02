@@ -25,7 +25,7 @@ final class AddSessionParticipantAction
             $drawEntriesCount,
         ): SessionParticipant {
             $this->ensureSessionIsConfigurable($session);
-            $this->ensureMembershipBelongsToTontine(
+            $this->ensureMembershipBelongsToGroup(
                 $session,
                 $membership,
             );
@@ -95,14 +95,14 @@ final class AddSessionParticipantAction
         }
     }
 
-    private function ensureMembershipBelongsToTontine(
+    private function ensureMembershipBelongsToGroup(
         Session $session,
         Membership $membership,
     ): void {
-        if ($membership->tontine_id !== $session->tontine_id) {
+        if ($membership->group_id !== $session->group_id) {
             throw ValidationException::withMessages([
                 'membership' => __(
-                    'Ce membre n’appartient pas à cette tontine.'
+                    'Ce membre n’appartient pas à cette réunion.'
                 ),
             ]);
         }

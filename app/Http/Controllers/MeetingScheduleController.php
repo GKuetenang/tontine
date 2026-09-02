@@ -7,8 +7,8 @@ use App\Actions\Meetings\UpdateRecurringMeetingsAction;
 use App\Enums\MeetingMonthlyPattern;
 use App\Enums\MeetingRecurrence;
 use App\Http\Requests\StoreMeetingScheduleRequest;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -17,7 +17,7 @@ class MeetingScheduleController extends Controller
 {
     public function store(
         StoreMeetingScheduleRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         GenerateRecurringMeetingsAction $generateMeetings,
     ): RedirectResponse {
@@ -38,12 +38,12 @@ class MeetingScheduleController extends Controller
             interval: $validated['interval'],
         );
 
-        return Inertia::flash('success', __('Le calendrier des réunions a été généré avec succès.'))->back();
+        return Inertia::flash('success', __('Le calendrier des assises a été généré avec succès.'))->back();
     }
 
     public function update(
         StoreMeetingScheduleRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         UpdateRecurringMeetingsAction $updateMeetings,
     ): RedirectResponse {
@@ -63,6 +63,6 @@ class MeetingScheduleController extends Controller
             interval: $validated['interval'],
         );
 
-        return Inertia::flash('success', __('Le calendrier des réunions a été mis à jour avec succès.'))->back();
+        return Inertia::flash('success', __('Le calendrier des assises a été mis à jour avec succès.'))->back();
     }
 }

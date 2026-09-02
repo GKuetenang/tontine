@@ -1,8 +1,8 @@
-# Tontine — Project Context
+# Group — Project Context
 
 ## 1. Purpose
 
-Tontine is a Laravel + Inertia + React application for managing tontines.
+Group is a Laravel + Inertia + React application for managing groups.
 
 This document captures the current domain model, architectural decisions, implementation conventions, and the current state of development so that a new coding agent can continue the project without re-deriving the same decisions.
 
@@ -115,7 +115,7 @@ return Inertia::flash(
 Use slugs for domain resources where already implemented and scoped bindings for nested routes.
 
 ```text
-/tontines/{tontine:slug}
+/groups/{group:slug}
 /sessions/{session:slug}
 /meetings/{meeting:slug}
 ```
@@ -132,14 +132,14 @@ inspect -> write focused test -> run -> implement -> rerun -> refactor -> relate
 
 Avoid dynamic Pest properties such as `$this->payout` when possible because Intelephense reports P1014. Prefer local variables or typed setup helpers.
 
-## 5. Permissions and Tontine Teams
+## 5. Permissions and Group Teams
 
 The project uses Spatie Laravel Permission with Teams.
 
 Team key:
 
 ```text
-tontine_id
+group_id
 ```
 
 Recommended helper pattern:
@@ -147,13 +147,13 @@ Recommended helper pattern:
 ```php
 private function can(
     User $user,
-    Tontine $tontine,
-    TontinePermission $permission,
+    Group $group,
+    GroupPermission $permission,
 ): bool {
     $previousTeamId = getPermissionsTeamId();
 
     try {
-        setPermissionsTeamId($tontine->id);
+        setPermissionsTeamId($group->id);
 
         $user->unsetRelation('roles');
         $user->unsetRelation('permissions');
@@ -173,7 +173,7 @@ private function can(
 ## 6. Main Domain Structure
 
 ```text
-Tontine
+Group
   -> Memberships
   -> Sessions
       -> SessionParticipants
@@ -189,7 +189,7 @@ Tontine
       -> Transactions
 ```
 
-## 7. Tontine
+## 7. Group
 
 Important concepts:
 - name
@@ -200,16 +200,16 @@ Important concepts:
 - is_active
 - is_verified
 
-Slug is unique. Do not assume tontine name must be globally unique unless the current schema explicitly enforces it.
+Slug is unique. Do not assume group name must be globally unique unless the current schema explicitly enforces it.
 
 The creator is automatically represented in membership and normally has the president role.
 
 ## 8. Membership
 
-Membership is tontine-scoped.
+Membership is group-scoped.
 
 Important rules:
-- no duplicate membership for the same user in the same tontine;
+- no duplicate membership for the same user in the same group;
 - creator membership is created automatically as president;
 - last president cannot be deactivated;
 - deactivation removes team roles and soft-deletes membership;
@@ -222,7 +222,7 @@ Important rules:
 The actual table name is:
 
 ```text
-tontine_sessions
+group_sessions
 ```
 
 Do not use `sessions` for this domain table.
@@ -628,7 +628,7 @@ export function formatCurrency(
 
 `Number()` is acceptable for display only, not financial computation.
 
-Future direction: currency should likely belong to Tontine and be inherited by payouts/transactions.
+Future direction: currency should likely belong to Group and be inherited by payouts/transactions.
 
 ## 20. Payout Status
 
@@ -891,7 +891,7 @@ Minimum coverage:
 ## 29. Factories
 
 Expected useful factories:
-- TontineFactory
+- GroupFactory
 - MembershipFactory
 - SessionFactory
 - SessionParticipantFactory

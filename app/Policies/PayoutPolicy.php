@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\Payout;
-use App\Models\Tontine;
 use App\Models\User;
 
 class PayoutPolicy
@@ -14,17 +14,17 @@ class PayoutPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        $tontine =
+        $group =
             $meeting
                 ->session
-                ->tontine;
+                ->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::ViewPayouts,
+                group: $group,
+                permission: GroupPermission::ViewPayouts,
             );
     }
 
@@ -32,17 +32,17 @@ class PayoutPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        $tontine =
+        $group =
             $meeting
                 ->session
-                ->tontine;
+                ->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::CreatePayouts,
+                group: $group,
+                permission: GroupPermission::CreatePayouts,
             );
     }
 
@@ -53,7 +53,7 @@ class PayoutPolicy
         return $this->canForPayout(
             user: $user,
             payout: $payout,
-            permission: TontinePermission::UpdatePayouts,
+            permission: GroupPermission::UpdatePayouts,
         );
     }
 
@@ -64,7 +64,7 @@ class PayoutPolicy
         return $this->canForPayout(
             user: $user,
             payout: $payout,
-            permission: TontinePermission::PayPayouts,
+            permission: GroupPermission::PayPayouts,
         );
     }
 
@@ -75,41 +75,41 @@ class PayoutPolicy
         return $this->canForPayout(
             user: $user,
             payout: $payout,
-            permission: TontinePermission::CancelPayouts,
+            permission: GroupPermission::CancelPayouts,
         );
     }
 
     private function canForPayout(
         User $user,
         Payout $payout,
-        TontinePermission $permission,
+        GroupPermission $permission,
     ): bool {
-        $tontine =
+        $group =
             $payout
                 ->meeting
                 ->session
-                ->tontine;
+                ->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
+                group: $group,
                 permission: $permission,
             );
     }
 
     private function can(
         User $user,
-        Tontine $tontine,
-        TontinePermission $permission,
+        Group $group,
+        GroupPermission $permission,
     ): bool {
         $previousTeamId =
             getPermissionsTeamId();
 
         try {
             setPermissionsTeamId(
-                $tontine->id,
+                $group->id,
             );
 
             $user->unsetRelation('roles');

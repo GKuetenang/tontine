@@ -9,18 +9,18 @@ import {
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
-import type { Meeting, Session, Tontine } from '@/types';
+import type { Meeting, Session, Group } from '@/types';
 
 import { AttendanceRow } from './attendace-row';
 import { AttendancePlaceholder } from './placeholder';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
 };
 
-export function MeetingAttendances({ tontine, session, meeting }: Props) {
+export function MeetingAttendances({ group, session, meeting }: Props) {
     const { can } = useAuthorization();
 
     const attendances = meeting.attendances ?? [];
@@ -57,7 +57,7 @@ export function MeetingAttendances({ tontine, session, meeting }: Props) {
                         {attendances.map((attendance) => (
                             <AttendanceRow
                                 key={attendance.id}
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                                 attendance={attendance}

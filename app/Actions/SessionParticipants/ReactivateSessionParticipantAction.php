@@ -42,7 +42,7 @@ final class ReactivateSessionParticipantAction
             if (! $participant->membership->isActive()) {
                 throw ValidationException::withMessages([
                     'membership' => __(
-                        'Le membre doit être actif dans la tontine avant de pouvoir être réintégré à la session.'
+                        'Le membre doit être actif dans la réunion avant de pouvoir être réintégré à la session.'
                     ),
                 ]);
             }

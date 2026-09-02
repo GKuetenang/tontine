@@ -30,8 +30,8 @@ import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
 import { dashboard } from '@/routes';
-import tontines from '@/routes/tontines';
-import meetings from '@/routes/tontines/sessions/meetings';
+import groups from '@/routes/groups';
+import meetings from '@/routes/groups/sessions/meetings';
 import type { BreadcrumbItem } from '@/types';
 
 type Money = { currency: string; amount: string };
@@ -40,8 +40,8 @@ type MeetingItem = {
     title: string;
     scheduled_at: string;
     location: string | null;
-    tontine_name: string;
-    tontine_slug: string;
+    group_name: string;
+    group_slug: string;
     session_slug: string;
     meeting_slug: string;
 };
@@ -51,10 +51,10 @@ type TransactionItem = {
     direction: 'credit' | 'debit';
     amount: string;
     occurred_at: string;
-    tontine_name: string;
+    group_name: string;
     currency: string;
 };
-type TontineItem = {
+type GroupItem = {
     id: number;
     name: string;
     slug: string;
@@ -63,9 +63,9 @@ type TontineItem = {
     active_session: { name: string; slug: string } | null;
 };
 type Props = {
-    has_tontines: boolean;
+    has_groups: boolean;
     summary: {
-        tontines_count: number;
+        groups_count: number;
         upcoming_meetings_count: number;
         contributions_due: Money[];
         active_loans_count: number;
@@ -73,7 +73,7 @@ type Props = {
     };
     next_meetings: MeetingItem[];
     recent_transactions: TransactionItem[];
-    tontines: TontineItem[];
+    groups: GroupItem[];
 };
 
 const moneySummary = (items: Money[]) => {
@@ -98,24 +98,23 @@ function EmptyDashboard() {
                     </div>
                     <div className="space-y-2">
                         <h2 className="text-2xl font-semibold">
-                            Commencez avec votre première tontine
+                            Commencez avec votre première réunion
                         </h2>
                         <p className="text-muted-foreground">
-                            Créez une tontine pour organiser les membres, les
-                            sessions, les réunions et les opérations
-                            financières.
+                            Créez une réunion pour organiser les membres, les
+                            sessions, les assises et les opérations financières.
                         </p>
                     </div>
                     <Button asChild className="w-fit">
-                        <Link href={tontines.create()}>
-                            <PlusIcon /> Créer une tontine
+                        <Link href={groups.create()}>
+                            <PlusIcon /> Créer une réunion
                         </Link>
                     </Button>
                     <div className="grid gap-3 pt-4 text-left sm:grid-cols-3">
                         {[
-                            'Créez votre tontine',
+                            'Créez votre réunion',
                             'Ajoutez les membres',
-                            'Planifiez les réunions',
+                            'Planifiez les assises',
                         ].map((label, index) => (
                             <div key={label} className="rounded-lg border p-4">
                                 <Badge variant="secondary">{index + 1}</Badge>
@@ -134,24 +133,24 @@ function EmptyDashboard() {
 export default withAppLayout<Props>(
     [{ title: 'Tableau de bord', href: dashboard() }] as BreadcrumbItem[],
     ({
-        has_tontines,
+        has_groups,
         summary,
         next_meetings,
         recent_transactions,
-        tontines: items,
+        groups: items,
     }) => {
         const { auth } = usePage().props;
         const firstName = auth.user.first_name || auth.user.name;
         const statistics = [
             {
                 icon: UsersIcon,
-                title: 'Mes tontines',
-                value: String(summary.tontines_count),
-                detail: 'Tontines actives',
+                title: 'Mes réunions',
+                value: String(summary.groups_count),
+                detail: 'Réunions actives',
             },
             {
                 icon: CalendarDaysIcon,
-                title: 'Réunions à venir',
+                title: 'Assises à venir',
                 value: String(summary.upcoming_meetings_count),
                 detail: 'Parmi les 5 prochaines',
             },
@@ -175,15 +174,15 @@ export default withAppLayout<Props>(
                 <div className="flex items-start justify-between gap-4">
                     <Heading
                         title={`Bonjour, ${firstName}`}
-                        description="Voici l’essentiel de vos tontines et les prochaines actions à suivre."
+                        description="Voici l’essentiel de vos réunions et les prochaines actions à suivre."
                     />
                     <Button asChild className="w-fit">
-                        <Link href={tontines.create()}>
-                            <PlusIcon /> Créer une tontine
+                        <Link href={groups.create()}>
+                            <PlusIcon /> Créer une réunion
                         </Link>
                     </Button>
                 </div>
-                {!has_tontines ? (
+                {!has_groups ? (
                     <EmptyDashboard />
                 ) : (
                     <div className="space-y-6">
@@ -215,10 +214,10 @@ export default withAppLayout<Props>(
                         <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
                             <Card className="bg-background pt-0">
                                 <CardHeader className="border-b py-4">
-                                    <CardTitle>Prochaines réunions</CardTitle>
+                                    <CardTitle>Prochaines assises</CardTitle>
                                     <CardDescription>
-                                        Les réunions des sessions auxquelles
-                                        vous participez.
+                                        Les assises des sessions auxquelles vous
+                                        participez.
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="divide-y px-0">
@@ -226,7 +225,7 @@ export default withAppLayout<Props>(
                                         <Link
                                             key={meeting.id}
                                             href={meetings.show({
-                                                tontine: meeting.tontine_slug,
+                                                group: meeting.group_slug,
                                                 session: meeting.session_slug,
                                                 meeting: meeting.meeting_slug,
                                             })}
@@ -237,7 +236,7 @@ export default withAppLayout<Props>(
                                                     {meeting.title}
                                                 </p>
                                                 <p className="text-sm text-muted-foreground">
-                                                    {meeting.tontine_name} ·{' '}
+                                                    {meeting.group_name} ·{' '}
                                                     {formatDate(
                                                         meeting.scheduled_at,
                                                     )}
@@ -254,7 +253,7 @@ export default withAppLayout<Props>(
                                     ))}
                                     {next_meetings.length === 0 && (
                                         <p className="p-8 text-center text-sm text-muted-foreground">
-                                            Aucune réunion à venir.
+                                            Aucune assise à venir.
                                         </p>
                                     )}
                                 </CardContent>
@@ -273,8 +272,8 @@ export default withAppLayout<Props>(
                                         variant="outline"
                                         className="justify-start"
                                     >
-                                        <Link href={tontines.index()}>
-                                            <UsersIcon /> Voir mes tontines
+                                        <Link href={groups.index()}>
+                                            <UsersIcon /> Voir mes réunions
                                         </Link>
                                     </Button>
                                     <Button
@@ -282,8 +281,8 @@ export default withAppLayout<Props>(
                                         variant="outline"
                                         className="justify-start"
                                     >
-                                        <Link href={tontines.create()}>
-                                            <PlusIcon /> Créer une tontine
+                                        <Link href={groups.create()}>
+                                            <PlusIcon /> Créer une réunion
                                         </Link>
                                     </Button>
                                     {items[0] && (
@@ -293,8 +292,8 @@ export default withAppLayout<Props>(
                                             className="justify-start"
                                         >
                                             <Link
-                                                href={tontines.show({
-                                                    tontine: items[0].slug,
+                                                href={groups.show({
+                                                    group: items[0].slug,
                                                 })}
                                             >
                                                 <ArrowRightIcon /> Continuer
@@ -321,7 +320,7 @@ export default withAppLayout<Props>(
                                             <TableHead className="pl-6">
                                                 Date
                                             </TableHead>
-                                            <TableHead>Tontine</TableHead>
+                                            <TableHead>Réunion</TableHead>
                                             <TableHead>Opération</TableHead>
                                             <TableHead className="pr-6 text-right">
                                                 Montant
@@ -341,9 +340,7 @@ export default withAppLayout<Props>(
                                                         )}
                                                     </TableCell>
                                                     <TableCell>
-                                                        {
-                                                            transaction.tontine_name
-                                                        }
+                                                        {transaction.group_name}
                                                     </TableCell>
                                                     <TableCell>
                                                         <Badge variant="outline">
@@ -380,7 +377,7 @@ export default withAppLayout<Props>(
                         <Card className="bg-background pt-0">
                             <CardHeader className="flex-row items-center justify-between border-b py-4">
                                 <div>
-                                    <CardTitle>Mes tontines</CardTitle>
+                                    <CardTitle>Mes réunions</CardTitle>
                                     <CardDescription>
                                         Vos espaces actifs et leur session
                                         courante.
@@ -391,34 +388,34 @@ export default withAppLayout<Props>(
                                     variant="outline"
                                     className="w-fit"
                                 >
-                                    <Link href={tontines.index()}>
+                                    <Link href={groups.index()}>
                                         Tout afficher
                                     </Link>
                                 </Button>
                             </CardHeader>
                             <CardContent className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                                {items.slice(0, 6).map((tontine) => (
+                                {items.slice(0, 6).map((group) => (
                                     <Link
-                                        key={tontine.id}
-                                        href={tontines.show({
-                                            tontine: tontine.slug,
+                                        key={group.id}
+                                        href={groups.show({
+                                            group: group.slug,
                                         })}
                                         className="rounded-xl border p-4 transition-colors hover:bg-muted/50"
                                     >
                                         <div className="flex items-start justify-between gap-3">
                                             <p className="font-semibold">
-                                                {tontine.name}
+                                                {group.name}
                                             </p>
                                             <Badge variant="secondary">
-                                                {tontine.currency}
+                                                {group.currency}
                                             </Badge>
                                         </div>
                                         <p className="mt-3 text-sm text-muted-foreground">
-                                            {tontine.active_session?.name ??
+                                            {group.active_session?.name ??
                                                 'Aucune session active'}
                                         </p>
                                         <p className="mt-1 text-xs text-muted-foreground">
-                                            {tontine.active_members_count}{' '}
+                                            {group.active_members_count}{' '}
                                             membre(s) actif(s)
                                         </p>
                                     </Link>

@@ -10,18 +10,18 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuthorization } from '@/hooks/use-authorization';
-import memberships from '@/routes/tontines/memberships';
-import type { Membership, ResultTontine } from '@/types';
+import memberships from '@/routes/groups/memberships';
+import type { Membership, ResultGroup } from '@/types';
 import { EditMembershipForm } from './form';
 
 type Props = {
-    tontine: ResultTontine;
+    group: ResultGroup;
     membership: Membership;
     roles: SelectOption[];
     statuses: SelectOption[];
 };
 
-export function Actions({ tontine, membership, roles, statuses }: Props) {
+export function Actions({ group, membership, roles, statuses }: Props) {
     console.log({ membership });
 
     const { can, canAny } = useAuthorization();
@@ -63,7 +63,7 @@ export function Actions({ tontine, membership, roles, statuses }: Props) {
                         <EditMembershipForm
                             membership={membership}
                             roles={roles}
-                            tontine={tontine}
+                            group={group}
                             statuses={statuses}
                             trigger={
                                 <DropdownMenuItem
@@ -81,7 +81,7 @@ export function Actions({ tontine, membership, roles, statuses }: Props) {
                             <Link
                                 className="w-full"
                                 href={memberships.destroy({
-                                    tontine: tontine.slug,
+                                    group: group.slug,
                                     membership: membership.id,
                                 })}
                                 onBefore={() =>

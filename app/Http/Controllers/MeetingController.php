@@ -15,9 +15,9 @@ use App\Enums\MeetingMonthlyPattern;
 use App\Enums\MeetingRecurrence;
 use App\Http\Requests\StoreMeetingRequest;
 use App\Http\Requests\UpdateMeetingRequest;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\Session;
-use App\Models\Tontine;
 use Carbon\CarbonImmutable;
 use DateTimeZone;
 use Illuminate\Http\RedirectResponse;
@@ -28,7 +28,7 @@ use Inertia\Response;
 class MeetingController extends Controller
 {
     public function index(
-        Tontine $tontine,
+        Group $group,
         Session $session,
     ): Response {
         Gate::authorize(
@@ -48,10 +48,10 @@ class MeetingController extends Controller
         $session->load('meetingSchedule');
 
         return Inertia::render('meetings/index', [
-            'tontine' => [
-                'id' => $tontine->id,
-                'name' => $tontine->name,
-                'slug' => $tontine->slug,
+            'group' => [
+                'id' => $group->id,
+                'name' => $group->name,
+                'slug' => $group->slug,
             ],
 
             'session' => SessionData::fromModel(
@@ -68,7 +68,7 @@ class MeetingController extends Controller
             'meeting_recurrences' => MeetingRecurrence::getOptions(),
             'meeting_monthly_patterns' => MeetingMonthlyPattern::getOptions(),
             'timezones' => collect(DateTimeZone::listIdentifiers())
-                ->map(fn(string $timezone): array => [
+                ->map(fn (string $timezone): array => [
                     'label' => $timezone,
                     'value' => $timezone,
                 ]),
@@ -76,7 +76,7 @@ class MeetingController extends Controller
     }
 
     public function show(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         BuildMeetingPayoutContextAction $buildPayoutContext,
@@ -96,7 +96,7 @@ class MeetingController extends Controller
             'decisions.agendaItem',
             'decisions.creator',
 
-            'payouts' => fn($query) => $query->latest(),
+            'payouts' => fn ($query) => $query->latest(),
 
             'payouts.drawEntry.sessionParticipant.membership.user',
             'payouts.creator',
@@ -111,17 +111,17 @@ class MeetingController extends Controller
             );
 
         return Inertia::render('meetings/show', [
-            'tontine' => [
-                'id' => $tontine->id,
-                'name' => $tontine->name,
-                'slug' => $tontine->slug,
+            'group' => [
+                'id' => $group->id,
+                'name' => $group->name,
+                'slug' => $group->slug,
             ],
 
-            'session' => fn() => SessionData::fromModel(
+            'session' => fn () => SessionData::fromModel(
                 $session,
             ),
 
-            'meeting' => fn() => MeetingData::fromModel(
+            'meeting' => fn () => MeetingData::fromModel(
                 $meeting,
             ),
             'payoutContext' => $payoutContext,
@@ -130,7 +130,7 @@ class MeetingController extends Controller
 
     public function store(
         StoreMeetingRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         CreateMeetingAction $action,
     ): RedirectResponse {
@@ -161,14 +161,14 @@ class MeetingController extends Controller
         return Inertia::flash(
             'success',
             __(
-                'La réunion a été créée avec succès.'
+                'L’assise a été créée avec succès.'
             ),
         )->back();
     }
 
     public function update(
         UpdateMeetingRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         UpdateMeetingAction $action,
@@ -199,13 +199,13 @@ class MeetingController extends Controller
         return Inertia::flash(
             'success',
             __(
-                'La réunion a été modifiée avec succès.'
+                'L’assise a été modifiée avec succès.'
             ),
         )->back();
     }
 
     public function open(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         OpenMeetingAction $action,
@@ -220,13 +220,13 @@ class MeetingController extends Controller
         return Inertia::flash(
             'success',
             __(
-                'La réunion a été ouverte avec succès.'
+                'L’assise a été ouverte avec succès.'
             ),
         )->back();
     }
 
     public function close(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         CloseMeetingAction $action,
@@ -241,13 +241,13 @@ class MeetingController extends Controller
         return Inertia::flash(
             'success',
             __(
-                'La réunion a été clôturée avec succès.'
+                'L’assise a été clôturée avec succès.'
             ),
         )->back();
     }
 
     public function cancel(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         CancelMeetingAction $action,
@@ -262,7 +262,7 @@ class MeetingController extends Controller
         return Inertia::flash(
             'success',
             __(
-                'La réunion a été annulée avec succès.'
+                'L’assise a été annulée avec succès.'
             ),
         )->back();
     }

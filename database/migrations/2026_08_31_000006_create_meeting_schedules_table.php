@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('meeting_schedules', function (Blueprint $table): void {
             $table->id();
-            $table->foreignIdFor(Session::class)->unique()->constrained('tontine_sessions')->cascadeOnDelete();
+            $table->foreignIdFor(Session::class)->unique()->constrained('group_sessions')->cascadeOnDelete();
             $table->string('rrule');
             $table->dateTime('starts_at');
             $table->string('timezone');

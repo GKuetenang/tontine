@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\SessionParticipants;
 
+use App\Models\Group;
 use App\Models\Session;
 use App\Models\SessionParticipant;
-use App\Models\Tontine;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
@@ -30,8 +30,8 @@ class StoreSessionParticipantRequest extends FormRequest
         /** @var Session $session */
         $session = $this->route('session');
 
-        /** @var Tontine $tontine */
-        $tontine = $this->route('tontine');
+        /** @var Group $group */
+        $group = $this->route('group');
 
         return [
             'membership_id' => [
@@ -41,8 +41,8 @@ class StoreSessionParticipantRequest extends FormRequest
                     'memberships',
                     'id',
                 )->where(
-                    'tontine_id',
-                    $tontine->id,
+                    'group_id',
+                    $group->id,
                 ),
                 Rule::unique(
                     'session_participants',

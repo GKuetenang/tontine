@@ -12,7 +12,7 @@ return new class extends Migration
     {
         Schema::create('insurance_contributions', function (Blueprint $table): void {
             $table->id();
-            $table->foreignIdFor(Session::class)->constrained('tontine_sessions')->restrictOnDelete();
+            $table->foreignIdFor(Session::class)->constrained('group_sessions')->restrictOnDelete();
             $table->foreignIdFor(Membership::class)->constrained()->restrictOnDelete();
             $table->decimal('amount', 15, 2);
             $table->text('description')->nullable();

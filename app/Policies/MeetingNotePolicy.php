@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\MeetingNote;
-use App\Models\Tontine;
 use App\Models\User;
 
 class MeetingNotePolicy
@@ -14,15 +14,15 @@ class MeetingNotePolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        $tontine = $meeting
+        $group = $meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine->hasActiveMembership($user)
+        return $group->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::ViewMeetingNotes,
+                group: $group,
+                permission: GroupPermission::ViewMeetingNotes,
             );
     }
 
@@ -30,16 +30,16 @@ class MeetingNotePolicy
         User $user,
         MeetingNote $note,
     ): bool {
-        $tontine = $note
+        $group = $note
             ->meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine->hasActiveMembership($user)
+        return $group->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::ViewMeetingNotes,
+                group: $group,
+                permission: GroupPermission::ViewMeetingNotes,
             );
     }
 
@@ -47,15 +47,15 @@ class MeetingNotePolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        $tontine = $meeting
+        $group = $meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine->hasActiveMembership($user)
+        return $group->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::CreateMeetingNotes,
+                group: $group,
+                permission: GroupPermission::CreateMeetingNotes,
             );
     }
 
@@ -63,16 +63,16 @@ class MeetingNotePolicy
         User $user,
         MeetingNote $note,
     ): bool {
-        $tontine = $note
+        $group = $note
             ->meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine->hasActiveMembership($user)
+        return $group->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::UpdateMeetingNotes,
+                group: $group,
+                permission: GroupPermission::UpdateMeetingNotes,
             );
     }
 
@@ -80,28 +80,28 @@ class MeetingNotePolicy
         User $user,
         MeetingNote $note,
     ): bool {
-        $tontine = $note
+        $group = $note
             ->meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine->hasActiveMembership($user)
+        return $group->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::DeleteMeetingNotes,
+                group: $group,
+                permission: GroupPermission::DeleteMeetingNotes,
             );
     }
 
     private function can(
         User $user,
-        Tontine $tontine,
-        TontinePermission $permission,
+        Group $group,
+        GroupPermission $permission,
     ): bool {
         $previousTeamId = getPermissionsTeamId();
 
         try {
-            setPermissionsTeamId($tontine->id);
+            setPermissionsTeamId($group->id);
 
             $user->unsetRelation('roles');
             $user->unsetRelation('permissions');

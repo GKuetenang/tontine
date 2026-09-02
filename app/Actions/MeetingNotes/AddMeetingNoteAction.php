@@ -31,7 +31,7 @@ final class AddMeetingNoteAction
                 ) {
                     throw ValidationException::withMessages([
                         'meeting' => __(
-                            'Les notes ne peuvent être ajoutées que pendant une réunion en cours.'
+                            'Les notes ne peuvent être ajoutées que pendant une assise en cours.'
                         ),
                     ]);
                 }
@@ -42,7 +42,7 @@ final class AddMeetingNoteAction
                 ) {
                     throw ValidationException::withMessages([
                         'meeting_agenda_item_id' => __(
-                            'Ce point d’ordre du jour n’appartient pas à cette réunion.'
+                            'Ce point d’ordre du jour n’appartient pas à cette assise.'
                         ),
                     ]);
                 }

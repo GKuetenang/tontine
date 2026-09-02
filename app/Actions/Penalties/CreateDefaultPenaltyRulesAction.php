@@ -5,14 +5,14 @@ namespace App\Actions\Penalties;
 use App\Enums\PenaltyCalculationType;
 use App\Enums\PenaltyGraceUnit;
 use App\Enums\PenaltyTrigger;
-use App\Models\Tontine;
+use App\Models\Group;
 
 final class CreateDefaultPenaltyRulesAction
 {
-    public function execute(Tontine $tontine): void
+    public function execute(Group $group): void
     {
         foreach ($this->defaults() as $rule) {
-            $tontine->penaltyRules()->firstOrCreate(
+            $group->penaltyRules()->firstOrCreate(
                 ['code' => $rule['code']],
                 $rule,
             );

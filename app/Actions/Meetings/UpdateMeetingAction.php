@@ -31,7 +31,7 @@ final class UpdateMeetingAction
                 ) {
                     throw ValidationException::withMessages([
                         'meeting' => __(
-                            'Seule une réunion prévue peut être modifiée.'
+                            'Seule une assise prévue peut être modifiée.'
                         ),
                     ]);
                 }

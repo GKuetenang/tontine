@@ -39,7 +39,7 @@ class Session extends Model
     use HasSortable;
     use SoftDeletes;
 
-    protected $table = 'tontine_sessions';
+    protected $table = 'group_sessions';
 
     protected $sortable = [
         'id',
@@ -72,9 +72,9 @@ class Session extends Model
         return 'slug';
     }
 
-    public function tontine(): BelongsTo
+    public function group(): BelongsTo
     {
-        return $this->belongsTo(Tontine::class);
+        return $this->belongsTo(Group::class);
     }
 
     public function draw(): HasOne

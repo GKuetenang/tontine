@@ -18,12 +18,12 @@ class DeactivateMembershipAction
         return DB::transaction(function () use (
             $membership
         ): Membership {
-            $membership->loadMissing(['user', 'tontine']);
+            $membership->loadMissing(['user', 'group']);
 
             if ($this->isLastPresident->execute($membership)) {
                 throw ValidationException::withMessages([
                     'membership' => __(
-                        'Impossible de retirer le dernier président de la tontine.'
+                        'Impossible de retirer le dernier président de la réunion.'
                     ),
                 ]);
             }
@@ -31,7 +31,7 @@ class DeactivateMembershipAction
             $previousTeamId = getPermissionsTeamId();
 
             try {
-                setPermissionsTeamId($membership->tontine_id);
+                setPermissionsTeamId($membership->group_id);
 
                 $membership->user->unsetRelation('roles');
                 $membership->user->unsetRelation('permissions');

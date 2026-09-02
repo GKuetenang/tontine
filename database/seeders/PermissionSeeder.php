@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
@@ -13,7 +13,7 @@ class PermissionSeeder extends Seeder
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        foreach (TontinePermission::cases() as $permission) {
+        foreach (GroupPermission::cases() as $permission) {
             Permission::firstOrCreate([
                 'name' => $permission->value,
                 'guard_name' => 'web',

@@ -17,17 +17,17 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { formatCurrency } from '@/lib/utils';
-import loans from '@/routes/tontines/sessions/loans';
-import type { Loan, Session, Tontine } from '@/types';
+import loans from '@/routes/groups/sessions/loans';
+import type { Loan, Session, Group } from '@/types';
 
 export function CreateRepaymentForm({
     trigger,
-    tontine,
+    group,
     session,
     loan,
 }: {
     trigger: ReactElement;
-    tontine: Tontine;
+    group: Group;
     session: Session;
     loan: Loan;
 }) {
@@ -39,7 +39,7 @@ export function CreateRepaymentForm({
             <DialogContent className="sm:max-w-md">
                 <Form
                     {...loans.repayments.store.form({
-                        tontine: tontine.slug!,
+                        group: group.slug!,
                         session: session.slug,
                         loan: loan.id,
                     })}

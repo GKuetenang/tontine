@@ -32,7 +32,7 @@ final class ActivateSessionAction
             }
 
             $hasActiveSession = Session::query()
-                ->where('tontine_id', $session->tontine_id)
+                ->where('group_id', $session->group_id)
                 ->where('status', SessionStatus::Active)
                 ->whereKeyNot($session->id)
                 ->exists();
@@ -40,7 +40,7 @@ final class ActivateSessionAction
             if ($hasActiveSession) {
                 throw ValidationException::withMessages([
                     'session' => __(
-                        'Une autre session est déjà active pour cette tontine.'
+                        'Une autre session est déjà active pour cette réunion.'
                     ),
                 ]);
             }

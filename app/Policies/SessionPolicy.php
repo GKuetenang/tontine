@@ -2,25 +2,25 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use App\Models\User;
 
 class SessionPolicy
 {
     /**
-     * Consulter la liste des membres d’une tontine.
+     * Consulter la liste des membres d’une réunion.
      */
     public function viewAny(
         User $user,
-        Tontine $tontine,
+        Group $group,
     ): bool {
-        return $tontine->hasActiveMembership($user)
+        return $group->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $tontine,
-                TontinePermission::ViewSessions,
+                $group,
+                GroupPermission::ViewSessions,
             );
     }
 
@@ -31,27 +31,27 @@ class SessionPolicy
         User $user,
         Session $session,
     ): bool {
-        return $session->tontine->hasActiveMembership(
+        return $session->group->hasActiveMembership(
             $user
         ) && $this->can(
             $user,
-            $session->tontine,
-            TontinePermission::ViewSessions,
+            $session->group,
+            GroupPermission::ViewSessions,
         );
     }
 
     /**
-     * Ajouter un membre à une tontine.
+     * Ajouter un membre à une réunion.
      */
     public function create(
         User $user,
-        Tontine $tontine,
+        Group $group,
     ): bool {
-        return $tontine->hasActiveMembership($user)
+        return $group->hasActiveMembership($user)
             && $this->can(
                 $user,
-                $tontine,
-                TontinePermission::CreateSessions,
+                $group,
+                GroupPermission::CreateSessions,
             );
     }
 
@@ -62,76 +62,76 @@ class SessionPolicy
         User $user,
         Session $session,
     ): bool {
-        return $session->tontine->hasActiveMembership(
+        return $session->group->hasActiveMembership(
             $user
         ) && $this->can(
             $user,
-            $session->tontine,
-            TontinePermission::UpdateSessions,
+            $session->group,
+            GroupPermission::UpdateSessions,
         );
     }
 
     /**
-     * Retirer un membre de la tontine.
+     * Retirer un membre de la réunion.
      */
     public function delete(
         User $user,
         Session $session,
     ): bool {
-        return $session->tontine->hasActiveMembership(
+        return $session->group->hasActiveMembership(
             $user
         ) && $this->can(
             $user,
-            $session->tontine,
-            TontinePermission::DeleteSessions,
+            $session->group,
+            GroupPermission::DeleteSessions,
         );
     }
 
     /**
-     * Retirer un membre de la tontine.
+     * Retirer un membre de la réunion.
      */
     public function activate(
         User $user,
         Session $session,
     ): bool {
-        return $session->tontine->hasActiveMembership(
+        return $session->group->hasActiveMembership(
             $user
         ) && $this->can(
             $user,
-            $session->tontine,
-            TontinePermission::ActivateSessions,
+            $session->group,
+            GroupPermission::ActivateSessions,
         );
     }
 
     /**
-     * Retirer un membre de la tontine.
+     * Retirer un membre de la réunion.
      */
     public function close(
         User $user,
         Session $session,
     ): bool {
-        return $session->tontine->hasActiveMembership(
+        return $session->group->hasActiveMembership(
             $user
         ) && $this->can(
             $user,
-            $session->tontine,
-            TontinePermission::CloseSessions,
+            $session->group,
+            GroupPermission::CloseSessions,
         );
     }
 
     /**
      * Vérifie une permission dans le contexte exact
-     * de la tontine concernée.
+     * de la réunion concernée.
      */
     private function can(
         User $user,
-        Tontine $tontine,
-        TontinePermission $permission,
+        Group $group,
+        GroupPermission $permission,
     ): bool {
         $previousTeamId = getPermissionsTeamId();
 
         try {
-            setPermissionsTeamId($tontine->id);
+            setPermissionsTeamId($group->id);
 
             $user->unsetRelation('roles');
             $user->unsetRelation('permissions');

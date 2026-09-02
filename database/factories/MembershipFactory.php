@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Enums\MembershipStatus;
+use App\Models\Group;
 use App\Models\Membership;
-use App\Models\Tontine;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,7 +19,7 @@ class MembershipFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'tontine_id' => Tontine::factory(),
+            'group_id' => Group::factory(),
             'member_number' => fake()->unique()->numerify('MEM-######'),
             'status' => MembershipStatus::Active,
             'joined_at' => now(),

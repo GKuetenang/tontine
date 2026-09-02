@@ -18,8 +18,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import roles from '@/routes/tontines/roles';
-import type { Tontine } from '@/types';
+import roles from '@/routes/groups/roles';
+import type { Group } from '@/types';
 
 export type RoleItem = {
     id: number;
@@ -39,19 +39,19 @@ export type PermissionOption = {
 };
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     permissions: PermissionOption[];
     trigger: ReactElement;
     role?: RoleItem;
 };
 
-export function RoleForm({ tontine, permissions, trigger, role }: Props) {
+export function RoleForm({ group, permissions, trigger, role }: Props) {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<string[]>(role?.permissions ?? []);
     const groups = Map.groupBy(permissions, (permission) => permission.group);
     const action = role
-        ? roles.update.form({ tontine: tontine.slug!, role: role.id })
-        : roles.store.form({ tontine: tontine.slug! });
+        ? roles.update.form({ group: group.slug!, role: role.id })
+        : roles.store.form({ group: group.slug! });
 
     const toggle = (permission: string, checked: boolean) => {
         setSelected((current) =>

@@ -4,9 +4,9 @@ namespace App\Actions\Dashboard;
 
 use App\Enums\LoanStatus;
 use App\Models\Contribution;
+use App\Models\Group;
 use App\Models\Loan;
 use App\Models\Meeting;
-use App\Models\Tontine;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,9 +16,9 @@ final class BuildUserDashboardAction
 {
     public function execute(User $user): array
     {
-        $tontines = Tontine::query()
+        $groups = Group::query()
             ->accessibleBy($user)->active()
-            ->with(['activeSession:id,tontine_id,name,slug'])
+            ->with(['activeSession:id,group_id,name,slug'])
             ->withCount(['memberships as active_members_count' => fn (Builder $query) => $query->active()])
             ->latest('updated_at')
             ->get(['id', 'name', 'slug', 'currency']);
@@ -26,30 +26,30 @@ final class BuildUserDashboardAction
         $upcomingMeetings = Meeting::query()
             ->where('scheduled_at', '>=', now())
             ->whereHas('session.participants.membership', fn (Builder $query) => $query->where('user_id', $user->id))
-            ->with(['session:id,tontine_id,name,slug', 'session.tontine:id,name,slug,currency'])
+            ->with(['session:id,group_id,name,slug', 'session.group:id,name,slug,currency'])
             ->orderBy('scheduled_at')->limit(5)->get();
 
         $contributions = Contribution::query()
             ->whereHas('sessionParticipant.membership', fn (Builder $query) => $query->where('user_id', $user->id))
-            ->with(['meeting.session.tontine:id,name,slug,currency'])
+            ->with(['meeting.session.group:id,name,slug,currency'])
             ->withSum(['transactions as paid_amount' => fn (Builder $query) => $query->credits()], 'amount')
             ->get();
 
         $loans = Loan::query()
             ->where('status', LoanStatus::Active)
             ->whereHas('membership', fn (Builder $query) => $query->where('user_id', $user->id))
-            ->with(['session.tontine:id,name,slug,currency'])
+            ->with(['session.group:id,name,slug,currency'])
             ->withSum('repayments', 'amount')->get();
 
         $recentTransactions = Transaction::query()
             ->whereHas('membership', fn (Builder $query) => $query->where('user_id', $user->id))
-            ->with(['session:id,tontine_id,name,slug', 'session.tontine:id,name,slug,currency'])
+            ->with(['session:id,group_id,name,slug', 'session.group:id,name,slug,currency'])
             ->latest('occurred_at')->limit(8)->get();
 
         return [
-            'has_tontines' => $tontines->isNotEmpty(),
+            'has_groups' => $groups->isNotEmpty(),
             'summary' => [
-                'tontines_count' => $tontines->count(),
+                'groups_count' => $groups->count(),
                 'upcoming_meetings_count' => $upcomingMeetings->count(),
                 'contributions_due' => $this->contributionsByCurrency($contributions),
                 'active_loans_count' => $loans->count(),
@@ -61,8 +61,8 @@ final class BuildUserDashboardAction
                 'title' => $meeting->title,
                 'scheduled_at' => $meeting->scheduled_at->format('Y-m-d\TH:i:s'),
                 'location' => $meeting->location,
-                'tontine_name' => $meeting->session->tontine->name,
-                'tontine_slug' => $meeting->session->tontine->slug,
+                'group_name' => $meeting->session->group->name,
+                'group_slug' => $meeting->session->group->slug,
                 'session_slug' => $meeting->session->slug,
                 'meeting_slug' => $meeting->slug,
             ])->all(),
@@ -72,18 +72,18 @@ final class BuildUserDashboardAction
                 'direction' => $transaction->direction->value,
                 'amount' => $transaction->amount,
                 'occurred_at' => $transaction->occurred_at->format('Y-m-d\TH:i:s'),
-                'tontine_name' => $transaction->session->tontine->name,
-                'currency' => $transaction->session->tontine->currency,
+                'group_name' => $transaction->session->group->name,
+                'currency' => $transaction->session->group->currency,
             ])->all(),
-            'tontines' => $tontines->map(fn (Tontine $tontine): array => [
-                'id' => $tontine->id,
-                'name' => $tontine->name,
-                'slug' => $tontine->slug,
-                'currency' => $tontine->currency,
-                'active_members_count' => $tontine->active_members_count,
-                'active_session' => $tontine->activeSession ? [
-                    'name' => $tontine->activeSession->name,
-                    'slug' => $tontine->activeSession->slug,
+            'groups' => $groups->map(fn (Group $group): array => [
+                'id' => $group->id,
+                'name' => $group->name,
+                'slug' => $group->slug,
+                'currency' => $group->currency,
+                'active_members_count' => $group->active_members_count,
+                'active_session' => $group->activeSession ? [
+                    'name' => $group->activeSession->name,
+                    'slug' => $group->activeSession->slug,
                 ] : null,
             ])->all(),
         ];
@@ -92,7 +92,7 @@ final class BuildUserDashboardAction
     private function contributionsByCurrency(Collection $contributions): array
     {
         return $contributions
-            ->groupBy(fn (Contribution $contribution): string => $contribution->meeting->session->tontine->currency)
+            ->groupBy(fn (Contribution $contribution): string => $contribution->meeting->session->group->currency)
             ->map(fn (Collection $items, string $currency): array => [
                 'currency' => $currency,
                 'amount' => $this->fromCents($items->sum(fn (Contribution $contribution): int => max(
@@ -105,7 +105,7 @@ final class BuildUserDashboardAction
     private function loansByCurrency(Collection $loans): array
     {
         return $loans
-            ->groupBy(fn (Loan $loan): string => $loan->session->tontine->currency)
+            ->groupBy(fn (Loan $loan): string => $loan->session->group->currency)
             ->map(fn (Collection $items, string $currency): array => [
                 'currency' => $currency,
                 'amount' => $this->fromCents($items->sum(fn (Loan $loan): int => max(

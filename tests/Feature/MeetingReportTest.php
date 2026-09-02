@@ -1,11 +1,12 @@
 <?php
 
+use App\Actions\Groups\CreateDefaultGroupRolesAction;
 use App\Actions\Memberships\CreateMembershipAction;
 use App\Actions\Reports\BuildMeetingReportAction;
-use App\Actions\Tontines\CreateDefaultTontineRolesAction;
 use App\Enums\TransactionDirection;
 use App\Enums\TransactionType;
 use App\Models\Contribution;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\MeetingAgendaItem;
 use App\Models\MeetingAttendance;
@@ -14,7 +15,6 @@ use App\Models\MeetingNote;
 use App\Models\Payout;
 use App\Models\Session;
 use App\Models\SessionParticipant;
-use App\Models\Tontine;
 use App\Models\Transaction;
 use App\Models\User;
 use Database\Seeders\PermissionSeeder;
@@ -116,12 +116,12 @@ it('builds a complete meeting report from loaded meeting data', function (): voi
 });
 
 it('allows an authorized active member to view a meeting report', function (): void {
-    [$user, $tontine, $session, $meeting] = meetingReportAccessContext();
+    [$user, $group, $session, $meeting] = meetingReportAccessContext();
 
     $this->actingAs($user)
         ->get(route(
-            'tontines.sessions.meetings.report.show',
-            [$tontine, $session, $meeting],
+            'groups.sessions.meetings.report.show',
+            [$group, $session, $meeting],
         ))
         ->assertOk()
         ->assertInertia(fn ($page) => $page
@@ -130,40 +130,40 @@ it('allows an authorized active member to view a meeting report', function (): v
             ->has('report.summary'));
 });
 
-it('forbids a user outside the tontine from viewing a meeting report', function (): void {
-    [, $tontine, $session, $meeting] = meetingReportAccessContext();
+it('forbids a user outside the group from viewing a meeting report', function (): void {
+    [, $group, $session, $meeting] = meetingReportAccessContext();
 
     $this->actingAs(User::factory()->create())
         ->get(route(
-            'tontines.sessions.meetings.report.show',
-            [$tontine, $session, $meeting],
+            'groups.sessions.meetings.report.show',
+            [$group, $session, $meeting],
         ))
         ->assertForbidden();
 });
 
 /**
- * @return array{User, Tontine, Session, Meeting}
+ * @return array{User, Group, Session, Meeting}
  */
 function meetingReportAccessContext(): array
 {
     app(PermissionSeeder::class)->run();
 
     $user = User::factory()->create();
-    $tontine = Tontine::factory()->create([
+    $group = Group::factory()->create([
         'user_id' => $user->id,
     ]);
 
-    app(CreateDefaultTontineRolesAction::class)
-        ->execute($tontine);
+    app(CreateDefaultGroupRolesAction::class)
+        ->execute($group);
 
     app(CreateMembershipAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         user: $user,
         roleName: 'president',
     );
 
     $session = Session::factory()
-        ->for($tontine)
+        ->for($group)
         ->create();
 
     $meeting = Meeting::factory()
@@ -171,5 +171,5 @@ function meetingReportAccessContext(): array
         ->completed()
         ->create();
 
-    return [$user, $tontine, $session, $meeting];
+    return [$user, $group, $session, $meeting];
 }

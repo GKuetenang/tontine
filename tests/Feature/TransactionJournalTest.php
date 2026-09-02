@@ -1,11 +1,11 @@
 <?php
 
+use App\Actions\Groups\CreateDefaultGroupRolesAction;
 use App\Actions\Memberships\CreateMembershipAction;
-use App\Actions\Tontines\CreateDefaultTontineRolesAction;
 use App\Enums\TransactionDirection;
 use App\Enums\TransactionType;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use App\Models\Transaction;
 use App\Models\User;
 use Database\Seeders\PermissionSeeder;
@@ -16,14 +16,14 @@ uses(RefreshDatabase::class);
 it('shows filtered session transactions with exact totals', function (): void {
     app(PermissionSeeder::class)->run();
     $user = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $user->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
+    $group = Group::factory()->create(['user_id' => $user->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
     app(CreateMembershipAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         user: $user,
         roleName: 'president',
     );
-    $session = Session::factory()->for($tontine)->create();
+    $session = Session::factory()->for($group)->create();
 
     Transaction::factory()->for($session)->create([
         'type' => TransactionType::Contribution,
@@ -37,8 +37,8 @@ it('shows filtered session transactions with exact totals', function (): void {
     ]);
 
     $this->actingAs($user)
-        ->get(route('tontines.sessions.transactions.index', [
-            $tontine,
+        ->get(route('groups.sessions.transactions.index', [
+            $group,
             $session,
         ]))
         ->assertOk()
@@ -55,13 +55,13 @@ it('shows filtered session transactions with exact totals', function (): void {
 it('does not expose transactions from another session', function (): void {
     app(PermissionSeeder::class)->run();
     $user = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $user->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    app(CreateMembershipAction::class)->execute(tontine: $tontine, user: $user, roleName: 'president');
-    $session = Session::factory()->for($tontine)->create();
+    $group = Group::factory()->create(['user_id' => $user->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute(group: $group, user: $user, roleName: 'president');
+    $session = Session::factory()->for($group)->create();
     Transaction::factory()->create();
 
     $this->actingAs($user)
-        ->get(route('tontines.sessions.transactions.index', [$tontine, $session]))
+        ->get(route('groups.sessions.transactions.index', [$group, $session]))
         ->assertInertia(fn ($page) => $page->has('collection.data', 0));
 });

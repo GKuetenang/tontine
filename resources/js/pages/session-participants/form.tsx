@@ -19,24 +19,24 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { UserCombobox } from '@/components/user-combobox';
 import { cn } from '@/lib/utils';
-import sessionParticipants from '@/routes/tontines/sessions/participants';
+import sessionParticipants from '@/routes/groups/sessions/participants';
 import type {
     MemberUser,
-    ResultTontine,
+    ResultGroup,
     Session,
     SessionParticipant,
 } from '@/types';
 
 type Props = {
     trigger: ReactElement;
-    tontine: ResultTontine;
+    group: ResultGroup;
     session: Session;
     participant?: SessionParticipant;
 };
 
 export function EditSessionParticipantForm({
     trigger,
-    tontine,
+    group,
     session,
     participant,
 }: Props) {
@@ -58,12 +58,12 @@ export function EditSessionParticipantForm({
 
     const action = isEditing
         ? sessionParticipants.update.form({
-              tontine: tontine.slug,
+              group: group.slug,
               session: session.slug,
               participant: participant.id,
           })
         : sessionParticipants.store.form({
-              tontine: tontine.slug,
+              group: group.slug,
               session: session.slug,
           });
 

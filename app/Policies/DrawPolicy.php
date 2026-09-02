@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
 use App\Models\Draw;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use App\Models\User;
 
 class DrawPolicy
@@ -17,15 +17,15 @@ class DrawPolicy
         User $user,
         Session $session,
     ): bool {
-        $tontine =
-            $session->tontine;
+        $group =
+            $session->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::ViewDraws,
+                group: $group,
+                permission: GroupPermission::ViewDraws,
             );
     }
 
@@ -36,15 +36,15 @@ class DrawPolicy
         User $user,
         Session $session,
     ): bool {
-        $tontine =
-            $session->tontine;
+        $group =
+            $session->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::GenerateDraws,
+                group: $group,
+                permission: GroupPermission::GenerateDraws,
             );
     }
 
@@ -57,17 +57,17 @@ class DrawPolicy
         User $user,
         Draw $draw,
     ): bool {
-        $tontine =
+        $group =
             $draw
                 ->session
-                ->tontine;
+                ->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::UpdateDraws,
+                group: $group,
+                permission: GroupPermission::UpdateDraws,
             );
     }
 
@@ -78,17 +78,17 @@ class DrawPolicy
         User $user,
         Draw $draw,
     ): bool {
-        $tontine =
+        $group =
             $draw
                 ->session
-                ->tontine;
+                ->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::ResetDraws,
+                group: $group,
+                permission: GroupPermission::ResetDraws,
             );
     }
 
@@ -99,17 +99,17 @@ class DrawPolicy
         User $user,
         Draw $draw,
     ): bool {
-        $tontine =
+        $group =
             $draw
                 ->session
-                ->tontine;
+                ->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::ConfirmDraws,
+                group: $group,
+                permission: GroupPermission::ConfirmDraws,
             );
     }
 
@@ -120,31 +120,31 @@ class DrawPolicy
         User $user,
         Draw $draw,
     ): bool {
-        $tontine =
+        $group =
             $draw
                 ->session
-                ->tontine;
+                ->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::DeleteDraws,
+                group: $group,
+                permission: GroupPermission::DeleteDraws,
             );
     }
 
     private function can(
         User $user,
-        Tontine $tontine,
-        TontinePermission $permission,
+        Group $group,
+        GroupPermission $permission,
     ): bool {
         $previousTeamId =
             getPermissionsTeamId();
 
         try {
             setPermissionsTeamId(
-                $tontine->id,
+                $group->id,
             );
 
             $user->unsetRelation('roles');

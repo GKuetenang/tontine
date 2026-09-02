@@ -21,8 +21,8 @@ enum PenaltyTrigger: string
     public function label(): string
     {
         return match ($this) {
-            self::MeetingLate => __('Retard à une réunion'),
-            self::MeetingAbsent => __('Absence à une réunion'),
+            self::MeetingLate => __('Retard à une assise'),
+            self::MeetingAbsent => __('Absence à une assise'),
             self::ContributionLate => __('Retard de cotisation'),
             self::ContributionIncomplete => __('Cotisation incomplète'),
             self::Manual => __('Pénalité manuelle'),

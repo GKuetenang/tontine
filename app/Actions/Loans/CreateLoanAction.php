@@ -25,14 +25,14 @@ final class CreateLoanAction
         }
 
         $effectiveDate = $loanDate ?? CarbonImmutable::now();
-        $termMonths = $session->tontine->default_loan_term_months;
+        $termMonths = $session->group->default_loan_term_months;
         $dueAt = $effectiveDate->addMonthsNoOverflow($termMonths);
 
         if ($effectiveDate->lt($session->start_at) || $dueAt->gt($session->end_at)) {
             throw ValidationException::withMessages(['loan' => __('La durée configurée place l’échéance du prêt en dehors des dates de la session.')]);
         }
 
-        $rate = $session->tontine->default_loan_interest_rate;
+        $rate = $session->group->default_loan_interest_rate;
         $amounts = $this->calculateInterest->execute($principal, $rate);
         $loan = new Loan;
         $loan->fill(['principal_amount' => $principal, 'interest_rate' => $rate, 'term_months' => $termMonths, 'interest_amount' => $amounts['interest'], 'total_due' => $amounts['total'], 'due_at' => $dueAt, 'reason' => $reason, 'status' => LoanStatus::Pending]);

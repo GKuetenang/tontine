@@ -1,18 +1,18 @@
 <?php
 
+use App\Actions\Groups\CreateDefaultGroupRolesAction;
 use App\Actions\Loans\ApproveLoanAction;
 use App\Actions\Loans\CalculateSimpleInterestAction;
 use App\Actions\Loans\CreateLoanAction;
 use App\Actions\Memberships\CreateMembershipAction;
 use App\Actions\Repayments\CreateRepaymentAction;
-use App\Actions\Tontines\CreateDefaultTontineRolesAction;
 use App\Enums\LoanStatus;
 use App\Enums\TransactionDirection;
 use App\Enums\TransactionType;
+use App\Models\Group;
 use App\Models\Membership;
 use App\Models\Session;
 use App\Models\SessionParticipant;
-use App\Models\Tontine;
 use App\Models\Transaction;
 use App\Models\User;
 use Carbon\CarbonImmutable;
@@ -28,11 +28,11 @@ function loanContext(): array
         'start_at' => '2026-01-01',
         'end_at' => '2026-12-31',
     ]);
-    $session->tontine()->update([
+    $session->group()->update([
         'default_loan_interest_rate' => '10.00',
         'default_loan_term_months' => 5,
     ]);
-    $membership = Membership::factory()->active()->create(['tontine_id' => $session->tontine_id]);
+    $membership = Membership::factory()->active()->create(['group_id' => $session->group_id]);
     SessionParticipant::factory()->for($session)->for($membership)->create();
 
     return [$session, $membership, User::factory()->create()];
@@ -85,22 +85,22 @@ it('creates a loan through the form endpoint and returns it in the listing', fun
         'first_name' => 'Gustave',
         'name' => 'Kamga',
     ]);
-    $tontine = Tontine::factory()->create([
+    $group = Group::factory()->create([
         'user_id' => $president->id,
         'default_loan_interest_rate' => '7.50',
         'default_loan_term_months' => 5,
     ]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    $membership = app(CreateMembershipAction::class)->execute($tontine, $borrower, 'member');
-    $session = Session::factory()->for($tontine)->active()->create([
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    $membership = app(CreateMembershipAction::class)->execute($group, $borrower, 'member');
+    $session = Session::factory()->for($group)->active()->create([
         'start_at' => now()->subMonth(),
         'end_at' => now()->addYear(),
     ]);
     SessionParticipant::factory()->for($session)->for($membership)->create();
 
     $this->actingAs($president)
-        ->post(route('tontines.sessions.loans.store', [$tontine, $session]), [
+        ->post(route('groups.sessions.loans.store', [$group, $session]), [
             'membership_id' => $membership->id,
             'principal_amount' => '20000.00',
             'reason' => 'Développement commercial',
@@ -118,8 +118,8 @@ it('creates a loan through the form endpoint and returns it in the listing', fun
 
     $loan = $session->loans()->firstOrFail();
     $this->actingAs($president)
-        ->get(route('tontines.sessions.loans.index', [
-            'tontine' => $tontine,
+        ->get(route('groups.sessions.loans.index', [
+            'group' => $group,
             'session' => $session,
             'q' => 'Gustave',
         ]))
@@ -129,10 +129,10 @@ it('creates a loan through the form endpoint and returns it in the listing', fun
             ->where('collection.data.0.member_name', $borrower->full_name));
 
     $this->actingAs($president)
-        ->patch(route('tontines.sessions.loans.approve', [$tontine, $session, $loan]))
+        ->patch(route('groups.sessions.loans.approve', [$group, $session, $loan]))
         ->assertRedirect();
     $this->actingAs($president)
-        ->post(route('tontines.sessions.loans.repayments.store', [$tontine, $session, $loan]), [
+        ->post(route('groups.sessions.loans.repayments.store', [$group, $session, $loan]), [
             'amount' => '1000.00',
         ])
         ->assertRedirect()
@@ -144,8 +144,8 @@ it('creates a loan through the form endpoint and returns it in the listing', fun
     ]);
 
     $this->actingAs($president)
-        ->get(route('tontines.sessions.repayments.index', [
-            'tontine' => $tontine,
+        ->get(route('groups.sessions.repayments.index', [
+            'group' => $group,
             'session' => $session,
             'q' => 'Gustave',
         ]))
@@ -160,14 +160,14 @@ it('creates a loan through the form endpoint and returns it in the listing', fun
 it('returns a visible loan error when the configured term exceeds the session', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $president->id, 'default_loan_term_months' => 5]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    $membership = app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    $session = Session::factory()->for($tontine)->active()->create(['start_at' => now()->subMonth(), 'end_at' => now()->addMonth()]);
+    $group = Group::factory()->create(['user_id' => $president->id, 'default_loan_term_months' => 5]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    $membership = app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    $session = Session::factory()->for($group)->active()->create(['start_at' => now()->subMonth(), 'end_at' => now()->addMonth()]);
     SessionParticipant::factory()->for($session)->for($membership)->create();
 
     $this->actingAs($president)
-        ->post(route('tontines.sessions.loans.store', [$tontine, $session]), [
+        ->post(route('groups.sessions.loans.store', [$group, $session]), [
             'membership_id' => $membership->id,
             'principal_amount' => '20000.00',
         ])

@@ -1,37 +1,37 @@
 import type { InertiaLinkProps } from '@inertiajs/react';
 import { Head, Link } from '@inertiajs/react';
 import { CalendarDays, Coins, Shuffle, Users } from 'lucide-react';
-import { InformationRow } from '@/components/tontines/information-row';
-import { OverviewCard } from '@/components/tontines/overview-card';
+import { InformationRow } from '@/components/groups/information-row';
+import { OverviewCard } from '@/components/groups/overview-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 
-import tontines from '@/routes/tontines';
+import groups from '@/routes/groups';
 
-import type { BreadcrumbItem, Session, Tontine } from '@/types';
+import type { BreadcrumbItem, Session, Group } from '@/types';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
 };
 
 export default withAppLayout<Props>(
-    ({ tontine, session }) =>
+    ({ group, session }) =>
         [
             {
-                title: 'Tontines',
-                href: tontines.index(),
+                title: 'Réunions',
+                href: groups.index(),
             },
             {
-                title: tontine.name,
-                href: tontines.show(tontine.slug!),
+                title: group.name,
+                href: groups.show(group.slug!),
             },
             {
                 title: 'Sessions',
-                href: tontines.sessions.index(tontine.slug!),
+                href: groups.sessions.index(group.slug!),
             },
             {
                 title: session.name,
@@ -39,7 +39,7 @@ export default withAppLayout<Props>(
             },
         ] as BreadcrumbItem[],
 
-    ({ tontine, session }: Props) => {
+    ({ group, session }: Props) => {
         return (
             <>
                 <Head title={session.name} />
@@ -54,9 +54,9 @@ export default withAppLayout<Props>(
                         />
 
                         <OverviewCard
-                            title="Réunions"
+                            title="Assises"
                             value={session.meetings_count ?? 0}
-                            description="Réunions de la session"
+                            description="Assises de la session"
                             icon={CalendarDays}
                         />
 
@@ -64,7 +64,7 @@ export default withAppLayout<Props>(
                             title="Cotisation"
                             value={formatCurrency(
                                 session.default_contribution_amount,
-                                tontine.currency,
+                                group.currency,
                             )}
                             description="Montant par défaut"
                             icon={Coins}
@@ -89,18 +89,18 @@ export default withAppLayout<Props>(
                                     title="Participants"
                                     description="Voir et gérer les participants de la session."
                                     icon={Users}
-                                    href={tontines.sessions.participants.index({
-                                        tontine: tontine.slug!,
+                                    href={groups.sessions.participants.index({
+                                        group: group.slug!,
                                         session: session.slug,
                                     })}
                                 />
 
                                 <SessionModuleCard
-                                    title="Réunions"
-                                    description="Créer et gérer les réunions de la session."
+                                    title="Assises"
+                                    description="Créer et gérer les assises de la session."
                                     icon={CalendarDays}
-                                    href={tontines.sessions.meetings.index({
-                                        tontine: tontine.slug!,
+                                    href={groups.sessions.meetings.index({
+                                        group: group.slug!,
                                         session: session.slug,
                                     })}
                                 />
@@ -109,8 +109,8 @@ export default withAppLayout<Props>(
                                     title="Tirage"
                                     description="Configurer et gérer le tirage de la session."
                                     icon={Shuffle}
-                                    href={tontines.sessions.draw.show({
-                                        tontine: tontine.slug!,
+                                    href={groups.sessions.draw.show({
+                                        group: group.slug!,
                                         session: session.slug,
                                     })}
                                 />
@@ -132,7 +132,7 @@ export default withAppLayout<Props>(
                                     label="Cotisation"
                                     value={formatCurrency(
                                         session.default_contribution_amount,
-                                        tontine.currency,
+                                        group.currency,
                                     )}
                                 />
 

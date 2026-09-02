@@ -17,7 +17,7 @@ final class DeleteMeetingDecisionAction
         ) {
             throw ValidationException::withMessages([
                 'meeting' => __(
-                    'Une décision ne peut être supprimée que pendant une réunion en cours.'
+                    'Une décision ne peut être supprimée que pendant une assise en cours.'
                 ),
             ]);
         }

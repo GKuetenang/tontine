@@ -38,7 +38,7 @@ export type TwoFactorSecretKey = {
 };
 
 export type Authorization = {
-    tontine_id: number | null;
+    group_id: number | null;
     roles: string[];
     permissions: string[];
 };

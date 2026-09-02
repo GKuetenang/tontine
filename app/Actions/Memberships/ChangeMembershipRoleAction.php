@@ -21,7 +21,7 @@ final class ChangeMembershipRoleAction
 
             try {
                 setPermissionsTeamId(
-                    $membership->tontine_id,
+                    $membership->group_id,
                 );
 
                 $user->unsetRelation('roles');

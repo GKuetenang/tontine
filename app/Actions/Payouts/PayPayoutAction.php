@@ -61,7 +61,7 @@ final class PayPayoutAction
                     'amount' => $lockedPayout->amount,
 
                     'description' => __(
-                        'Versement au bénéficiaire de la tontine.'
+                        'Versement au bénéficiaire de la réunion.'
                     ),
 
                     'occurred_at' => now(),

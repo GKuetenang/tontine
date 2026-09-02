@@ -26,7 +26,7 @@ final class ReorderMeetingAgendaItemsAction
             ) {
                 throw ValidationException::withMessages([
                     'agenda' => __(
-                        'L’ordre du jour ne peut être réorganisé que pour une réunion prévue.'
+                        'L’ordre du jour ne peut être réorganisé que pour une assise prévue.'
                     ),
                 ]);
             }

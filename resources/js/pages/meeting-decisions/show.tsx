@@ -1,11 +1,11 @@
-import { Button } from '@/components/ui/button';
 import { CheckCircle2Icon, PlusIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
-import type { Meeting, Session, Tontine } from '@/types';
+import type { Meeting, Session, Group } from '@/types';
 
 import { MeetingDecisionItem } from './decision-item';
 
@@ -14,12 +14,12 @@ import { EditMeetingDecisionForm } from './form';
 import { MeetingDecisionsPlaceholder } from './placeholder';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
 };
 
-export function MeetingDecisions({ tontine, session, meeting }: Props) {
+export function MeetingDecisions({ group, session, meeting }: Props) {
     const { can } = useAuthorization();
 
     if (meeting.status === 'scheduled') {
@@ -45,7 +45,7 @@ export function MeetingDecisions({ tontine, session, meeting }: Props) {
 
                 {canCreate && (
                     <EditMeetingDecisionForm
-                        tontine={tontine}
+                        group={group}
                         session={session}
                         meeting={meeting}
                         trigger={
@@ -69,7 +69,7 @@ export function MeetingDecisions({ tontine, session, meeting }: Props) {
                             <p className="font-medium">Aucune décision</p>
 
                             <p className="text-sm text-muted-foreground">
-                                Les décisions prises pendant la réunion
+                                Les décisions prises pendant l’assise
                                 apparaîtront ici.
                             </p>
                         </div>
@@ -79,7 +79,7 @@ export function MeetingDecisions({ tontine, session, meeting }: Props) {
                         {decisions.map((decision) => (
                             <MeetingDecisionItem
                                 key={decision.id}
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                                 decision={decision}

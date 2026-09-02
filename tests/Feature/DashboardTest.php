@@ -5,12 +5,12 @@ use App\Enums\LoanStatus;
 use App\Enums\TransactionDirection;
 use App\Enums\TransactionType;
 use App\Models\Contribution;
+use App\Models\Group;
 use App\Models\Loan;
 use App\Models\Meeting;
 use App\Models\Membership;
 use App\Models\Session;
 use App\Models\SessionParticipant;
-use App\Models\Tontine;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,15 +18,15 @@ use Inertia\Testing\AssertableInertia as Assert;
 
 uses(RefreshDatabase::class);
 
-it('shows onboarding when the user has no tontine', function (): void {
+it('shows onboarding when the user has no group', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
         ->get(route('dashboard'))
         ->assertInertia(fn (Assert $page) => $page
             ->component('dashboard')
-            ->where('has_tontines', false)
-            ->where('summary.tontines_count', 0)
+            ->where('has_groups', false)
+            ->where('summary.groups_count', 0)
             ->has('next_meetings', 0)
             ->has('recent_transactions', 0));
 });
@@ -34,10 +34,10 @@ it('shows onboarding when the user has no tontine', function (): void {
 it('builds a personal dashboard without mixing another members finances', function (): void {
     $user = User::factory()->create();
     $otherUser = User::factory()->create();
-    $tontine = Tontine::factory()->create(['currency' => 'XAF']);
-    $membership = Membership::factory()->active()->for($user)->for($tontine)->create();
-    $otherMembership = Membership::factory()->active()->for($otherUser)->for($tontine)->create();
-    $session = Session::factory()->active()->for($tontine)->create();
+    $group = Group::factory()->create(['currency' => 'XAF']);
+    $membership = Membership::factory()->active()->for($user)->for($group)->create();
+    $otherMembership = Membership::factory()->active()->for($otherUser)->for($group)->create();
+    $session = Session::factory()->active()->for($group)->create();
     $participant = SessionParticipant::factory()->for($session)->for($membership)->create();
     $meeting = Meeting::factory()->for($session)->create([
         'number' => 1,
@@ -59,7 +59,7 @@ it('builds a personal dashboard without mixing another members finances', functi
 
     $dashboard = app(BuildUserDashboardAction::class)->execute($user);
 
-    expect($dashboard['summary']['tontines_count'])->toBe(1)
+    expect($dashboard['summary']['groups_count'])->toBe(1)
         ->and($dashboard['summary']['upcoming_meetings_count'])->toBe(1)
         ->and($dashboard['summary']['contributions_due'])->toBe([
             ['currency' => 'XAF', 'amount' => '7500.00'],

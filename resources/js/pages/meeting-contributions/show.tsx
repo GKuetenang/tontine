@@ -17,19 +17,19 @@ import {
 import { useAuthorization } from '@/hooks/use-authorization';
 import { formatCurrency } from '@/lib/utils';
 
-import type { Meeting, Session, Tontine } from '@/types';
+import type { Meeting, Session, Group } from '@/types';
 
 import { ContributionRow } from './contribution-row';
 import { ContributionSummaryCard } from './contribution-summary-card';
 import { ContributionPlaceholder } from './placeholder';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
 };
 
-export function MeetingContributions({ tontine, session, meeting }: Props) {
+export function MeetingContributions({ group, session, meeting }: Props) {
     const { can } = useAuthorization();
 
     if (meeting.status === 'scheduled') {
@@ -64,19 +64,19 @@ export function MeetingContributions({ tontine, session, meeting }: Props) {
                 <div className="grid gap-4 px-6 md:grid-cols-2 xl:grid-cols-4">
                     <ContributionSummaryCard
                         title="Total attendu"
-                        value={formatCurrency(totalDue, tontine.currency)}
+                        value={formatCurrency(totalDue, group.currency)}
                         icon={CoinsIcon}
                     />
 
                     <ContributionSummaryCard
                         title="Encaissé"
-                        value={formatCurrency(totalPaid, tontine.currency)}
+                        value={formatCurrency(totalPaid, group.currency)}
                         icon={BanknoteIcon}
                     />
 
                     <ContributionSummaryCard
                         title="Reste à payer"
-                        value={formatCurrency(totalRemaining, tontine.currency)}
+                        value={formatCurrency(totalRemaining, group.currency)}
                         icon={CircleDollarSignIcon}
                     />
 
@@ -110,7 +110,7 @@ export function MeetingContributions({ tontine, session, meeting }: Props) {
                         {contributions.map((contribution) => (
                             <ContributionRow
                                 key={contribution.id}
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                                 contribution={contribution}

@@ -21,12 +21,12 @@ import { PlusIcon } from 'lucide-react';
 
 import { useState } from 'react';
 
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuthorization } from '@/hooks/use-authorization';
-import agenda from '@/routes/tontines/sessions/meetings/agenda';
-import type { Meeting, MeetingAgendaItem, Session, Tontine } from '@/types';
-import { toast } from 'sonner';
+import agenda from '@/routes/groups/sessions/meetings/agenda';
+import type { Meeting, MeetingAgendaItem, Session, Group } from '@/types';
 
 import { AgendaItem } from './agenda-item';
 import { EmptyAgenda } from './empty-agenda';
@@ -34,7 +34,7 @@ import { EditAgendaItemForm } from './form';
 import { SortableAgendaItem } from './sortable-agenda-item';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
 };
@@ -48,7 +48,7 @@ export function MeetingAgenda(props: Props) {
     return <MeetingAgendaContent key={agendaKey} {...props} />;
 }
 
-function MeetingAgendaContent({ tontine, session, meeting }: Props) {
+function MeetingAgendaContent({ group, session, meeting }: Props) {
     const { can } = useAuthorization();
 
     const [items, setItems] = useState<MeetingAgendaItem[]>(() =>
@@ -100,7 +100,7 @@ function MeetingAgendaContent({ tontine, session, meeting }: Props) {
 
         router.patch(
             agenda.reorder({
-                tontine: tontine.slug!,
+                group: group.slug!,
                 session: session.slug,
                 meeting: meeting.slug,
             }).url,
@@ -131,7 +131,7 @@ function MeetingAgendaContent({ tontine, session, meeting }: Props) {
 
                 {canEdit && can('meeting-agenda.create') && (
                     <EditAgendaItemForm
-                        tontine={tontine}
+                        group={group}
                         session={session}
                         meeting={meeting}
                         trigger={
@@ -161,7 +161,7 @@ function MeetingAgendaContent({ tontine, session, meeting }: Props) {
                                 {items.map((item) => (
                                     <SortableAgendaItem
                                         key={item.id}
-                                        tontine={tontine}
+                                        group={group}
                                         session={session}
                                         meeting={meeting}
                                         item={item}
@@ -175,7 +175,7 @@ function MeetingAgendaContent({ tontine, session, meeting }: Props) {
                         {items.map((item) => (
                             <AgendaItem
                                 key={item.id}
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                                 item={item}

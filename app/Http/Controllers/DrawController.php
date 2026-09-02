@@ -8,13 +8,13 @@ use App\Actions\Draws\GenerateDrawAction;
 use App\Actions\Draws\ResetDrawAction;
 use App\Actions\Draws\SwapDrawEntriesAction;
 use App\Data\DrawData;
+use App\Data\GroupData;
 use App\Data\SessionData;
-use App\Data\TontineData;
 use App\Http\Requests\SwapDrawEntriesRequest;
 use App\Models\Draw;
 use App\Models\DrawEntry;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -23,7 +23,7 @@ use Inertia\Response;
 class DrawController extends Controller
 {
     public function show(
-        Tontine $tontine,
+        Group $group,
         Session $session,
     ): Response {
         $this->authorize(
@@ -46,8 +46,8 @@ class DrawController extends Controller
         return Inertia::render(
             'draws/show',
             [
-                'tontine' => TontineData::fromModel(
-                    $tontine,
+                'group' => GroupData::fromModel(
+                    $group,
                 ),
 
                 'session' => SessionData::fromModel(
@@ -64,7 +64,7 @@ class DrawController extends Controller
     }
 
     public function generate(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         GenerateDrawAction $action,
     ): RedirectResponse {
@@ -85,7 +85,7 @@ class DrawController extends Controller
     }
 
     public function confirm(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         ConfirmDrawAction $action,
     ): RedirectResponse {
@@ -107,7 +107,7 @@ class DrawController extends Controller
     }
 
     public function reset(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         ResetDrawAction $action,
     ): RedirectResponse {
@@ -127,7 +127,7 @@ class DrawController extends Controller
 
     public function swap(
         SwapDrawEntriesRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         SwapDrawEntriesAction $action,
     ): RedirectResponse {
@@ -178,7 +178,7 @@ class DrawController extends Controller
     }
 
     public function destroy(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         DeleteDrawAction $action,
     ): RedirectResponse {

@@ -1,16 +1,16 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { GripVerticalIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import type { Meeting, MeetingAgendaItem, Session, Tontine } from '@/types';
+import type { Meeting, MeetingAgendaItem, Session, Group } from '@/types';
 import { AgendaItem } from './agenda-item';
 
 export function SortableAgendaItem({
-    tontine,
+    group,
     session,
     meeting,
     item,
 }: {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     item: MeetingAgendaItem;
@@ -42,7 +42,7 @@ export function SortableAgendaItem({
             }
         >
             <AgendaItem
-                tontine={tontine}
+                group={group}
                 session={session}
                 meeting={meeting}
                 item={item}

@@ -9,18 +9,18 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuthorization } from '@/hooks/use-authorization';
-import sessionParticipants from '@/routes/tontines/sessions/participants';
-import type { ResultTontine, Session, SessionParticipant } from '@/types';
+import sessionParticipants from '@/routes/groups/sessions/participants';
+import type { ResultGroup, Session, SessionParticipant } from '@/types';
 
 import { EditSessionParticipantForm } from './form';
 
 type Props = {
-    tontine: ResultTontine;
+    group: ResultGroup;
     session: Session;
     participant: SessionParticipant;
 };
 
-export function Actions({ tontine, session, participant }: Props) {
+export function Actions({ group, session, participant }: Props) {
     const { can, canAny } = useAuthorization();
 
     const hasActions = canAny(
@@ -58,7 +58,7 @@ export function Actions({ tontine, session, participant }: Props) {
                     {participant.is_active &&
                         can('session-participants.update') && (
                             <EditSessionParticipantForm
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 participant={participant}
                                 trigger={
@@ -80,7 +80,7 @@ export function Actions({ tontine, session, participant }: Props) {
                                 <Link
                                     className="w-full"
                                     href={sessionParticipants.destroy({
-                                        tontine: tontine.slug,
+                                        group: group.slug,
                                         session: session.slug,
                                         participant: participant.id,
                                     })}
@@ -108,7 +108,7 @@ export function Actions({ tontine, session, participant }: Props) {
                                 <Link
                                     className="w-full"
                                     href={sessionParticipants.reactivate({
-                                        tontine: tontine.slug,
+                                        group: group.slug,
                                         session: session.slug,
                                         participant: participant.id,
                                     })}

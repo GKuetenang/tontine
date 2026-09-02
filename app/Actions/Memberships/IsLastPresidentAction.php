@@ -2,8 +2,8 @@
 
 namespace App\Actions\Memberships;
 
+use App\Enums\GroupRole;
 use App\Enums\MembershipStatus;
-use App\Enums\TontineRole;
 use App\Models\Membership;
 use App\Models\User;
 use Illuminate\Database\Query\Builder;
@@ -29,13 +29,13 @@ class IsLastPresidentAction
         $previousTeamId = getPermissionsTeamId();
 
         try {
-            setPermissionsTeamId($membership->tontine_id);
+            setPermissionsTeamId($membership->group_id);
 
             $membership->user->unsetRelation('roles');
             $membership->user->unsetRelation('permissions');
 
             return $membership->user->hasRole(
-                TontineRole::President->value
+                GroupRole::President->value
             );
         } finally {
             setPermissionsTeamId($previousTeamId);
@@ -57,7 +57,7 @@ class IsLastPresidentAction
         $teamForeignKey = $columnNames['team_foreign_key'];
 
         return Membership::query()
-            ->where('memberships.tontine_id', $membership->tontine_id)
+            ->where('memberships.group_id', $membership->group_id)
             ->where('memberships.status', MembershipStatus::Active)
             ->whereNull('memberships.left_at')
             ->whereNull('memberships.deleted_at')
@@ -87,11 +87,11 @@ class IsLastPresidentAction
                     )
                     ->where(
                         "mhr.{$teamForeignKey}",
-                        $membership->tontine_id
+                        $membership->group_id
                     )
                     ->where(
                         'r.name',
-                        TontineRole::President->value
+                        GroupRole::President->value
                     )
                     ->where('r.guard_name', 'web');
             })

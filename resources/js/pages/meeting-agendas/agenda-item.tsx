@@ -3,19 +3,19 @@ import { PencilIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { useAuthorization } from '@/hooks/use-authorization';
-import agenda from '@/routes/tontines/sessions/meetings/agenda';
-import type { Meeting, MeetingAgendaItem, Session, Tontine } from '@/types';
+import agenda from '@/routes/groups/sessions/meetings/agenda';
+import type { Meeting, MeetingAgendaItem, Session, Group } from '@/types';
 import { EditAgendaItemForm } from './form';
 
 export function AgendaItem({
-    tontine,
+    group,
     session,
     meeting,
     item,
     canEdit,
     dragHandle,
 }: {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     item: MeetingAgendaItem;
@@ -46,7 +46,7 @@ export function AgendaItem({
                 <div className="flex items-center gap-1">
                     {can('meeting-agenda.update') && (
                         <EditAgendaItemForm
-                            tontine={tontine}
+                            group={group}
                             session={session}
                             meeting={meeting}
                             agendaItem={item}
@@ -67,7 +67,7 @@ export function AgendaItem({
                         >
                             <Link
                                 href={agenda.destroy({
-                                    tontine: tontine.slug!,
+                                    group: group.slug!,
                                     session: session.slug,
                                     meeting: meeting.slug,
                                     agendaItem: item.id,

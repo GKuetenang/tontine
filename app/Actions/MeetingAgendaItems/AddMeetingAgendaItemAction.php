@@ -27,7 +27,7 @@ final class AddMeetingAgendaItemAction
                 ) {
                     throw ValidationException::withMessages([
                         'agenda' => __(
-                            'L’ordre du jour ne peut être modifié que pour une réunion prévue.'
+                            'L’ordre du jour ne peut être modifié que pour une assise prévue.'
                         ),
                     ]);
                 }

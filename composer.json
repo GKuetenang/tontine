@@ -108,7 +108,7 @@
         ],
         "permissions:sync": [
             "@php artisan db:seed --class=PermissionSeeder",
-            "@php artisan tontines:sync-roles"
+            "@php artisan groups:sync-roles"
         ]
     },
     "extra": {

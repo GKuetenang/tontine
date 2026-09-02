@@ -2,7 +2,7 @@
 
 ## 1. Scope
 
-These instructions apply to the entire Tontine repository unless a more specific `AGENTS.md` exists deeper in the tree.
+These instructions apply to the entire Group repository unless a more specific `AGENTS.md` exists deeper in the tree.
 
 Read `PROJECT_CONTEXT.md` before doing domain work.
 
@@ -54,7 +54,7 @@ Controllers should not contain large business workflows.
 Policies handle authorization only.
 
 Policies may answer:
-- does this user belong to the relevant tontine?
+- does this user belong to the relevant group?
 - does this user have the required permission?
 
 Policies should not decide:
@@ -131,7 +131,7 @@ Transaction
 
 ## 7. Authorization and Spatie Teams
 
-Spatie Permission Teams is scoped by `tontine_id`.
+Spatie Permission Teams is scoped by `group_id`.
 
 When checking permissions:
 - set current permissions team ID;

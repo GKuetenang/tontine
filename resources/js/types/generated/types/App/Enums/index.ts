@@ -4,29 +4,13 @@ export type ContributionStatus = 'unpaid' | 'partial' | 'paid';
 export type DonationStatus = 'pending' | 'paid' | 'cancelled';
 export type DrawAllocationMode =
     'one_per_member' | 'based_on_contribution' | 'custom';
-export type LoanStatus = 'pending' | 'active' | 'repaid' | 'cancelled';
-export type MeetingMonthlyPattern = 'day_of_month' | 'weekday_ordinal';
-export type MeetingRecurrence = 'weekly' | 'monthly';
-export type MeetingStatus =
-    'scheduled' | 'in_progress' | 'completed' | 'cancelled';
-export type MembershipStatus = 'active' | 'inactive' | 'suspended' | 'left';
-export type PayoutStatus = 'pending' | 'paid' | 'cancelled';
-export type PenaltyCalculationType = 'fixed' | 'percentage';
-export type PenaltyGraceUnit = 'minutes' | 'days';
-export type PenaltyTrigger =
-    | 'meeting_late'
-    | 'meeting_absent'
-    | 'contribution_late'
-    | 'contribution_incomplete'
-    | 'manual';
-export type SessionStatus = 'draft' | 'active' | 'closed';
-export type TontinePermission =
-    | 'tontines.view'
-    | 'tontines.update'
-    | 'tontines.delete'
-    | 'tontines.restore'
-    | 'tontines.force-delete'
-    | 'tontines.settings.manage'
+export type GroupPermission =
+    | 'groups.view'
+    | 'groups.update'
+    | 'groups.delete'
+    | 'groups.restore'
+    | 'groups.force-delete'
+    | 'groups.settings.manage'
     | 'memberships.view'
     | 'memberships.create'
     | 'memberships.update'
@@ -35,6 +19,9 @@ export type TontinePermission =
     | 'memberships.suspend'
     | 'memberships.leave'
     | 'memberships.roles.assign'
+    | 'roles.view'
+    | 'roles.create'
+    | 'roles.update'
     | 'sessions.view'
     | 'sessions.create'
     | 'sessions.update'
@@ -107,8 +94,24 @@ export type TontinePermission =
     | 'payouts.cancel'
     | 'reports.view'
     | 'reports.export';
-export type TontineRole =
+export type GroupRole =
     'president' | 'secretary' | 'treasurer' | 'member' | 'censor' | 'auditor';
+export type LoanStatus = 'pending' | 'active' | 'repaid' | 'cancelled';
+export type MeetingMonthlyPattern = 'day_of_month' | 'weekday_ordinal';
+export type MeetingRecurrence = 'weekly' | 'monthly';
+export type MeetingStatus =
+    'scheduled' | 'in_progress' | 'completed' | 'cancelled';
+export type MembershipStatus = 'active' | 'inactive' | 'suspended' | 'left';
+export type PayoutStatus = 'pending' | 'paid' | 'cancelled';
+export type PenaltyCalculationType = 'fixed' | 'percentage';
+export type PenaltyGraceUnit = 'minutes' | 'days';
+export type PenaltyTrigger =
+    | 'meeting_late'
+    | 'meeting_absent'
+    | 'contribution_late'
+    | 'contribution_incomplete'
+    | 'manual';
+export type SessionStatus = 'draft' | 'active' | 'closed';
 export type TransactionDirection = 'credit' | 'debit';
 export type TransactionType =
     | 'contribution'

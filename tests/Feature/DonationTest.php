@@ -3,16 +3,16 @@
 use App\Actions\Donations\CancelDonationAction;
 use App\Actions\Donations\CreateDonationAction;
 use App\Actions\Donations\PayDonationAction;
+use App\Actions\Groups\CreateDefaultGroupRolesAction;
 use App\Actions\Memberships\CreateMembershipAction;
-use App\Actions\Tontines\CreateDefaultTontineRolesAction;
 use App\Enums\DonationStatus;
 use App\Enums\TransactionDirection;
 use App\Enums\TransactionType;
 use App\Models\Donation;
+use App\Models\Group;
 use App\Models\Membership;
 use App\Models\Session;
 use App\Models\SessionParticipant;
-use App\Models\Tontine;
 use App\Models\Transaction;
 use App\Models\User;
 use Database\Seeders\PermissionSeeder;
@@ -24,13 +24,13 @@ uses(RefreshDatabase::class);
 function donationContext(): array
 {
     $session = Session::factory()->active()->create();
-    $membership = Membership::factory()->active()->create(['tontine_id' => $session->tontine_id]);
+    $membership = Membership::factory()->active()->create(['group_id' => $session->group_id]);
     SessionParticipant::factory()->for($session)->for($membership)->create();
 
     return [$session, $membership, User::factory()->create()];
 }
 
-it('creates a pending donation for an active member of the session tontine', function (): void {
+it('creates a pending donation for an active member of the session group', function (): void {
     [$session, $membership, $user] = donationContext();
     $donation = app(CreateDonationAction::class)->execute($session, $membership, $user, '1250.50', 'Aide médicale');
 
@@ -70,15 +70,15 @@ it('allows the president to manage donations through the session routes', functi
         'first_name' => 'Gustave',
         'name' => 'Kamga',
     ]);
-    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    $membership = app(CreateMembershipAction::class)->execute($tontine, $beneficiary, 'member');
-    $session = Session::factory()->for($tontine)->active()->create();
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    $membership = app(CreateMembershipAction::class)->execute($group, $beneficiary, 'member');
+    $session = Session::factory()->for($group)->active()->create();
     SessionParticipant::factory()->for($session)->for($membership)->create();
 
     $this->actingAs($president)
-        ->post(route('tontines.sessions.donations.store', [$tontine, $session]), [
+        ->post(route('groups.sessions.donations.store', [$group, $session]), [
             'membership_id' => $membership->id,
             'amount' => '2500.75',
             'reason' => 'Soutien familial',
@@ -88,8 +88,8 @@ it('allows the president to manage donations through the session routes', functi
     $donation = $session->donations()->firstOrFail();
 
     $this->actingAs($president)
-        ->get(route('tontines.sessions.donations.index', [
-            'tontine' => $tontine,
+        ->get(route('groups.sessions.donations.index', [
+            'group' => $group,
             'session' => $session,
             'q' => 'Gustave',
         ]))
@@ -100,7 +100,7 @@ it('allows the president to manage donations through the session routes', functi
             ->where('collection.data.0.member_name', $beneficiary->full_name));
 
     $this->actingAs($president)
-        ->patch(route('tontines.sessions.donations.pay', [$tontine, $session, $donation]))
+        ->patch(route('groups.sessions.donations.pay', [$group, $session, $donation]))
         ->assertRedirect();
 
     expect($donation->fresh()->status)->toBe(DonationStatus::Paid)
@@ -110,23 +110,23 @@ it('allows the president to manage donations through the session routes', functi
 it('rejects members and donations outside the nested session context', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    $session = Session::factory()->for($tontine)->active()->create();
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    $session = Session::factory()->for($group)->active()->create();
     $foreignMembership = Membership::factory()->active()->create();
 
     $this->actingAs($president)
-        ->post(route('tontines.sessions.donations.store', [$tontine, $session]), [
+        ->post(route('groups.sessions.donations.store', [$group, $session]), [
             'membership_id' => $foreignMembership->id,
             'amount' => '1000.00',
-            'reason' => 'Hors tontine',
+            'reason' => 'Hors réunion',
         ])
         ->assertNotFound();
 
-    $otherSession = Session::factory()->for($tontine)->active()->create();
-    SessionParticipant::factory()->for($otherSession)->for($tontine->memberships()->firstOrFail())->create();
-    $donation = Donation::factory()->for($otherSession)->for($tontine->memberships()->firstOrFail())->create([
+    $otherSession = Session::factory()->for($group)->active()->create();
+    SessionParticipant::factory()->for($otherSession)->for($group->memberships()->firstOrFail())->create();
+    $donation = Donation::factory()->for($otherSession)->for($group->memberships()->firstOrFail())->create([
         'amount' => '1000.00',
         'reason' => 'Autre session',
         'status' => DonationStatus::Pending,
@@ -134,6 +134,6 @@ it('rejects members and donations outside the nested session context', function 
     ]);
 
     $this->actingAs($president)
-        ->patch(route('tontines.sessions.donations.pay', [$tontine, $session, $donation]))
+        ->patch(route('groups.sessions.donations.pay', [$group, $session, $donation]))
         ->assertNotFound();
 });

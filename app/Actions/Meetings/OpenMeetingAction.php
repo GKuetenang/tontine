@@ -21,7 +21,7 @@ final class OpenMeetingAction
                 ) {
                     throw ValidationException::withMessages([
                         'meeting' => __(
-                            'Seule une réunion prévue peut être ouverte.'
+                            'Seule une assise prévue peut être ouverte.'
                         ),
                     ]);
                 }
@@ -32,7 +32,7 @@ final class OpenMeetingAction
                 ) {
                     throw ValidationException::withMessages([
                         'meeting' => __(
-                            'La session doit être active pour ouvrir une réunion.'
+                            'La session doit être active pour ouvrir une assise.'
                         ),
                     ]);
                 }
@@ -46,7 +46,7 @@ final class OpenMeetingAction
                 if ($participants->isEmpty()) {
                     throw ValidationException::withMessages([
                         'meeting' => __(
-                            'La réunion ne peut pas être ouverte sans participant actif.'
+                            'L’assise ne peut pas être ouverte sans participant actif.'
                         ),
                     ]);
                 }

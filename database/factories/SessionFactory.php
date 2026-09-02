@@ -4,8 +4,8 @@ namespace Database\Factories;
 
 use App\Enums\DrawAllocationMode;
 use App\Enums\SessionStatus;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -31,7 +31,7 @@ class SessionFactory extends Factory
         $name = "Session {$year}";
 
         return [
-            'tontine_id' => Tontine::factory(),
+            'group_id' => Group::factory(),
 
             'name' => $name,
 

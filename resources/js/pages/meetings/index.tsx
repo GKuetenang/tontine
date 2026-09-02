@@ -36,9 +36,9 @@ import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 
 import { formatDate } from '@/lib';
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
-import meetings from '@/routes/tontines/sessions/meetings';
+import groups from '@/routes/groups';
+import sessions from '@/routes/groups/sessions';
+import meetings from '@/routes/groups/sessions/meetings';
 
 import type {
     BreadcrumbItem,
@@ -46,7 +46,7 @@ import type {
     MeetingSchedule,
     PaginatedCollection,
     Session,
-    Tontine,
+    Group,
 } from '@/types';
 
 import { Actions } from './actions';
@@ -56,7 +56,7 @@ import { MeetingScheduleForm } from './schedule-form';
 type Props = {
     collection: PaginatedCollection<Meeting>;
     q: string | null;
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     meeting_schedule: MeetingSchedule | null;
@@ -66,33 +66,33 @@ type Props = {
 };
 
 export default withAppLayout<Props>(
-    ({ tontine, session }) =>
+    ({ group, session }) =>
         [
             {
-                title: 'Tontines',
-                href: tontines.index(),
+                title: 'Réunions',
+                href: groups.index(),
             },
             {
-                title: tontine.name,
-                href: tontines.show({
-                    tontine: tontine.slug!,
+                title: group.name,
+                href: groups.show({
+                    group: group.slug!,
                 }),
             },
             {
                 title: 'Sessions',
                 href: sessions.index({
-                    tontine: tontine.slug!,
+                    group: group.slug!,
                 }),
             },
             {
                 title: session.name,
                 href: sessions.show({
-                    tontine: tontine.slug!,
+                    group: group.slug!,
                     session: session.slug,
                 }),
             },
             {
-                title: 'Réunions',
+                title: 'Assises',
                 href: '#',
             },
         ] as BreadcrumbItem[],
@@ -100,7 +100,7 @@ export default withAppLayout<Props>(
     ({
         collection,
         q,
-        tontine,
+        group,
         session,
         meeting,
         meeting_schedule: schedule,
@@ -130,11 +130,11 @@ export default withAppLayout<Props>(
 
         return (
             <>
-                <Head title="Réunions" />
+                <Head title="Assises" />
 
                 <Heading
-                    title="Réunions"
-                    description={`Réunions de la session ${session.name}`}
+                    title="Assises"
+                    description={`Assises de la session ${session.name}`}
                 />
 
                 <div className="space-y-4">
@@ -143,19 +143,19 @@ export default withAppLayout<Props>(
                             <div className="space-y-1.5">
                                 <CardTitle className="flex items-center gap-2 text-base">
                                     <CalendarRangeIcon className="size-5" />
-                                    Calendrier des réunions
+                                    Calendrier des assises
                                 </CardTitle>
                                 <CardDescription>
                                     {schedule
-                                        ? 'Les réunions récurrentes de cette session ont été générées.'
-                                        : 'Définissez une récurrence pour générer les réunions de toute la session.'}
+                                        ? 'Les assises récurrentes de cette session ont été générées.'
+                                        : 'Définissez une récurrence pour générer les assises de toute la session.'}
                                 </CardDescription>
                             </div>
 
                             {session.status === 'draft' &&
                                 can('meetings.create') && (
                                     <MeetingScheduleForm
-                                        tontine={tontine}
+                                        group={group}
                                         session={session}
                                         recurrences={recurrences}
                                         monthlyPatterns={monthlyPatterns}
@@ -199,7 +199,7 @@ export default withAppLayout<Props>(
                                 </div>
                                 <div>
                                     <p className="text-xs text-muted-foreground">
-                                        Première réunion
+                                        Première assise
                                     </p>
                                     <p className="mt-1 font-medium">
                                         {formatDate(schedule.starts_at)}
@@ -236,7 +236,7 @@ export default withAppLayout<Props>(
                                     {can('meetings.create') && (
                                         <EditMeetingForm
                                             meeting={meeting}
-                                            tontine={tontine}
+                                            group={group}
                                             session={session}
                                             trigger={
                                                 <Button
@@ -244,7 +244,7 @@ export default withAppLayout<Props>(
                                                     className="w-fit"
                                                 >
                                                     <PlusIcon />
-                                                    Ajouter une réunion
+                                                    Ajouter une assise
                                                 </Button>
                                             }
                                         />
@@ -253,7 +253,7 @@ export default withAppLayout<Props>(
 
                                 <Form
                                     {...meetings.index.form({
-                                        tontine: tontine.slug!,
+                                        group: group.slug!,
                                         session: session.slug,
                                     })}
                                     className="flex items-center gap-1"
@@ -261,7 +261,7 @@ export default withAppLayout<Props>(
                                     <Input
                                         autoFocus
                                         defaultValue={q ?? ''}
-                                        placeholder="Rechercher une réunion"
+                                        placeholder="Rechercher une assise"
                                         name="q"
                                     />
 
@@ -282,7 +282,7 @@ export default withAppLayout<Props>(
                                         </SortableTableHead>
 
                                         <SortableTableHead field="title">
-                                            Réunion
+                                            Assise
                                         </SortableTableHead>
 
                                         <SortableTableHead field="scheduled_at">
@@ -321,8 +321,7 @@ export default withAppLayout<Props>(
                                                 <div className="flex flex-col gap-1">
                                                     <Link
                                                         href={meetings.show({
-                                                            tontine:
-                                                                tontine.slug!,
+                                                            group: group.slug!,
                                                             session:
                                                                 session.slug,
                                                             meeting: item.slug,
@@ -380,7 +379,7 @@ export default withAppLayout<Props>(
 
                                             <TableCell className="text-end">
                                                 <Actions
-                                                    tontine={tontine}
+                                                    group={group}
                                                     session={session}
                                                     meeting={item}
                                                 />
@@ -395,8 +394,8 @@ export default withAppLayout<Props>(
                                                 className="h-32 text-center text-muted-foreground"
                                             >
                                                 {q
-                                                    ? `Aucune réunion ne correspond à la recherche « ${q} ».`
-                                                    : 'Aucune réunion enregistrée.'}
+                                                    ? `Aucune assise ne correspond à la recherche « ${q} ».`
+                                                    : 'Aucune assise enregistrée.'}
                                             </TableCell>
                                         </TableRow>
                                     )}

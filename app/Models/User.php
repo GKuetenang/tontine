@@ -30,18 +30,18 @@ class User extends Authenticatable implements PasskeyUser
     use HasFactory, HasRoles, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
 
     /**
-     * @return BelongsToMany<Tontine>
+     * @return BelongsToMany<Group>
      */
-    public function tontines(): BelongsToMany
+    public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(Tontine::class, 'memberships')
+        return $this->belongsToMany(Group::class, 'memberships')
             ->withPivot('id', 'member_number', 'joined_at', 'left_at', 'status')
             ->withTimestamps();
     }
 
-    public function ownedTontines(): HasMany
+    public function ownedGroups(): HasMany
     {
-        return $this->hasMany(Tontine::class);
+        return $this->hasMany(Group::class);
     }
 
     /**
@@ -54,7 +54,7 @@ class User extends Authenticatable implements PasskeyUser
 
     protected function fullName(): Attribute
     {
-        return Attribute::get(fn(): string => trim("{$this->first_name} {$this->name}"));
+        return Attribute::get(fn (): string => trim("{$this->first_name} {$this->name}"));
     }
 
     /**

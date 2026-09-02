@@ -16,7 +16,7 @@ class LoanFactory extends Factory
     {
         return [
             'membership_id' => Membership::factory(),
-            'session_id' => fn (array $attributes) => Session::factory()->create(['tontine_id' => Membership::query()->findOrFail($attributes['membership_id'])->tontine_id]),
+            'session_id' => fn (array $attributes) => Session::factory()->create(['group_id' => Membership::query()->findOrFail($attributes['membership_id'])->group_id]),
             'principal_amount' => '10000.00',
             'interest_rate' => '10.00',
             'term_months' => 3,

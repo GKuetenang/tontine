@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\MeetingAttendance;
-use App\Models\Tontine;
 use App\Models\User;
 
 class MeetingAttendancePolicy
@@ -14,16 +14,16 @@ class MeetingAttendancePolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        $tontine = $meeting
+        $group = $meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::ViewMeetingAttendances,
+                group: $group,
+                permission: GroupPermission::ViewMeetingAttendances,
             );
     }
 
@@ -31,17 +31,17 @@ class MeetingAttendancePolicy
         User $user,
         MeetingAttendance $attendance,
     ): bool {
-        $tontine = $attendance
+        $group = $attendance
             ->meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::ViewMeetingAttendances,
+                group: $group,
+                permission: GroupPermission::ViewMeetingAttendances,
             );
     }
 
@@ -49,31 +49,31 @@ class MeetingAttendancePolicy
         User $user,
         MeetingAttendance $attendance,
     ): bool {
-        $tontine = $attendance
+        $group = $attendance
             ->meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine
+        return $group
             ->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::UpdateMeetingAttendances,
+                group: $group,
+                permission: GroupPermission::UpdateMeetingAttendances,
             );
     }
 
     private function can(
         User $user,
-        Tontine $tontine,
-        TontinePermission $permission,
+        Group $group,
+        GroupPermission $permission,
     ): bool {
         $previousTeamId =
             getPermissionsTeamId();
 
         try {
             setPermissionsTeamId(
-                $tontine->id,
+                $group->id,
             );
 
             $user->unsetRelation('roles');

@@ -63,7 +63,7 @@ const EMPTY_EDITOR_STATE = {
 export function RichTextEditor({
     value = '',
     onChange,
-    placeholder = 'Saisir les notes de la réunion...',
+    placeholder = 'Saisir les notes de l’assise...',
 }: Props) {
     const [linkOpen, setLinkOpen] = useState(false);
 

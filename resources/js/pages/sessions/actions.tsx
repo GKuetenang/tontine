@@ -16,17 +16,17 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuthorization } from '@/hooks/use-authorization';
-import sessions from '@/routes/tontines/sessions';
-import type { ResultTontine, Session } from '@/types';
+import sessions from '@/routes/groups/sessions';
+import type { ResultGroup, Session } from '@/types';
 import { EditSessionForm } from './form';
 
 type Props = {
-    tontine: ResultTontine;
+    group: ResultGroup;
     session: Session;
     draw_allocation_modes: SelectOption[];
 };
 
-export function Actions({ tontine, session, draw_allocation_modes }: Props) {
+export function Actions({ group, session, draw_allocation_modes }: Props) {
     const { can, canAny } = useAuthorization();
 
     const hasActions = canAny(
@@ -67,7 +67,7 @@ export function Actions({ tontine, session, draw_allocation_modes }: Props) {
                     {can('sessions.update') && (
                         <EditSessionForm
                             draw_allocation_modes={draw_allocation_modes}
-                            tontine={tontine}
+                            group={group}
                             session={session}
                             trigger={
                                 <DropdownMenuItem
@@ -86,7 +86,7 @@ export function Actions({ tontine, session, draw_allocation_modes }: Props) {
                                 <Link
                                     className="w-full"
                                     href={sessions.activate({
-                                        tontine: tontine.slug,
+                                        group: group.slug,
                                         session: session.slug,
                                     })}
                                     onBefore={() =>
@@ -112,7 +112,7 @@ export function Actions({ tontine, session, draw_allocation_modes }: Props) {
                                 <Link
                                     className="w-full"
                                     href={sessions.close({
-                                        tontine: tontine.slug,
+                                        group: group.slug,
                                         session: session.slug,
                                     })}
                                     onBefore={() =>
@@ -137,7 +137,7 @@ export function Actions({ tontine, session, draw_allocation_modes }: Props) {
                             <Link
                                 className="w-full"
                                 href={sessions.destroy({
-                                    tontine: tontine.slug,
+                                    group: group.slug,
                                     session: session.slug,
                                 })}
                                 onBefore={() =>

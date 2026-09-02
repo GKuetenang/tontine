@@ -28,7 +28,7 @@ export function ProductPreview() {
                     <div className="grid gap-3 sm:grid-cols-3">
                         {[
                             [UsersIcon, 'Membres', '24'],
-                            [CalendarDaysIcon, 'Prochaine réunion', '08 sept.'],
+                            [CalendarDaysIcon, 'Prochaine assise', '08 sept.'],
                             [CircleDollarSignIcon, 'Solde', '1 485 000 XAF'],
                         ].map(([Icon, label, value]) => (
                             <div
@@ -50,7 +50,7 @@ export function ProductPreview() {
                         <div className="rounded-xl border p-4">
                             <div className="mb-4 flex items-center justify-between">
                                 <p className="text-sm font-medium">
-                                    Cotisations de la réunion
+                                    Cotisations de l’assise
                                 </p>
                                 <span className="text-xs text-muted-foreground">
                                     18 / 24

@@ -19,12 +19,12 @@ import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { UserCombobox } from '@/components/user-combobox';
 import { cn } from '@/lib/utils';
-import donations from '@/routes/tontines/sessions/donations';
-import type { MemberUser, Session, Tontine } from '@/types';
+import donations from '@/routes/groups/sessions/donations';
+import type { MemberUser, Session, Group } from '@/types';
 
-type Props = { trigger: ReactElement; tontine: Tontine; session: Session };
+type Props = { trigger: ReactElement; group: Group; session: Session };
 
-export function CreateDonationForm({ trigger, tontine, session }: Props) {
+export function CreateDonationForm({ trigger, group, session }: Props) {
     const [open, setOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<MemberUser | null>(null);
 
@@ -46,7 +46,7 @@ export function CreateDonationForm({ trigger, tontine, session }: Props) {
             >
                 <Form
                     {...donations.store.form({
-                        tontine: tontine.slug!,
+                        group: group.slug!,
                         session: session.slug,
                     })}
                     resetOnSuccess

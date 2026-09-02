@@ -1,3 +1,6 @@
+import { Form, Head } from '@inertiajs/react';
+import { ListFilterIcon } from 'lucide-react';
+import { useState } from 'react';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -22,12 +25,9 @@ import {
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
-import tontines from '@/routes/tontines';
-import finances from '@/routes/tontines/finances';
-import type { BreadcrumbItem, Tontine } from '@/types';
-import { Form, Head } from '@inertiajs/react';
-import { ListFilterIcon } from 'lucide-react';
-import { useState } from 'react';
+import groups from '@/routes/groups';
+import finances from '@/routes/groups/finances';
+import type { BreadcrumbItem, Group } from '@/types';
 
 type FinancialSummary = {
     credits: string;
@@ -55,7 +55,7 @@ type RecentTransaction = {
 };
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     dashboard: {
         summary: FinancialSummary;
         breakdown: Breakdown[];
@@ -75,17 +75,17 @@ type Props = {
 };
 
 export default withAppLayout<Props>(
-    ({ tontine }) =>
+    ({ group }) =>
         [
-            { title: 'Tontines', href: tontines.index() },
+            { title: 'Réunions', href: groups.index() },
             {
-                title: tontine.name,
-                href: tontines.show({ tontine: tontine.slug! }),
+                title: group.name,
+                href: groups.show({ group: group.slug! }),
             },
             { title: 'Finances', href: '#' },
         ] as BreadcrumbItem[],
-    ({ tontine, dashboard, filters, sessions }) => {
-        const currency = tontine.currency ?? 'XAF';
+    ({ group, dashboard, filters, sessions }) => {
+        const currency = group.currency ?? 'XAF';
         const [sessionId, setSessionId] = useState(
             filters.session_id ? String(filters.session_id) : 'all',
         );
@@ -101,14 +101,14 @@ export default withAppLayout<Props>(
                 <Head title="Finances" />
                 <Heading
                     title="État financier"
-                    description={`Situation financière consolidée de ${tontine.name}.`}
+                    description={`Situation financière consolidée de ${group.name}.`}
                 />
                 <div className="space-y-6">
-                    <Card className="bg-background py-0 overflow-hidden">
+                    <Card className="overflow-hidden bg-background py-0">
                         <CardHeader className="border-b pt-4">
                             <Form
                                 {...finances.index.form({
-                                    tontine: tontine.slug!,
+                                    group: group.slug!,
                                 })}
                                 className="grid items-end gap-3 md:grid-cols-5"
                             >
@@ -132,7 +132,7 @@ export default withAppLayout<Props>(
                                     >
                                         <SelectTrigger
                                             id="finance-session"
-                                            className="w-full mb-0"
+                                            className="mb-0 w-full"
                                         >
                                             <SelectValue placeholder="Toutes les sessions" />
                                         </SelectTrigger>
@@ -153,7 +153,7 @@ export default withAppLayout<Props>(
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="finance-meeting">
-                                        Réunion
+                                        Assise
                                     </Label>
                                     <input
                                         type="hidden"
@@ -169,13 +169,13 @@ export default withAppLayout<Props>(
                                     >
                                         <SelectTrigger
                                             id="finance-meeting"
-                                            className="w-full mb-0"
+                                            className="mb-0 w-full"
                                         >
-                                            <SelectValue placeholder="Toutes les réunions" />
+                                            <SelectValue placeholder="Toutes les assises" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="all">
-                                                Toutes les réunions
+                                                Toutes les assises
                                             </SelectItem>
                                             {meetings.map((meeting) => (
                                                 <SelectItem
@@ -328,7 +328,7 @@ export default withAppLayout<Props>(
                                                         className={`pr-6 text-right font-medium ${transaction.direction === 'credit' ? 'text-emerald-600' : 'text-destructive'}`}
                                                     >
                                                         {transaction.direction ===
-                                                            'credit'
+                                                        'credit'
                                                             ? '+'
                                                             : '−'}{' '}
                                                         {formatCurrency(

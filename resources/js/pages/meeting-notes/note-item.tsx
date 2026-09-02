@@ -13,20 +13,20 @@ import {
 import { useAuthorization } from '@/hooks/use-authorization';
 
 import { formatDate } from '@/lib';
-import notes from '@/routes/tontines/sessions/meetings/notes';
+import notes from '@/routes/groups/sessions/meetings/notes';
 
-import type { Meeting, MeetingNote, Session, Tontine } from '@/types';
+import type { Meeting, MeetingNote, Session, Group } from '@/types';
 
 import { EditMeetingNoteForm } from './form';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     note: MeetingNote;
 };
 
-export function MeetingNoteItem({ tontine, session, meeting, note }: Props) {
+export function MeetingNoteItem({ group, session, meeting, note }: Props) {
     const { can, canAny } = useAuthorization();
 
     const canEdit = meeting.status === 'in_progress';
@@ -56,7 +56,7 @@ export function MeetingNoteItem({ tontine, session, meeting, note }: Props) {
                     <CardAction className="flex items-center gap-2">
                         {can('meeting-notes.update') && (
                             <EditMeetingNoteForm
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                                 note={note}
@@ -80,7 +80,7 @@ export function MeetingNoteItem({ tontine, session, meeting, note }: Props) {
                             >
                                 <Link
                                     href={notes.destroy({
-                                        tontine: tontine.slug!,
+                                        group: group.slug!,
                                         session: session.slug,
                                         meeting: meeting.slug,
                                         note: note.id,

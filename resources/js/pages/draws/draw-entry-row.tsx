@@ -79,7 +79,7 @@ export function DrawEntryRow({ entry, canDrag }: Props) {
                         </p>
 
                         <p className="text-xs text-muted-foreground">
-                            Réunion #{entry.expected_meeting.number}
+                            Assise #{entry.expected_meeting.number}
                         </p>
                     </div>
                 ) : (

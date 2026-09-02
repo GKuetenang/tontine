@@ -19,16 +19,16 @@ import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { UserCombobox } from '@/components/user-combobox';
 import { cn } from '@/lib/utils';
-import loans from '@/routes/tontines/sessions/loans';
-import type { MemberUser, Session, Tontine } from '@/types';
+import loans from '@/routes/groups/sessions/loans';
+import type { MemberUser, Session, Group } from '@/types';
 
 export function CreateLoanForm({
     trigger,
-    tontine,
+    group,
     session,
 }: {
     trigger: ReactElement;
-    tontine: Tontine;
+    group: Group;
     session: Session;
 }) {
     const [open, setOpen] = useState(false);
@@ -52,7 +52,7 @@ export function CreateLoanForm({
             >
                 <Form
                     {...loans.store.form({
-                        tontine: tontine.slug!,
+                        group: group.slug!,
                         session: session.slug,
                     })}
                     resetOnSuccess
@@ -63,9 +63,9 @@ export function CreateLoanForm({
                             <DialogHeader>
                                 <DialogTitle>Créer un prêt</DialogTitle>
                                 <DialogDescription>
-                                    Taux de {tontine.default_loan_interest_rate}{' '}
-                                    % sur le capital initial, échéance à{' '}
-                                    {tontine.default_loan_term_months} mois.
+                                    Taux de {group.default_loan_interest_rate} %
+                                    sur le capital initial, échéance à{' '}
+                                    {group.default_loan_term_months} mois.
                                 </DialogDescription>
                             </DialogHeader>
                             {errors.loan && (

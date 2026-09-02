@@ -8,9 +8,9 @@ use App\Data\LoanData;
 use App\Data\SessionData;
 use App\Enums\LoanStatus;
 use App\Http\Requests\StoreLoanRequest;
+use App\Models\Group;
 use App\Models\Loan;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,7 +18,7 @@ use Inertia\Response;
 
 class LoanController extends WithUserSearchController
 {
-    public function index(Request $request, Tontine $tontine, Session $session): Response
+    public function index(Request $request, Group $group, Session $session): Response
     {
         $this->authorize('viewAny', [Loan::class, $session]);
         $q = $request->string('q')->trim()->toString();
@@ -32,7 +32,7 @@ class LoanController extends WithUserSearchController
             ->withQueryString();
 
         return Inertia::render('loans/index', [
-            'tontine' => ['id' => $tontine->id, 'name' => $tontine->name, 'slug' => $tontine->slug],
+            'group' => ['id' => $group->id, 'name' => $group->name, 'slug' => $group->slug],
             'session' => SessionData::fromModel($session),
             'collection' => LoanData::collect($loans),
             'q' => $q ?: null,
@@ -41,7 +41,7 @@ class LoanController extends WithUserSearchController
         ]);
     }
 
-    public function store(StoreLoanRequest $request, Tontine $tontine, Session $session, CreateLoanAction $action): RedirectResponse
+    public function store(StoreLoanRequest $request, Group $group, Session $session, CreateLoanAction $action): RedirectResponse
     {
         $this->authorize('create', [Loan::class, $session]);
         $membership = $session->participants()->active()->where('membership_id', $request->integer('membership_id'))->firstOrFail()->membership;
@@ -50,7 +50,7 @@ class LoanController extends WithUserSearchController
         return Inertia::flash('success', __('Le prêt a été créé avec succès.'))->back();
     }
 
-    public function approve(Tontine $tontine, Session $session, Loan $loan, ApproveLoanAction $action): RedirectResponse
+    public function approve(Group $group, Session $session, Loan $loan, ApproveLoanAction $action): RedirectResponse
     {
         abort_unless($loan->session_id === $session->id, 404);
         $this->authorize('approve', $loan);

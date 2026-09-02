@@ -21,7 +21,7 @@ import { AccountLayout } from '@/layouts/account-layout';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import account from '@/routes/account';
-import tontines from '@/routes/tontines';
+import groups from '@/routes/groups';
 import type { BreadcrumbItem, PaginatedCollection } from '@/types';
 
 type Item = {
@@ -29,13 +29,13 @@ type Item = {
     member_number: string;
     joined_at: string | null;
     insurance_total: string;
-    tontine: { name: string; slug: string; currency: string };
+    group: { name: string; slug: string; currency: string };
     active_session: { name: string; slug: string } | null;
 };
 type Props = {
     collection: PaginatedCollection<Item>;
     summary: {
-        tontines_count: number;
+        groups_count: number;
         insurance_payments_count: number;
         contributions_due_count: number;
         active_loans_count: number;
@@ -49,12 +49,12 @@ export default withAppLayout<Props>(
             <Head title="Mon espace" />
             <Heading
                 title="Mon espace"
-                description="Retrouvez vos tontines, vos versements et vos obligations personnelles."
+                description="Retrouvez vos réunions, vos versements et vos obligations personnelles."
             />
             <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 {(
                     [
-                        [UsersIcon, 'Mes tontines', summary.tontines_count],
+                        [UsersIcon, 'Mes réunions', summary.groups_count],
                         [
                             HandCoinsIcon,
                             'Versements d’assurance',
@@ -89,13 +89,13 @@ export default withAppLayout<Props>(
             </section>
             <Card className="bg-background pt-0">
                 <CardHeader className="border-b py-4">
-                    <CardTitle>Mes tontines</CardTitle>
+                    <CardTitle>Mes réunions</CardTitle>
                 </CardHeader>
                 <CardContent className="px-0">
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="pl-6">Tontine</TableHead>
+                                <TableHead className="pl-6">Réunion</TableHead>
                                 <TableHead>N° membre</TableHead>
                                 <TableHead>Session active</TableHead>
                                 <TableHead>Assurance accumulée</TableHead>
@@ -108,7 +108,7 @@ export default withAppLayout<Props>(
                             {collection.data.map((item) => (
                                 <TableRow key={item.id} className="h-14">
                                     <TableCell className="pl-6 font-medium">
-                                        {item.tontine.name}
+                                        {item.group.name}
                                     </TableCell>
                                     <TableCell>{item.member_number}</TableCell>
                                     <TableCell>
@@ -117,7 +117,7 @@ export default withAppLayout<Props>(
                                     <TableCell className="font-medium">
                                         {formatCurrency(
                                             item.insurance_total,
-                                            item.tontine.currency,
+                                            item.group.currency,
                                         )}
                                     </TableCell>
                                     <TableCell className="pr-6 text-right">
@@ -130,9 +130,8 @@ export default withAppLayout<Props>(
                                                 <Link
                                                     href={account.insurance.index(
                                                         {
-                                                            tontine:
-                                                                item.tontine
-                                                                    .slug,
+                                                            group: item.group
+                                                                .slug,
                                                         },
                                                     )}
                                                 >
@@ -141,9 +140,8 @@ export default withAppLayout<Props>(
                                             </Button>
                                             <Button asChild size="sm">
                                                 <Link
-                                                    href={tontines.show({
-                                                        tontine:
-                                                            item.tontine.slug,
+                                                    href={groups.show({
+                                                        group: item.group.slug,
                                                     })}
                                                 >
                                                     Consulter
@@ -157,7 +155,7 @@ export default withAppLayout<Props>(
                     </Table>
                     {collection.data.length === 0 && (
                         <p className="p-8 text-center text-sm text-muted-foreground">
-                            Vous n’appartenez encore à aucune tontine.
+                            Vous n’appartenez encore à aucune réunion.
                         </p>
                     )}
                     <CollectionPagination

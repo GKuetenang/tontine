@@ -11,8 +11,8 @@ import account from '@/routes/account';
 
 const items = [
     {
-        value: 'tontines',
-        label: 'Mes tontines',
+        value: 'groups',
+        label: 'Mes réunions',
         href: account.index().url,
         icon: UsersIcon,
     },
@@ -40,7 +40,7 @@ export function AccountLayout({ children }: PropsWithChildren) {
     const { url } = usePage();
     const activeItem =
         items.find(
-            (item) => item.value !== 'tontines' && url.startsWith(item.href),
+            (item) => item.value !== 'groups' && url.startsWith(item.href),
         ) ?? items[0];
 
     return (

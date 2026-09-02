@@ -23,21 +23,21 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import drawRoutes from '@/routes/tontines/sessions/draw';
-import type { Draw, ResultTontine, Session } from '@/types';
+import drawRoutes from '@/routes/groups/sessions/draw';
+import type { Draw, ResultGroup, Session } from '@/types';
 
 import { DrawEntryRow } from './draw-entry-row';
 
 type DrawEntry = NonNullable<Draw['entries']>[number];
 
 type Props = {
-    tontine: ResultTontine;
+    group: ResultGroup;
     session: Session;
     draw: Draw;
     canSwap: boolean;
 };
 
-export function DrawEntriesTable({ tontine, session, draw, canSwap }: Props) {
+export function DrawEntriesTable({ group, session, draw, canSwap }: Props) {
     const [entries, setEntries] = useState<DrawEntry[]>(() =>
         [...(draw.entries ?? [])].sort((a, b) => a.position - b.position),
     );
@@ -81,7 +81,7 @@ export function DrawEntriesTable({ tontine, session, draw, canSwap }: Props) {
 
         router.patch(
             drawRoutes.swap({
-                tontine: tontine.slug,
+                group: group.slug,
 
                 session: session.slug,
             }).url,

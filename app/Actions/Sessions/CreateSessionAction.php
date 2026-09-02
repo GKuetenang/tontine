@@ -4,8 +4,8 @@ namespace App\Actions\Sessions;
 
 use App\Enums\DrawAllocationMode;
 use App\Enums\SessionStatus;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use App\Support\UniqueSlug;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -25,11 +25,11 @@ final class CreateSessionAction
      * } $attributes
      */
     public function execute(
-        Tontine $tontine,
+        Group $group,
         array $attributes,
     ): Session {
         return DB::transaction(function () use (
-            $tontine,
+            $group,
             $attributes,
         ): Session {
             $allocationMode = DrawAllocationMode::from(
@@ -39,7 +39,7 @@ final class CreateSessionAction
 
             $defaultContributionAmount =
                 $attributes['default_contribution_amount']
-                ?? $tontine->default_contribution_amount;
+                ?? $group->default_contribution_amount;
 
             $baseContributionAmount =
                 $attributes['base_contribution_amount']
@@ -47,7 +47,7 @@ final class CreateSessionAction
 
             $session = new Session;
 
-            $session->tontine()->associate($tontine);
+            $session->group()->associate($group);
 
             $this->validateDrawConfiguration(
                 allocationMode: $allocationMode,
@@ -67,7 +67,7 @@ final class CreateSessionAction
             ]);
 
             $session->slug = $this->uniqueSlug->generate(
-                query: $tontine->sessions()->getQuery(),
+                query: $group->sessions()->getQuery(),
                 value: $attributes['name'],
             );
 

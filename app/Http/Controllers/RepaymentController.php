@@ -6,10 +6,10 @@ use App\Actions\Repayments\CreateRepaymentAction;
 use App\Data\RepaymentData;
 use App\Data\SessionData;
 use App\Http\Requests\StoreRepaymentRequest;
+use App\Models\Group;
 use App\Models\Loan;
 use App\Models\Repayment;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +17,7 @@ use Inertia\Response;
 
 class RepaymentController extends Controller
 {
-    public function index(Request $request, Tontine $tontine, Session $session): Response
+    public function index(Request $request, Group $group, Session $session): Response
     {
         $this->authorize('viewAny', [Repayment::class, $session]);
         $q = $request->string('q')->trim()->toString();
@@ -32,14 +32,14 @@ class RepaymentController extends Controller
             ->withQueryString();
 
         return Inertia::render('repayments/index', [
-            'tontine' => ['id' => $tontine->id, 'name' => $tontine->name, 'slug' => $tontine->slug],
+            'group' => ['id' => $group->id, 'name' => $group->name, 'slug' => $group->slug],
             'session' => SessionData::fromModel($session),
             'collection' => RepaymentData::collect($repayments),
             'q' => $q ?: null,
         ]);
     }
 
-    public function store(StoreRepaymentRequest $request, Tontine $tontine, Session $session, Loan $loan, CreateRepaymentAction $action): RedirectResponse
+    public function store(StoreRepaymentRequest $request, Group $group, Session $session, Loan $loan, CreateRepaymentAction $action): RedirectResponse
     {
         abort_unless($loan->session_id === $session->id, 404);
         $this->authorize('create', [Repayment::class, $loan]);

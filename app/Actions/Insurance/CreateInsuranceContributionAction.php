@@ -29,9 +29,9 @@ final class CreateInsuranceContributionAction
             ]);
         }
 
-        if ($membership->tontine_id !== $session->tontine_id || ! $membership->isActive()) {
+        if ($membership->group_id !== $session->group_id || ! $membership->isActive()) {
             throw ValidationException::withMessages([
-                'membership_id' => __('Ce membre actif n’appartient pas à la tontine de cette session.'),
+                'membership_id' => __('Ce membre actif n’appartient pas à la réunion de cette session.'),
             ]);
         }
 

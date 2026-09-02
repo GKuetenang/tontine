@@ -19,65 +19,65 @@ import { MeetingDecisions } from '@/pages/meeting-decisions/show';
 import { MeetingNotes } from '@/pages/meeting-notes/show';
 import { MeetingPayouts } from '@/pages/meeting-payouts/show';
 import { MeetingHeader } from '@/pages/meetings/components/meeting-header';
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
-import meetings from '@/routes/tontines/sessions/meetings';
+import groups from '@/routes/groups';
+import sessions from '@/routes/groups/sessions';
+import meetings from '@/routes/groups/sessions/meetings';
 import type {
     BreadcrumbItem,
     Meeting,
     MeetingPayoutContext,
     Session,
-    Tontine,
+    Group,
 } from '@/types';
 import { MeetingOverview } from './components/overview';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     payoutContext: MeetingPayoutContext;
 };
 
 export default withAppLayout<Props>(
-    ({ tontine, session, meeting }) =>
+    ({ group, session, meeting }) =>
         [
             {
-                title: 'Tontines',
-                href: tontines.index(),
+                title: 'Réunions',
+                href: groups.index(),
             },
             {
-                title: tontine.name,
-                href: tontines.show({
-                    tontine: tontine.slug!,
+                title: group.name,
+                href: groups.show({
+                    group: group.slug!,
                 }),
             },
             {
                 title: 'Sessions',
                 href: sessions.index({
-                    tontine: tontine.slug!,
+                    group: group.slug!,
                 }),
             },
             {
                 title: session.name,
                 href: sessions.show({
-                    tontine: tontine.slug!,
+                    group: group.slug!,
                     session: session.slug,
                 }),
             },
             {
-                title: 'Réunions',
+                title: 'Assises',
                 href: meetings.index({
-                    tontine: tontine.slug!,
+                    group: group.slug!,
                     session: session.slug,
                 }),
             },
             {
-                title: `Réunion #${meeting.number}`,
+                title: `Assise #${meeting.number}`,
                 href: '#',
             },
         ] as BreadcrumbItem[],
 
-    ({ tontine, session, meeting, payoutContext }: Props) => {
+    ({ group, session, meeting, payoutContext }: Props) => {
         return (
             <>
                 <Head title={meeting.title} />
@@ -86,7 +86,7 @@ export default withAppLayout<Props>(
                     <MeetingHeader
                         meeting={meeting}
                         session={session}
-                        tontine={tontine}
+                        group={group}
                     />
 
                     <Tabs defaultValue="overview" className="w-full">
@@ -154,7 +154,7 @@ export default withAppLayout<Props>(
 
                         <TabsContent value="agenda" className="mt-6">
                             <MeetingAgenda
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                             />
@@ -162,7 +162,7 @@ export default withAppLayout<Props>(
 
                         <TabsContent value="attendances" className="mt-6">
                             <MeetingAttendances
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                             />
@@ -170,7 +170,7 @@ export default withAppLayout<Props>(
 
                         <TabsContent value="contributions" className="mt-6">
                             <MeetingContributions
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                             />
@@ -178,7 +178,7 @@ export default withAppLayout<Props>(
 
                         <TabsContent value="payouts" className="mt-6">
                             <MeetingPayouts
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                                 context={payoutContext}
@@ -187,7 +187,7 @@ export default withAppLayout<Props>(
 
                         <TabsContent value="notes" className="mt-6">
                             <MeetingNotes
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                             />
@@ -195,7 +195,7 @@ export default withAppLayout<Props>(
 
                         <TabsContent value="decisions" className="mt-6">
                             <MeetingDecisions
-                                tontine={tontine}
+                                group={group}
                                 session={session}
                                 meeting={meeting}
                             />

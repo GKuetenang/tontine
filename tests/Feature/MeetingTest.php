@@ -29,14 +29,14 @@ test('a meeting can be created', function (): void {
         ->execute(
             session: $session,
             creator: $creator,
-            title: 'Réunion de septembre',
+            title: 'Assise de septembre',
             scheduledAt: $scheduledAt,
-            description: 'Réunion mensuelle',
+            description: 'Assise mensuelle',
             location: 'Salle principale',
         );
 
     expect($meeting)
-        ->title->toBe('Réunion de septembre')
+        ->title->toBe('Assise de septembre')
         ->number->toBe(1)
         ->status->toBe(MeetingStatus::Scheduled)
         ->created_by->toBe($creator->id)
@@ -52,14 +52,14 @@ test('meeting receives the next number in its session', function (): void {
     app(CreateMeetingAction::class)->execute(
         session: $session,
         creator: $creator,
-        title: 'Première réunion',
+        title: 'Première assise',
         scheduledAt: now()->toImmutable(),
     );
 
     $second = app(CreateMeetingAction::class)->execute(
         session: $session,
         creator: $creator,
-        title: 'Deuxième réunion',
+        title: 'Deuxième assise',
         scheduledAt: now()
             ->addMonth()
             ->toImmutable(),
@@ -76,7 +76,7 @@ test('meeting receives a slug that remains unchanged after update', function ():
         ->execute(
             session: $session,
             creator: $creator,
-            title: 'Réunion septembre',
+            title: 'Assise septembre',
             scheduledAt: now()->toImmutable(),
         );
 
@@ -84,14 +84,14 @@ test('meeting receives a slug that remains unchanged after update', function ():
 
     app(UpdateMeetingAction::class)->execute(
         meeting: $meeting,
-        title: 'Réunion extraordinaire',
+        title: 'Assise extraordinaire',
         scheduledAt: now()
             ->addDay()
             ->toImmutable(),
     );
 
     expect($meeting->refresh())
-        ->title->toBe('Réunion extraordinaire')
+        ->title->toBe('Assise extraordinaire')
         ->slug->toBe($slug);
 });
 

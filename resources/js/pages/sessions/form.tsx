@@ -1,3 +1,8 @@
+import { Form } from '@inertiajs/react';
+import { format } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import type { SelectOption } from '@/components/select-with-items';
 import { SelectWithItems } from '@/components/select-with-items';
@@ -17,25 +22,20 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { parseDate } from '@/lib';
-import sessions from '@/routes/tontines/sessions';
+import sessions from '@/routes/groups/sessions';
 import type { Session } from '@/types';
-import { Form } from '@inertiajs/react';
-import { format } from 'date-fns';
-import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
-import { useState } from 'react';
-import type { ResultTontine } from '.';
+import type { ResultGroup } from '.';
 
 type Props = {
     trigger: ReactElement;
-    tontine: ResultTontine;
+    group: ResultGroup;
     session: Session;
     draw_allocation_modes: SelectOption[];
 };
 
 export function EditSessionForm({
     trigger,
-    tontine,
+    group,
     session,
     draw_allocation_modes,
 }: Props) {
@@ -61,8 +61,8 @@ export function EditSessionForm({
     };
 
     const action = session.id
-        ? sessions.update.form({ tontine: tontine.slug, session: session.slug })
-        : sessions.store.form({ tontine: tontine.slug });
+        ? sessions.update.form({ group: group.slug, session: session.slug })
+        : sessions.store.form({ group: group.slug });
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -90,7 +90,7 @@ export function EditSessionForm({
                                 <DialogDescription>
                                     {session.id
                                         ? 'Mettre à jour les informations de la session.'
-                                        : 'Ajouter une session à la tontine.'}
+                                        : 'Ajouter une session à la réunion.'}
                                 </DialogDescription>
                             </DialogHeader>
 
@@ -151,7 +151,7 @@ export function EditSessionForm({
                             </FormField>
                             <FormField
                                 error={errors['beneficiaries_per_meeting']}
-                                label="Bénéficiaires par réunion"
+                                label="Bénéficiaires par assise"
                                 htmlFor="beneficiaries_per_meeting"
                                 optional
                             >
@@ -227,9 +227,9 @@ export function EditSessionForm({
                                     value={
                                         startDate
                                             ? format(
-                                                startDate,
-                                                'yyyy-MM-dd HH:mm:ss',
-                                            )
+                                                  startDate,
+                                                  'yyyy-MM-dd HH:mm:ss',
+                                              )
                                             : ''
                                     }
                                 />
@@ -260,9 +260,9 @@ export function EditSessionForm({
                                     value={
                                         endDate
                                             ? format(
-                                                endDate,
-                                                'yyyy-MM-dd HH:mm:ss',
-                                            )
+                                                  endDate,
+                                                  'yyyy-MM-dd HH:mm:ss',
+                                              )
                                             : ''
                                     }
                                 />

@@ -38,7 +38,7 @@ final class GenerateRecurringMeetingsAction
 
             if (! $lockedSession->isDraft()) {
                 throw ValidationException::withMessages([
-                    'schedule' => __('Le calendrier des réunions ne peut être généré que pour une session en brouillon.'),
+                    'schedule' => __('Le calendrier des assises ne peut être généré que pour une session en brouillon.'),
                 ]);
             }
 
@@ -54,7 +54,7 @@ final class GenerateRecurringMeetingsAction
 
             if ($firstOccurrence->lt($lockedSession->start_at) || $firstOccurrence->gt($lockedSession->end_at)) {
                 throw ValidationException::withMessages([
-                    'starts_at' => __('La première réunion doit être comprise dans les dates de la session.'),
+                    'starts_at' => __('La première assise doit être comprise dans les dates de la session.'),
                 ]);
             }
 

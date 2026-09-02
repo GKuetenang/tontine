@@ -23,13 +23,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { parseDate } from '@/lib';
-import meetingSchedule from '@/routes/tontines/sessions/meeting-schedule';
+import meetingSchedule from '@/routes/groups/sessions/meeting-schedule';
 
-import type { MeetingSchedule, Session, Tontine } from '@/types';
+import type { MeetingSchedule, Session, Group } from '@/types';
 
 type Props = {
     trigger: ReactElement;
-    tontine: Tontine;
+    group: Group;
     session: Session;
     recurrences: SelectOption[];
     timezones: SelectOption[];
@@ -92,7 +92,7 @@ function buildRRule(
 
 export function MeetingScheduleForm({
     trigger,
-    tontine,
+    group,
     session,
     recurrences,
     timezones,
@@ -145,11 +145,11 @@ export function MeetingScheduleForm({
     };
     const action = isEditing
         ? meetingSchedule.update.form({
-              tontine: tontine.slug!,
+              group: group.slug!,
               session: session.slug,
           })
         : meetingSchedule.store.form({
-              tontine: tontine.slug!,
+              group: group.slug!,
               session: session.slug,
           });
 
@@ -190,7 +190,7 @@ export function MeetingScheduleForm({
                             'Voulez-vous ' +
                                 (isEditing ? 'mettre à jour ' : 'générer ') +
                                 occurrences.length +
-                                ' réunion(s) pour cette session ?',
+                                ' assise(s) pour cette session ?',
                         )
                     }
                     onSuccess={() => setOpen(false)}
@@ -201,11 +201,11 @@ export function MeetingScheduleForm({
                                 <DialogTitle>
                                     {isEditing
                                         ? 'Modifier le calendrier'
-                                        : 'Configurer les réunions'}
+                                        : 'Configurer les assises'}
                                 </DialogTitle>
                                 <DialogDescription>
                                     La configuration sera appliquée globalement
-                                    aux réunions générées entre le début et la
+                                    aux assises générées entre le début et la
                                     fin de la session.
                                 </DialogDescription>
                             </DialogHeader>
@@ -302,7 +302,7 @@ export function MeetingScheduleForm({
 
                                 <FormField
                                     error={errors['starts_at']}
-                                    label="Première réunion"
+                                    label="Première assise"
                                     htmlFor="starts_at"
                                     required
                                 >
@@ -356,7 +356,7 @@ export function MeetingScheduleForm({
                                         id="default_title"
                                         name="default_title"
                                         defaultValue={
-                                            schedule?.default_title ?? 'Réunion'
+                                            schedule?.default_title ?? 'Assise'
                                         }
                                     />
                                 </FormField>
@@ -381,7 +381,7 @@ export function MeetingScheduleForm({
                             <div className="rounded-lg border bg-muted/30 p-4">
                                 <div className="flex items-center gap-2 font-medium">
                                     <CalendarRangeIcon className="size-4" />
-                                    Aperçu : {occurrences.length} réunion(s)
+                                    Aperçu : {occurrences.length} assise(s)
                                     <span className="text-xs font-normal text-muted-foreground">
                                         ({timezone})
                                     </span>
@@ -400,7 +400,7 @@ export function MeetingScheduleForm({
                                 {occurrences.length > 6 && (
                                     <p className="mt-2 text-xs text-muted-foreground">
                                         Et {occurrences.length - 6} autre(s)
-                                        réunion(s)…
+                                        assise(s)…
                                     </p>
                                 )}
                             </div>
@@ -420,7 +420,7 @@ export function MeetingScheduleForm({
                                     {processing ? <Spinner /> : <SaveIcon />}
                                     {isEditing
                                         ? 'Mettre à jour le calendrier'
-                                        : 'Générer les réunions'}
+                                        : 'Générer les assises'}
                                 </Button>
                             </DialogFooter>
                         </div>

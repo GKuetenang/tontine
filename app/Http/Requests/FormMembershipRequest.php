@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Enums\MembershipStatus;
+use App\Models\Group;
 use App\Models\Membership;
-use App\Models\Tontine;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
@@ -13,10 +13,10 @@ class FormMembershipRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        $tontine = $this->route('tontine');
+        $group = $this->route('group');
         $membership = $this->route('membership');
 
-        if (! $tontine instanceof Tontine) {
+        if (! $group instanceof Group) {
             return false;
         }
 
@@ -26,7 +26,7 @@ class FormMembershipRequest extends FormRequest
 
         return Gate::allows(
             'create',
-            [Membership::class, $tontine],
+            [Membership::class, $group],
         );
     }
 
@@ -38,7 +38,7 @@ class FormMembershipRequest extends FormRequest
                 'required',
                 'string',
                 Rule::exists('roles', 'name')
-                    ->where('tontine_id', $this->route('tontine')->id)
+                    ->where('group_id', $this->route('group')->id)
                     ->where('guard_name', 'web'),
             ],
             'status' => ['nullable', 'string', Rule::enum(MembershipStatus::class)],

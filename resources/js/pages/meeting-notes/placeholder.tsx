@@ -16,11 +16,11 @@ export function MeetingNotesPlaceholder() {
 
                     <div className="space-y-1">
                         <p className="font-medium">
-                            La réunion n’est pas encore ouverte
+                            L’assise n’est pas encore ouverte
                         </p>
 
                         <p className="max-w-md text-sm text-muted-foreground">
-                            Les notes pourront être ajoutées lorsque la réunion
+                            Les notes pourront être ajoutées lorsque l’assise
                             sera en cours.
                         </p>
                     </div>

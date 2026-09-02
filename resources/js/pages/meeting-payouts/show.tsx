@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
-import type { Meeting, MeetingPayoutContext, Session, Tontine } from '@/types';
+import type { Meeting, MeetingPayoutContext, Session, Group } from '@/types';
 
 import { CreatePayoutForm } from './form';
 
@@ -13,13 +13,13 @@ import { PayoutItem } from './payout-item';
 import { MeetingPayoutsPlaceholder } from './placeholder';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     context: MeetingPayoutContext;
 };
 
-export function MeetingPayouts({ tontine, session, meeting, context }: Props) {
+export function MeetingPayouts({ group, session, meeting, context }: Props) {
     const { can } = useAuthorization();
 
     const payouts = meeting.payouts ?? [];
@@ -31,7 +31,7 @@ export function MeetingPayouts({ tontine, session, meeting, context }: Props) {
 
     if (meeting.status === 'scheduled') {
         return (
-            <MeetingPayoutsPlaceholder message="Les versements pourront être préparés lorsque la réunion sera en cours." />
+            <MeetingPayoutsPlaceholder message="Les versements pourront être préparés lorsque l’assise sera en cours." />
         );
     }
 
@@ -43,13 +43,13 @@ export function MeetingPayouts({ tontine, session, meeting, context }: Props) {
 
                     <p className="text-sm text-muted-foreground">
                         Gérez les versements effectués aux bénéficiaires pendant
-                        cette réunion.
+                        cette assise.
                     </p>
                 </div>
 
                 {canCreate && (
                     <CreatePayoutForm
-                        tontine={tontine}
+                        group={group}
                         session={session}
                         meeting={meeting}
                         context={context}
@@ -104,7 +104,7 @@ export function MeetingPayouts({ tontine, session, meeting, context }: Props) {
                 <div className="space-y-3">
                     <div>
                         <p className="font-medium">
-                            Versements de cette réunion
+                            Versements de cette assise
                         </p>
 
                         <p className="text-sm text-muted-foreground">
@@ -115,14 +115,14 @@ export function MeetingPayouts({ tontine, session, meeting, context }: Props) {
 
                     {payouts.length === 0 ? (
                         <div className="rounded-md border border-dashed p-6 text-center text-sm text-muted-foreground">
-                            Aucun versement enregistré pour cette réunion.
+                            Aucun versement enregistré pour cette assise.
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             {payouts.map((payout) => (
                                 <PayoutItem
                                     key={payout.id}
-                                    tontine={tontine}
+                                    group={group}
                                     session={session}
                                     meeting={meeting}
                                     payout={payout}

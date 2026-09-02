@@ -2,44 +2,44 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
 use App\Models\Donation;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use App\Models\User;
 
 class DonationPolicy
 {
     public function viewAny(User $user, Session $session): bool
     {
-        return $this->can($user, $session->tontine, TontinePermission::ViewDonations);
+        return $this->can($user, $session->group, GroupPermission::ViewDonations);
     }
 
     public function create(User $user, Session $session): bool
     {
-        return $this->can($user, $session->tontine, TontinePermission::CreateDonations);
+        return $this->can($user, $session->group, GroupPermission::CreateDonations);
     }
 
     public function pay(User $user, Donation $donation): bool
     {
-        return $this->can($user, $donation->session->tontine, TontinePermission::PayDonations);
+        return $this->can($user, $donation->session->group, GroupPermission::PayDonations);
     }
 
     public function cancel(User $user, Donation $donation): bool
     {
-        return $this->can($user, $donation->session->tontine, TontinePermission::CancelDonations);
+        return $this->can($user, $donation->session->group, GroupPermission::CancelDonations);
     }
 
-    private function can(User $user, Tontine $tontine, TontinePermission $permission): bool
+    private function can(User $user, Group $group, GroupPermission $permission): bool
     {
-        if (! $tontine->hasActiveMembership($user)) {
+        if (! $group->hasActiveMembership($user)) {
             return false;
         }
 
         $previousTeamId = getPermissionsTeamId();
 
         try {
-            setPermissionsTeamId($tontine->id);
+            setPermissionsTeamId($group->id);
             $user->unsetRelation('roles');
             $user->unsetRelation('permissions');
 

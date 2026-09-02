@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Actions\Memberships\CreateMembershipAction;
 use App\Actions\Memberships\DeactivateMembershipAction;
 use App\Actions\Memberships\UpdateMembershipAction;
+use App\Enums\GroupRole;
 use App\Enums\MembershipStatus;
-use App\Enums\TontineRole;
 use App\Http\Requests\FormMembershipRequest;
+use App\Models\Group;
 use App\Models\Membership;
-use App\Models\Tontine;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,23 +21,23 @@ class MembershipController extends WithUserSearchController
 {
     public function index(
         Request $request,
-        Tontine $tontine,
+        Group $group,
     ): Response {
         $this->authorize(
             'viewAny',
-            [Membership::class, $tontine],
+            [Membership::class, $group],
         );
 
         $search_query = $request->input('q') ?? '';
-        $memberships = $tontine
+        $memberships = $group
             ->memberships()
             ->with([
-                'user' => function ($query) use ($tontine): void {
+                'user' => function ($query) use ($group): void {
                     $query
                         ->select(['id', 'first_name', 'name', 'email'])
                         ->with([
-                            'roles' => fn($roleQuery) => $roleQuery->select(['roles.id', 'roles.name'])
-                                ->where('roles.tontine_id', $tontine->id),
+                            'roles' => fn ($roleQuery) => $roleQuery->select(['roles.id', 'roles.name'])
+                                ->where('roles.group_id', $group->id),
                         ]);
                 },
                 'inviter:id,name',
@@ -47,7 +47,7 @@ class MembershipController extends WithUserSearchController
                 function ($query) use ($search_query): void {
                     $query->whereHas(
                         'user',
-                        fn($userQuery) => $userQuery
+                        fn ($userQuery) => $userQuery
                             ->where('name', 'like', "%{$search_query}%")
                             ->orWhere('first_name', 'like', "%{$search_query}%")
                             ->orWhere('email', 'like', "%{$search_query}%"),
@@ -57,16 +57,16 @@ class MembershipController extends WithUserSearchController
             ->latest()
             ->paginate(10)
             ->withQueryString()
-            ->through(function (Membership $membership) use ($tontine): array {
+            ->through(function (Membership $membership) use ($group): array {
                 $role = $membership->user->roles->first();
                 $roleEnum = $role
-                    ? TontineRole::tryFrom($role->name)
+                    ? GroupRole::tryFrom($role->name)
                     : null;
 
                 return [
                     'id' => $membership->id,
-                    'tontine_id' => $membership->tontine_id,
-                    'tontine_slug' => $tontine->slug,
+                    'group_id' => $membership->group_id,
+                    'group_slug' => $group->slug,
                     'member_number' => $membership->member_number,
                     'status' => $membership->status->value,
                     'role' => $role
@@ -85,12 +85,12 @@ class MembershipController extends WithUserSearchController
             });
 
         $roles = Role::query()
-            ->where('tontine_id', $tontine->id)
+            ->where('group_id', $group->id)
             ->where('guard_name', 'web')
             ->orderBy('name')
             ->get(['id', 'name'])
             ->map(function (Role $role): array {
-                $roleEnum = TontineRole::tryFrom($role->name);
+                $roleEnum = GroupRole::tryFrom($role->name);
 
                 return [
                     'label' => $roleEnum?->label() ?? $role->name,
@@ -99,30 +99,30 @@ class MembershipController extends WithUserSearchController
             });
 
         return Inertia::render('memberships/index', [
-            'tontine' => fn() => [
-                'id' => $tontine->id,
-                'name' => $tontine->name,
-                'slug' => $tontine->slug,
+            'group' => fn () => [
+                'id' => $group->id,
+                'name' => $group->name,
+                'slug' => $group->slug,
             ],
-            'q' => fn() => $search_query,
-            'collection' => fn() => $memberships,
-            'roles' => fn() => $roles,
-            'users' => fn() => Inertia::optional(
+            'q' => fn () => $search_query,
+            'collection' => fn () => $memberships,
+            'roles' => fn () => $roles,
+            'users' => fn () => Inertia::optional(
                 $this->users(...)
             ),
-            'membership' => fn() => new Membership,
-            'statuses' => fn() => MembershipStatus::getOptions(),
+            'membership' => fn () => new Membership,
+            'statuses' => fn () => MembershipStatus::getOptions(),
         ]);
     }
 
     public function store(
         FormMembershipRequest $request,
-        Tontine $tontine,
+        Group $group,
         CreateMembershipAction $createMembership,
     ): RedirectResponse {
         $this->authorize(
             'create',
-            [Membership::class, $tontine],
+            [Membership::class, $group],
         );
 
         $validated = $request->validated();
@@ -131,7 +131,7 @@ class MembershipController extends WithUserSearchController
             ->findOrFail($validated['user_id']);
 
         $createMembership->execute(
-            tontine: $tontine,
+            group: $group,
             user: $user,
             roleName: $validated['role'],
             invitedBy: $request->user(),
@@ -145,7 +145,7 @@ class MembershipController extends WithUserSearchController
 
     public function destroy(
         Request $request,
-        Tontine $tontine,
+        Group $group,
         Membership $membership,
         DeactivateMembershipAction $deactivateMembership,
     ): RedirectResponse {
@@ -156,7 +156,7 @@ class MembershipController extends WithUserSearchController
          * cette appartenance.
          */
         abort_unless(
-            $membership->tontine_id === $tontine->id,
+            $membership->group_id === $group->id,
             404,
         );
 
@@ -170,21 +170,20 @@ class MembershipController extends WithUserSearchController
 
     public function update(
         FormMembershipRequest $request,
-        Tontine $tontine,
+        Group $group,
         Membership $membership,
         UpdateMembershipAction $updateMembership,
     ): RedirectResponse {
         $this->authorize('update', $membership);
 
         abort_unless(
-            $membership->tontine_id === $tontine->id,
+            $membership->group_id === $group->id,
             404,
         );
         $validated = $request->validated();
 
-
         $updateMembership->execute(
-            tontine: $tontine,
+            group: $group,
             membership: $membership,
             roleName: $validated['role'],
             status: MembershipStatus::tryFrom($validated['status']),

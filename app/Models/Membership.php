@@ -47,9 +47,9 @@ class Membership extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function tontine(): BelongsTo
+    public function group(): BelongsTo
     {
-        return $this->belongsTo(Tontine::class);
+        return $this->belongsTo(Group::class);
     }
 
     public function inviter(): BelongsTo

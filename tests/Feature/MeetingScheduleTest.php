@@ -1,16 +1,16 @@
 <?php
 
+use App\Actions\Groups\CreateDefaultGroupRolesAction;
 use App\Actions\Meetings\BuildMeetingOccurrencesAction;
 use App\Actions\Meetings\GenerateRecurringMeetingsAction;
 use App\Actions\Meetings\UpdateRecurringMeetingsAction;
 use App\Actions\Memberships\CreateMembershipAction;
-use App\Actions\Tontines\CreateDefaultTontineRolesAction;
 use App\Enums\MeetingMonthlyPattern;
 use App\Enums\MeetingRecurrence;
+use App\Models\Group;
 use App\Models\MeetingAgendaItem;
 use App\Models\MeetingSchedule;
 use App\Models\Session;
-use App\Models\Tontine;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Database\Seeders\PermissionSeeder;
@@ -60,7 +60,7 @@ it('generates and persists weekly meetings inside the session dates', function (
         recurrence: MeetingRecurrence::Weekly,
         startsAt: '2027-01-03 10:00:00',
         timezone: 'America/Toronto',
-        defaultTitle: 'Réunion hebdomadaire',
+        defaultTitle: 'Assise hebdomadaire',
         defaultLocation: 'Siège social',
         defaultDurationMinutes: 120,
     );
@@ -84,7 +84,7 @@ it('generates meetings every three weeks', function (): void {
         recurrence: MeetingRecurrence::Weekly,
         startsAt: '2027-01-03 10:00:00',
         timezone: 'UTC',
-        defaultTitle: 'Réunion',
+        defaultTitle: 'Assise',
         defaultLocation: null,
         defaultDurationMinutes: 60,
         interval: 3,
@@ -113,7 +113,7 @@ it('generates monthly meetings without overflowing the day of month', function (
         recurrence: MeetingRecurrence::Monthly,
         startsAt: '2027-01-31 18:00:00',
         timezone: 'UTC',
-        defaultTitle: 'Réunion mensuelle',
+        defaultTitle: 'Assise mensuelle',
         defaultLocation: null,
         defaultDurationMinutes: 90,
     );
@@ -158,7 +158,7 @@ it('generates meetings every three months', function (): void {
         recurrence: MeetingRecurrence::Monthly,
         startsAt: '2027-01-03 10:00:00',
         timezone: 'UTC',
-        defaultTitle: 'Réunion trimestrielle',
+        defaultTitle: 'Assise trimestrielle',
         defaultLocation: null,
         defaultDurationMinutes: 90,
         monthlyPattern: MeetingMonthlyPattern::WeekdayOrdinal,
@@ -187,7 +187,7 @@ it('does not duplicate meetings when the same schedule generation is retried', f
         'recurrence' => MeetingRecurrence::Weekly,
         'startsAt' => '2027-01-03 10:00:00',
         'timezone' => 'UTC',
-        'defaultTitle' => 'Réunion bimensuelle',
+        'defaultTitle' => 'Assise bimensuelle',
         'defaultLocation' => null,
         'defaultDurationMinutes' => 60,
         'interval' => 2,
@@ -213,7 +213,7 @@ it('updates generated meetings globally while preserving their stable identity',
         recurrence: MeetingRecurrence::Weekly,
         startsAt: '2027-01-03 10:00:00',
         timezone: 'UTC',
-        defaultTitle: 'Réunion',
+        defaultTitle: 'Assise',
         defaultLocation: 'Ancien lieu',
         defaultDurationMinutes: 60,
     );
@@ -248,7 +248,7 @@ it('does not remove a generated meeting containing business data during a global
         recurrence: MeetingRecurrence::Weekly,
         startsAt: '2027-01-03 10:00:00',
         timezone: 'UTC',
-        defaultTitle: 'Réunion',
+        defaultTitle: 'Assise',
         defaultLocation: null,
         defaultDurationMinutes: 60,
     );
@@ -282,7 +282,7 @@ it('does not generate a recurring schedule for an active session', function (): 
         recurrence: MeetingRecurrence::Monthly,
         startsAt: '2027-01-10 10:00:00',
         timezone: 'UTC',
-        defaultTitle: 'Réunion',
+        defaultTitle: 'Assise',
         defaultLocation: null,
         defaultDurationMinutes: 60,
     ))->toThrow(ValidationException::class);
@@ -291,22 +291,22 @@ it('does not generate a recurring schedule for an active session', function (): 
 it('allows an authorized user to configure and generate a meeting calendar', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $president->id, 'slug' => 'tontine-test']);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    $session = Session::factory()->for($tontine)->draft()->create([
+    $group = Group::factory()->create(['user_id' => $president->id, 'slug' => 'group-test']);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    $session = Session::factory()->for($group)->draft()->create([
         'slug' => 'session-2027',
         'start_at' => '2027-01-01',
         'end_at' => '2027-03-31 23:59:59',
     ]);
 
     $this->actingAs($president)
-        ->post(route('tontines.sessions.meeting-schedule.store', [$tontine, $session]), [
+        ->post(route('groups.sessions.meeting-schedule.store', [$group, $session]), [
             'recurrence' => MeetingRecurrence::Monthly->value,
             'interval' => 1,
             'starts_at' => '2027-01-10 10:00:00',
             'timezone' => 'America/Toronto',
-            'default_title' => 'Réunion mensuelle',
+            'default_title' => 'Assise mensuelle',
             'default_location' => 'Montréal',
             'default_duration_minutes' => 90,
         ])
@@ -316,12 +316,12 @@ it('allows an authorized user to configure and generate a meeting calendar', fun
     expect($session->meetingSchedule)->not->toBeNull()
         ->and($session->meetings()->count())->toBe(3);
 
-    $this->put(route('tontines.sessions.meeting-schedule.update', [$tontine, $session]), [
+    $this->put(route('groups.sessions.meeting-schedule.update', [$group, $session]), [
         'recurrence' => MeetingRecurrence::Weekly->value,
         'interval' => 2,
         'starts_at' => '2027-01-10 14:00:00',
         'timezone' => 'Africa/Douala',
-        'default_title' => 'Réunion générale',
+        'default_title' => 'Assise générale',
         'default_location' => 'Yaoundé',
         'default_duration_minutes' => 120,
     ])

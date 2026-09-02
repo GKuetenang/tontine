@@ -20,19 +20,19 @@ import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
+import groups from '@/routes/groups';
+import sessions from '@/routes/groups/sessions';
 import type {
     BreadcrumbItem,
     Donation,
     PaginatedCollection,
     Session,
-    Tontine,
+    Group,
 } from '@/types';
 import { CreateDonationForm } from './form';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     collection: PaginatedCollection<Donation>;
     statuses: SelectOption[];
@@ -40,26 +40,26 @@ type Props = {
 };
 
 export default withAppLayout<Props>(
-    ({ tontine, session }) =>
+    ({ group, session }) =>
         [
-            { title: 'Tontines', href: tontines.index() },
+            { title: 'Réunions', href: groups.index() },
             {
-                title: tontine.name,
-                href: tontines.show({ tontine: tontine.slug! }),
+                title: group.name,
+                href: groups.show({ group: group.slug! }),
             },
             {
                 title: session.name,
                 href: sessions.show({
-                    tontine: tontine.slug!,
+                    group: group.slug!,
                     session: session.slug,
                 }),
             },
             { title: 'Dons', href: '#' },
         ] as BreadcrumbItem[],
-    ({ tontine, session, collection, statuses, q }) => {
+    ({ group, session, collection, statuses, q }) => {
         const { can } = useAuthorization();
         const routeParameters = {
-            tontine: tontine.slug!,
+            group: group.slug!,
             session: session.slug,
         };
         const statusLabels = Object.fromEntries(
@@ -79,7 +79,7 @@ export default withAppLayout<Props>(
                             <div className="flex items-center justify-between">
                                 {can('donations.create') && (
                                     <CreateDonationForm
-                                        tontine={tontine}
+                                        group={group}
                                         session={session}
                                         trigger={
                                             <Button className="w-fit">

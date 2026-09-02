@@ -1,4 +1,4 @@
-import {
+import type {
     ContributionStatus,
     DonationStatus,
     LoanStatus,
@@ -55,6 +55,33 @@ export type ExpectedDrawMeeting = {
     number: number;
     slug: string;
     scheduled_at: undefined;
+};
+export type Group = {
+    name: string;
+    slug: undefined | string;
+    member_number_prefix: string;
+    default_loan_interest_rate: string;
+    default_loan_term_months: number;
+    created_at: undefined | undefined;
+    updated_at: undefined | undefined;
+    image: undefined | undefined | string;
+    image_file: File;
+    can: undefined | GroupAbilitiesData;
+    default_contribution_amount: undefined | number | null;
+    id: undefined | number;
+    members_count: undefined | number;
+    sessions_count: undefined | number;
+    currency: undefined | string;
+    is_active: undefined | boolean;
+    is_public: undefined | boolean;
+    is_verified: undefined | boolean;
+    description: string | null;
+};
+export type GroupAbilitiesData = {
+    view: boolean;
+    update: boolean;
+    delete: boolean;
+    view_memberships: boolean;
 };
 export type InsuranceContribution = {
     id: number;
@@ -275,33 +302,6 @@ export type SessionParticipant = {
     created_at: undefined | undefined;
     updated_at: undefined | undefined;
     membership: undefined | Membership;
-};
-export type Tontine = {
-    name: string;
-    slug: undefined | string;
-    member_number_prefix: string;
-    default_loan_interest_rate: string;
-    default_loan_term_months: number;
-    created_at: undefined | undefined;
-    updated_at: undefined | undefined;
-    image: undefined | undefined | string;
-    image_file: File;
-    can: undefined | TontineAbilitiesData;
-    default_contribution_amount: undefined | number | null;
-    id: undefined | number;
-    members_count: undefined | number;
-    sessions_count: undefined | number;
-    currency: undefined | string;
-    is_active: undefined | boolean;
-    is_public: undefined | boolean;
-    is_verified: undefined | boolean;
-    description: string | null;
-};
-export type TontineAbilitiesData = {
-    view: boolean;
-    update: boolean;
-    delete: boolean;
-    view_memberships: boolean;
 };
 export type Transaction = {
     id: number;

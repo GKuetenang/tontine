@@ -10,8 +10,8 @@ use App\Actions\Sessions\UpdateSessionAction;
 use App\Data\SessionData;
 use App\Enums\DrawAllocationMode;
 use App\Http\Requests\FormSessionRequest;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -21,14 +21,14 @@ class SessionController extends Controller
 {
     public function index(
         Request $request,
-        Tontine $tontine,
+        Group $group,
     ): Response {
         $this->authorize(
             'viewAny',
-            [Session::class, $tontine],
+            [Session::class, $group],
         );
 
-        $query = $tontine->sessions()
+        $query = $group->sessions()
             ->withCount('participants')
             ->orderFromRequest($request);
         $search_query = $request->input('q');
@@ -43,10 +43,10 @@ class SessionController extends Controller
         );
 
         return Inertia::render('sessions/index', [
-            'tontine' => [
-                'id' => $tontine->id,
-                'name' => $tontine->name,
-                'slug' => $tontine->slug,
+            'group' => [
+                'id' => $group->id,
+                'name' => $group->name,
+                'slug' => $group->slug,
             ],
             'collection' => $sessions,
             'session' => fn () => new Session,
@@ -56,12 +56,12 @@ class SessionController extends Controller
 
     public function store(
         FormSessionRequest $request,
-        Tontine $tontine,
+        Group $group,
         CreateSessionAction $action,
     ): RedirectResponse {
-        $this->authorize('create', [Session::class, $tontine]);
+        $this->authorize('create', [Session::class, $group]);
         $action->execute(
-            tontine: $tontine,
+            group: $group,
             attributes: $request->validated(),
         );
 
@@ -72,7 +72,7 @@ class SessionController extends Controller
     }
 
     public function show(
-        Tontine $tontine,
+        Group $group,
         Session $session,
     ): Response {
         $this->authorize('view', $session);
@@ -83,11 +83,11 @@ class SessionController extends Controller
         ]);
 
         return Inertia::render('sessions/show', [
-            'tontine' => [
-                'id' => $tontine->id,
-                'name' => $tontine->name,
-                'slug' => $tontine->slug,
-                'currency' => $tontine->currency,
+            'group' => [
+                'id' => $group->id,
+                'name' => $group->name,
+                'slug' => $group->slug,
+                'currency' => $group->currency,
             ],
 
             'session' => SessionData::fromModel(
@@ -98,7 +98,7 @@ class SessionController extends Controller
 
     public function update(
         FormSessionRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         UpdateSessionAction $action,
     ): RedirectResponse {
@@ -115,7 +115,7 @@ class SessionController extends Controller
     }
 
     public function destroy(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         DeleteSessionAction $action,
     ): RedirectResponse {
@@ -130,7 +130,7 @@ class SessionController extends Controller
     }
 
     public function activate(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         ActivateSessionAction $action,
     ): RedirectResponse {
@@ -145,7 +145,7 @@ class SessionController extends Controller
     }
 
     public function close(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         CloseSessionAction $action,
     ): RedirectResponse {

@@ -3,19 +3,19 @@ import { FileTextIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuthorization } from '@/hooks/use-authorization';
 import { formatDate } from '@/lib';
-import meetings from '@/routes/tontines/sessions/meetings';
-import type { Meeting, Session, Tontine } from '@/types';
+import meetings from '@/routes/groups/sessions/meetings';
+import type { Meeting, Session, Group } from '@/types';
 import { MeetingStatusBadge } from '../../../components/meeting-status-badge';
 import { Actions } from '../actions';
 
 export function MeetingHeader({
     meeting,
     session,
-    tontine,
+    group,
 }: {
     meeting: Meeting;
     session: Session;
-    tontine: Tontine;
+    group: Group;
 }) {
     const { can } = useAuthorization();
 
@@ -24,7 +24,7 @@ export function MeetingHeader({
             <div className="flex flex-col gap-2">
                 <div className="flex flex-wrap items-center gap-3">
                     <h1 className="text-2xl font-semibold">
-                        Réunion #{meeting.number} — {meeting.title}
+                        Assise #{meeting.number} — {meeting.title}
                     </h1>
 
                     <MeetingStatusBadge meeting={meeting} />
@@ -46,7 +46,7 @@ export function MeetingHeader({
                     <Button variant="outline" asChild>
                         <Link
                             href={meetings.report.show({
-                                tontine: tontine.slug!,
+                                group: group.slug!,
                                 session: session.slug,
                                 meeting: meeting.slug,
                             })}
@@ -57,11 +57,7 @@ export function MeetingHeader({
                     </Button>
                 )}
 
-                <Actions
-                    tontine={tontine}
-                    session={session}
-                    meeting={meeting}
-                />
+                <Actions group={group} session={session} meeting={meeting} />
             </div>
         </div>
     );

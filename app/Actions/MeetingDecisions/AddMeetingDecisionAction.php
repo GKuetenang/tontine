@@ -24,7 +24,7 @@ final class AddMeetingDecisionAction
         ) {
             throw ValidationException::withMessages([
                 'meeting' => __(
-                    'Une décision ne peut être ajoutée que pendant une réunion en cours.'
+                    'Une décision ne peut être ajoutée que pendant une assise en cours.'
                 ),
             ]);
         }
@@ -68,7 +68,7 @@ final class AddMeetingDecisionAction
         ) {
             throw ValidationException::withMessages([
                 'meeting_agenda_item_id' => __(
-                    'Ce point d’ordre du jour n’appartient pas à cette réunion.'
+                    'Ce point d’ordre du jour n’appartient pas à cette assise.'
                 ),
             ]);
         }

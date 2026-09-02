@@ -32,7 +32,7 @@ final class BulkUpdateMeetingAttendancesAction
                 ) {
                     throw ValidationException::withMessages([
                         'attendances' => __(
-                            'Les présences ne peuvent être modifiées que pendant une réunion en cours.'
+                            'Les présences ne peuvent être modifiées que pendant une assise en cours.'
                         ),
                     ]);
                 }
@@ -52,7 +52,7 @@ final class BulkUpdateMeetingAttendancesAction
                     ) {
                         throw ValidationException::withMessages([
                             'attendances' => __(
-                                'Une présence ne correspond pas à cette réunion.'
+                                'Une présence ne correspond pas à cette assise.'
                             ),
                         ]);
                     }

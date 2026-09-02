@@ -1,13 +1,13 @@
 <?php
 
+use App\Actions\Groups\CreateDefaultGroupRolesAction;
 use App\Actions\Memberships\CreateMembershipAction;
 use App\Actions\Memberships\DeactivateMembershipAction;
 use App\Actions\Memberships\ReactivateMembershipAction;
-use App\Actions\Tontines\CreateDefaultTontineRolesAction;
+use App\Enums\GroupRole;
 use App\Enums\MembershipStatus;
-use App\Enums\TontineRole;
+use App\Models\Group;
 use App\Models\Membership;
-use App\Models\Tontine;
 use App\Models\User;
 use Database\Seeders\PermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -27,13 +27,13 @@ afterEach(function (): void {
     setPermissionsTeamId(null);
 });
 
-test('creating a tontine automatically creates the creator membership as president', function () {
+test('creating a group automatically creates the creator membership as president', function () {
     $user = User::factory()->create();
 
     /** @var TestCase $this */
     $response = $this
         ->actingAs($user)
-        ->post(route('tontines.store'), [
+        ->post(route('groups.store'), [
             'name' => 'AJERM',
             'member_number_prefix' => 'AJERM',
             'default_loan_interest_rate' => '10.00',
@@ -43,12 +43,12 @@ test('creating a tontine automatically creates the creator membership as preside
 
     $response->assertSessionHasNoErrors();
 
-    $tontine = Tontine::query()
+    $group = Group::query()
         ->where('name', 'AJERM')
         ->firstOrFail();
 
     $membership = Membership::query()
-        ->whereBelongsTo($tontine)
+        ->whereBelongsTo($group)
         ->whereBelongsTo($user)
         ->firstOrFail();
 
@@ -62,28 +62,28 @@ test('creating a tontine automatically creates the creator membership as preside
     $role = Role::query()
         ->where('name', 'president')
         ->where('guard_name', 'web')
-        ->where('tontine_id', $tontine->id)
+        ->where('group_id', $group->id)
         ->firstOrFail();
 
     $this->assertDatabaseHas('model_has_roles', [
         'role_id' => $role->id,
         'model_id' => $user->id,
         'model_type' => $user->getMorphClass(),
-        'tontine_id' => $tontine->id,
+        'group_id' => $group->id,
     ]);
 });
 
-test('the same user cannot have two memberships in the same tontine', function () {
-    $tontine = Tontine::factory()->create();
+test('the same user cannot have two memberships in the same group', function () {
+    $group = Group::factory()->create();
     $user = User::factory()->create();
     $creator = User::factory()->create();
 
-    createTeamRole($tontine, 'member');
+    createTeamRole($group, 'member');
 
     $action = app(CreateMembershipAction::class);
 
     $action->execute(
-        tontine: $tontine,
+        group: $group,
         user: $user,
         invitedBy: $creator,
         roleName: 'member',
@@ -91,7 +91,7 @@ test('the same user cannot have two memberships in the same tontine', function (
 
     expect(
         fn () => $action->execute(
-            tontine: $tontine,
+            group: $group,
             user: $user,
             invitedBy: $creator,
             roleName: 'member',
@@ -100,7 +100,7 @@ test('the same user cannot have two memberships in the same tontine', function (
 
     expect(
         Membership::withTrashed()
-            ->whereBelongsTo($tontine)
+            ->whereBelongsTo($group)
             ->whereBelongsTo($user)
             ->count()
     )->toBe(1);
@@ -109,14 +109,14 @@ test('the same user cannot have two memberships in the same tontine', function (
 test('the last president cannot be deactivated', function () {
     $owner = User::factory()->create();
 
-    $tontine = Tontine::factory()->create([
+    $group = Group::factory()->create([
         'user_id' => $owner->id,
     ]);
 
-    createTeamRole($tontine, 'president');
+    createTeamRole($group, 'president');
 
     $membership = app(CreateMembershipAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         user: $owner,
         invitedBy: $owner,
         roleName: 'president',
@@ -141,14 +141,14 @@ test('deactivating a membership removes its team roles and soft deletes it', fun
     $owner = User::factory()->create();
     $member = User::factory()->create();
 
-    $tontine = Tontine::factory()->create([
+    $group = Group::factory()->create([
         'user_id' => $owner->id,
     ]);
 
-    createTeamRole($tontine, 'member');
+    createTeamRole($group, 'member');
 
     $membership = app(CreateMembershipAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         user: $member,
         invitedBy: $owner,
         roleName: 'member',
@@ -164,7 +164,7 @@ test('deactivating a membership removes its team roles and soft deletes it', fun
         ->left_at->not->toBeNull()
         ->deleted_at->not->toBeNull();
 
-    setPermissionsTeamId($tontine->id);
+    setPermissionsTeamId($group->id);
 
     $member->unsetRelation('roles');
     $member->unsetRelation('permissions');
@@ -175,7 +175,7 @@ test('deactivating a membership removes its team roles and soft deletes it', fun
     $this->assertDatabaseMissing('model_has_roles', [
         'model_id' => $member->id,
         'model_type' => $member->getMorphClass(),
-        'tontine_id' => $tontine->id,
+        'group_id' => $group->id,
     ]);
 
     /** @var TestCase $this */
@@ -188,20 +188,20 @@ test('a soft deleted membership can be reactivated when the member rejoins', fun
     $owner = User::factory()->create();
     $member = User::factory()->create();
 
-    $tontine = Tontine::factory()->create([
+    $group = Group::factory()->create([
         'user_id' => $owner->id,
     ]);
 
     createTeamRole(
-        $tontine,
-        TontineRole::Member->value,
+        $group,
+        GroupRole::Member->value,
     );
 
     $membership = app(CreateMembershipAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         user: $member,
         invitedBy: $owner,
-        roleName: TontineRole::Member->value,
+        roleName: GroupRole::Member->value,
     );
 
     $originalId = $membership->id;
@@ -223,7 +223,7 @@ test('a soft deleted membership can be reactivated when the member rejoins', fun
         ReactivateMembershipAction::class
     )->execute(
         membership: $deletedMembership,
-        roleName: TontineRole::Member->value,
+        roleName: GroupRole::Member->value,
     );
 
     expect($reactivatedMembership)
@@ -235,29 +235,29 @@ test('a soft deleted membership can be reactivated when the member rejoins', fun
 
     expect(
         Membership::withTrashed()
-            ->whereBelongsTo($tontine)
+            ->whereBelongsTo($group)
             ->whereBelongsTo($member)
             ->count()
     )->toBe(1);
 
-    setPermissionsTeamId($tontine->id);
+    setPermissionsTeamId($group->id);
 
     $member->unsetRelation('roles');
     $member->unsetRelation('permissions');
 
     expect(
-        $member->hasRole(TontineRole::Member->value)
+        $member->hasRole(GroupRole::Member->value)
     )->toBeTrue();
 });
 
 function createTeamRole(
-    Tontine $tontine,
+    Group $group,
     string $name,
 ): Role {
     $previousTeamId = getPermissionsTeamId();
 
     try {
-        setPermissionsTeamId($tontine->id);
+        setPermissionsTeamId($group->id);
 
         return Role::findOrCreate($name, 'web');
     } finally {
@@ -269,24 +269,24 @@ test('a president can be deactivated when another active president exists', func
     $owner = User::factory()->create();
     $secondPresident = User::factory()->create();
 
-    $tontine = Tontine::factory()->create([
+    $group = Group::factory()->create([
         'user_id' => $owner->id,
     ]);
 
-    app(CreateDefaultTontineRolesAction::class)
-        ->execute($tontine);
+    app(CreateDefaultGroupRolesAction::class)
+        ->execute($group);
 
     $firstMembership = app(CreateMembershipAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         user: $owner,
-        roleName: TontineRole::President->value,
+        roleName: GroupRole::President->value,
     );
 
     app(CreateMembershipAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         user: $secondPresident,
         invitedBy: $owner,
-        roleName: TontineRole::President->value,
+        roleName: GroupRole::President->value,
     );
 
     app(DeactivateMembershipAction::class)
@@ -302,20 +302,20 @@ test('a new membership cannot be created when a soft deleted membership already 
     $owner = User::factory()->create();
     $member = User::factory()->create();
 
-    $tontine = Tontine::factory()->create([
+    $group = Group::factory()->create([
         'user_id' => $owner->id,
     ]);
 
     createTeamRole(
-        $tontine,
-        TontineRole::Member->value,
+        $group,
+        GroupRole::Member->value,
     );
 
     $membership = app(CreateMembershipAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         user: $member,
         invitedBy: $owner,
-        roleName: TontineRole::Member->value,
+        roleName: GroupRole::Member->value,
     );
 
     app(DeactivateMembershipAction::class)
@@ -323,16 +323,16 @@ test('a new membership cannot be created when a soft deleted membership already 
 
     expect(
         fn () => app(CreateMembershipAction::class)->execute(
-            tontine: $tontine,
+            group: $group,
             user: $member,
             invitedBy: $owner,
-            roleName: TontineRole::Member->value,
+            roleName: GroupRole::Member->value,
         )
     )->toThrow(ValidationException::class);
 
     expect(
         Membership::withTrashed()
-            ->whereBelongsTo($tontine)
+            ->whereBelongsTo($group)
             ->whereBelongsTo($member)
             ->count()
     )->toBe(1);
@@ -341,36 +341,36 @@ test('a new membership cannot be created when a soft deleted membership already 
 test('a membership can be updated through its numeric scoped route', function (): void {
     $owner = User::factory()->create();
     $member = User::factory()->create();
-    $tontine = Tontine::factory()->create([
+    $group = Group::factory()->create([
         'user_id' => $owner->id,
         'slug' => 'association-test',
     ]);
 
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
     app(CreateMembershipAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         user: $owner,
-        roleName: TontineRole::President->value,
+        roleName: GroupRole::President->value,
     );
     $membership = app(CreateMembershipAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         user: $member,
         invitedBy: $owner,
-        roleName: TontineRole::Member->value,
+        roleName: GroupRole::Member->value,
     );
 
     $this->actingAs($owner)
-        ->put(route('tontines.memberships.update', [$tontine, $membership->id]), [
+        ->put(route('groups.memberships.update', [$group, $membership->id]), [
             'user_id' => $member->id,
-            'role' => TontineRole::Secretary->value,
+            'role' => GroupRole::Secretary->value,
             'status' => MembershipStatus::Active->value,
         ])
         ->assertRedirect()
         ->assertSessionHasNoErrors();
 
-    setPermissionsTeamId($tontine->id);
+    setPermissionsTeamId($group->id);
     $member->unsetRelation('roles');
 
     expect($membership->fresh()->status)->toBe(MembershipStatus::Active)
-        ->and($member->hasRole(TontineRole::Secretary->value))->toBeTrue();
+        ->and($member->hasRole(GroupRole::Secretary->value))->toBeTrue();
 });

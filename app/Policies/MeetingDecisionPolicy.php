@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\MeetingDecision;
-use App\Models\Tontine;
 use App\Models\User;
 
 class MeetingDecisionPolicy
@@ -14,15 +14,15 @@ class MeetingDecisionPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        $tontine = $meeting
+        $group = $meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine->hasActiveMembership($user)
+        return $group->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::ViewMeetingDecisions,
+                group: $group,
+                permission: GroupPermission::ViewMeetingDecisions,
             );
     }
 
@@ -40,15 +40,15 @@ class MeetingDecisionPolicy
         User $user,
         Meeting $meeting,
     ): bool {
-        $tontine = $meeting
+        $group = $meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine->hasActiveMembership($user)
+        return $group->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::CreateMeetingDecisions,
+                group: $group,
+                permission: GroupPermission::CreateMeetingDecisions,
             );
     }
 
@@ -56,16 +56,16 @@ class MeetingDecisionPolicy
         User $user,
         MeetingDecision $decision,
     ): bool {
-        $tontine = $decision
+        $group = $decision
             ->meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine->hasActiveMembership($user)
+        return $group->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::UpdateMeetingDecisions,
+                group: $group,
+                permission: GroupPermission::UpdateMeetingDecisions,
             );
     }
 
@@ -73,30 +73,30 @@ class MeetingDecisionPolicy
         User $user,
         MeetingDecision $decision,
     ): bool {
-        $tontine = $decision
+        $group = $decision
             ->meeting
             ->session
-            ->tontine;
+            ->group;
 
-        return $tontine->hasActiveMembership($user)
+        return $group->hasActiveMembership($user)
             && $this->can(
                 user: $user,
-                tontine: $tontine,
-                permission: TontinePermission::DeleteMeetingDecisions,
+                group: $group,
+                permission: GroupPermission::DeleteMeetingDecisions,
             );
     }
 
     private function can(
         User $user,
-        Tontine $tontine,
-        TontinePermission $permission,
+        Group $group,
+        GroupPermission $permission,
     ): bool {
         $previousTeamId =
             getPermissionsTeamId();
 
         try {
             setPermissionsTeamId(
-                $tontine->id,
+                $group->id,
             );
 
             $user->unsetRelation('roles');

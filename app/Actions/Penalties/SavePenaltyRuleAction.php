@@ -3,8 +3,8 @@
 namespace App\Actions\Penalties;
 
 use App\Enums\PenaltyTrigger;
+use App\Models\Group;
 use App\Models\PenaltyRule;
-use App\Models\Tontine;
 use App\Support\UniqueSlug;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -15,14 +15,14 @@ final class SavePenaltyRuleAction
     public function __construct(private readonly UniqueSlug $uniqueSlug) {}
 
     public function execute(
-        Tontine $tontine,
+        Group $group,
         array $attributes,
         ?PenaltyRule $rule = null,
     ): PenaltyRule {
-        return DB::transaction(function () use ($tontine, $attributes, $rule): PenaltyRule {
-            if ($rule !== null && $rule->tontine_id !== $tontine->id) {
+        return DB::transaction(function () use ($group, $attributes, $rule): PenaltyRule {
+            if ($rule !== null && $rule->group_id !== $group->id) {
                 throw ValidationException::withMessages([
-                    'rule' => __('Cette règle n’appartient pas à cette tontine.'),
+                    'rule' => __('Cette règle n’appartient pas à cette réunion.'),
                 ]);
             }
 
@@ -43,12 +43,12 @@ final class SavePenaltyRuleAction
             $rule ??= new PenaltyRule;
             if (! $rule->exists) {
                 $attributes['code'] = $this->uniqueSlug->generate(
-                    query: $tontine->penaltyRules()->getQuery(),
+                    query: $group->penaltyRules()->getQuery(),
                     value: $attributes['name'],
                 );
             }
             $rule->fill(Arr::only($attributes, $rule->getFillable()));
-            $rule->tontine()->associate($tontine);
+            $rule->group()->associate($group);
             $rule->save();
 
             return $rule->refresh();

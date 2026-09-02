@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Actions\MeetingAttendances\UpdateMeetingAttendanceAction;
 use App\Enums\AttendanceStatus;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\MeetingAttendance;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -17,7 +17,7 @@ class MeetingAttendanceController extends Controller
 {
     public function update(
         Request $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         MeetingAttendance $attendance,

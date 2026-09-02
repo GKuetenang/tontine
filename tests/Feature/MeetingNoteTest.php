@@ -44,7 +44,7 @@ test('a note stores its creator', function (): void {
         ->execute(
             meeting: $meeting,
             creator: $creator,
-            content: 'Compte rendu de réunion.',
+            content: 'Compte rendu d’assise.',
         );
 
     expect($note->creator)

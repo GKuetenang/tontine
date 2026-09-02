@@ -22,13 +22,13 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 
 import { formatCurrency } from '@/lib/utils';
-import payments from '@/routes/tontines/sessions/meetings/contributions/payments';
+import payments from '@/routes/groups/sessions/meetings/contributions/payments';
 
-import type { Contribution, Meeting, Session, Tontine } from '@/types';
+import type { Contribution, Meeting, Session, Group } from '@/types';
 
 type Props = {
     trigger: ReactElement;
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     contribution: Contribution;
@@ -36,7 +36,7 @@ type Props = {
 
 export function RecordContributionPaymentForm({
     trigger,
-    tontine,
+    group,
     session,
     meeting,
     contribution,
@@ -48,7 +48,7 @@ export function RecordContributionPaymentForm({
     );
 
     const action = payments.store.form({
-        tontine: tontine.slug!,
+        group: group.slug!,
         session: session.slug,
         meeting: meeting.slug,
         contribution: contribution.id,
@@ -86,7 +86,7 @@ export function RecordContributionPaymentForm({
                                     Montant restant :{' '}
                                     {formatCurrency(
                                         contribution.remaining_amount,
-                                        tontine.currency,
+                                        group.currency,
                                     )}
                                 </DialogDescription>
                             </DialogHeader>

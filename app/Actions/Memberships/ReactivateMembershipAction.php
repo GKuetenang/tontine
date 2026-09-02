@@ -38,7 +38,7 @@ final class ReactivateMembershipAction
 
             try {
                 setPermissionsTeamId(
-                    $membership->tontine_id,
+                    $membership->group_id,
                 );
 
                 $membership->user

@@ -6,10 +6,10 @@ use App\Actions\MeetingAgendaItems\AddMeetingAgendaItemAction;
 use App\Actions\MeetingAgendaItems\RemoveMeetingAgendaItemAction;
 use App\Actions\MeetingAgendaItems\ReorderMeetingAgendaItemsAction;
 use App\Actions\MeetingAgendaItems\UpdateMeetingAgendaItemAction;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\MeetingAgendaItem;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,7 +18,7 @@ class MeetingAgendaItemController extends Controller
 {
     public function store(
         Request $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         AddMeetingAgendaItemAction $action,
@@ -57,7 +57,7 @@ class MeetingAgendaItemController extends Controller
 
     public function update(
         Request $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         MeetingAgendaItem $agendaItem,
@@ -101,7 +101,7 @@ class MeetingAgendaItemController extends Controller
     }
 
     public function destroy(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         MeetingAgendaItem $agendaItem,
@@ -131,7 +131,7 @@ class MeetingAgendaItemController extends Controller
 
     public function reorder(
         Request $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         ReorderMeetingAgendaItemsAction $action,

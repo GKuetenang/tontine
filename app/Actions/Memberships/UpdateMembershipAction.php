@@ -3,15 +3,15 @@
 namespace App\Actions\Memberships;
 
 use App\Enums\MembershipStatus;
+use App\Models\Group;
 use App\Models\Membership;
-use App\Models\Tontine;
 use App\Models\User;
 
 class UpdateMembershipAction
 {
     public function execute(
         Membership $membership,
-        Tontine $tontine,
+        Group $group,
         string $roleName,
         MembershipStatus $status = MembershipStatus::Active,
     ): Membership {
@@ -30,7 +30,7 @@ class UpdateMembershipAction
         $membership->save();
 
         $this->syncRole(
-            tontine: $tontine,
+            group: $group,
             user: $user,
             roleName: $roleName,
         );
@@ -39,14 +39,14 @@ class UpdateMembershipAction
     }
 
     private function syncRole(
-        Tontine $tontine,
+        Group $group,
         User $user,
         string $roleName,
     ): void {
         $previousTeamId = getPermissionsTeamId();
 
         try {
-            setPermissionsTeamId($tontine->id);
+            setPermissionsTeamId($group->id);
 
             $user->unsetRelation('roles');
             $user->unsetRelation('permissions');

@@ -6,10 +6,10 @@ use App\Actions\Insurance\BuildInsuranceJournalAction;
 use App\Actions\Insurance\CreateInsuranceContributionAction;
 use App\Data\SessionData;
 use App\Http\Requests\StoreInsuranceContributionRequest;
+use App\Models\Group;
 use App\Models\InsuranceContribution;
 use App\Models\Membership;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -18,7 +18,7 @@ use Inertia\Response;
 
 class InsuranceController extends WithUserSearchController
 {
-    public function index(Request $request, Tontine $tontine, Session $session, BuildInsuranceJournalAction $buildJournal): Response
+    public function index(Request $request, Group $group, Session $session, BuildInsuranceJournalAction $buildJournal): Response
     {
         $this->authorize('viewAny', [InsuranceContribution::class, $session]);
         $filters = $request->validate([
@@ -29,7 +29,7 @@ class InsuranceController extends WithUserSearchController
         $journal = $buildJournal->execute($session, $filters);
 
         return Inertia::render('insurance/index', [
-            'tontine' => ['id' => $tontine->id, 'name' => $tontine->name, 'slug' => $tontine->slug],
+            'group' => ['id' => $group->id, 'name' => $group->name, 'slug' => $group->slug],
             'session' => SessionData::fromModel($session),
             'collection' => $journal['collection'],
             'q' => $filters['q'] ?? null,
@@ -40,13 +40,13 @@ class InsuranceController extends WithUserSearchController
 
     public function store(
         StoreInsuranceContributionRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         CreateInsuranceContributionAction $createContribution,
     ): RedirectResponse {
         $this->authorize('create', [InsuranceContribution::class, $session]);
         $validated = $request->validated();
-        $membership = Membership::query()->whereBelongsTo($tontine)->findOrFail($validated['membership_id']);
+        $membership = Membership::query()->whereBelongsTo($group)->findOrFail($validated['membership_id']);
 
         $createContribution->execute(
             session: $session,

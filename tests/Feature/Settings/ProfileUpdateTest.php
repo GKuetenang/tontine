@@ -14,6 +14,7 @@ test('profile page is displayed', function () {
 
 test('profile information can be updated', function () {
     $user = User::factory()->create();
+    $username = $user->username;
 
     $response = $this
         ->actingAs($user)
@@ -21,7 +22,6 @@ test('profile information can be updated', function () {
             'first_name' => 'Test',
             'name' => 'User',
             'email' => 'test@example.com',
-            'username' => 'testuser',
         ]);
 
     $response
@@ -33,7 +33,7 @@ test('profile information can be updated', function () {
     expect($user->first_name)->toBe('Test');
     expect($user->name)->toBe('User');
     expect($user->full_name)->toBe('Test User');
-    expect($user->username)->toBe('testuser');
+    expect($user->username)->toBe($username);
     expect($user->email)->toBe('test@example.com');
     expect($user->email_verified_at)->toBeNull();
 

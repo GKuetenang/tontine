@@ -14,13 +14,13 @@ import {
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
-import meetings from '@/routes/tontines/sessions/meetings';
-import type { BreadcrumbItem, MeetingReport, Session, Tontine } from '@/types';
+import groups from '@/routes/groups';
+import sessions from '@/routes/groups/sessions';
+import meetings from '@/routes/groups/sessions/meetings';
+import type { BreadcrumbItem, MeetingReport, Session, Group } from '@/types';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     report: MeetingReport;
     canExport: boolean;
@@ -79,29 +79,29 @@ function ReportSection({
 }
 
 export default withAppLayout<Props>(
-    ({ tontine, session, report }) =>
+    ({ group, session, report }) =>
         [
             {
-                title: 'Tontines',
-                href: tontines.index(),
+                title: 'Réunions',
+                href: groups.index(),
             },
             {
-                title: tontine.name,
-                href: tontines.show({
-                    tontine: tontine.slug!,
+                title: group.name,
+                href: groups.show({
+                    group: group.slug!,
                 }),
             },
             {
                 title: session.name,
                 href: sessions.show({
-                    tontine: tontine.slug!,
+                    group: group.slug!,
                     session: session.slug,
                 }),
             },
             {
-                title: `Réunion #${report.meeting.number}`,
+                title: `Assise #${report.meeting.number}`,
                 href: meetings.show({
-                    tontine: tontine.slug!,
+                    group: group.slug!,
                     session: session.slug,
                     meeting: report.meeting.slug,
                 }),
@@ -112,7 +112,7 @@ export default withAppLayout<Props>(
             },
         ] as BreadcrumbItem[],
 
-    ({ tontine, session, report, canExport }: Props) => {
+    ({ group, session, report, canExport }: Props) => {
         const { meeting, summary } = report;
         const agendaItems = meeting.agenda_items ?? [];
         const attendances = meeting.attendances ?? [];
@@ -145,11 +145,11 @@ export default withAppLayout<Props>(
 
                     <header className="space-y-3 border-b pb-6">
                         <p className="text-sm font-medium tracking-wide text-primary uppercase">
-                            {tontine.name} · {session.name}
+                            {group.name} · {session.name}
                         </p>
                         <div>
                             <h1 className="text-3xl font-bold">
-                                Rapport de la réunion #{meeting.number}
+                                Rapport de l’assise #{meeting.number}
                             </h1>
                             <p className="mt-1 text-xl text-muted-foreground">
                                 {meeting.title}

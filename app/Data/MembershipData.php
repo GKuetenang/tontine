@@ -2,8 +2,8 @@
 
 namespace App\Data;
 
+use App\Enums\GroupRole;
 use App\Enums\MembershipStatus;
-use App\Enums\TontineRole;
 use App\Models\Membership;
 use Carbon\CarbonImmutable;
 use Spatie\LaravelData\Attributes\WithTransformer;
@@ -74,7 +74,7 @@ class MembershipData extends Data
             $spatieRole = $membership->user->roles->first();
 
             if ($spatieRole) {
-                $roleEnum = TontineRole::tryFrom(
+                $roleEnum = GroupRole::tryFrom(
                     $spatieRole->name
                 );
 

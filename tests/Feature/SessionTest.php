@@ -1,16 +1,16 @@
 <?php
 
+use App\Actions\Groups\CreateDefaultGroupRolesAction;
 use App\Actions\Memberships\CreateMembershipAction;
 use App\Actions\Sessions\ActivateSessionAction;
 use App\Actions\Sessions\CloseSessionAction;
 use App\Actions\Sessions\CreateSessionAction;
 use App\Actions\Sessions\DeleteSessionAction;
 use App\Actions\Sessions\UpdateSessionAction;
-use App\Actions\Tontines\CreateDefaultTontineRolesAction;
 use App\Enums\SessionStatus;
+use App\Models\Group;
 use App\Models\Session;
 use App\Models\SessionParticipant;
-use App\Models\Tontine;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Database\Seeders\PermissionSeeder;
@@ -19,13 +19,13 @@ use Illuminate\Validation\ValidationException;
 
 uses(RefreshDatabase::class);
 
-test('a session can be created for a tontine', function (): void {
-    $tontine = Tontine::factory()->create([
+test('a session can be created for a group', function (): void {
+    $group = Group::factory()->create([
         'default_contribution_amount' => 50_000,
     ]);
 
     $session = app(CreateSessionAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         attributes: [
             'name' => 'Session 2027',
             'description' => 'Session annuelle',
@@ -38,7 +38,7 @@ test('a session can be created for a tontine', function (): void {
     expect($session)
         ->name->toBe('Session 2027')
         ->slug->toStartWith('session-2027-')
-        ->tontine_id->toBe($tontine->id)
+        ->group_id->toBe($group->id)
         ->description->toBe('Session annuelle')
         ->status->toBe(SessionStatus::Draft)
         ->default_contribution_amount->toBe(50_000)
@@ -47,9 +47,9 @@ test('a session can be created for a tontine', function (): void {
         ->closed_at->toBeNull();
 
     /** @var TestCase $this */
-    $this->assertDatabaseHas('tontine_sessions', [
+    $this->assertDatabaseHas('group_sessions', [
         'id' => $session->id,
-        'tontine_id' => $tontine->id,
+        'group_id' => $group->id,
         'name' => 'Session 2027',
         'slug' => $session->slug,
         'status' => SessionStatus::Draft->value,
@@ -59,13 +59,13 @@ test('a session can be created for a tontine', function (): void {
     ]);
 });
 
-test('a session copies the default contribution amount from the tontine', function (): void {
-    $tontine = Tontine::factory()->create([
+test('a session copies the default contribution amount from the group', function (): void {
+    $group = Group::factory()->create([
         'default_contribution_amount' => 75_000,
     ]);
 
     $session = app(CreateSessionAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         attributes: [
             'name' => 'Session 2027',
         ],
@@ -75,13 +75,13 @@ test('a session copies the default contribution amount from the tontine', functi
         ->toBe(75_000);
 });
 
-test('a session can override the tontine default contribution amount', function (): void {
-    $tontine = Tontine::factory()->create([
+test('a session can override the group default contribution amount', function (): void {
+    $group = Group::factory()->create([
         'default_contribution_amount' => 50_000,
     ]);
 
     $session = app(CreateSessionAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         attributes: [
             'name' => 'Session 2027',
             'default_contribution_amount' => 100_000,
@@ -93,10 +93,10 @@ test('a session can override the tontine default contribution amount', function 
 });
 
 test('generated session slug contains a random suffix', function (): void {
-    $tontine = Tontine::factory()->create();
+    $group = Group::factory()->create();
 
     $session = app(CreateSessionAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         attributes: [
             'name' => 'Session 2027',
         ],
@@ -107,13 +107,13 @@ test('generated session slug contains a random suffix', function (): void {
         ->toMatch('/^session-2027-[a-z0-9]+$/');
 });
 
-test('session slugs are unique inside the same tontine', function (): void {
-    $tontine = Tontine::factory()->create();
+test('session slugs are unique inside the same group', function (): void {
+    $group = Group::factory()->create();
 
     $action = app(CreateSessionAction::class);
 
     $first = $action->execute(
-        tontine: $tontine,
+        group: $group,
         attributes: [
             'name' => 'Session 2027',
         ],
@@ -121,10 +121,10 @@ test('session slugs are unique inside the same tontine', function (): void {
 
     /*
      * Les noms sont différents pour respecter la contrainte unique
-     * [tontine_id, name], mais produisent le même slug de base.
+     * [group_id, name], mais produisent le même slug de base.
      */
     $second = $action->execute(
-        tontine: $tontine,
+        group: $group,
         attributes: [
             'name' => 'Session-2027',
         ],
@@ -137,21 +137,21 @@ test('session slugs are unique inside the same tontine', function (): void {
         ->toStartWith('session-2027-');
 });
 
-test('the same session name can exist in different tontines', function (): void {
-    $firstTontine = Tontine::factory()->create();
-    $secondTontine = Tontine::factory()->create();
+test('the same session name can exist in different groups', function (): void {
+    $firstGroup = Group::factory()->create();
+    $secondGroup = Group::factory()->create();
 
     $action = app(CreateSessionAction::class);
 
     $first = $action->execute(
-        tontine: $firstTontine,
+        group: $firstGroup,
         attributes: [
             'name' => 'Session 2027',
         ],
     );
 
     $second = $action->execute(
-        tontine: $secondTontine,
+        group: $secondGroup,
         attributes: [
             'name' => 'Session 2027',
         ],
@@ -159,17 +159,17 @@ test('the same session name can exist in different tontines', function (): void 
 
     expect($first->name)
         ->toBe($second->name)
-        ->and($first->tontine_id)
-        ->not->toBe($second->tontine_id)
+        ->and($first->group_id)
+        ->not->toBe($second->group_id)
         ->and($first->slug)
         ->not->toBe($second->slug);
 });
 
 test('updating a draft session does not modify its slug', function (): void {
-    $tontine = Tontine::factory()->create();
+    $group = Group::factory()->create();
 
     $session = app(CreateSessionAction::class)->execute(
-        tontine: $tontine,
+        group: $group,
         attributes: [
             'name' => 'Session 2027',
             'description' => 'Description initiale',
@@ -202,16 +202,16 @@ test('updating a draft session does not modify its slug', function (): void {
 test('a draft session can be updated through the form endpoint', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
-    $session = Session::factory()->for($tontine)->draft()->create([
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    $session = Session::factory()->for($group)->draft()->create([
         'name' => 'Ancien nom',
         'beneficiaries_per_meeting' => 1,
     ]);
 
     $this->actingAs($president)
-        ->put(route('tontines.sessions.update', [$tontine, $session]), [
+        ->put(route('groups.sessions.update', [$group, $session]), [
             'name' => 'Nouveau nom',
             'default_contribution_amount' => 75000,
             'beneficiaries_per_meeting' => 3,
@@ -231,12 +231,12 @@ test('a draft session can be updated through the form endpoint', function (): vo
 test('a session can be created through the form endpoint', function (): void {
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
-    $tontine = Tontine::factory()->create(['user_id' => $president->id]);
-    app(CreateDefaultTontineRolesAction::class)->execute($tontine);
-    app(CreateMembershipAction::class)->execute($tontine, $president, 'president');
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, 'president');
 
     $this->actingAs($president)
-        ->post(route('tontines.sessions.store', $tontine), [
+        ->post(route('groups.sessions.store', $group), [
             'name' => 'Session 2028',
             'default_contribution_amount' => 50000,
             'beneficiaries_per_meeting' => 1,
@@ -248,8 +248,8 @@ test('a session can be created through the form endpoint', function (): void {
         ->assertRedirect()
         ->assertSessionHasNoErrors();
 
-    $this->assertDatabaseHas('tontine_sessions', [
-        'tontine_id' => $tontine->id,
+    $this->assertDatabaseHas('group_sessions', [
+        'group_id' => $group->id,
         'name' => 'Session 2028',
         'beneficiaries_per_meeting' => 1,
         'draw_allocation_mode' => 'based_on_contribution',
@@ -298,15 +298,15 @@ test('a draft session can be activated', function (): void {
 });
 
 test('a session cannot be activated while another session is active', function (): void {
-    $tontine = Tontine::factory()->create();
+    $group = Group::factory()->create();
 
     Session::factory()
-        ->for($tontine)
+        ->for($group)
         ->active()
         ->create();
 
     $next = Session::factory()
-        ->for($tontine)
+        ->for($group)
         ->draft()
         ->create();
 
@@ -392,7 +392,7 @@ test('an empty draft session can be soft deleted', function (): void {
         ->execute($session);
 
     /** @var TestCase $this */
-    $this->assertSoftDeleted('tontine_sessions', [
+    $this->assertSoftDeleted('group_sessions', [
         'id' => $session->id,
     ]);
 });

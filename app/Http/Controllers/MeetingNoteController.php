@@ -6,11 +6,11 @@ use App\Actions\MeetingNotes\AddMeetingNoteAction;
 use App\Actions\MeetingNotes\DeleteMeetingNoteAction;
 use App\Actions\MeetingNotes\UpdateMeetingNoteAction;
 use App\Http\Requests\FormMeetingNoteRequest;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\MeetingAgendaItem;
 use App\Models\MeetingNote;
 use App\Models\Session;
-use App\Models\Tontine;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 
@@ -18,7 +18,7 @@ class MeetingNoteController extends Controller
 {
     public function store(
         FormMeetingNoteRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         AddMeetingNoteAction $action,
@@ -56,7 +56,7 @@ class MeetingNoteController extends Controller
 
     public function update(
         FormMeetingNoteRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         MeetingNote $note,
@@ -98,7 +98,7 @@ class MeetingNoteController extends Controller
     }
 
     public function destroy(
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         MeetingNote $note,

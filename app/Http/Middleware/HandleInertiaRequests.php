@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Tontine;
+use App\Models\Group;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -96,17 +96,17 @@ class HandleInertiaRequests extends Middleware
 
         if ($user == null) {
             return [
-                'tontine_id' => null,
+                'group_id' => null,
                 'roles' => [],
                 'permissions' => [],
             ];
         }
 
-        $tontine = $request->route('tontine');
+        $group = $request->route('group');
 
-        if (! $tontine instanceof Tontine) {
+        if (! $group instanceof Group) {
             return [
-                'tontine_id' => null,
+                'group_id' => null,
                 'roles' => [],
                 'permissions' => [],
             ];
@@ -115,13 +115,13 @@ class HandleInertiaRequests extends Middleware
         $previousTeamId = getPermissionsTeamId();
 
         try {
-            setPermissionsTeamId($tontine->id);
+            setPermissionsTeamId($group->id);
 
             $user->unsetRelation('roles');
             $user->unsetRelation('permissions');
 
             return [
-                'tontine_id' => $tontine->id,
+                'group_id' => $group->id,
                 'roles' => $user
                     ->roles
                     ->pluck('name')

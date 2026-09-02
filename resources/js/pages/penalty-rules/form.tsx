@@ -20,11 +20,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import penaltyRules from '@/routes/tontines/penalty-rules';
-import type { PenaltyRule, Tontine } from '@/types';
+import penaltyRules from '@/routes/groups/penalty-rules';
+import type { PenaltyRule, Group } from '@/types';
 
 type Props = {
-    tontine: Tontine;
+    group: Group;
     rule?: PenaltyRule;
     trigger: ReactElement;
     triggers: SelectOption[];
@@ -33,7 +33,7 @@ type Props = {
 };
 
 export function PenaltyRuleForm({
-    tontine,
+    group,
     rule,
     trigger,
     triggers,
@@ -46,10 +46,10 @@ export function PenaltyRuleForm({
     const suffix = String(rule?.id ?? 'new');
     const action = rule
         ? penaltyRules.update.form({
-              tontine: tontine.slug!,
+              group: group.slug!,
               penalty_rule: rule.id,
           })
-        : penaltyRules.store.form({ tontine: tontine.slug! });
+        : penaltyRules.store.form({ group: group.slug! });
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -66,7 +66,7 @@ export function PenaltyRuleForm({
                                 </DialogTitle>
                                 <DialogDescription>
                                     Les modifications s’appliquent directement
-                                    aux prochaines pénalités de la tontine.
+                                    aux prochaines pénalités de la réunion.
                                 </DialogDescription>
                             </DialogHeader>
                             <div className="grid gap-4 sm:grid-cols-2">

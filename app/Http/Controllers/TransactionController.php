@@ -6,8 +6,8 @@ use App\Actions\Transactions\BuildSessionTransactionJournalAction;
 use App\Data\SessionData;
 use App\Enums\TransactionDirection;
 use App\Enums\TransactionType;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -18,7 +18,7 @@ class TransactionController extends Controller
 {
     public function index(
         Request $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         BuildSessionTransactionJournalAction $buildJournal,
     ): Response {
@@ -38,10 +38,10 @@ class TransactionController extends Controller
         $journal = $buildJournal->execute($session, $filters);
 
         return Inertia::render('transactions/index', [
-            'tontine' => [
-                'id' => $tontine->id,
-                'name' => $tontine->name,
-                'slug' => $tontine->slug,
+            'group' => [
+                'id' => $group->id,
+                'name' => $group->name,
+                'slug' => $group->slug,
             ],
             'session' => SessionData::fromModel($session),
             'collection' => $journal['collection'],

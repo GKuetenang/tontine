@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 const features = [
     [
         CalendarRangeIcon,
-        'Réunions structurées',
+        'Assises structurées',
         'Planifiez les rencontres, suivez l’ordre du jour, les présences, les notes et les décisions.',
     ],
     [
@@ -31,13 +31,13 @@ const features = [
     ],
     [
         FileTextIcon,
-        'Rapports de réunion',
-        'Centralisez toutes les informations d’une réunion dans un rapport complet et exploitable.',
+        'Rapports d’assise',
+        'Centralisez toutes les informations d’une assise dans un rapport complet et exploitable.',
     ],
     [
         ShieldCheckIcon,
         'Rôles et permissions',
-        'Donnez à chaque responsable uniquement les accès nécessaires dans chaque tontine.',
+        'Donnez à chaque responsable uniquement les accès nécessaires dans chaque réunion.',
     ],
 ];
 
@@ -53,10 +53,10 @@ export function FeatureGrid() {
                         Une gestion complète
                     </p>
                     <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                        Tout ce dont votre tontine a besoin, au même endroit
+                        Tout ce dont votre réunion a besoin, au même endroit
                     </h2>
                     <p className="mt-4 text-muted-foreground">
-                        Des réunions aux finances, chaque module partage la même
+                        Des assises aux finances, chaque module partage la même
                         information et conserve un historique fiable.
                     </p>
                 </div>

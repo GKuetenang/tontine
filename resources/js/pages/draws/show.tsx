@@ -17,34 +17,34 @@ import { useAuthorization } from '@/hooks/use-authorization';
 
 import { withAppLayout } from '@/layouts/app-layout';
 
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
-import drawRoutes from '@/routes/tontines/sessions/draw';
-import sessionParticipants from '@/routes/tontines/sessions/participants';
+import groups from '@/routes/groups';
+import sessions from '@/routes/groups/sessions';
+import drawRoutes from '@/routes/groups/sessions/draw';
+import sessionParticipants from '@/routes/groups/sessions/participants';
 
-import type { Draw, ResultTontine, Session } from '@/types';
+import type { Draw, ResultGroup, Session } from '@/types';
 
 import { DrawEntriesTable } from './draw-entries-table';
 
 type Props = {
-    tontine: ResultTontine;
+    group: ResultGroup;
     session: Session;
     draw: Draw | null;
 };
 
 export default withAppLayout<Props>(
-    ({ tontine, session }) => [
+    ({ group, session }) => [
         {
-            title: 'Tontines',
+            title: 'Réunions',
 
-            href: tontines.index().url,
+            href: groups.index().url,
         },
 
         {
             title: 'Sessions',
 
             href: sessions.index({
-                tontine: tontine.slug,
+                group: group.slug,
             }).url,
         },
 
@@ -52,7 +52,7 @@ export default withAppLayout<Props>(
             title: session.name,
 
             href: sessionParticipants.index({
-                tontine: tontine.slug,
+                group: group.slug,
 
                 session: session.slug,
             }).url,
@@ -64,7 +64,7 @@ export default withAppLayout<Props>(
         },
     ],
 
-    ({ tontine, session, draw }: Props) => {
+    ({ group, session, draw }: Props) => {
         const { can } = useAuthorization();
 
         const isDraft = session.status === 'draft';
@@ -171,8 +171,7 @@ export default withAppLayout<Props>(
                                                     href={
                                                         sessionParticipants.index(
                                                             {
-                                                                tontine:
-                                                                    tontine.slug,
+                                                                group: group.slug,
                                                                 session:
                                                                     session.slug,
                                                             },
@@ -188,7 +187,7 @@ export default withAppLayout<Props>(
                                         <Button asChild>
                                             <Link
                                                 href={drawRoutes.generate({
-                                                    tontine: tontine.slug,
+                                                    group: group.slug,
                                                     session: session.slug,
                                                 })}
                                                 method="post"
@@ -252,8 +251,7 @@ export default withAppLayout<Props>(
                                                 >
                                                     <Link
                                                         href={drawRoutes.reset({
-                                                            tontine:
-                                                                tontine.slug,
+                                                            group: group.slug,
                                                             session:
                                                                 session.slug,
                                                         })}
@@ -280,8 +278,7 @@ export default withAppLayout<Props>(
                                                     <Link
                                                         href={drawRoutes.destroy(
                                                             {
-                                                                tontine:
-                                                                    tontine.slug,
+                                                                group: group.slug,
                                                                 session:
                                                                     session.slug,
                                                             },
@@ -306,8 +303,7 @@ export default withAppLayout<Props>(
                                                     <Link
                                                         href={drawRoutes.confirm(
                                                             {
-                                                                tontine:
-                                                                    tontine.slug,
+                                                                group: group.slug,
                                                                 session:
                                                                     session.slug,
                                                             },
@@ -332,7 +328,7 @@ export default withAppLayout<Props>(
                                     {entries.length > 0 ? (
                                         <DrawEntriesTable
                                             key={entriesKey}
-                                            tontine={tontine}
+                                            group={group}
                                             session={session}
                                             draw={draw}
                                             canSwap={canSwap}

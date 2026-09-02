@@ -20,13 +20,13 @@ import {
 import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
-import sessionParticipants from '@/routes/tontines/sessions/participants';
+import groups from '@/routes/groups';
+import sessions from '@/routes/groups/sessions';
+import sessionParticipants from '@/routes/groups/sessions/participants';
 import type {
     BreadcrumbItem,
     PaginatedCollection,
-    ResultTontine,
+    ResultGroup,
     Session,
     SessionParticipant,
 } from '@/types';
@@ -52,28 +52,28 @@ function formatSessionDate(value?: string | null): string {
 type Props = {
     collection: PaginatedCollection<SessionParticipant>;
     q: string | null;
-    tontine: ResultTontine;
+    group: ResultGroup;
     sessionParticipant: SessionParticipant;
     session: Session;
 };
 
 export default withAppLayout<Props>(
-    ({ tontine, session }) =>
+    ({ group, session }) =>
         [
             {
-                title: 'Tontines',
-                href: tontines.index().url,
+                title: 'Réunions',
+                href: groups.index().url,
             },
             {
                 title: 'Sessions',
                 href: sessions.index({
-                    tontine: tontine.slug,
+                    group: group.slug,
                 }).url,
             },
             {
                 title: session.name,
                 href: sessionParticipants.index({
-                    tontine: tontine.slug,
+                    group: group.slug,
                     session: session.slug,
                 }).url,
             },
@@ -82,7 +82,7 @@ export default withAppLayout<Props>(
                 href: '#',
             },
         ] as BreadcrumbItem[],
-    ({ collection, q, tontine, sessionParticipant, session }: Props) => {
+    ({ collection, q, group, sessionParticipant, session }: Props) => {
         const { can } = useAuthorization();
 
         return (
@@ -96,7 +96,7 @@ export default withAppLayout<Props>(
                                 {can('session-participants.create') && (
                                     <EditSessionParticipantForm
                                         participant={sessionParticipant}
-                                        tontine={tontine}
+                                        group={group}
                                         session={session}
                                         trigger={
                                             <Button
@@ -111,7 +111,7 @@ export default withAppLayout<Props>(
                                 )}
                                 <Form
                                     {...sessionParticipants.index.form({
-                                        tontine: tontine.slug,
+                                        group: group.slug,
                                         session: '',
                                     })}
                                     className="flex items-center gap-1"
@@ -137,7 +137,7 @@ export default withAppLayout<Props>(
                                             Nom
                                         </SortableTableHead>
                                         <SortableTableHead field="default_contibution_amount">
-                                            Montant de tontine
+                                            Montant de group
                                         </SortableTableHead>
                                         <SortableTableHead field="draw_entries_count">
                                             Parts
@@ -178,7 +178,7 @@ export default withAppLayout<Props>(
                                             </TableCell>
                                             <TableCell>
                                                 <Actions
-                                                    tontine={tontine}
+                                                    group={group}
                                                     session={session}
                                                     participant={item}
                                                 />

@@ -19,7 +19,7 @@ final class CloseMeetingAction
             ) {
                 throw ValidationException::withMessages([
                     'meeting' => __(
-                        'Seule une réunion en cours peut être clôturée.'
+                        'Seule une assise en cours peut être clôturée.'
                     ),
                 ]);
             }

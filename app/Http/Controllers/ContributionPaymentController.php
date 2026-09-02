@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Actions\Contributions\RecordContributionPaymentAction;
 use App\Http\Requests\StoreContributionPaymentRequest;
 use App\Models\Contribution;
+use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\Session;
-use App\Models\Tontine;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -16,7 +16,7 @@ class ContributionPaymentController extends Controller
 {
     public function store(
         StoreContributionPaymentRequest $request,
-        Tontine $tontine,
+        Group $group,
         Session $session,
         Meeting $meeting,
         Contribution $contribution,

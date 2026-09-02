@@ -1,0 +1,49 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Group;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+
+/**
+ * @extends Factory<Group>
+ */
+class GroupFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        $name = $this->faker->company();
+        $user = User::factory()->create();
+
+        return [
+            'user_id' => $user->id,
+            'name' => $name,
+            'member_number_prefix' => 'MEM',
+            'slug' => Str::slug($name).'-'.Str::random(10),
+            'description' => $this->faker->text(),
+            'default_loan_interest_rate' => '10.00',
+            'default_loan_term_months' => 3,
+        ];
+    }
+
+    public function public(): static
+    {
+        return $this->state(fn () => [
+            'is_public' => true,
+        ]);
+    }
+
+    public function inactive(): static
+    {
+        return $this->state(fn () => [
+            'is_active' => false,
+        ]);
+    }
+}

@@ -20,18 +20,18 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { parseDate } from '@/lib';
 
-import meetings from '@/routes/tontines/sessions/meetings';
+import meetings from '@/routes/groups/sessions/meetings';
 
-import type { Meeting, Session, Tontine } from '@/types';
+import type { Meeting, Session, Group } from '@/types';
 
 type Props = {
     trigger: ReactElement;
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
 };
 
-export function EditMeetingForm({ trigger, tontine, session, meeting }: Props) {
+export function EditMeetingForm({ trigger, group, session, meeting }: Props) {
     const [open, setOpen] = useState(false);
 
     const [scheduledAt, setScheduledAt] = useState<Date | undefined>(() =>
@@ -48,12 +48,12 @@ export function EditMeetingForm({ trigger, tontine, session, meeting }: Props) {
 
     const action = meeting.id
         ? meetings.update.form({
-              tontine: tontine.slug!,
+              group: group.slug!,
               session: session.slug,
               meeting: meeting.slug,
           })
         : meetings.store.form({
-              tontine: tontine.slug!,
+              group: group.slug!,
               session: session.slug,
           });
 
@@ -80,14 +80,14 @@ export function EditMeetingForm({ trigger, tontine, session, meeting }: Props) {
                             <DialogHeader>
                                 <DialogTitle>
                                     {isEditing
-                                        ? 'Modifier la réunion'
-                                        : 'Ajouter une réunion'}
+                                        ? 'Modifier l’assise'
+                                        : 'Ajouter une assise'}
                                 </DialogTitle>
 
                                 <DialogDescription>
                                     {isEditing
-                                        ? 'Modifier les informations de la réunion.'
-                                        : 'Planifier une nouvelle réunion pour cette session.'}
+                                        ? 'Modifier les informations de l’assise.'
+                                        : 'Planifier une nouvelle assise pour cette session.'}
                                 </DialogDescription>
                             </DialogHeader>
 
@@ -101,7 +101,7 @@ export function EditMeetingForm({ trigger, tontine, session, meeting }: Props) {
                                     id="title"
                                     name="title"
                                     defaultValue={meeting?.title}
-                                    placeholder="Ex. Réunion mensuelle"
+                                    placeholder="Ex. Assise mensuelle"
                                     aria-invalid={!!errors['title']}
                                 />
                             </FormField>

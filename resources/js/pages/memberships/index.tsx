@@ -18,21 +18,21 @@ import {
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
-import tontines from '@/routes/tontines';
-import memberships from '@/routes/tontines/memberships';
+import groups from '@/routes/groups';
+import memberships from '@/routes/groups/memberships';
 import type {
     BreadcrumbItem,
     Membership,
     PaginatedCollection,
-    ResultTontine,
+    ResultGroup,
 } from '@/types';
 import { Actions } from './actions';
 import { EditMembershipForm } from './form';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Tontines',
-        href: tontines.index().url,
+        title: 'Réunions',
+        href: groups.index().url,
     },
     {
         title: 'Membres',
@@ -43,7 +43,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 type Props = {
     collection: PaginatedCollection<Membership>;
     q: string | null;
-    tontine: ResultTontine;
+    group: ResultGroup;
     roles: SelectOption[];
     membership: Membership;
     statuses: SelectOption[];
@@ -51,7 +51,7 @@ type Props = {
 
 export default withAppLayout(
     breadcrumbs,
-    ({ collection, q, tontine, roles, membership, statuses }: Props) => {
+    ({ collection, q, group, roles, membership, statuses }: Props) => {
         const { can } = useAuthorization();
 
         return (
@@ -66,7 +66,7 @@ export default withAppLayout(
                                     statuses={[]}
                                     membership={membership}
                                     roles={roles}
-                                    tontine={tontine}
+                                    group={group}
                                     trigger={
                                         <Button type="button" className="w-fit">
                                             <PlusIcon />
@@ -77,7 +77,7 @@ export default withAppLayout(
                             )}
                             <Form
                                 {...memberships.index.form({
-                                    tontine: tontine.slug,
+                                    group: group.slug,
                                 })}
                                 className="flex items-center gap-1"
                             >
@@ -133,7 +133,7 @@ export default withAppLayout(
                                             <Actions
                                                 membership={item}
                                                 roles={roles}
-                                                tontine={tontine}
+                                                group={group}
                                                 statuses={statuses}
                                             />
                                         </TableCell>

@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-use App\Enums\TontinePermission;
+use App\Enums\GroupPermission;
+use App\Models\Group;
 use App\Models\Session;
-use App\Models\Tontine;
 use App\Models\Transaction;
 use App\Models\User;
 
@@ -15,10 +15,10 @@ class TransactionPolicy
      */
     public function viewAny(User $user, Session $session): bool
     {
-        $tontine = $session->tontine;
+        $group = $session->group;
 
-        return $tontine->hasActiveMembership($user)
-            && $this->can($user, $tontine, TontinePermission::ViewAccounting);
+        return $group->hasActiveMembership($user)
+            && $this->can($user, $group, GroupPermission::ViewAccounting);
     }
 
     /**
@@ -69,12 +69,12 @@ class TransactionPolicy
         return false;
     }
 
-    private function can(User $user, Tontine $tontine, TontinePermission $permission): bool
+    private function can(User $user, Group $group, GroupPermission $permission): bool
     {
         $previousTeamId = getPermissionsTeamId();
 
         try {
-            setPermissionsTeamId($tontine->id);
+            setPermissionsTeamId($group->id);
             $user->unsetRelation('roles');
             $user->unsetRelation('permissions');
 

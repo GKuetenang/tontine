@@ -3,17 +3,17 @@ import { AttendanceStatusBadge } from '@/components/attendance-status-badge';
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { formatDate } from '@/lib';
-import type { Meeting, MeetingAttendance, Session, Tontine } from '@/types';
+import type { Meeting, MeetingAttendance, Session, Group } from '@/types';
 import { EditAttendanceForm } from './form';
 
 export function AttendanceRow({
-    tontine,
+    group,
     session,
     meeting,
     attendance,
     canUpdate,
 }: {
-    tontine: Tontine;
+    group: Group;
     session: Session;
     meeting: Meeting;
     attendance: MeetingAttendance;
@@ -56,7 +56,7 @@ export function AttendanceRow({
             <TableCell className="text-end">
                 {canUpdate && meeting.status === 'in_progress' && (
                     <EditAttendanceForm
-                        tontine={tontine}
+                        group={group}
                         session={session}
                         meeting={meeting}
                         attendance={attendance}
