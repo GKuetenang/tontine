@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContributionPaymentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DonationController;
@@ -29,6 +30,11 @@ Route::inertia('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+
+    Route::get('account', [AccountController::class, 'index'])->name('account.index');
+    Route::get('account/insurance/{tontine:slug?}', [AccountController::class, 'insurance'])->name('account.insurance.index');
+    Route::get('account/contributions', [AccountController::class, 'contributions'])->name('account.contributions.index');
+    Route::get('account/loans', [AccountController::class, 'loans'])->name('account.loans.index');
 
     /*
      | ------------------------------------------------------------------------------------------------------------------------

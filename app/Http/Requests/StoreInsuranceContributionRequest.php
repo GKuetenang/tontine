@@ -17,7 +17,7 @@ class StoreInsuranceContributionRequest extends FormRequest
             'membership_id' => ['required', 'integer', 'exists:memberships,id'],
             'amount' => ['required', 'decimal:0,2', 'gt:0'],
             'description' => ['nullable', 'string', 'max:2000'],
-            'occurred_at' => ['nullable', 'date'],
+            'occurred_at' => ['sometimes', 'date'],
         ];
     }
 }

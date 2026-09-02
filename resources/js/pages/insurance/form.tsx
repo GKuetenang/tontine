@@ -1,11 +1,11 @@
 import { Form } from '@inertiajs/react';
 import { format } from 'date-fns';
-import { CalendarIcon, SaveIcon } from 'lucide-react';
+import { SaveIcon } from 'lucide-react';
 import type { ReactElement } from 'react';
 import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { DateTimePicker } from '@/components/ui/datetime-picker';
 import {
     Dialog,
     DialogClose,
@@ -17,11 +17,6 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
 import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { UserCombobox } from '@/components/user-combobox';
@@ -38,11 +33,11 @@ export function CreateInsuranceContributionForm({
 }: Props) {
     const [open, setOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<MemberUser | null>(null);
-    const [occurredAt, setOccurredAt] = useState<Date | undefined>(new Date());
+    const [occurredAt, setOccurredAt] = useState<Date | undefined>();
 
     const reset = () => {
         setSelectedUser(null);
-        setOccurredAt(new Date());
+        setOccurredAt(undefined);
     };
 
     return (
@@ -134,40 +129,22 @@ export function CreateInsuranceContributionForm({
                                 label="Date du versement"
                                 htmlFor="occurred_at"
                             >
-                                <input
-                                    type="hidden"
-                                    name="occurred_at"
-                                    value={
-                                        occurredAt
-                                            ? format(occurredAt, 'yyyy-MM-dd')
-                                            : ''
-                                    }
+                                {occurredAt && (
+                                    <input
+                                        type="hidden"
+                                        name="occurred_at"
+                                        value={format(
+                                            occurredAt,
+                                            'yyyy-MM-dd HH:mm:ss',
+                                        )}
+                                    />
+                                )}
+                                <DateTimePicker
+                                    granularity="minute"
+                                    value={occurredAt}
+                                    onChange={setOccurredAt}
+                                    placeholder="Utiliser la date et l’heure actuelles"
                                 />
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            id="occurred_at"
-                                            type="button"
-                                            variant="outline"
-                                            className="w-full justify-start font-normal"
-                                        >
-                                            <CalendarIcon />
-                                            {occurredAt
-                                                ? format(
-                                                      occurredAt,
-                                                      'dd/MM/yyyy',
-                                                  )
-                                                : 'Sélectionner une date'}
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0">
-                                        <Calendar
-                                            mode="single"
-                                            selected={occurredAt}
-                                            onSelect={setOccurredAt}
-                                        />
-                                    </PopoverContent>
-                                </Popover>
                             </FormField>
                             <FormField
                                 error={errors.description}

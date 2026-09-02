@@ -73,4 +73,9 @@ class Membership extends Model
     {
         return $this->hasMany(SessionParticipant::class);
     }
+
+    public function insuranceContributions(): HasMany
+    {
+        return $this->hasMany(InsuranceContribution::class);
+    }
 }

@@ -28,14 +28,14 @@ class UserSeeder extends Seeder
 
         User::firstOrCreate(
             [
-                'email' => 'nelsonnoumbon@gmail.com',
+                'email' => 'nelsonnoumbo@gmail.com',
             ],
             [
                 'first_name' => 'Nelson',
                 'name' => 'Noumbo',
-                'email' => 'nelsonnoumbon@gmail.com',
+                'email' => 'nelsonnoumbo@gmail.com',
                 'password' => Hash::make('secret'),
-                'username' => 'nelsonnoumbon',
+                'username' => 'nelsonnoumbo',
             ]
         );
 

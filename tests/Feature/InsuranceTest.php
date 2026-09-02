@@ -12,6 +12,7 @@ use App\Models\SessionParticipant;
 use App\Models\Tontine;
 use App\Models\Transaction;
 use App\Models\User;
+use Carbon\CarbonImmutable;
 use Database\Seeders\PermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -109,6 +110,7 @@ it('allows an authorized user to record an insurance contribution through the se
 });
 
 it('uses the current date and accepts no description for an insurance contribution', function (): void {
+    CarbonImmutable::setTestNow('2026-09-02 14:37:18');
     app(PermissionSeeder::class)->run();
     $president = User::factory()->create();
     $tontine = Tontine::factory()->create(['user_id' => $president->id]);
@@ -128,8 +130,8 @@ it('uses the current date and accepts no description for an insurance contributi
     $contribution = InsuranceContribution::query()->sole();
 
     expect($contribution->description)->toBeNull()
-        ->and($contribution->occurred_at)->not->toBeNull()
-        ->and($contribution->transactions()->sole()->occurred_at)->not->toBeNull();
+        ->and($contribution->occurred_at->format('Y-m-d H:i:s'))->toBe('2026-09-02 14:37:18')
+        ->and($contribution->transactions()->sole()->occurred_at->format('Y-m-d H:i:s'))->toBe('2026-09-02 14:37:18');
 });
 
 it('rejects invalid insurance contributions', function (): void {

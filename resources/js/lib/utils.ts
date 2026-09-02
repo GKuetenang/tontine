@@ -1,3 +1,6 @@
+import tontines from '@/routes/tontines';
+import sessions from '@/routes/tontines/sessions';
+import type { Meeting, NavItem, Session, Tontine } from '@/types';
 import type { InertiaLinkProps } from '@inertiajs/react';
 import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
@@ -16,9 +19,6 @@ import {
     UsersIcon,
 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
-import tontines from '@/routes/tontines';
-import sessions from '@/routes/tontines/sessions';
-import type { Meeting, NavItem, Session, Tontine } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -81,11 +81,11 @@ export function getTontineNavItems(tontine: Tontine): NavItem[] {
             href: tontines.finances.index({ tontine: tontine.slug! }),
             icon: CircleDollarSignIcon,
         },
-        {
-            title: 'Rapports',
-            href: '#',
-            icon: ChartNoAxesColumnIcon,
-        },
+        // {
+        //     title: 'Rapports',
+        //     href: '#',
+        //     icon: ChartNoAxesColumnIcon,
+        // },
         // {
         //     title: 'Paramètres',
         //     href: '#',

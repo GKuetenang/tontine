@@ -18,7 +18,7 @@ export function WelcomeHeader({ authenticated }: Props) {
                     <span className="text-lg font-semibold tracking-tight">
                         {name}
                     </span> */}
-                    <AppLogo />k
+                    <AppLogo />
                 </Link>
 
                 <nav className="flex items-center gap-2">
