@@ -44,14 +44,13 @@ type Props = {
     collection: PaginatedCollection<Membership>;
     q: string | null;
     group: ResultGroup;
-    roles: SelectOption[];
     membership: Membership;
     statuses: SelectOption[];
 };
 
 export default withAppLayout(
     breadcrumbs,
-    ({ collection, q, group, roles, membership, statuses }: Props) => {
+    ({ collection, q, group, membership, statuses }: Props) => {
         const { can } = useAuthorization();
 
         return (
@@ -61,20 +60,24 @@ export default withAppLayout(
                 <Card className="bg-background pt-0">
                     <CardHeader className="border-b py-4">
                         <div className="flex items-center justify-between">
-                            {can('memberships.create') && (
-                                <EditMembershipForm
-                                    statuses={[]}
-                                    membership={membership}
-                                    roles={roles}
-                                    group={group}
-                                    trigger={
-                                        <Button type="button" className="w-fit">
-                                            <PlusIcon />
-                                            Ajouter un membre
-                                        </Button>
-                                    }
-                                />
-                            )}
+                            <div>
+                                {can('memberships.create') && (
+                                    <EditMembershipForm
+                                        statuses={[]}
+                                        membership={membership}
+                                        group={group}
+                                        trigger={
+                                            <Button
+                                                type="button"
+                                                className="w-fit"
+                                            >
+                                                <PlusIcon />
+                                                Ajouter un membre
+                                            </Button>
+                                        }
+                                    />
+                                )}
+                            </div>
                             <Form
                                 {...memberships.index.form({
                                     group: group.slug,
@@ -132,7 +135,6 @@ export default withAppLayout(
                                         <TableCell>
                                             <Actions
                                                 membership={item}
-                                                roles={roles}
                                                 group={group}
                                                 statuses={statuses}
                                             />

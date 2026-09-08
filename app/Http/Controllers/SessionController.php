@@ -6,6 +6,8 @@ use App\Actions\Sessions\ActivateSessionAction;
 use App\Actions\Sessions\CloseSessionAction;
 use App\Actions\Sessions\CreateSessionAction;
 use App\Actions\Sessions\DeleteSessionAction;
+use App\Actions\Sessions\ForceDeleteSessionAction;
+use App\Actions\Sessions\RestoreSessionAction;
 use App\Actions\Sessions\UpdateSessionAction;
 use App\Data\SessionData;
 use App\Enums\DrawAllocationMode;
@@ -94,6 +96,41 @@ class SessionController extends Controller
                 $session,
             ),
         ]);
+    }
+
+    public function trash(Request $request, Group $group): Response
+    {
+        $this->authorize('viewAny', [Session::class, $group]);
+        $q = $request->string('q')->trim()->toString();
+
+        return Inertia::render('sessions/trash', [
+            'group' => ['id' => $group->id, 'name' => $group->name, 'slug' => $group->slug],
+            'collection' => SessionData::collect(
+                $group->sessions()
+                    ->onlyTrashed()
+                    ->when($q, fn ($query) => $query->where('name', 'like', "%{$q}%"))
+                    ->orderFromRequest($request)
+                    ->paginate(10)
+                    ->withQueryString(),
+            ),
+            'q' => $q ?: null,
+        ]);
+    }
+
+    public function restore(Group $group, Session $session, RestoreSessionAction $action): RedirectResponse
+    {
+        $this->authorize('restore', $session);
+        $action->execute($session);
+
+        return Inertia::flash('success', __('La session a été restaurée avec succès.'))->back();
+    }
+
+    public function forceDelete(Group $group, Session $session, ForceDeleteSessionAction $action): RedirectResponse
+    {
+        $this->authorize('forceDelete', $session);
+        $action->execute($session);
+
+        return Inertia::flash('success', __('La session a été supprimée définitivement.'))->back();
     }
 
     public function update(

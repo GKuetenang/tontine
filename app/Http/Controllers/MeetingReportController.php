@@ -31,10 +31,6 @@ class MeetingReportController extends Controller
             ],
             'session' => SessionData::fromModel($session),
             'report' => $buildReport->execute($meeting),
-            'canExport' => request()->user()->can(
-                'exportReport',
-                $meeting,
-            ),
         ]);
     }
 }

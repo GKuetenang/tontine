@@ -9,8 +9,10 @@ use App\Models\Traits\HasSortable;
 use App\Policies\PenaltyRulePolicy;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'code',
@@ -26,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[UsePolicy(PenaltyRulePolicy::class)]
 class PenaltyRule extends Model
 {
+    use HasFactory;
     use HasSortable;
 
     protected $sortable = [
@@ -56,5 +59,10 @@ class PenaltyRule extends Model
     public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
+    }
+
+    public function penalties(): HasMany
+    {
+        return $this->hasMany(Penalty::class);
     }
 }

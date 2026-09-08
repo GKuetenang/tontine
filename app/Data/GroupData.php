@@ -51,6 +51,9 @@ class GroupData extends Data
         public Optional|bool $is_public = false,
         public Optional|bool $is_verified = false,
         public ?string $description = null,
+        public Optional|string $initial_mandate_name = new Optional,
+        public Optional|string $initial_mandate_starts_at = new Optional,
+        public Optional|string $initial_mandate_ends_at = new Optional,
     ) {}
 
     public static function fromModel(
@@ -93,7 +96,7 @@ class GroupData extends Data
      */
     public static function rules(Request $request): array
     {
-        return [
+        $rules = [
             'name' => [
                 'required',
                 'string',
@@ -108,6 +111,16 @@ class GroupData extends Data
             'default_loan_interest_rate' => ['required', 'decimal:0,2', 'gte:0', 'lte:100'],
             'default_loan_term_months' => ['required', 'integer', 'min:1', 'max:120'],
         ];
+
+        if (! $request->route('group') instanceof Group) {
+            $rules += [
+                'initial_mandate_name' => ['required', 'string', 'max:255'],
+                'initial_mandate_starts_at' => ['required', 'date', 'before_or_equal:today'],
+                'initial_mandate_ends_at' => ['required', 'date', 'after_or_equal:today', 'after_or_equal:initial_mandate_starts_at'],
+            ];
+        }
+
+        return $rules;
     }
 
     /**

@@ -2,9 +2,11 @@
 
 namespace App\Actions\Sessions;
 
+use App\Actions\SessionParticipants\AddSessionParticipantAction;
 use App\Enums\DrawAllocationMode;
 use App\Enums\SessionStatus;
 use App\Models\Group;
+use App\Models\Membership;
 use App\Models\Session;
 use App\Support\UniqueSlug;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +15,8 @@ use Illuminate\Validation\ValidationException;
 final class CreateSessionAction
 {
     public function __construct(
-        private readonly UniqueSlug $uniqueSlug
+        private readonly UniqueSlug $uniqueSlug,
+        private readonly AddSessionParticipantAction $addParticipant,
     ) {}
 
     /**
@@ -72,6 +75,18 @@ final class CreateSessionAction
             );
 
             $session->save();
+
+            $group->memberships()
+                ->active()
+                ->each(function (Membership $membership) use ($allocationMode, $session): void {
+                    $this->addParticipant->execute(
+                        session: $session,
+                        membership: $membership,
+                        drawEntriesCount: $allocationMode === DrawAllocationMode::Custom
+                            ? 1
+                            : null,
+                    );
+                });
 
             return $session;
         });

@@ -1,0 +1,134 @@
+import { Form } from '@inertiajs/react';
+import { format, parseISO } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
+import { FormField } from '@/components/form-field';
+import { Button } from '@/components/ui/button';
+import { DateTimePicker } from '@/components/ui/datetime-picker';
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
+import mandates from '@/routes/groups/mandates';
+import type { Group } from '@/types';
+import type { MandateItem } from './index';
+
+export function MandateForm({
+    group,
+    mandate,
+    trigger,
+}: {
+    group: Group;
+    mandate?: MandateItem;
+    trigger: ReactElement;
+}) {
+    const [open, setOpen] = useState(false);
+    const [startsAt, setStartsAt] = useState<Date | undefined>(
+        mandate ? parseISO(mandate.starts_at) : undefined,
+    );
+    const [endsAt, setEndsAt] = useState<Date | undefined>(
+        mandate ? parseISO(mandate.ends_at) : undefined,
+    );
+    const action = mandate
+        ? mandates.update.form({ group: group.slug!, mandate: mandate.id })
+        : mandates.store.form({ group: group.slug! });
+
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>{trigger}</DialogTrigger>
+            <DialogContent>
+                <Form {...action} onSuccess={() => setOpen(false)}>
+                    {({ errors, processing }) => (
+                        <div className="space-y-4">
+                            <DialogHeader>
+                                <DialogTitle>
+                                    {mandate
+                                        ? 'Modifier le mandat'
+                                        : 'Créer un mandat'}
+                                </DialogTitle>
+                                <DialogDescription>
+                                    Définissez une période de gouvernance
+                                    indépendante des sessions.
+                                </DialogDescription>
+                            </DialogHeader>
+                            <FormField
+                                label="Nom"
+                                htmlFor="name"
+                                error={errors.name}
+                            >
+                                <Input
+                                    id="name"
+                                    name="name"
+                                    defaultValue={mandate?.name}
+                                    required
+                                />
+                            </FormField>
+                            <div className="grid gap-4 sm:grid-cols-2">
+                                <FormField
+                                    label="Début"
+                                    htmlFor="starts_at"
+                                    error={errors.starts_at}
+                                >
+                                    <input
+                                        type="hidden"
+                                        name="starts_at"
+                                        value={
+                                            startsAt
+                                                ? format(startsAt, 'yyyy-MM-dd')
+                                                : ''
+                                        }
+                                    />
+                                    <DateTimePicker
+                                        granularity="day"
+                                        value={startsAt}
+                                        onChange={setStartsAt}
+                                        placeholder="Choisir la date de début"
+                                    />
+                                </FormField>
+                                <FormField
+                                    label="Fin"
+                                    htmlFor="ends_at"
+                                    error={errors.ends_at}
+                                >
+                                    <input
+                                        type="hidden"
+                                        name="ends_at"
+                                        value={
+                                            endsAt
+                                                ? format(endsAt, 'yyyy-MM-dd')
+                                                : ''
+                                        }
+                                    />
+                                    <DateTimePicker
+                                        granularity="day"
+                                        value={endsAt}
+                                        onChange={setEndsAt}
+                                        placeholder="Choisir la date de fin"
+                                    />
+                                </FormField>
+                            </div>
+                            <DialogFooter>
+                                <DialogClose asChild>
+                                    <Button variant="outline">Annuler</Button>
+                                </DialogClose>
+                                <Button type="submit" disabled={processing}>
+                                    {processing ? <Spinner /> : <SaveIcon />}{' '}
+                                    Enregistrer
+                                </Button>
+                            </DialogFooter>
+                        </div>
+                    )}
+                </Form>
+            </DialogContent>
+        </Dialog>
+    );
+}

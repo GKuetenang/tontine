@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Groups\CreateGroupAction;
+use App\Actions\Groups\ForceDeleteGroupAction;
 use App\Actions\Groups\UpdateGroupAction;
 use App\Data\GroupData;
 use App\Data\SessionData;
@@ -90,6 +91,45 @@ class GroupController extends Controller
         return Inertia::render('groups/form', [
             'group' => GroupData::empty(),
         ]);
+    }
+
+    public function trash(Request $request, GroupAbilities $groupAbilities): Response
+    {
+        $groups = Group::query()
+            ->onlyTrashed()
+            ->accessibleBy($request->user())
+            ->orderFromRequest($request)
+            ->paginate(10)
+            ->withQueryString()
+            ->through(fn (Group $group): array => [
+                'id' => $group->id,
+                'name' => $group->name,
+                'slug' => $group->slug,
+                'deleted_at' => $group->deleted_at?->format('Y-m-d\TH:i:s'),
+                'can' => $groupAbilities->for($request->user(), $group)->toArray(),
+            ]);
+
+        return Inertia::render('groups/trash', ['collection' => $groups]);
+    }
+
+    public function restore(Request $request, Group $group): RedirectResponse
+    {
+        $this->authorize('restore', $group);
+        $group->restore();
+
+        Inertia::flash('success', __('La réunion a été restaurée avec succès.'));
+
+        return to_route('groups.trash');
+    }
+
+    public function forceDelete(Group $group, ForceDeleteGroupAction $action): RedirectResponse
+    {
+        $this->authorize('forceDelete', $group);
+        $action->execute($group);
+
+        Inertia::flash('success', __('La réunion a été supprimée définitivement.'));
+
+        return to_route('groups.trash');
     }
 
     public function show(

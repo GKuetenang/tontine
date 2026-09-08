@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -49,6 +50,7 @@ class Session extends Model
         'start_at',
         'end_at',
         'created_at',
+        'deleted_at',
         'default_contribution_amount',
         'draw_allocation_mode',
         'status',
@@ -95,6 +97,11 @@ class Session extends Model
     public function insuranceContributions(): HasMany
     {
         return $this->hasMany(InsuranceContribution::class);
+    }
+
+    public function penalties(): HasManyThrough
+    {
+        return $this->hasManyThrough(Penalty::class, Meeting::class);
     }
 
     public function donations(): HasMany

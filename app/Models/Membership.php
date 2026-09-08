@@ -78,4 +78,14 @@ class Membership extends Model
     {
         return $this->hasMany(InsuranceContribution::class);
     }
+
+    public function mandateRoleAssignments(): HasMany
+    {
+        return $this->hasMany(MandateRoleAssignment::class);
+    }
+
+    public function penalties(): HasMany
+    {
+        return $this->hasMany(Penalty::class);
+    }
 }

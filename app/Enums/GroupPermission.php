@@ -36,6 +36,12 @@ enum GroupPermission: string
     case CreateRoles = 'roles.create';
     case UpdateRoles = 'roles.update';
 
+    case ViewMandates = 'mandates.view';
+    case CreateMandates = 'mandates.create';
+    case UpdateMandates = 'mandates.update';
+    case ActivateMandates = 'mandates.activate';
+    case AssignMandateRoles = 'mandates.roles.assign';
+
     /*
     |--------------------------------------------------------------------------
     | Sessions
@@ -48,6 +54,8 @@ enum GroupPermission: string
     case ActivateSessions = 'sessions.activate';
     case CloseSessions = 'sessions.close';
     case DeleteSessions = 'sessions.delete';
+    case RestoreSessions = 'sessions.restore';
+    case ForceDeleteSessions = 'sessions.force-delete';
 
     /*
     |--------------------------------------------------------------------------
@@ -211,6 +219,11 @@ enum GroupPermission: string
             self::ViewRoles => __('Consulter les rôles'),
             self::CreateRoles => __('Créer des rôles'),
             self::UpdateRoles => __('Modifier les rôles et leurs permissions'),
+            self::ViewMandates => __('Consulter les mandats'),
+            self::CreateMandates => __('Créer les mandats'),
+            self::UpdateMandates => __('Modifier les mandats'),
+            self::ActivateMandates => __('Activer les mandats'),
+            self::AssignMandateRoles => __('Affecter les responsables des mandats'),
 
             self::ViewSessions => __('Consulter les sessions'),
             self::CreateSessions => __('Créer des sessions'),
@@ -218,6 +231,8 @@ enum GroupPermission: string
             self::ActivateSessions => __('Activer les sessions'),
             self::CloseSessions => __('Fermer les sessions'),
             self::DeleteSessions => __('Supprimer les sessions'),
+            self::RestoreSessions => __('Restaurer les sessions'),
+            self::ForceDeleteSessions => __('Supprimer définitivement les sessions'),
 
             self::ViewSessionParticipants => __('Consulter les participants aux sessions'),
             self::CreateSessionParticipants => __('Ajouter des participants aux sessions'),

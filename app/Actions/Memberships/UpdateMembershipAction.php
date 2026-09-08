@@ -2,6 +2,8 @@
 
 namespace App\Actions\Memberships;
 
+use App\Actions\Mandates\SyncMemberMandateRolesAction;
+use App\Enums\GroupRole;
 use App\Enums\MembershipStatus;
 use App\Models\Group;
 use App\Models\Membership;
@@ -9,6 +11,8 @@ use App\Models\User;
 
 class UpdateMembershipAction
 {
+    public function __construct(private SyncMemberMandateRolesAction $syncMandateRoles) {}
+
     public function execute(
         Membership $membership,
         Group $group,
@@ -32,8 +36,12 @@ class UpdateMembershipAction
         $this->syncRole(
             group: $group,
             user: $user,
-            roleName: $roleName,
+            roleName: $group->mandates()->where('status', '!=', 'draft')->exists()
+                ? GroupRole::Member->value
+                : $roleName,
         );
+
+        $this->syncMandateRoles->execute($group, $user);
 
         return $membership->fresh();
     }

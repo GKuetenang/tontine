@@ -43,41 +43,45 @@ export function Actions({ group }: Props) {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                        asChild
-                        onSelect={(event) => event.preventDefault()}
-                    >
-                        <Link
-                            className="w-full"
-                            href={groups.edit({
-                                group: group.slug!,
-                            })}
+                    {group.can?.update && (
+                        <DropdownMenuItem
+                            asChild
+                            onSelect={(event) => event.preventDefault()}
                         >
-                            <EditIcon size={16} />
-                            Modifier
-                        </Link>
-                    </DropdownMenuItem>
+                            <Link
+                                className="w-full"
+                                href={groups.edit({
+                                    group: group.slug!,
+                                })}
+                            >
+                                <EditIcon size={16} />
+                                Modifier
+                            </Link>
+                        </DropdownMenuItem>
+                    )}
 
-                    <DropdownMenuItem asChild>
-                        <Link
-                            className="w-full"
-                            href={groups.destroy({
-                                group: group.slug!,
-                            })}
-                            onBefore={() =>
-                                confirm(
-                                    'Voulez-vous vraiment supprimer cette réunion?',
-                                )
-                            }
-                            onError={(errors) => {
-                                const firstError = Object.values(errors)[0];
-                                toast.error(firstError);
-                            }}
-                        >
-                            <TrashIcon size={16} />
-                            Supprimer
-                        </Link>
-                    </DropdownMenuItem>
+                    {group.can?.delete && (
+                        <DropdownMenuItem asChild>
+                            <Link
+                                className="w-full"
+                                href={groups.destroy({
+                                    group: group.slug!,
+                                })}
+                                onBefore={() =>
+                                    confirm(
+                                        'Voulez-vous vraiment supprimer cette réunion?',
+                                    )
+                                }
+                                onError={(errors) => {
+                                    const firstError = Object.values(errors)[0];
+                                    toast.error(firstError);
+                                }}
+                            >
+                                <TrashIcon size={16} />
+                                Supprimer
+                            </Link>
+                        </DropdownMenuItem>
+                    )}
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

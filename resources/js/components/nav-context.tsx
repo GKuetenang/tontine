@@ -6,6 +6,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useAuthorization } from '@/hooks/use-authorization';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import type { NavItem } from '@/types';
 
@@ -17,6 +18,14 @@ type NavContextProps = {
 
 export function NavContext({ label, title, items }: NavContextProps) {
     const { isCurrentUrl, isCurrentOrParentUrl } = useCurrentUrl();
+    const { can } = useAuthorization();
+    const authorizedItems = items.filter(
+        (item) => !item.permission || can(item.permission),
+    );
+
+    if (authorizedItems.length === 0) {
+        return null;
+    }
 
     return (
         <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -31,7 +40,7 @@ export function NavContext({ label, title, items }: NavContextProps) {
             </SidebarGroupLabel>
 
             <SidebarMenu>
-                {items.map((item) => (
+                {authorizedItems.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton
                             asChild

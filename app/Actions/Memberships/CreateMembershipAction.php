@@ -2,6 +2,7 @@
 
 namespace App\Actions\Memberships;
 
+use App\Enums\GroupRole;
 use App\Enums\MembershipStatus;
 use App\Models\Group;
 use App\Models\Membership;
@@ -99,6 +100,12 @@ class CreateMembershipAction
         User $user,
         string $roleName,
     ): void {
+        if ($roleName !== GroupRole::Member->value && $group->mandates()->where('status', '!=', 'draft')->exists()) {
+            throw ValidationException::withMessages([
+                'role' => __('Les responsabilités doivent être attribuées depuis un mandat.'),
+            ]);
+        }
+
         $previousTeamId = getPermissionsTeamId();
 
         try {

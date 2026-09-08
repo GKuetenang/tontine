@@ -1,11 +1,12 @@
 import { Form, Head } from '@inertiajs/react';
+import { format, parseISO } from 'date-fns';
 import { ListFilterIcon } from 'lucide-react';
 import { useState } from 'react';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { DateTimePicker } from '@/components/ui/datetime-picker';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -91,6 +92,12 @@ export default withAppLayout<Props>(
         );
         const [meetingId, setMeetingId] = useState(
             filters.meeting_id ? String(filters.meeting_id) : 'all',
+        );
+        const [from, setFrom] = useState<Date | undefined>(
+            filters.from ? parseISO(filters.from) : undefined,
+        );
+        const [to, setTo] = useState<Date | undefined>(
+            filters.to ? parseISO(filters.to) : undefined,
         );
         const meetings =
             sessions.find((session) => session.value === sessionId)?.meetings ??
@@ -190,20 +197,36 @@ export default withAppLayout<Props>(
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="finance-from">Du</Label>
-                                    <Input
-                                        id="finance-from"
-                                        type="date"
+                                    <input
+                                        type="hidden"
                                         name="from"
-                                        defaultValue={filters.from ?? ''}
+                                        value={
+                                            from
+                                                ? format(from, 'yyyy-MM-dd')
+                                                : ''
+                                        }
+                                    />
+                                    <DateTimePicker
+                                        granularity="day"
+                                        value={from}
+                                        onChange={setFrom}
+                                        placeholder="Choisir la date de début"
                                     />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="finance-to">Au</Label>
-                                    <Input
-                                        id="finance-to"
-                                        type="date"
+                                    <input
+                                        type="hidden"
                                         name="to"
-                                        defaultValue={filters.to ?? ''}
+                                        value={
+                                            to ? format(to, 'yyyy-MM-dd') : ''
+                                        }
+                                    />
+                                    <DateTimePicker
+                                        granularity="day"
+                                        value={to}
+                                        onChange={setTo}
+                                        placeholder="Choisir la date de fin"
                                     />
                                 </div>
                                 <Button variant="outline" className="w-fit">

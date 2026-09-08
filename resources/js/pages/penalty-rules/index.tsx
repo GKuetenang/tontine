@@ -17,13 +17,14 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 import groups from '@/routes/groups';
 import type {
     BreadcrumbItem,
+    Group,
     PaginatedCollection,
     PenaltyRule,
-    Group,
 } from '@/types';
 import { PenaltyRuleForm } from './form';
 
@@ -53,123 +54,124 @@ export default withAppLayout<Props>(
         calculation_types: calculationTypes,
         grace_units: graceUnits,
         q,
-    }) =>
-        (() => {
-            return (
-                <>
-                    <Head title="Règles de pénalité" />
-                    <Heading
-                        title="Règles de pénalité"
-                        description={
-                            'Configuration des pénalités de ' + group.name
-                        }
-                    />
-                    <Card className="bg-background pt-0">
-                        <CardHeader className="border-b py-4">
-                            <div className="flex items-center justify-between">
-                                <PenaltyRuleForm
-                                    group={group}
-                                    triggers={triggers}
-                                    calculationTypes={calculationTypes}
-                                    graceUnits={graceUnits}
-                                    trigger={
-                                        <Button className="w-fit">
-                                            <PlusIcon />
-                                            Ajouter une règle
-                                        </Button>
-                                    }
-                                />
-                                <Form
-                                    {...groups.penaltyRules.index.form({
-                                        group: group.slug!,
-                                    })}
-                                    className="flex items-center gap-1"
-                                >
-                                    <Input
-                                        autoFocus
-                                        defaultValue={q ?? ''}
-                                        placeholder="Rechercher une règle"
-                                        name="q"
+    }) => {
+        const { can } = useAuthorization();
+
+        return (
+            <>
+                <Head title="Règles de pénalité" />
+                <Heading
+                    title="Règles de pénalité"
+                    description={'Configuration des pénalités de ' + group.name}
+                />
+                <Card className="bg-background pt-0">
+                    <CardHeader className="border-b py-4">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                {can('penalties.create') && (
+                                    <PenaltyRuleForm
+                                        group={group}
+                                        triggers={triggers}
+                                        calculationTypes={calculationTypes}
+                                        graceUnits={graceUnits}
+                                        trigger={
+                                            <Button className="w-fit">
+                                                <PlusIcon />
+                                                Ajouter une règle
+                                            </Button>
+                                        }
                                     />
-                                    <Button variant="outline">
-                                        <SearchIcon /> Rechercher
-                                    </Button>
-                                </Form>
+                                )}
                             </div>
-                        </CardHeader>
-                        <CardContent className="px-0">
-                            <Table className="border-spacing-4">
-                                <TableHeader>
-                                    <TableRow>
-                                        <SortableTableHead
-                                            field="name"
-                                            className="pl-6"
-                                        >
-                                            Règle
-                                        </SortableTableHead>
-                                        <SortableTableHead field="trigger">
-                                            Déclencheur
-                                        </SortableTableHead>
-                                        <SortableTableHead field="calculation_type">
-                                            Calcul
-                                        </SortableTableHead>
-                                        <SortableTableHead field="value">
-                                            Valeur
-                                        </SortableTableHead>
-                                        <SortableTableHead field="grace_period">
-                                            Tolérance
-                                        </SortableTableHead>
-                                        <SortableTableHead field="is_automatic">
-                                            Application
-                                        </SortableTableHead>
-                                        <SortableTableHead field="is_active">
-                                            Statut
-                                        </SortableTableHead>
-                                        <TableHead className="pr-6 text-right">
-                                            Actions
-                                        </TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody className="[&_td]:py-3">
-                                    {collection.data.map((rule) => (
-                                        <TableRow
-                                            key={rule.id}
-                                            className="h-14"
-                                        >
-                                            <TableCell className="pl-6">
-                                                <p className="font-medium">
-                                                    {rule.name}
-                                                </p>
-                                            </TableCell>
-                                            <TableCell>
-                                                {rule.trigger_label}
-                                            </TableCell>
-                                            <TableCell>
-                                                {rule.calculation_type_label}
-                                            </TableCell>
-                                            <TableCell className="font-medium">
-                                                {rule.value_label}
-                                            </TableCell>
-                                            <TableCell>
-                                                {rule.grace_period_label}
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant="outline">
-                                                    {rule.application_label}
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge
-                                                    variant={
-                                                        rule.is_active
-                                                            ? 'success'
-                                                            : 'secondary'
-                                                    }
-                                                >
-                                                    {rule.status_label}
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell className="pr-6 text-right">
+                            <Form
+                                {...groups.penaltyRules.index.form({
+                                    group: group.slug!,
+                                })}
+                                className="flex items-center gap-1"
+                            >
+                                <Input
+                                    autoFocus
+                                    defaultValue={q ?? ''}
+                                    placeholder="Rechercher une règle"
+                                    name="q"
+                                />
+                                <Button variant="outline">
+                                    <SearchIcon /> Rechercher
+                                </Button>
+                            </Form>
+                        </div>
+                    </CardHeader>
+                    <CardContent className="px-0">
+                        <Table className="border-spacing-4">
+                            <TableHeader>
+                                <TableRow>
+                                    <SortableTableHead
+                                        field="name"
+                                        className="pl-6"
+                                    >
+                                        Règle
+                                    </SortableTableHead>
+                                    <SortableTableHead field="trigger">
+                                        Déclencheur
+                                    </SortableTableHead>
+                                    <SortableTableHead field="calculation_type">
+                                        Calcul
+                                    </SortableTableHead>
+                                    <SortableTableHead field="value">
+                                        Valeur
+                                    </SortableTableHead>
+                                    <SortableTableHead field="grace_period">
+                                        Tolérance
+                                    </SortableTableHead>
+                                    <SortableTableHead field="is_automatic">
+                                        Application
+                                    </SortableTableHead>
+                                    <SortableTableHead field="is_active">
+                                        Statut
+                                    </SortableTableHead>
+                                    <TableHead className="pr-6 text-right">
+                                        Actions
+                                    </TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody className="[&_td]:py-3">
+                                {collection.data.map((rule) => (
+                                    <TableRow key={rule.id} className="h-14">
+                                        <TableCell className="pl-6">
+                                            <p className="font-medium">
+                                                {rule.name}
+                                            </p>
+                                        </TableCell>
+                                        <TableCell>
+                                            {rule.trigger_label}
+                                        </TableCell>
+                                        <TableCell>
+                                            {rule.calculation_type_label}
+                                        </TableCell>
+                                        <TableCell className="font-medium">
+                                            {rule.value_label}
+                                        </TableCell>
+                                        <TableCell>
+                                            {rule.grace_period_label}
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge variant="outline">
+                                                {rule.application_label}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge
+                                                variant={
+                                                    rule.is_active
+                                                        ? 'success'
+                                                        : 'secondary'
+                                                }
+                                            >
+                                                {rule.status_label}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="pr-6 text-right">
+                                            {can('penalties.update') && (
                                                 <PenaltyRuleForm
                                                     group={group}
                                                     rule={rule}
@@ -189,25 +191,26 @@ export default withAppLayout<Props>(
                                                         </Button>
                                                     }
                                                 />
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                            {collection.data.length === 0 && (
-                                <div className="py-10 text-center text-sm text-muted-foreground">
-                                    {q
-                                        ? `Aucune règle de pénalité ne correspond à la recherche « ${q} ».`
-                                        : 'Aucune règle de pénalité configurée.'}
-                                </div>
-                            )}
-                            <CollectionPagination
-                                className="px-6 pt-6"
-                                collection={collection}
-                            />
-                        </CardContent>
-                    </Card>
-                </>
-            );
-        })(),
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                        {collection.data.length === 0 && (
+                            <div className="py-10 text-center text-sm text-muted-foreground">
+                                {q
+                                    ? `Aucune règle de pénalité ne correspond à la recherche « ${q} ».`
+                                    : 'Aucune règle de pénalité configurée.'}
+                            </div>
+                        )}
+                        <CollectionPagination
+                            className="px-6 pt-6"
+                            collection={collection}
+                        />
+                    </CardContent>
+                </Card>
+            </>
+        );
+    },
 );

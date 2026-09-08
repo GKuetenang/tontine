@@ -1,3 +1,5 @@
+import type { GroupPermission } from './generated/types/App/Enums';
+
 export type User = {
     id: number;
     first_name: string;
@@ -40,5 +42,5 @@ export type TwoFactorSecretKey = {
 export type Authorization = {
     group_id: number | null;
     roles: string[];
-    permissions: string[];
+    permissions: GroupPermission[];
 };

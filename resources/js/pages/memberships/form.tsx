@@ -25,7 +25,6 @@ import type { Membership, MemberUser, ResultGroup } from '@/types';
 type Props = {
     trigger: ReactElement;
     group: ResultGroup;
-    roles: SelectOption[];
     membership: Membership;
     statuses: SelectOption[];
 };
@@ -33,7 +32,6 @@ type Props = {
 export function EditMembershipForm({
     trigger,
     group,
-    roles,
     membership,
     statuses,
 }: Props) {
@@ -54,10 +52,10 @@ export function EditMembershipForm({
 
     const action = membership.id
         ? memberships.update.form({
-              group: group.slug,
+              group: group.slug!,
               membership: membership.id,
           })
-        : memberships.store.form({ group: group.slug });
+        : memberships.store.form({ group: group.slug! });
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -81,9 +79,11 @@ export function EditMembershipForm({
                     {({ errors, processing }) => (
                         <div className="space-y-4">
                             <DialogHeader>
-                                <DialogTitle>Ajouter un membre</DialogTitle>
+                                <DialogTitle>
+                                    Ajouter un membre {group.name}
+                                </DialogTitle>
                                 <DialogDescription>
-                                    Choisir le rôle à attribuer au membre
+                                    Rechercher par nom ou adresse e-mail.
                                 </DialogDescription>
                             </DialogHeader>
 
@@ -115,21 +115,6 @@ export function EditMembershipForm({
                                         </p>
                                     </div>
                                 )}
-                            </FormField>
-
-                            <FormField
-                                error={errors['role']}
-                                label="Rôle"
-                                htmlFor="role"
-                            >
-                                <SelectWithItems
-                                    items={roles}
-                                    id="role"
-                                    name="role"
-                                    placeholder="Selectionner un rôle"
-                                    defaultValue={membership?.role?.name}
-                                    aria-invalid={!!errors['role']}
-                                />
                             </FormField>
 
                             {membership.id && (

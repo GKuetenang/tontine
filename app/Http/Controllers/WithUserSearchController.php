@@ -191,4 +191,34 @@ class WithUserSearchController extends Controller
                 'member_number' => $membership->member_number,
             ]);
     }
+
+    protected function activeMembershipsInGroup(): Collection
+    {
+        $searchQuery = request('q_search');
+
+        if (! is_string($searchQuery) || mb_strlen($searchQuery) < 2) {
+            return collect();
+        }
+
+        /** @var Group $group */
+        $group = request('group');
+
+        return $group->memberships()
+            ->active()
+            ->select(['id', 'user_id', 'member_number'])
+            ->with('user:id,first_name,name,email')
+            ->whereHas('user', fn ($query) => $query
+                ->where('name', 'like', "%{$searchQuery}%")
+                ->orWhere('first_name', 'like', "%{$searchQuery}%")
+                ->orWhere('email', 'like', "%{$searchQuery}%"))
+            ->orderBy('id')
+            ->limit(10)
+            ->get()
+            ->map(fn (Membership $membership): array => [
+                'id' => $membership->id,
+                'name' => $membership->user->full_name,
+                'email' => $membership->user->email,
+                'member_number' => $membership->member_number,
+            ]);
+    }
 }

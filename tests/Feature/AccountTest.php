@@ -1,11 +1,14 @@
 <?php
 
+use App\Actions\Groups\CreateDefaultGroupRolesAction;
+use App\Actions\Memberships\CreateMembershipAction;
 use App\Models\Group;
 use App\Models\InsuranceContribution;
 use App\Models\Membership;
 use App\Models\Session;
 use App\Models\SessionParticipant;
 use App\Models\User;
+use Database\Seeders\PermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -60,4 +63,45 @@ it('isolates personal insurance payments and rejects an inaccessible group filte
     $this->actingAs($user)
         ->get(route('account.insurance.index', $inaccessibleGroup))
         ->assertNotFound();
+});
+
+it('allows a member to leave a group from their account space', function (): void {
+    $user = User::factory()->create();
+    $membership = Membership::factory()->active()->for($user)->for(Group::factory())->create();
+
+    $this->actingAs($user)
+        ->delete(route('account.memberships.destroy', $membership))
+        ->assertRedirect(route('account.index'))
+        ->assertSessionHasNoErrors();
+
+    $leftMembership = Membership::withTrashed()->findOrFail($membership->id);
+
+    expect($leftMembership->status->value)->toBe('left')
+        ->and($leftMembership->left_at)->not->toBeNull()
+        ->and($leftMembership->trashed())->toBeTrue();
+});
+
+it('does not allow a member to leave another users membership', function (): void {
+    $user = User::factory()->create();
+    $membership = Membership::factory()->active()->for(User::factory())->for(Group::factory())->create();
+
+    $this->actingAs($user)
+        ->delete(route('account.memberships.destroy', $membership))
+        ->assertNotFound();
+
+    expect($membership->fresh()->trashed())->toBeFalse();
+});
+
+it('does not allow the president in function to leave before transferring the presidency', function (): void {
+    app(PermissionSeeder::class)->run();
+    $president = User::factory()->create();
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    $membership = app(CreateMembershipAction::class)->execute($group, $president, 'president');
+
+    $this->actingAs($president)
+        ->delete(route('account.memberships.destroy', $membership))
+        ->assertSessionHasErrors('membership');
+
+    expect($membership->fresh()->isActive())->toBeTrue();
 });

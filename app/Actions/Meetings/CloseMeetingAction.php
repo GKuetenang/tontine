@@ -2,6 +2,7 @@
 
 namespace App\Actions\Meetings;
 
+use App\Actions\Penalties\ApplyAutomaticMeetingPenaltiesAction;
 use App\Enums\AttendanceStatus;
 use App\Enums\MeetingStatus;
 use App\Models\Meeting;
@@ -10,6 +11,10 @@ use Illuminate\Validation\ValidationException;
 
 final class CloseMeetingAction
 {
+    public function __construct(
+        private readonly ApplyAutomaticMeetingPenaltiesAction $applyPenalties,
+    ) {}
+
     public function execute(Meeting $meeting): Meeting
     {
         return DB::transaction(function () use ($meeting): Meeting {
@@ -36,9 +41,15 @@ final class CloseMeetingAction
                     'updated_at' => now(),
                 ]);
 
+            $meeting->unsetRelation('attendances');
+
+            $closedAt = now()->toImmutable();
+
+            $this->applyPenalties->execute($meeting, $closedAt);
+
             $meeting->forceFill([
                 'status' => MeetingStatus::Completed,
-                'closed_at' => now(),
+                'closed_at' => $closedAt,
             ])->save();
 
             return $meeting

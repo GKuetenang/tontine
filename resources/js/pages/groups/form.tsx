@@ -1,10 +1,12 @@
 import { Form, Head } from '@inertiajs/react';
+import { format } from 'date-fns';
 import { SaveIcon } from 'lucide-react';
+import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import Heading from '@/components/heading';
-import { TopActions } from '@/components/top-actions';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { DateTimePicker } from '@/components/ui/datetime-picker';
 import { ImageInput } from '@/components/ui/image-input';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
@@ -29,6 +31,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
+    const [mandateStartsAt, setMandateStartsAt] = useState<Date>();
+    const [mandateEndsAt, setMandateEndsAt] = useState<Date>();
     const action = group.id
         ? groups.update.form({ group: group.slug! })
         : groups.store.form();
@@ -196,9 +200,105 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                             }
                                         />
                                     </FormField>
+                                    {!group.id && (
+                                        <div className="space-y-4 rounded-lg border p-4">
+                                            <div>
+                                                <h2 className="font-medium">
+                                                    Premier mandat
+                                                </h2>
+                                                <p className="text-sm text-muted-foreground">
+                                                    Vous serez président pendant
+                                                    cette période. Les
+                                                    responsabilités suivantes
+                                                    seront gérées dans le module
+                                                    Mandats.
+                                                </p>
+                                            </div>
+                                            <FormField
+                                                error={
+                                                    errors[
+                                                        'initial_mandate_name'
+                                                    ]
+                                                }
+                                                label="Nom du mandat"
+                                                htmlFor="initial_mandate_name"
+                                                required
+                                            >
+                                                <Input
+                                                    id="initial_mandate_name"
+                                                    name="initial_mandate_name"
+                                                    placeholder="Mandat 2026–2028"
+                                                />
+                                            </FormField>
+                                            <div className="grid gap-4 sm:grid-cols-2">
+                                                <FormField
+                                                    error={
+                                                        errors[
+                                                            'initial_mandate_starts_at'
+                                                        ]
+                                                    }
+                                                    label="Début du mandat"
+                                                    htmlFor="initial_mandate_starts_at"
+                                                    required
+                                                >
+                                                    <input
+                                                        type="hidden"
+                                                        name="initial_mandate_starts_at"
+                                                        value={
+                                                            mandateStartsAt
+                                                                ? format(
+                                                                      mandateStartsAt,
+                                                                      'yyyy-MM-dd',
+                                                                  )
+                                                                : ''
+                                                        }
+                                                    />
+                                                    <DateTimePicker
+                                                        granularity="day"
+                                                        value={mandateStartsAt}
+                                                        onChange={
+                                                            setMandateStartsAt
+                                                        }
+                                                        placeholder="Choisir la date de début"
+                                                    />
+                                                </FormField>
+                                                <FormField
+                                                    error={
+                                                        errors[
+                                                            'initial_mandate_ends_at'
+                                                        ]
+                                                    }
+                                                    label="Fin du mandat"
+                                                    htmlFor="initial_mandate_ends_at"
+                                                    required
+                                                >
+                                                    <input
+                                                        type="hidden"
+                                                        name="initial_mandate_ends_at"
+                                                        value={
+                                                            mandateEndsAt
+                                                                ? format(
+                                                                      mandateEndsAt,
+                                                                      'yyyy-MM-dd',
+                                                                  )
+                                                                : ''
+                                                        }
+                                                    />
+                                                    <DateTimePicker
+                                                        granularity="day"
+                                                        value={mandateEndsAt}
+                                                        onChange={
+                                                            setMandateEndsAt
+                                                        }
+                                                        placeholder="Choisir la date de fin"
+                                                    />
+                                                </FormField>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
-                                <TopActions>
+                                <div className="mt-4">
                                     <Button
                                         type="submit"
                                         tabIndex={4}
@@ -212,7 +312,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                         )}
                                         Enregistrer
                                     </Button>
-                                </TopActions>
+                                </div>
                             </>
                         )}
                     </Form>

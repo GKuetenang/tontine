@@ -9,6 +9,7 @@ use App\Actions\Sessions\DeleteSessionAction;
 use App\Actions\Sessions\UpdateSessionAction;
 use App\Enums\SessionStatus;
 use App\Models\Group;
+use App\Models\Membership;
 use App\Models\Session;
 use App\Models\SessionParticipant;
 use App\Models\User;
@@ -57,6 +58,39 @@ test('a session can be created for a group', function (): void {
         'activated_at' => null,
         'closed_at' => null,
     ]);
+});
+
+test('creating a session automatically enrolls every active group member', function (): void {
+    $group = Group::factory()->create([
+        'default_contribution_amount' => 50_000,
+    ]);
+    $activeMemberships = Membership::factory()
+        ->count(2)
+        ->for($group)
+        ->active()
+        ->create();
+    $inactiveMembership = Membership::factory()
+        ->for($group)
+        ->inactive()
+        ->create();
+
+    $session = app(CreateSessionAction::class)->execute(
+        group: $group,
+        attributes: [
+            'name' => 'Session automatique',
+            'draw_allocation_mode' => 'one_per_member',
+        ],
+    );
+
+    expect($session->participants)
+        ->toHaveCount(2)
+        ->each(fn ($participant) => $participant
+            ->contribution_amount->toBe(50_000)
+            ->draw_entries_count->toBe(1)
+            ->is_active->toBeTrue())
+        ->and($session->participants->pluck('membership_id')->all())
+        ->toEqualCanonicalizing($activeMemberships->pluck('id')->all())
+        ->not->toContain($inactiveMembership->id);
 });
 
 test('a session copies the default contribution amount from the group', function (): void {
@@ -397,7 +431,7 @@ test('an empty draft session can be soft deleted', function (): void {
     ]);
 });
 
-test('a draft session containing participants cannot be deleted', function (): void {
+test('a draft session containing participants can be moved to the trash', function (): void {
     $session = Session::factory()
         ->create([
             'status' => SessionStatus::Draft,
@@ -407,9 +441,34 @@ test('a draft session containing participants cannot be deleted', function (): v
         ->for($session)
         ->create();
 
-    app(DeleteSessionAction::class)
-        ->execute($session);
-})->throws(ValidationException::class);
+    app(DeleteSessionAction::class)->execute($session);
+
+    $this->assertSoftDeleted('group_sessions', ['id' => $session->id]);
+});
+
+test('an authorized user can restore and permanently delete an empty-history session', function (): void {
+    app(PermissionSeeder::class)->run();
+    $president = User::factory()->create();
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    $session = Session::factory()->for($group)->draft()->create();
+    SessionParticipant::factory()->for($session)->create();
+    $session->delete();
+
+    $this->actingAs($president)
+        ->patch(route('groups.sessions.restore', [$group, $session]))
+        ->assertRedirect();
+    expect($session->refresh()->trashed())->toBeFalse();
+
+    $session->delete();
+    $this->actingAs($president)
+        ->delete(route('groups.sessions.force-delete', [$group, $session]))
+        ->assertRedirect();
+
+    $this->assertDatabaseMissing('group_sessions', ['id' => $session->id]);
+    $this->assertDatabaseMissing('session_participants', ['session_id' => $session->id]);
+});
 
 test('session dates are cast to immutable datetime instances', function (): void {
     $session = Session::factory()->create([

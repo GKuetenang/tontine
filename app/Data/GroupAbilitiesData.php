@@ -13,5 +13,7 @@ class GroupAbilitiesData extends Data
         public bool $update,
         public bool $delete,
         public bool $view_memberships,
+        public bool $restore,
+        public bool $force_delete,
     ) {}
 }

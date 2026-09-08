@@ -2,6 +2,7 @@ import type { InertiaLinkProps } from '@inertiajs/react';
 import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
 import {
+    BriefcaseBusinessIcon,
     CalendarDaysIcon,
     ChartNoAxesColumnIcon,
     CircleDollarSignIcon,
@@ -11,6 +12,7 @@ import {
     PiggyBankIcon,
     ReceiptTextIcon,
     ShieldCheckIcon,
+    ShieldAlertIcon,
     ShuffleIcon,
     UserRoundCogIcon,
     UsersIcon,
@@ -18,7 +20,7 @@ import {
 import { twMerge } from 'tailwind-merge';
 import groups from '@/routes/groups';
 import sessions from '@/routes/groups/sessions';
-import type { Meeting, NavItem, Session, Group } from '@/types';
+import type { Group, Meeting, NavItem, Session } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -55,31 +57,44 @@ export function getGroupNavItems(group: Group): NavItem[] {
             title: 'Vue d’ensemble',
             href: groups.show(group.slug!),
             icon: LayoutDashboardIcon,
+            permission: 'groups.view',
+        },
+        {
+            title: 'Mandats',
+            href: groups.mandates.index({ group: group.slug! }),
+            icon: BriefcaseBusinessIcon,
+            activeWithParentUrl: true,
+            permission: 'mandates.view',
         },
         {
             title: 'Membres',
             href: groups.memberships.index(group.slug!),
             icon: UsersIcon,
+            permission: 'memberships.view',
         },
         {
             title: 'Sessions',
             href: groups.sessions.index(group.slug!),
             icon: CalendarDaysIcon,
+            permission: 'sessions.view',
         },
         {
             title: 'Règles de pénalité',
             href: groups.penaltyRules.index({ group: group.slug! }),
             icon: ShieldCheckIcon,
+            permission: 'penalties.view',
         },
         {
             title: 'Rôles et permissions',
             href: groups.roles.index({ group: group.slug! }),
             icon: UserRoundCogIcon,
+            permission: 'roles.view',
         },
         {
             title: 'Finances',
             href: groups.finances.index({ group: group.slug! }),
             icon: CircleDollarSignIcon,
+            permission: 'accounting.view',
         },
         // {
         //     title: 'Rapports',
@@ -103,6 +118,7 @@ export function getSessionNavItems(group: Group, session: Session): NavItem[] {
                 session: session.slug,
             }),
             icon: LayoutDashboardIcon,
+            permission: 'sessions.view',
         },
         {
             title: 'Participants',
@@ -111,6 +127,7 @@ export function getSessionNavItems(group: Group, session: Session): NavItem[] {
                 session: session.slug,
             }),
             icon: UsersIcon,
+            permission: 'session-participants.view',
         },
         {
             title: 'Assises',
@@ -120,6 +137,7 @@ export function getSessionNavItems(group: Group, session: Session): NavItem[] {
             }),
             icon: CalendarDaysIcon,
             activeWithParentUrl: true,
+            permission: 'meetings.view',
         },
         {
             title: 'Tirage',
@@ -128,6 +146,7 @@ export function getSessionNavItems(group: Group, session: Session): NavItem[] {
                 session: session.slug,
             }),
             icon: ShuffleIcon,
+            permission: 'draws.view',
         },
         {
             title: 'Dons',
@@ -136,6 +155,7 @@ export function getSessionNavItems(group: Group, session: Session): NavItem[] {
                 session: session.slug,
             }),
             icon: HandHeartIcon,
+            permission: 'donations.view',
         },
         {
             title: 'Transactions',
@@ -144,6 +164,7 @@ export function getSessionNavItems(group: Group, session: Session): NavItem[] {
                 session: session.slug,
             }),
             icon: ChartNoAxesColumnIcon,
+            permission: 'accounting.view',
         },
         {
             title: 'Prêts',
@@ -152,6 +173,7 @@ export function getSessionNavItems(group: Group, session: Session): NavItem[] {
                 session: session.slug,
             }),
             icon: LandmarkIcon,
+            permission: 'loans.view',
         },
         {
             title: 'Remboursements',
@@ -160,6 +182,16 @@ export function getSessionNavItems(group: Group, session: Session): NavItem[] {
                 session: session.slug,
             }),
             icon: ReceiptTextIcon,
+            permission: 'repayments.view',
+        },
+        {
+            title: 'Pénalités',
+            href: sessions.penalties.index({
+                group: group.slug!,
+                session: session.slug,
+            }),
+            icon: ShieldAlertIcon,
+            permission: 'penalties.view',
         },
         {
             title: 'Assurance',
@@ -168,6 +200,7 @@ export function getSessionNavItems(group: Group, session: Session): NavItem[] {
                 session: session.slug,
             }),
             icon: PiggyBankIcon,
+            permission: 'insurance.view',
         },
     ];
 }

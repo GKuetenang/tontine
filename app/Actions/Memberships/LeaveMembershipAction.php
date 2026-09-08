@@ -22,6 +22,7 @@ final class LeaveMembershipAction
 
             $this->ensureMembershipCanLeave($membership);
             $this->ensureNotLastPresident($membership);
+            $this->endCurrentMandateAssignments($membership);
             $this->removeTeamRoles($membership);
 
             $membership->forceFill([
@@ -33,6 +34,20 @@ final class LeaveMembershipAction
 
             $membership->delete();
         });
+    }
+
+    private function endCurrentMandateAssignments(Membership $membership): void
+    {
+        $membership->mandateRoleAssignments()
+            ->whereHas('mandate', fn ($query) => $query->where('status', 'active'))
+            ->whereDate('starts_at', '<=', today())
+            ->where(fn ($query) => $query->whereNull('ends_at')->orWhereDate('ends_at', '>=', today()))
+            ->update([
+                'ends_at' => today(),
+                'ended_by' => $membership->user_id,
+                'end_reason' => __('Départ volontaire de la réunion'),
+                'updated_at' => now(),
+            ]);
     }
 
     private function ensureMembershipCanLeave(

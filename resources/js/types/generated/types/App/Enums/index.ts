@@ -22,12 +22,19 @@ export type GroupPermission =
     | 'roles.view'
     | 'roles.create'
     | 'roles.update'
+    | 'mandates.view'
+    | 'mandates.create'
+    | 'mandates.update'
+    | 'mandates.activate'
+    | 'mandates.roles.assign'
     | 'sessions.view'
     | 'sessions.create'
     | 'sessions.update'
     | 'sessions.activate'
     | 'sessions.close'
     | 'sessions.delete'
+    | 'sessions.restore'
+    | 'sessions.force-delete'
     | 'session-participants.view'
     | 'session-participants.create'
     | 'session-participants.update'
@@ -97,6 +104,7 @@ export type GroupPermission =
 export type GroupRole =
     'president' | 'secretary' | 'treasurer' | 'member' | 'censor' | 'auditor';
 export type LoanStatus = 'pending' | 'active' | 'repaid' | 'cancelled';
+export type MandateStatus = 'draft' | 'active' | 'closed';
 export type MeetingMonthlyPattern = 'day_of_month' | 'weekday_ordinal';
 export type MeetingRecurrence = 'weekly' | 'monthly';
 export type MeetingStatus =
@@ -105,6 +113,7 @@ export type MembershipStatus = 'active' | 'inactive' | 'suspended' | 'left';
 export type PayoutStatus = 'pending' | 'paid' | 'cancelled';
 export type PenaltyCalculationType = 'fixed' | 'percentage';
 export type PenaltyGraceUnit = 'minutes' | 'days';
+export type PenaltyStatus = 'pending' | 'waived';
 export type PenaltyTrigger =
     | 'meeting_late'
     | 'meeting_absent'

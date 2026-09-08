@@ -1,5 +1,5 @@
 import { Form, Head, Link } from '@inertiajs/react';
-import { PlusIcon, SearchIcon } from 'lucide-react';
+import { PlusIcon, SearchIcon, Trash2Icon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import type { SelectOption } from '@/components/select-with-items';
@@ -63,21 +63,42 @@ export default withAppLayout(
                 <Card className="bg-background pt-0">
                     <CardHeader className="border-b py-4">
                         <div className="flex items-center justify-between">
-                            {can('sessions.create') && (
-                                <EditSessionForm
-                                    draw_allocation_modes={
-                                        draw_allocation_modes
-                                    }
-                                    session={session}
-                                    group={group}
-                                    trigger={
-                                        <Button type="button" className="w-fit">
-                                            <PlusIcon />
-                                            Ajouter une session
-                                        </Button>
-                                    }
-                                />
-                            )}
+                            <div className="flex items-center gap-2">
+                                {can('sessions.create') && (
+                                    <EditSessionForm
+                                        draw_allocation_modes={
+                                            draw_allocation_modes
+                                        }
+                                        session={session}
+                                        group={group}
+                                        trigger={
+                                            <Button
+                                                type="button"
+                                                className="w-fit"
+                                            >
+                                                <PlusIcon />
+                                                Ajouter une session
+                                            </Button>
+                                        }
+                                    />
+                                )}
+                                {(can('sessions.restore') ||
+                                    can('sessions.force-delete')) && (
+                                    <Button
+                                        asChild
+                                        variant="outline"
+                                        className="w-fit"
+                                    >
+                                        <Link
+                                            href={sessions.trash({
+                                                group: group.slug,
+                                            })}
+                                        >
+                                            <Trash2Icon /> Corbeille
+                                        </Link>
+                                    </Button>
+                                )}
+                            </div>
                             <Form
                                 {...sessions.index.form({
                                     group: group.slug,
@@ -130,7 +151,6 @@ export default withAppLayout(
                                     >
                                         <TableCell>
                                             <Link
-                                                disabled={true}
                                                 className="hover:underline"
                                                 href={sessions.show({
                                                     group: group.slug!,

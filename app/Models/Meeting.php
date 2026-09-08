@@ -136,4 +136,9 @@ class Meeting extends Model
             Payout::class,
         );
     }
+
+    public function penalties(): HasMany
+    {
+        return $this->hasMany(Penalty::class);
+    }
 }

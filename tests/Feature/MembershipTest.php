@@ -27,7 +27,7 @@ afterEach(function (): void {
     setPermissionsTeamId(null);
 });
 
-test('creating a group automatically creates the creator membership as president', function () {
+test('creating a group creates a member adhesion and assigns the presidency through its first mandate', function () {
     $user = User::factory()->create();
 
     /** @var TestCase $this */
@@ -38,6 +38,9 @@ test('creating a group automatically creates the creator membership as president
             'member_number_prefix' => 'AJERM',
             'default_loan_interest_rate' => '10.00',
             'default_loan_term_months' => 5,
+            'initial_mandate_name' => 'Mandat initial',
+            'initial_mandate_starts_at' => today()->subDay()->toDateString(),
+            'initial_mandate_ends_at' => today()->addYear()->toDateString(),
             'description' => 'Association des jeunes.',
         ]);
 
@@ -70,6 +73,10 @@ test('creating a group automatically creates the creator membership as president
         'model_id' => $user->id,
         'model_type' => $user->getMorphClass(),
         'group_id' => $group->id,
+    ]);
+    $this->assertDatabaseHas('mandate_role_assignments', [
+        'membership_id' => $membership->id,
+        'role_id' => $role->id,
     ]);
 });
 
@@ -362,7 +369,6 @@ test('a membership can be updated through its numeric scoped route', function ()
     $this->actingAs($owner)
         ->put(route('groups.memberships.update', [$group, $membership->id]), [
             'user_id' => $member->id,
-            'role' => GroupRole::Secretary->value,
             'status' => MembershipStatus::Active->value,
         ])
         ->assertRedirect()
@@ -372,5 +378,5 @@ test('a membership can be updated through its numeric scoped route', function ()
     $member->unsetRelation('roles');
 
     expect($membership->fresh()->status)->toBe(MembershipStatus::Active)
-        ->and($member->hasRole(GroupRole::Secretary->value))->toBeTrue();
+        ->and($member->hasRole(GroupRole::Member->value))->toBeTrue();
 });

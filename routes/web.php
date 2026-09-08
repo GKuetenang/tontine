@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AccountMembershipController;
 use App\Http\Controllers\ContributionPaymentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DonationController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\GroupFinanceController;
 use App\Http\Controllers\GroupRoleController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\MandateController;
+use App\Http\Controllers\MandateRoleAssignmentController;
 use App\Http\Controllers\MeetingAgendaItemController;
 use App\Http\Controllers\MeetingAttendanceController;
 use App\Http\Controllers\MeetingController;
@@ -19,6 +22,7 @@ use App\Http\Controllers\MeetingReportController;
 use App\Http\Controllers\MeetingScheduleController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\PayoutController;
+use App\Http\Controllers\PenaltyController;
 use App\Http\Controllers\PenaltyRuleController;
 use App\Http\Controllers\RepaymentController;
 use App\Http\Controllers\SessionController;
@@ -35,6 +39,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('account/insurance/{group:slug?}', [AccountController::class, 'insurance'])->name('account.insurance.index');
     Route::get('account/contributions', [AccountController::class, 'contributions'])->name('account.contributions.index');
     Route::get('account/loans', [AccountController::class, 'loans'])->name('account.loans.index');
+    Route::delete('account/memberships/{membership}', [AccountMembershipController::class, 'destroy'])
+        ->whereNumber('membership')->name('account.memberships.destroy');
 
     /*
      | ------------------------------------------------------------------------------------------------------------------------
@@ -44,6 +50,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('groups', GroupController::class)
         ->only(['index', 'store', 'create']);
+    Route::get('groups-trash', [GroupController::class, 'trash'])->name('groups.trash');
 
     /*
      | ------------------------------------------------------------------------------------------------------------------------
@@ -54,6 +61,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['group.team'])->scopeBindings()->group(function () {
         Route::resource('groups', GroupController::class)
             ->only(['show', 'edit', 'update', 'destroy']);
+        Route::patch('groups/{group:slug}/restore', [GroupController::class, 'restore'])
+            ->withTrashed()->name('groups.restore');
+        Route::delete('groups/{group:slug}/force-delete', [GroupController::class, 'forceDelete'])
+            ->withTrashed()->name('groups.force-delete');
 
         Route::resource('groups.penalty-rules', PenaltyRuleController::class)
             ->only(['index', 'store', 'update'])
@@ -65,6 +76,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('groups.roles', GroupRoleController::class)
             ->only(['index', 'store', 'update'])
             ->scoped(['group' => 'slug', 'role' => 'id']);
+
+        Route::resource('groups.mandates', MandateController::class)
+            ->only(['index', 'store', 'update'])
+            ->scoped(['group' => 'slug', 'mandate' => 'id']);
+        Route::patch('groups/{group:slug}/mandates/{mandate}/activate', [MandateController::class, 'activate'])
+            ->whereNumber('mandate')->name('groups.mandates.activate');
+        Route::post('groups/{group:slug}/mandates/{mandate}/assignments', [MandateRoleAssignmentController::class, 'store'])
+            ->whereNumber('mandate')->name('groups.mandates.assignments.store');
+        Route::get('groups/{group:slug}/mandates/{mandate}/assignments', [MandateRoleAssignmentController::class, 'index'])
+            ->whereNumber('mandate')->name('groups.mandates.assignments.index');
+        Route::put('groups/{group:slug}/mandates/{mandate}/assignments/{membership}', [MandateRoleAssignmentController::class, 'update'])
+            ->whereNumber('mandate')->whereNumber('membership')->withoutScopedBindings()->name('groups.mandates.assignments.update');
+        Route::delete('groups/{group:slug}/mandates/{mandate}/assignments/{assignment}', [MandateRoleAssignmentController::class, 'destroy'])
+            ->whereNumber('mandate')->whereNumber('assignment')->name('groups.mandates.assignments.destroy');
+        Route::patch('groups/{group:slug}/mandates/{mandate}/assignments/{assignment}/end', [MandateRoleAssignmentController::class, 'end'])
+            ->whereNumber('mandate')->whereNumber('assignment')->name('groups.mandates.assignments.end');
 
         Route::get('groups/{group:slug}/finances', [GroupFinanceController::class, 'index'])
             ->name('groups.finances.index');
@@ -79,6 +106,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'group' => '[a-z0-9-]+',
                 'membership' => '[0-9]+',
             ]);
+
+        Route::get('groups/{group:slug}/sessions-trash', [SessionController::class, 'trash'])
+            ->name('groups.sessions.trash');
+        Route::patch('groups/{group:slug}/sessions/{session:slug}/restore', [SessionController::class, 'restore'])
+            ->withTrashed()->name('groups.sessions.restore');
+        Route::delete('groups/{group:slug}/sessions/{session:slug}/force-delete', [SessionController::class, 'forceDelete'])
+            ->withTrashed()->name('groups.sessions.force-delete');
 
         Route::resource('groups.sessions', SessionController::class)
             ->except(['create'])
@@ -126,6 +160,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('groups/{group:slug}/sessions/{session:slug}/repayments', [RepaymentController::class, 'index'])
             ->name('groups.sessions.repayments.index');
+
+        Route::get('groups/{group:slug}/sessions/{session:slug}/penalties', [PenaltyController::class, 'index'])
+            ->name('groups.sessions.penalties.index');
+        Route::post('groups/{group:slug}/sessions/{session:slug}/penalties', [PenaltyController::class, 'store'])
+            ->name('groups.sessions.penalties.store');
+        Route::patch('groups/{group:slug}/sessions/{session:slug}/penalties/{penalty}/waive', [PenaltyController::class, 'waive'])
+            ->whereNumber('penalty')->name('groups.sessions.penalties.waive');
 
         Route::patch(
             'groups/{group:slug}/sessions/{session:slug}/close',

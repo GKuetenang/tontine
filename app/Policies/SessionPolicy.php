@@ -87,6 +87,18 @@ class SessionPolicy
         );
     }
 
+    public function restore(User $user, Session $session): bool
+    {
+        return $session->group->hasActiveMembership($user)
+            && $this->can($user, $session->group, GroupPermission::RestoreSessions);
+    }
+
+    public function forceDelete(User $user, Session $session): bool
+    {
+        return $session->group->hasActiveMembership($user)
+            && $this->can($user, $session->group, GroupPermission::ForceDeleteSessions);
+    }
+
     /**
      * Retirer un membre de la réunion.
      */

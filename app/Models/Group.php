@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MandateStatus;
 use App\Enums\MembershipStatus;
 use App\Enums\SessionStatus;
 use App\Models\Traits\HasSortable;
@@ -107,6 +108,16 @@ class Group extends Model implements HasMedia
     public function memberships(): HasMany
     {
         return $this->hasMany(Membership::class);
+    }
+
+    public function mandates(): HasMany
+    {
+        return $this->hasMany(Mandate::class);
+    }
+
+    public function activeMandate(): HasOne
+    {
+        return $this->hasOne(Mandate::class)->where('status', MandateStatus::Active);
     }
 
     public function members(): BelongsToMany

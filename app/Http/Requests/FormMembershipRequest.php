@@ -34,13 +34,6 @@ class FormMembershipRequest extends FormRequest
     {
         return [
             'user_id' => ['required', 'integer', 'exists:users,id'],
-            'role' => [
-                'required',
-                'string',
-                Rule::exists('roles', 'name')
-                    ->where('group_id', $this->route('group')->id)
-                    ->where('guard_name', 'web'),
-            ],
             'status' => ['nullable', 'string', Rule::enum(MembershipStatus::class)],
         ];
     }

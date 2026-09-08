@@ -42,7 +42,7 @@ class MeetingController extends Controller
                 'attendances',
                 'contributions',
             ])
-            ->orderByDesc('scheduled_at')
+            ->orderBy('scheduled_at')
             ->paginate(10)
             ->withQueryString();
         $session->load('meetingSchedule');
@@ -68,7 +68,7 @@ class MeetingController extends Controller
             'meeting_recurrences' => MeetingRecurrence::getOptions(),
             'meeting_monthly_patterns' => MeetingMonthlyPattern::getOptions(),
             'timezones' => collect(DateTimeZone::listIdentifiers())
-                ->map(fn (string $timezone): array => [
+                ->map(fn(string $timezone): array => [
                     'label' => $timezone,
                     'value' => $timezone,
                 ]),
@@ -96,7 +96,7 @@ class MeetingController extends Controller
             'decisions.agendaItem',
             'decisions.creator',
 
-            'payouts' => fn ($query) => $query->latest(),
+            'payouts' => fn($query) => $query->latest(),
 
             'payouts.drawEntry.sessionParticipant.membership.user',
             'payouts.creator',
@@ -117,11 +117,11 @@ class MeetingController extends Controller
                 'slug' => $group->slug,
             ],
 
-            'session' => fn () => SessionData::fromModel(
+            'session' => fn() => SessionData::fromModel(
                 $session,
             ),
 
-            'meeting' => fn () => MeetingData::fromModel(
+            'meeting' => fn() => MeetingData::fromModel(
                 $meeting,
             ),
             'payoutContext' => $payoutContext,

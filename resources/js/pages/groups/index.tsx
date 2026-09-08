@@ -1,5 +1,5 @@
 import { Form, Head, Link } from '@inertiajs/react';
-import { PlusIcon, SearchIcon } from 'lucide-react';
+import { PlusIcon, SearchIcon, Trash2Icon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SortableTableHead } from '@/components/sortable-table-head';
@@ -45,12 +45,19 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
             <Card className="bg-background pt-0">
                 <CardHeader className="border-b py-4">
                     <div className="flex items-center justify-between">
-                        <Button asChild className="w-fit">
-                            <Link href={groups.create()}>
-                                <PlusIcon />
-                                Ajouter une réunion
-                            </Link>
-                        </Button>
+                        <div className="flex items-center gap-2">
+                            <Button asChild className="w-fit">
+                                <Link href={groups.create()}>
+                                    <PlusIcon />
+                                    Ajouter une réunion
+                                </Link>
+                            </Button>
+                            <Button asChild className="w-fit" variant="outline">
+                                <Link href={groups.trash()}>
+                                    <Trash2Icon /> Corbeille
+                                </Link>
+                            </Button>
+                        </div>
                         <Form
                             {...groups.index.form()}
                             className="flex items-center gap-1"
@@ -107,9 +114,8 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                             ) : (
                                                 <div className="aspect-square size-14 rounded-lg bg-secondary"></div>
                                             )}
-                                            {item.can?.update && (
+                                            {item.can?.view && (
                                                 <Link
-                                                    disabled={true}
                                                     className="hover:underline"
                                                     href={groups.show({
                                                         group: item.slug!,
@@ -118,7 +124,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                                     {item.name}
                                                 </Link>
                                             )}
-                                            {!item.can?.update && (
+                                            {!item.can?.view && (
                                                 <span>{item.name}</span>
                                             )}
                                         </div>

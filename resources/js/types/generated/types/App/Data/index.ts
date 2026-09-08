@@ -76,12 +76,17 @@ export type Group = {
     is_public: undefined | boolean;
     is_verified: undefined | boolean;
     description: string | null;
+    initial_mandate_name: undefined | string;
+    initial_mandate_starts_at: undefined | string;
+    initial_mandate_ends_at: undefined | string;
 };
 export type GroupAbilitiesData = {
     view: boolean;
     update: boolean;
     delete: boolean;
     view_memberships: boolean;
+    restore: boolean;
+    force_delete: boolean;
 };
 export type InsuranceContribution = {
     id: number;
@@ -244,6 +249,21 @@ export type PayoutCandidate = {
     member_name: string;
     expected: boolean;
 };
+export type Penalty = {
+    id: number;
+    member_name: string;
+    meeting_name: string;
+    rule_name: string;
+    trigger_label: string;
+    amount: string;
+    source: string;
+    source_label: string;
+    status: string;
+    status_label: string;
+    reason: string | null;
+    waiver_reason: string | null;
+    assessed_at: string;
+};
 export type PenaltyRule = {
     id: number;
     code: string;
@@ -291,6 +311,7 @@ export type Session = {
     closed_at: undefined | undefined | null;
     created_at: undefined | undefined;
     updated_at: undefined | undefined;
+    deleted_at: undefined | undefined | null;
 };
 export type SessionParticipant = {
     id: number;

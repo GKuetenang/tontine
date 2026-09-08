@@ -15,7 +15,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Spatie\Permission\Models\Role;
 
 class MembershipController extends WithUserSearchController
 {
@@ -58,7 +57,8 @@ class MembershipController extends WithUserSearchController
             ->paginate(10)
             ->withQueryString()
             ->through(function (Membership $membership) use ($group): array {
-                $role = $membership->user->roles->first();
+                $role = $membership->user->roles->firstWhere('name', '!=', GroupRole::Member->value)
+                    ?? $membership->user->roles->first();
                 $roleEnum = $role
                     ? GroupRole::tryFrom($role->name)
                     : null;
@@ -84,20 +84,6 @@ class MembershipController extends WithUserSearchController
                 ];
             });
 
-        $roles = Role::query()
-            ->where('group_id', $group->id)
-            ->where('guard_name', 'web')
-            ->orderBy('name')
-            ->get(['id', 'name'])
-            ->map(function (Role $role): array {
-                $roleEnum = GroupRole::tryFrom($role->name);
-
-                return [
-                    'label' => $roleEnum?->label() ?? $role->name,
-                    'value' => $role->name,
-                ];
-            });
-
         return Inertia::render('memberships/index', [
             'group' => fn () => [
                 'id' => $group->id,
@@ -106,7 +92,6 @@ class MembershipController extends WithUserSearchController
             ],
             'q' => fn () => $search_query,
             'collection' => fn () => $memberships,
-            'roles' => fn () => $roles,
             'users' => fn () => Inertia::optional(
                 $this->users(...)
             ),
@@ -133,7 +118,7 @@ class MembershipController extends WithUserSearchController
         $createMembership->execute(
             group: $group,
             user: $user,
-            roleName: $validated['role'],
+            roleName: GroupRole::Member->value,
             invitedBy: $request->user(),
         );
 
@@ -185,7 +170,7 @@ class MembershipController extends WithUserSearchController
         $updateMembership->execute(
             group: $group,
             membership: $membership,
-            roleName: $validated['role'],
+            roleName: GroupRole::Member->value,
             status: MembershipStatus::tryFrom($validated['status']),
         );
 

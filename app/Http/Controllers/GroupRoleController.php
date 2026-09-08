@@ -53,10 +53,6 @@ class GroupRoleController extends Controller
             'collection' => $roles,
             'permissions' => $permissions,
             'q' => $q ?: null,
-            'can' => [
-                'create' => Gate::allows(GroupPermission::CreateRoles->value),
-                'update' => Gate::allows(GroupPermission::UpdateRoles->value),
-            ],
         ]);
     }
 
@@ -97,6 +93,7 @@ class GroupRoleController extends Controller
             'groups' => __('Réunion'),
             'memberships' => __('Membres et rôles'),
             'roles' => __('Rôles et permissions'),
+            'mandates' => __('Mandats'),
             'sessions' => __('Sessions'),
             'session-participants' => __('Participants'),
             'draws' => __('Tirages'),

@@ -30,8 +30,12 @@ it('allows the president to view and create a group role', function (): void {
         ->get(route('groups.roles.index', $group))
         ->assertInertia(fn (Assert $page) => $page
             ->component('roles/index')
-            ->where('can.create', true)
-            ->where('can.update', true)
+            ->where('auth.authorization.group_id', $group->id)
+            ->where('auth.authorization.permissions', fn ($permissions): bool => $permissions->contains(
+                GroupPermission::CreateRoles->value,
+            ) && $permissions->contains(
+                GroupPermission::UpdateRoles->value,
+            ))
             ->has('permissions', count(GroupPermission::cases())));
 
     $this->actingAs($president)

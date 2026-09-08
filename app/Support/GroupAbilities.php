@@ -40,7 +40,9 @@ final class GroupAbilities
                 view_memberships: Gate::forUser($user)->allows(
                     'viewAny',
                     [Membership::class, $group]
-                )
+                ),
+                restore: Gate::forUser($user)->allows('restore', $group),
+                force_delete: Gate::forUser($user)->allows('forceDelete', $group),
             );
         } finally {
             setPermissionsTeamId($previousTeamId);

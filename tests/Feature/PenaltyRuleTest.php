@@ -40,6 +40,9 @@ it('creates default penalty rules with a new group', function (): void {
             'member_number_prefix' => 'AP',
             'default_loan_interest_rate' => '5.00',
             'default_loan_term_months' => 3,
+            'initial_mandate_name' => 'Mandat initial',
+            'initial_mandate_starts_at' => today()->subDay()->toDateString(),
+            'initial_mandate_ends_at' => today()->addYear()->toDateString(),
         ])
         ->assertSessionHasNoErrors();
 

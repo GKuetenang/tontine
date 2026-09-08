@@ -1,5 +1,7 @@
 <?php
 
+use App\Actions\Groups\CreateDefaultGroupRolesAction;
+use App\Actions\Memberships\CreateMembershipAction;
 use App\Enums\GroupRole;
 use App\Models\Group;
 use App\Models\User;
@@ -34,6 +36,24 @@ test('authenticated users can view the groups page', function (): void {
     $response->assertOk();
 });
 
+test('an active member can consult a group without update permission', function (): void {
+    $owner = User::factory()->create();
+    $member = User::factory()->create();
+    $group = Group::factory()->create(['user_id' => $owner->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $member, GroupRole::Member->value);
+
+    $this->actingAs($member)
+        ->get(route('groups.index'))
+        ->assertInertia(fn ($page) => $page
+            ->where('collection.data.0.can.view', true)
+            ->where('collection.data.0.can.update', false));
+
+    $this->actingAs($member)
+        ->get(route('groups.show', $group))
+        ->assertOk();
+});
+
 test('authenticated users can view the group creation page', function (): void {
     $user = User::factory()->create();
 
@@ -43,6 +63,26 @@ test('authenticated users can view the group creation page', function (): void {
         ->get(route('groups.create'));
 
     $response->assertOk();
+});
+
+test('the president can restore and permanently delete a trashed group without sessions', function (): void {
+    $president = User::factory()->create();
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, GroupRole::President->value);
+    $group->delete();
+
+    $this->actingAs($president)
+        ->patch(route('groups.restore', $group))
+        ->assertRedirect(route('groups.trash'));
+    expect($group->refresh()->trashed())->toBeFalse();
+
+    $group->delete();
+    $this->actingAs($president)
+        ->delete(route('groups.force-delete', $group))
+        ->assertRedirect(route('groups.trash'));
+
+    $this->assertDatabaseMissing('groups', ['id' => $group->id]);
 });
 
 test('authenticated users can create a group', function (): void {
@@ -56,6 +96,9 @@ test('authenticated users can create a group', function (): void {
             'member_number_prefix' => 'AJERM',
             'default_loan_interest_rate' => '10.00',
             'default_loan_term_months' => 5,
+            'initial_mandate_name' => 'Mandat initial',
+            'initial_mandate_starts_at' => today()->subDay()->toDateString(),
+            'initial_mandate_ends_at' => today()->addYear()->toDateString(),
             'description' => 'Association des jeunes.',
         ]);
 
@@ -122,6 +165,9 @@ test('generated group slugs are unique', function (): void {
             'member_number_prefix' => 'AJERM',
             'default_loan_interest_rate' => '10.00',
             'default_loan_term_months' => 5,
+            'initial_mandate_name' => 'Mandat initial',
+            'initial_mandate_starts_at' => today()->subDay()->toDateString(),
+            'initial_mandate_ends_at' => today()->addYear()->toDateString(),
         ])
         ->assertSessionHasNoErrors();
 
@@ -133,6 +179,9 @@ test('generated group slugs are unique', function (): void {
             'member_number_prefix' => 'AJERMC',
             'default_loan_interest_rate' => '10.00',
             'default_loan_term_months' => 5,
+            'initial_mandate_name' => 'Mandat initial',
+            'initial_mandate_starts_at' => today()->subDay()->toDateString(),
+            'initial_mandate_ends_at' => today()->addYear()->toDateString(),
         ])
         ->assertSessionHasNoErrors();
 
@@ -162,6 +211,9 @@ test('updating a group does not modify its slug', function (): void {
             'member_number_prefix' => 'AJERM',
             'default_loan_interest_rate' => '10.00',
             'default_loan_term_months' => 5,
+            'initial_mandate_name' => 'Mandat initial',
+            'initial_mandate_starts_at' => today()->subDay()->toDateString(),
+            'initial_mandate_ends_at' => today()->addYear()->toDateString(),
             'description' => 'Description initiale.',
         ])
         ->assertSessionHasNoErrors();
@@ -202,6 +254,9 @@ test('loan settings are serialized on the group listing, details and edit form',
             'member_number_prefix' => 'TDP',
             'default_loan_interest_rate' => '8.75',
             'default_loan_term_months' => 6,
+            'initial_mandate_name' => 'Mandat initial',
+            'initial_mandate_starts_at' => today()->subDay()->toDateString(),
+            'initial_mandate_ends_at' => today()->addYear()->toDateString(),
         ])
         ->assertSessionHasNoErrors();
 
@@ -257,6 +312,9 @@ test('creating a group creates its default roles', function (): void {
             'member_number_prefix' => 'AJERM',
             'default_loan_interest_rate' => '10.00',
             'default_loan_term_months' => 5,
+            'initial_mandate_name' => 'Mandat initial',
+            'initial_mandate_starts_at' => today()->subDay()->toDateString(),
+            'initial_mandate_ends_at' => today()->addYear()->toDateString(),
             'description' => 'Association des jeunes.',
         ])
         ->assertSessionHasNoErrors();

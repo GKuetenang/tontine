@@ -153,7 +153,11 @@ export default withAppLayout<Props>(
                             </div>
 
                             {session.status === 'draft' &&
-                                can('meetings.create') && (
+                                can(
+                                    schedule
+                                        ? 'meetings.update'
+                                        : 'meetings.create',
+                                ) && (
                                     <MeetingScheduleForm
                                         group={group}
                                         session={session}

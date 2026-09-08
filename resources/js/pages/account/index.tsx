@@ -3,8 +3,10 @@ import {
     CalendarDaysIcon,
     HandCoinsIcon,
     LandmarkIcon,
+    LogOutIcon,
     UsersIcon,
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
@@ -145,6 +147,34 @@ export default withAppLayout<Props>(
                                                     })}
                                                 >
                                                     Consulter
+                                                </Link>
+                                            </Button>
+                                            <Button
+                                                asChild
+                                                size="sm"
+                                                variant="destructive"
+                                            >
+                                                <Link
+                                                    href={account.memberships.destroy(
+                                                        { membership: item.id },
+                                                    )}
+                                                    method="delete"
+                                                    as="button"
+                                                    onBefore={() =>
+                                                        confirm(
+                                                            `Voulez-vous vraiment quitter la réunion « ${item.group.name} » ?`,
+                                                        )
+                                                    }
+                                                    onError={(errors) =>
+                                                        toast.error(
+                                                            Object.values(
+                                                                errors,
+                                                            )[0] ??
+                                                                'Impossible de quitter cette réunion.',
+                                                        )
+                                                    }
+                                                >
+                                                    <LogOutIcon /> Quitter
                                                 </Link>
                                             </Button>
                                         </div>

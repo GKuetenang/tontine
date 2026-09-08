@@ -1,5 +1,6 @@
 import type { InertiaLinkProps } from '@inertiajs/react';
 import type { LucideIcon } from 'lucide-react';
+import type { GroupPermission } from './generated/types/App/Enums';
 
 export type BreadcrumbItem = {
     title: string;
@@ -12,4 +13,5 @@ export type NavItem = {
     icon?: LucideIcon | null;
     isActive?: boolean;
     activeWithParentUrl?: boolean;
+    permission?: GroupPermission;
 };

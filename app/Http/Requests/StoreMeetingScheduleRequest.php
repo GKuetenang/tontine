@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\GroupPermission;
 use App\Enums\MeetingMonthlyPattern;
 use App\Enums\MeetingRecurrence;
 use App\Models\Meeting;
@@ -16,8 +17,19 @@ class StoreMeetingScheduleRequest extends FormRequest
     {
         $session = $this->route('session');
 
-        return $session instanceof Session
-            && Gate::allows('create', [Meeting::class, $session]);
+        if (! $session instanceof Session) {
+            return false;
+        }
+
+        if (! $session->group->hasActiveMembership($this->user())) {
+            return false;
+        }
+
+        if ($this->routeIs('groups.sessions.meeting-schedule.update')) {
+            return Gate::allows(GroupPermission::UpdateMeetings->value);
+        }
+
+        return Gate::allows('create', [Meeting::class, $session]);
     }
 
     public function rules(): array

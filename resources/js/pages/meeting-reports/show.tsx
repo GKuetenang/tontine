@@ -11,6 +11,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useAuthorization } from '@/hooks/use-authorization';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
@@ -23,7 +24,6 @@ type Props = {
     group: Group;
     session: Session;
     report: MeetingReport;
-    canExport: boolean;
 };
 
 const attendanceLabels = {
@@ -112,7 +112,8 @@ export default withAppLayout<Props>(
             },
         ] as BreadcrumbItem[],
 
-    ({ group, session, report, canExport }: Props) => {
+    ({ group, session, report }: Props) => {
+        const { can } = useAuthorization();
         const { meeting, summary } = report;
         const agendaItems = meeting.agenda_items ?? [];
         const attendances = meeting.attendances ?? [];
@@ -132,7 +133,7 @@ export default withAppLayout<Props>(
                     <div className="flex flex-wrap items-center justify-between gap-3 print:hidden">
                         <div></div>
 
-                        {canExport && (
+                        {can('reports.export') && (
                             <Button
                                 type="button"
                                 onClick={() => window.print()}

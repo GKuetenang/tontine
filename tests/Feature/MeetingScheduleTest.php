@@ -5,6 +5,7 @@ use App\Actions\Meetings\BuildMeetingOccurrencesAction;
 use App\Actions\Meetings\GenerateRecurringMeetingsAction;
 use App\Actions\Meetings\UpdateRecurringMeetingsAction;
 use App\Actions\Memberships\CreateMembershipAction;
+use App\Enums\GroupPermission;
 use App\Enums\MeetingMonthlyPattern;
 use App\Enums\MeetingRecurrence;
 use App\Models\Group;
@@ -16,6 +17,7 @@ use Carbon\CarbonImmutable;
 use Database\Seeders\PermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
 
 uses(RefreshDatabase::class);
 
@@ -333,4 +335,57 @@ it('allows an authorized user to configure and generate a meeting calendar', fun
         ->and($session->meetings()->count())->toBe(6)
         ->and($session->meetings()->pluck('location')->unique()->all())
         ->toBe(['Yaoundé']);
+});
+
+it('uses the update permission when modifying an existing meeting calendar', function (): void {
+    app(PermissionSeeder::class)->run();
+    $president = User::factory()->create();
+    $manager = User::factory()->create();
+    $group = Group::factory()->create(['user_id' => $president->id]);
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+    app(CreateMembershipAction::class)->execute($group, $president, 'president');
+    app(CreateMembershipAction::class)->execute($group, $manager, 'member');
+    $session = Session::factory()->for($group)->draft()->create([
+        'start_at' => '2027-01-01',
+        'end_at' => '2027-03-31 23:59:59',
+    ]);
+
+    setPermissionsTeamId($group->id);
+    $role = Role::query()->create([
+        'name' => 'Gestionnaire du calendrier',
+        'guard_name' => 'web',
+        'group_id' => $group->id,
+    ]);
+    $role->givePermissionTo(GroupPermission::UpdateMeetings->value);
+    $manager->syncRoles([$role]);
+
+    app(GenerateRecurringMeetingsAction::class)->execute(
+        session: $session,
+        creator: $president,
+        recurrence: MeetingRecurrence::Monthly,
+        startsAt: '2027-01-10 10:00:00',
+        timezone: 'UTC',
+        defaultTitle: 'Assise',
+        defaultLocation: null,
+        defaultDurationMinutes: 60,
+    );
+
+    $payload = [
+        'recurrence' => MeetingRecurrence::Weekly->value,
+        'interval' => 2,
+        'starts_at' => '2027-01-10 10:00:00',
+        'timezone' => 'UTC',
+        'default_title' => 'Assise mise à jour',
+        'default_location' => null,
+        'default_duration_minutes' => 90,
+    ];
+
+    $this->actingAs($manager)
+        ->put(route('groups.sessions.meeting-schedule.update', [$group, $session]), $payload)
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
+
+    $this->actingAs($manager)
+        ->post(route('groups.sessions.meeting-schedule.store', [$group, $session]), $payload)
+        ->assertForbidden();
 });

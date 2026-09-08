@@ -57,6 +57,8 @@ class SessionData extends Data
             format: 'Y-m-d\TH:i:s',
         )]
         public Optional|CarbonImmutable $updated_at,
+        #[WithTransformer(DateTimeInterfaceTransformer::class, format: 'Y-m-d\TH:i:s')]
+        public Optional|CarbonImmutable|null $deleted_at,
     ) {}
 
     public static function fromModel(
@@ -107,6 +109,8 @@ class SessionData extends Data
             created_at: $session->created_at,
 
             updated_at: $session->updated_at,
+
+            deleted_at: $session->deleted_at,
         );
     }
 }

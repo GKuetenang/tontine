@@ -17,11 +17,10 @@ import { EditMembershipForm } from './form';
 type Props = {
     group: ResultGroup;
     membership: Membership;
-    roles: SelectOption[];
     statuses: SelectOption[];
 };
 
-export function Actions({ group, membership, roles, statuses }: Props) {
+export function Actions({ group, membership, statuses }: Props) {
     console.log({ membership });
 
     const { can, canAny } = useAuthorization();
@@ -62,7 +61,6 @@ export function Actions({ group, membership, roles, statuses }: Props) {
                     {can('memberships.update') && (
                         <EditMembershipForm
                             membership={membership}
-                            roles={roles}
                             group={group}
                             statuses={statuses}
                             trigger={

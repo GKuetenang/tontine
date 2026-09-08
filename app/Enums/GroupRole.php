@@ -44,6 +44,7 @@ enum GroupRole: string
 
             self::Secretary => [
                 GroupPermission::ViewGroup,
+                GroupPermission::ViewMandates,
 
                 GroupPermission::ViewMemberships,
                 GroupPermission::CreateMemberships,

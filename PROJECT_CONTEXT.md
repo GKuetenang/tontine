@@ -999,3 +999,28 @@ When this document and repository differ:
 - identify discrepancies before broad/destructive changes.
 
 The goal is continuity, not wholesale refactoring.
+
+## 36. Mandates and Governance
+
+Governance mandates are independent from financial sessions:
+
+```text
+Group -> many Mandates
+Session -> belongs to Group
+Mandate has no Session relationship
+```
+
+A Mandate defines a governance period with a start date, end date and lifecycle
+(`draft`, `active`, `closed`). Only one mandate is effective at a time for a
+Group. Activating a successor closes the currently active mandate.
+
+Responsibilities are historical records in `mandate_role_assignments`. Each
+record associates a Membership and a Group-scoped Spatie Role for a bounded
+period inside the Mandate. Overlapping presidents are forbidden. Ending an
+assignment records who ended it and an optional reason; historical assignments
+must not be deleted.
+
+Membership provides the base `member` role. Temporary governance roles are
+derived from the active Mandate assignments and projected into Spatie's team
+role tables. Once a Group has activated its first Mandate, direct membership
+updates must not become an alternate way to grant governance roles.
