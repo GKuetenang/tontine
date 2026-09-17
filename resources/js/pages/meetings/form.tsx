@@ -50,14 +50,14 @@ export function EditMeetingForm({ trigger, group, session, meeting }: Props) {
 
     const action = meeting.id
         ? meetings.update.form({
-            group: group.slug!,
-            session: session.slug,
-            meeting: meeting.slug,
-        })
+              group: group.slug!,
+              session: session.slug,
+              meeting: meeting.slug,
+          })
         : meetings.store.form({
-            group: group.slug!,
-            session: session.slug,
-        });
+              group: group.slug!,
+              session: session.slug,
+          });
 
     const isEditing = Boolean(meeting.id);
 
@@ -120,9 +120,9 @@ export function EditMeetingForm({ trigger, group, session, meeting }: Props) {
                                     value={
                                         scheduledAt
                                             ? format(
-                                                scheduledAt,
-                                                'yyyy-MM-dd HH:mm:ss',
-                                            )
+                                                  scheduledAt,
+                                                  'yyyy-MM-dd HH:mm:ss',
+                                              )
                                             : ''
                                     }
                                 />

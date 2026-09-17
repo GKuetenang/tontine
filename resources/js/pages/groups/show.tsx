@@ -46,7 +46,7 @@ export default withAppLayout<Props>(
             <>
                 <Head title={group.name} />
                 <div className="space-y-6">
-                    <section className="relative overflow-hidden rounded-2xl border bg-card bg-card-gradient p-6 shadow-sm md:p-8">
+                    <section className="bg-card-gradient relative overflow-hidden rounded-2xl border bg-card p-6 shadow-sm md:p-8">
                         <div className="absolute -top-24 -right-20 size-64 rounded-full bg-primary/10 blur-3xl" />
                         <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
                             <div className="flex items-center gap-4">
@@ -147,7 +147,7 @@ export default withAppLayout<Props>(
                     </section>
 
                     <section className="grid gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(320px,0.8fr)]">
-                        <Card className='bg-bacground'>
+                        <Card className="bg-bacground">
                             <CardHeader className="flex-row items-center justify-between border-b">
                                 <div>
                                     <CardTitle>

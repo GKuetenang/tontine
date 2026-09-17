@@ -1,15 +1,17 @@
 import { Link, router, usePage } from '@inertiajs/react';
-import { Building2Icon, CalendarIcon, LayoutGrid, ListIcon } from 'lucide-react';
+import {
+    Building2Icon,
+    CalendarIcon,
+    LayoutGrid,
+    ListIcon,
+} from 'lucide-react';
 
 import AppLogo from '@/components/app-logo';
 import { NavContext } from '@/components/nav-context';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
-import {
-    SidebarContextSwitcher
-    
-} from '@/components/sidebar-context-switcher';
-import type {SidebarContextOption} from '@/components/sidebar-context-switcher';
+import { SidebarContextSwitcher } from '@/components/sidebar-context-switcher';
+import type { SidebarContextOption } from '@/components/sidebar-context-switcher';
 import {
     Sidebar,
     SidebarContent,
@@ -74,9 +76,7 @@ export function AppSidebar() {
                 <NavMain items={mainNavItems} />
 
                 {group?.slug && (
-                    <NavContext
-                        items={getGroupNavItems(group)}
-                    >
+                    <NavContext items={getGroupNavItems(group)}>
                         <SidebarContextSwitcher
                             label={t('Réunion')}
                             current={navigation.groups.find(
@@ -94,9 +94,7 @@ export function AppSidebar() {
                 )}
 
                 {group && session?.slug && (
-                    <NavContext
-                        items={getSessionNavItems(group, session)}
-                    >
+                    <NavContext items={getSessionNavItems(group, session)}>
                         <SidebarContextSwitcher
                             label={t('Session')}
                             current={navigation.sessions.find(

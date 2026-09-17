@@ -188,7 +188,7 @@ export default withAppLayout<Props>(
                                                                 Object.values(
                                                                     errors,
                                                                 )[0] ??
-                                                                'Impossible de quitter cette réunion.',
+                                                                    'Impossible de quitter cette réunion.',
                                                             )
                                                         }
                                                     >

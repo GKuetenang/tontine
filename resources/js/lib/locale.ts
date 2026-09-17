@@ -1,8 +1,8 @@
-import { enUS, frCA } from "date-fns/locale";
+import { enUS, frCA } from 'date-fns/locale';
 
-import type { AcceptedLocales } from "@/types";
+import type { AcceptedLocales } from '@/types';
 
-import type { Locale } from "date-fns/locale";
+import type { Locale } from 'date-fns/locale';
 
 export function getDateFnsLocale(locale: AcceptedLocales): Locale {
     switch (locale) {
@@ -18,7 +18,6 @@ export function getDateFnsLocale(locale: AcceptedLocales): Locale {
             return enUS;
 
             break;
-
     }
 
     return enUS;

@@ -365,7 +365,7 @@ export default withAppLayout<Props>(
                                                         className={`pr-6 text-right font-medium ${transaction.direction === 'credit' ? 'text-emerald-600' : 'text-destructive'}`}
                                                     >
                                                         {transaction.direction ===
-                                                            'credit'
+                                                        'credit'
                                                             ? '+'
                                                             : '−'}{' '}
                                                         {formatCurrency(

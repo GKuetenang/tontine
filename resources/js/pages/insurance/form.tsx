@@ -106,7 +106,7 @@ export function CreateInsuranceContributionForm({
                                         className={cn(
                                             'rounded-sm border bg-accent px-2 py-1.5',
                                             errors.membership_id &&
-                                            'border-destructive bg-destructive/20',
+                                                'border-destructive bg-destructive/20',
                                         )}
                                     >
                                         <p className="text-sm">

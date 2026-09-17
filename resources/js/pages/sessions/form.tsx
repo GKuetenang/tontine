@@ -233,9 +233,9 @@ export function EditSessionForm({
                                     value={
                                         startDate
                                             ? format(
-                                                startDate,
-                                                'yyyy-MM-dd HH:mm:ss',
-                                            )
+                                                  startDate,
+                                                  'yyyy-MM-dd HH:mm:ss',
+                                              )
                                             : ''
                                     }
                                 />
@@ -268,9 +268,9 @@ export function EditSessionForm({
                                     value={
                                         endDate
                                             ? format(
-                                                endDate,
-                                                'yyyy-MM-dd HH:mm:ss',
-                                            )
+                                                  endDate,
+                                                  'yyyy-MM-dd HH:mm:ss',
+                                              )
                                             : ''
                                     }
                                 />

@@ -118,7 +118,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                         <FormField
                                             error={
                                                 errors[
-                                                'default_loan_interest_rate'
+                                                    'default_loan_interest_rate'
                                                 ]
                                             }
                                             label={t(
@@ -136,7 +136,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                                 }
                                                 aria-invalid={
                                                     !!errors[
-                                                    'default_loan_interest_rate'
+                                                        'default_loan_interest_rate'
                                                     ]
                                                 }
                                             />
@@ -144,7 +144,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                         <FormField
                                             error={
                                                 errors[
-                                                'default_loan_term_months'
+                                                    'default_loan_term_months'
                                                 ]
                                             }
                                             label={t(
@@ -164,7 +164,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                                 }
                                                 aria-invalid={
                                                     !!errors[
-                                                    'default_loan_term_months'
+                                                        'default_loan_term_months'
                                                     ]
                                                 }
                                             />
@@ -173,7 +173,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                     <FormField
                                         error={
                                             errors[
-                                            'default_contribution_amount'
+                                                'default_contribution_amount'
                                             ]
                                         }
                                         label={t(
@@ -191,7 +191,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                             }
                                             aria-invalid={
                                                 !!errors[
-                                                'default_contribution_amount'
+                                                    'default_contribution_amount'
                                                 ]
                                             }
                                         />
@@ -228,7 +228,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                             <FormField
                                                 error={
                                                     errors[
-                                                    'initial_mandate_name'
+                                                        'initial_mandate_name'
                                                     ]
                                                 }
                                                 label={t('Nom du mandat')}
@@ -247,7 +247,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                                 <FormField
                                                     error={
                                                         errors[
-                                                        'initial_mandate_starts_at'
+                                                            'initial_mandate_starts_at'
                                                         ]
                                                     }
                                                     label={t('Début du mandat')}
@@ -260,15 +260,17 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                                         value={
                                                             mandateStartsAt
                                                                 ? format(
-                                                                    mandateStartsAt,
-                                                                    'yyyy-MM-dd',
-                                                                )
+                                                                      mandateStartsAt,
+                                                                      'yyyy-MM-dd',
+                                                                  )
                                                                 : ''
                                                         }
                                                     />
                                                     <DateTimePicker
                                                         weekStartsOn={1}
-                                                        locale={getDateFnsLocale(locale)}
+                                                        locale={getDateFnsLocale(
+                                                            locale,
+                                                        )}
                                                         granularity="minute"
                                                         value={mandateStartsAt}
                                                         onChange={
@@ -282,7 +284,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                                 <FormField
                                                     error={
                                                         errors[
-                                                        'initial_mandate_ends_at'
+                                                            'initial_mandate_ends_at'
                                                         ]
                                                     }
                                                     label={t('Fin du mandat')}
@@ -295,15 +297,17 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                                         value={
                                                             mandateEndsAt
                                                                 ? format(
-                                                                    mandateEndsAt,
-                                                                    'yyyy-MM-dd',
-                                                                )
+                                                                      mandateEndsAt,
+                                                                      'yyyy-MM-dd',
+                                                                  )
                                                                 : ''
                                                         }
                                                     />
                                                     <DateTimePicker
                                                         weekStartsOn={1}
-                                                        locale={getDateFnsLocale(locale)}
+                                                        locale={getDateFnsLocale(
+                                                            locale,
+                                                        )}
                                                         granularity="minute"
                                                         value={mandateEndsAt}
                                                         onChange={

@@ -119,9 +119,9 @@ export function RecordContributionPaymentForm({
                                     value={
                                         occurredAt
                                             ? format(
-                                                occurredAt,
-                                                'yyyy-MM-dd HH:mm:ss',
-                                            )
+                                                  occurredAt,
+                                                  'yyyy-MM-dd HH:mm:ss',
+                                              )
                                             : ''
                                     }
                                 />

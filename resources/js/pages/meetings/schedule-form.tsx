@@ -112,11 +112,11 @@ export function MeetingScheduleForm({
     );
     const [monthlyPattern, setMonthlyPattern] = useState(
         (schedule?.rrule.includes('FREQ=MONTHLY') &&
-            schedule.rrule.includes('BYDAY=')
+        schedule.rrule.includes('BYDAY=')
             ? 'weekday_ordinal'
             : undefined) ??
-        monthlyPatterns[0]?.value ??
-        'day_of_month',
+            monthlyPatterns[0]?.value ??
+            'day_of_month',
     );
     const [startsAt, setStartsAt] = useState<Date | undefined>(() =>
         sessionDate(schedule?.starts_at ?? session.start_at),
@@ -148,13 +148,13 @@ export function MeetingScheduleForm({
     };
     const action = isEditing
         ? meetingSchedule.update.form({
-            group: group.slug!,
-            session: session.slug,
-        })
+              group: group.slug!,
+              session: session.slug,
+          })
         : meetingSchedule.store.form({
-            group: group.slug!,
-            session: session.slug,
-        });
+              group: group.slug!,
+              session: session.slug,
+          });
 
     const occurrences = useMemo(() => {
         const sessionEnd = sessionDate(session.end_at);
@@ -191,9 +191,9 @@ export function MeetingScheduleForm({
                     onBefore={() =>
                         confirm(
                             'Voulez-vous ' +
-                            (isEditing ? 'mettre à jour ' : 'générer ') +
-                            occurrences.length +
-                            ' assise(s) pour cette session ?',
+                                (isEditing ? 'mettre à jour ' : 'générer ') +
+                                occurrences.length +
+                                ' assise(s) pour cette session ?',
                         )
                     }
                     onSuccess={() => setOpen(false)}
@@ -327,9 +327,9 @@ export function MeetingScheduleForm({
                                         value={
                                             startsAt
                                                 ? format(
-                                                    startsAt,
-                                                    'yyyy-MM-dd HH:mm:ss',
-                                                )
+                                                      startsAt,
+                                                      'yyyy-MM-dd HH:mm:ss',
+                                                  )
                                                 : ''
                                         }
                                     />

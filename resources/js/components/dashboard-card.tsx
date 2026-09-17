@@ -1,26 +1,29 @@
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent } from './ui/card';
 
-import type { LucideProps } from "lucide-react";
-import type { ForwardRefExoticComponent, RefAttributes } from "react";
+import type { LucideProps } from 'lucide-react';
+import type { ForwardRefExoticComponent, RefAttributes } from 'react';
 
 type Props = {
     title: string;
     value: string | number;
     detail?: string;
-    icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>
-}
+    icon: ForwardRefExoticComponent<
+        Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+    >;
+};
 
-export default function DashboardCard({ title, value, detail, icon: Icon }: Props) {
+export default function DashboardCard({
+    title,
+    value,
+    detail,
+    icon: Icon,
+}: Props) {
     return (
         <Card>
             <CardContent className="flex items-start justify-between gap-4">
                 <div>
-                    <p className="text-sm text-muted-foreground">
-                        {title}
-                    </p>
-                    <p className="mt-1 text-2xl font-semibold">
-                        {value}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{title}</p>
+                    <p className="mt-1 text-2xl font-semibold">{value}</p>
                     <p className="mt-1 text-xs text-muted-foreground">
                         {detail}
                     </p>
@@ -30,5 +33,5 @@ export default function DashboardCard({ title, value, detail, icon: Icon }: Prop
                 </div>
             </CardContent>
         </Card>
-    )
+    );
 }
