@@ -1,3 +1,7 @@
+import { Form, Head } from '@inertiajs/react';
+import { format } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
@@ -11,10 +15,6 @@ import { withAppLayout } from '@/layouts/app-layout';
 import { getDateFnsLocale } from '@/lib';
 import groups from '@/routes/groups';
 import type { BreadcrumbItem, Group } from '@/types';
-import { Form, Head } from '@inertiajs/react';
-import { format } from 'date-fns';
-import { SaveIcon } from 'lucide-react';
-import { useState } from 'react';
 
 type Props = {
     group: Group;
@@ -47,7 +47,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
             <Card>
                 <CardContent>
                     <Form {...action}>
-                        {({ errors, processing, progress }) => (
+                        {({ errors, processing }) => (
                             <>
                                 <div className="space-y-4">
                                     {/* <FormField

@@ -1,3 +1,7 @@
+import { Form, Head } from '@inertiajs/react';
+import { format, parseISO } from 'date-fns';
+import { ListFilterIcon } from 'lucide-react';
+import { useState } from 'react';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -26,10 +30,6 @@ import { formatCurrency } from '@/lib/utils';
 import groups from '@/routes/groups';
 import finances from '@/routes/groups/finances';
 import type { BreadcrumbItem, Group } from '@/types';
-import { Form, Head } from '@inertiajs/react';
-import { format, parseISO } from 'date-fns';
-import { ListFilterIcon } from 'lucide-react';
-import { useState } from 'react';
 
 type FinancialSummary = {
     credits: string;

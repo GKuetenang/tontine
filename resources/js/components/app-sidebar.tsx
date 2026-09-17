@@ -3,11 +3,12 @@ import { Building2Icon, CalendarIcon, LayoutGrid, ListIcon } from 'lucide-react'
 import AppLogo from '@/components/app-logo';
 import { NavContext } from '@/components/nav-context';
 import { NavMain } from '@/components/nav-main';
-import {
-    SidebarContextSwitcher,
-    type SidebarContextOption,
-} from '@/components/sidebar-context-switcher';
 import { NavUser } from '@/components/nav-user';
+import {
+    SidebarContextSwitcher
+    
+} from '@/components/sidebar-context-switcher';
+import type {SidebarContextOption} from '@/components/sidebar-context-switcher';
 
 import {
     Sidebar,

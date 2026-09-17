@@ -1,3 +1,13 @@
+import { Head, Link, usePage } from '@inertiajs/react';
+import {
+    ArrowRightIcon,
+    CalendarDaysIcon,
+    LandmarkIcon,
+    MapPinIcon,
+    PlusIcon,
+    ReceiptTextIcon,
+    UsersIcon,
+} from 'lucide-react';
 import DashboardCard from '@/components/dashboard-card';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
@@ -25,16 +35,6 @@ import { dashboard } from '@/routes';
 import groups from '@/routes/groups';
 import meetings from '@/routes/groups/sessions/meetings';
 import type { BreadcrumbItem } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
-import {
-    ArrowRightIcon,
-    CalendarDaysIcon,
-    LandmarkIcon,
-    MapPinIcon,
-    PlusIcon,
-    ReceiptTextIcon,
-    UsersIcon,
-} from 'lucide-react';
 
 type Money = { currency: string; amount: string };
 type MeetingItem = {

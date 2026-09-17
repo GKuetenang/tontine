@@ -1,15 +1,3 @@
-import DashboardCard from '@/components/dashboard-card';
-import { EmptySessions } from '@/components/groups/empty-session';
-import { InformationRow } from '@/components/groups/information-row';
-import { SessionRow } from '@/components/groups/session-row';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useTranslation } from '@/hooks/use-translation';
-import { withAppLayout } from '@/layouts/app-layout';
-import { formatCurrency } from '@/lib/utils';
-import groups from '@/routes/groups';
-import type { BreadcrumbItem, Group, Session } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import {
     ArrowRight,
@@ -22,15 +10,27 @@ import {
     ShieldCheck,
     Users,
 } from 'lucide-react';
+import DashboardCard from '@/components/dashboard-card';
+import { EmptySessions } from '@/components/groups/empty-session';
+import { InformationRow } from '@/components/groups/information-row';
+import { SessionRow } from '@/components/groups/session-row';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslation } from '@/hooks/use-translation';
+import { withAppLayout } from '@/layouts/app-layout';
+import { formatCurrency } from '@/lib/utils';
+import groups from '@/routes/groups';
+import type { BreadcrumbItem, Group, Session } from '@/types';
 
 type Props = { group: Group; sessions: Session[] };
-const initials = (name: string) =>
-    name
-        .split(/\s+/)
-        .slice(0, 2)
-        .map((word) => word[0])
-        .join('')
-        .toUpperCase();
+// const initials = (name: string) =>
+//     name
+//         .split(/\s+/)
+//         .slice(0, 2)
+//         .map((word) => word[0])
+//         .join('')
+//         .toUpperCase();
 
 export default withAppLayout<Props>(
     ({ group }) =>

@@ -1,3 +1,8 @@
+import { Form } from '@inertiajs/react';
+import { format, parseISO } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import { Button } from '@/components/ui/button';
 import { DateTimePicker } from '@/components/ui/datetime-picker';
@@ -16,11 +21,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { useTranslation } from '@/hooks/use-translation';
 import mandates from '@/routes/groups/mandates';
 import type { Group } from '@/types';
-import { Form } from '@inertiajs/react';
-import { format, parseISO } from 'date-fns';
-import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
-import { useState } from 'react';
 import type { MandateItem } from './index';
 
 export function MandateForm({

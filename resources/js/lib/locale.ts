@@ -1,18 +1,23 @@
-import { AcceptedLocales } from "@/types";
-import { enUS, frCA, Locale } from "date-fns/locale";
+import type { Locale } from "date-fns/locale";
+import { enUS, frCA } from "date-fns/locale";
+import type { AcceptedLocales } from "@/types";
 
 export function getDateFnsLocale(locale: AcceptedLocales): Locale {
     switch (locale) {
         case 'fr':
             return frCA;
+
             break;
         case 'en':
             return enUS;
+
             break;
         default:
             return enUS;
+
             break;
 
     }
+
     return enUS;
 }

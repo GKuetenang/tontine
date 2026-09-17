@@ -1,3 +1,12 @@
+import { Head, Link } from '@inertiajs/react';
+import {
+    CalendarDaysIcon,
+    HandCoinsIcon,
+    LandmarkIcon,
+    LogOutIcon,
+    UsersIcon,
+} from 'lucide-react';
+import { toast } from 'sonner';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
@@ -17,15 +26,6 @@ import { formatCurrency } from '@/lib/utils';
 import account from '@/routes/account';
 import groups from '@/routes/groups';
 import type { BreadcrumbItem, PaginatedCollection } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import {
-    CalendarDaysIcon,
-    HandCoinsIcon,
-    LandmarkIcon,
-    LogOutIcon,
-    UsersIcon,
-} from 'lucide-react';
-import { toast } from 'sonner';
 
 type Item = {
     id: number;

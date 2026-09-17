@@ -1,3 +1,5 @@
+import { Form, Head, Link } from '@inertiajs/react';
+import { PlusIcon, SearchIcon, Trash2Icon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SortableTableHead } from '@/components/sortable-table-head';
@@ -17,8 +19,6 @@ import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import groups from '@/routes/groups';
 import type { BreadcrumbItem, Group, PaginatedCollection } from '@/types';
-import { Form, Head, Link } from '@inertiajs/react';
-import { PlusIcon, SearchIcon, Trash2Icon } from 'lucide-react';
 import { Actions } from './actions';
 
 const breadcrumbs: BreadcrumbItem[] = [

@@ -1,3 +1,8 @@
+import { Form } from '@inertiajs/react';
+import { format } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import type { SelectOption } from '@/components/select-with-items';
 import { SelectWithItems } from '@/components/select-with-items';
@@ -20,11 +25,6 @@ import { useTranslation } from '@/hooks/use-translation';
 import { parseDate } from '@/lib';
 import sessions from '@/routes/groups/sessions';
 import type { Session } from '@/types';
-import { Form } from '@inertiajs/react';
-import { format } from 'date-fns';
-import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
-import { useState } from 'react';
 import type { ResultGroup } from '.';
 
 type Props = {
