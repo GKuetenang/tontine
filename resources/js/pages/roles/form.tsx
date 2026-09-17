@@ -54,7 +54,7 @@ export function RoleForm({ group, permissions, trigger, role }: Props) {
     const [selected, setSelected] = useState<string[]>(role?.permissions ?? []);
     const groups = Map.groupBy(permissions, (permission) => permission.group);
     const action = role
-        ? roles.update.form({ group: group.slug!, role: String(role.id) })
+        ? roles.update.form({ group: group.slug!, role: role.id })
         : roles.store.form({ group: group.slug! });
 
     const toggle = (permission: string, checked: boolean) => {

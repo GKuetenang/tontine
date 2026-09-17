@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
-                'authorization' => fn(): array => $this->authorization($request),
+                'authorization' => fn (): array => $this->authorization($request),
             ],
             'flash' => [
                 'success' => $request->session()->get('success'),
@@ -53,9 +53,9 @@ class HandleInertiaRequests extends Middleware
             ],
             'query' => $request->query->all(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
-            'translations' => fn(): array => $this->getTranslations(),
-            'locale' => fn(): string => app()->getLocale(),
-            'navigation' => fn(): array => $this->navigation($request),
+            'translations' => fn (): array => $this->getTranslations(),
+            'locale' => fn (): string => app()->getLocale(),
+            'navigation' => fn (): array => $this->navigation($request),
 
         ];
     }

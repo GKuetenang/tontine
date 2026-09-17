@@ -52,8 +52,8 @@ class SessionController extends Controller
                 'slug' => $group->slug,
             ],
             'collection' => $sessions,
-            'session' => fn() => new Session([
-                'default_contribution_amount' => $group->default_contribution_amount
+            'session' => fn () => new Session([
+                'default_contribution_amount' => $group->default_contribution_amount,
             ]),
             'draw_allocation_modes' => DrawAllocationMode::getOptions(),
         ]);
@@ -111,7 +111,7 @@ class SessionController extends Controller
             'collection' => SessionData::collect(
                 $group->sessions()
                     ->onlyTrashed()
-                    ->when($q, fn($query) => $query->where('name', 'like', "%{$q}%"))
+                    ->when($q, fn ($query) => $query->where('name', 'like', "%{$q}%"))
                     ->orderFromRequest($request)
                     ->paginate(10)
                     ->withQueryString(),

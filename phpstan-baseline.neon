@@ -19,6 +19,174 @@ parameters:
 			path: app/Actions/Contributions/RecordContributionPaymentAction.php
 
 		-
+			message: '#^Access to an undefined property App\\Models\\Group\:\:\$active_members_count\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
+			identifier: property.notFound
+			count: 5
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$slug\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:active\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:credits\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Cannot call method format\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Cannot call method label\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Method App\\Actions\\Dashboard\\BuildUserDashboardAction\:\:contributionsByCurrency\(\) has parameter \$contributions with generic class Illuminate\\Support\\Collection but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Method App\\Actions\\Dashboard\\BuildUserDashboardAction\:\:contributionsByCurrency\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Method App\\Actions\\Dashboard\\BuildUserDashboardAction\:\:execute\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Method App\\Actions\\Dashboard\\BuildUserDashboardAction\:\:loansByCurrency\(\) has parameter \$loans with generic class Illuminate\\Support\\Collection but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Method App\\Actions\\Dashboard\\BuildUserDashboardAction\:\:loansByCurrency\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Parameter \#1 \$amount of method App\\Actions\\Dashboard\\BuildUserDashboardAction\:\:toCents\(\) expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Group\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Meeting\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Transaction\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Group\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Meeting\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Transaction\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Support\\Collection\<int,array\<string, mixed\>\>\:\:all\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 3
+			path: app/Actions/Dashboard/BuildUserDashboardAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\DonationStatus\:\:Pending will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/Donations/CancelDonationAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/Donations/CancelDonationAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:active\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Donations/CreateDonationAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\DonationStatus\:\:Pending will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/Donations/PayDonationAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/Donations/PayDonationAction.php
+
+		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
 			identifier: property.notFound
 			count: 1
@@ -59,6 +227,324 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: app/Actions/Draws/SwapDrawEntriesAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Cannot call method format\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Cannot call method label\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Method App\\Actions\\Finances\\BuildGroupFinancialDashboardAction\:\:applyFilters\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Method App\\Actions\\Finances\\BuildGroupFinancialDashboardAction\:\:applyFilters\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Method App\\Actions\\Finances\\BuildGroupFinancialDashboardAction\:\:execute\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Method App\\Actions\\Finances\\BuildGroupFinancialDashboardAction\:\:execute\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Method App\\Actions\\Finances\\BuildGroupFinancialDashboardAction\:\:outstandingLoans\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Parameter \#1 \$amount of method App\\Actions\\Finances\\BuildGroupFinancialDashboardAction\:\:toCents\(\) expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Transaction\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Transaction\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Support\\Collection\<int,array\<string, mixed\>\>\:\:all\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Actions/Finances/BuildGroupFinancialDashboardAction.php
+
+		-
+			message: '#^Parameter \$query of method App\\Support\\UniqueSlug\:\:generate\(\) expects Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>, Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Group\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Groups/CreateGroupAction.php
+
+		-
+			message: '#^Parameter \$role of method App\\Actions\\Mandates\\SaveMandateRoleAssignmentAction\:\:execute\(\) expects Spatie\\Permission\\Models\\Role, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Groups/CreateGroupAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Groups/ForceDeleteGroupAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Insurance/BuildInsuranceJournalAction.php
+
+		-
+			message: '#^Method App\\Actions\\Insurance\\BuildInsuranceJournalAction\:\:execute\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Insurance/BuildInsuranceJournalAction.php
+
+		-
+			message: '#^Method App\\Actions\\Insurance\\BuildInsuranceJournalAction\:\:execute\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Insurance/BuildInsuranceJournalAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:active\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Insurance/CreateInsuranceContributionAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\LoanStatus\:\:Pending will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/Loans/ApproveLoanAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/Loans/ApproveLoanAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$default_loan_interest_rate\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Loans/CreateLoanAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$default_loan_term_months\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Loans/CreateLoanAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:active\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Loans/CreateLoanAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$memberships\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Mandates/ActivateMandateAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:mandates\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Mandates/ActivateMandateAction.php
+
+		-
+			message: '#^Parameter \#1 \$group of method App\\Actions\\Mandates\\SyncMemberMandateRolesAction\:\:execute\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Mandates/ActivateMandateAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Mandates/DeleteMandateRoleAssignmentAction.php
+
+		-
+			message: '#^Parameter \#1 \$mandate of method App\\Actions\\Mandates\\EnsureMandateKeepsAdministratorAction\:\:execute\(\) expects App\\Models\\Mandate, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Mandates/DeleteMandateRoleAssignmentAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$ends_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Actions/Mandates/EndMandateRoleAssignmentAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Mandates/EndMandateRoleAssignmentAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Mandates/EndMandateRoleAssignmentAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Mandates/EndMandateRoleAssignmentAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Actions/Mandates/EndMandateRoleAssignmentAction.php
+
+		-
+			message: '#^Parameter \#1 \$mandate of method App\\Actions\\Mandates\\EnsureMandateKeepsAdministratorAction\:\:execute\(\) expects App\\Models\\Mandate, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Mandates/EndMandateRoleAssignmentAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Mandates/EnsureMandateKeepsAdministratorAction.php
+
+		-
+			message: '#^Method App\\Actions\\Mandates\\SaveMandateAction\:\:execute\(\) has parameter \$attributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Mandates/SaveMandateAction.php
+
+		-
+			message: '#^Access to an undefined property Spatie\\Permission\\Models\\Role\:\:\$group_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Mandates/SaveMandateRoleAssignmentAction.php
+
+		-
+			message: '#^Anonymous function should return App\\Models\\MandateRoleAssignment but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Actions/Mandates/SaveMandateRoleAssignmentAction.php
+
+		-
+			message: '#^Parameter \#1 \$group of method App\\Actions\\Mandates\\SyncMemberMandateRolesAction\:\:execute\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Mandates/SaveMandateRoleAssignmentAction.php
+
+		-
+			message: '#^Parameter \#2 \$user of method App\\Actions\\Mandates\\SyncMemberMandateRolesAction\:\:execute\(\) expects App\\Models\\User, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Mandates/SaveMandateRoleAssignmentAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$membership_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Mandates/SetMandateMemberRoleAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Mandates/SetMandateMemberRoleAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$role_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Mandates/SetMandateMemberRoleAction.php
+
+		-
+			message: '#^Access to an undefined property Spatie\\Permission\\Models\\Role\:\:\$group_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Mandates/SetMandateMemberRoleAction.php
+
+		-
+			message: '#^Parameter \#1 \$assignment of method App\\Actions\\Mandates\\SetMandateMemberRoleAction\:\:endAssignment\(\) expects App\\Models\\MandateRoleAssignment, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Mandates/SetMandateMemberRoleAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:filter\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: bool\)\|null, Closure\(App\\Models\\MandateRoleAssignment\)\: bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Mandates/SetMandateMemberRoleAction.php
+
+		-
+			message: '#^Parameter \#1 \$group of method App\\Actions\\Mandates\\SyncMemberMandateRolesAction\:\:execute\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Mandates/SetMandateMemberRoleAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Support\\HigherOrderCollectionProxy\<string, Illuminate\\Database\\Eloquent\\Model, Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\>\:\:\$assignments\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Mandates/SyncMemberMandateRolesAction.php
+
+		-
+			message: '#^Unable to resolve the template type TKey in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: app/Actions/Mandates/SyncMemberMandateRolesAction.php
+
+		-
+			message: '#^Unable to resolve the template type TValue in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: app/Actions/Mandates/SyncMemberMandateRolesAction.php
 
 		-
 			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:Scheduled will always evaluate to true\.$#'
@@ -175,6 +661,12 @@ parameters:
 			path: app/Actions/MeetingNotes/UpdateMeetingNoteAction.php
 
 		-
+			message: '#^Method App\\Actions\\Meetings\\BuildMeetingOccurrencesAction\:\:execute\(\) should return list\<Carbon\\CarbonImmutable\> but returns array\<Carbon\\CarbonImmutable\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Actions/Meetings/BuildMeetingOccurrencesAction.php
+
+		-
 			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:Scheduled will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 1
@@ -185,6 +677,12 @@ parameters:
 			identifier: deadCode.unreachable
 			count: 1
 			path: app/Actions/Meetings/CancelMeetingAction.php
+
+		-
+			message: '#^Property App\\Actions\\Meetings\\CloseMeetingAction\:\:\$applyPenalties is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: app/Actions/Meetings/CloseMeetingAction.php
 
 		-
 			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:InProgress will always evaluate to true\.$#'
@@ -205,6 +703,42 @@ parameters:
 			path: app/Actions/Meetings/CreateMeetingAction.php
 
 		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$rrule\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Meetings/GenerateRecurringMeetingsAction.php
+
+		-
+			message: '#^Anonymous function should return App\\Models\\MeetingSchedule but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Actions/Meetings/GenerateRecurringMeetingsAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:creator\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Meetings/GenerateRecurringMeetingsAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:meetings\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Meetings/GenerateRecurringMeetingsAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:session\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Meetings/GenerateRecurringMeetingsAction.php
+
+		-
+			message: '#^Property App\\Models\\Meeting\:\:\$status \(string\) does not accept App\\Enums\\MeetingStatus\:\:Scheduled\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Actions/Meetings/GenerateRecurringMeetingsAction.php
+
+		-
 			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\MeetingStatus\:\:Scheduled will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 1
@@ -227,6 +761,36 @@ parameters:
 			identifier: deadCode.unreachable
 			count: 1
 			path: app/Actions/Meetings/UpdateMeetingAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$creator\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Meetings/UpdateRecurringMeetingsAction.php
+
+		-
+			message: '#^Anonymous function should return App\\Models\\MeetingSchedule but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Actions/Meetings/UpdateRecurringMeetingsAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:meetings\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Actions/Meetings/UpdateRecurringMeetingsAction.php
+
+		-
+			message: '#^Property App\\Models\\Meeting\:\:\$number \(int\<0, max\>\) does not accept int\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Actions/Meetings/UpdateRecurringMeetingsAction.php
+
+		-
+			message: '#^Property App\\Models\\Meeting\:\:\$status \(string\) does not accept App\\Enums\\MeetingStatus\:\:Scheduled\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Actions/Meetings/UpdateRecurringMeetingsAction.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:syncRoles\(\)\.$#'
@@ -247,16 +811,10 @@ parameters:
 			path: app/Actions/Memberships/DeactivateMembershipAction.php
 
 		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasRole\(\)\.$#'
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasAnyRole\(\)\.$#'
 			identifier: method.notFound
 			count: 1
-			path: app/Actions/Memberships/IsLastPresidentAction.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasRole\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Actions/Memberships/LeaveMembershipAction.php
+			path: app/Actions/Memberships/IsLastGroupAdministratorAction.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:syncRoles\(\)\.$#'
@@ -269,6 +827,12 @@ parameters:
 			identifier: method.notFound
 			count: 1
 			path: app/Actions/Memberships/ReactivateMembershipAction.php
+
+		-
+			message: '#^Parameter \#2 \$user of method App\\Actions\\Mandates\\SyncMemberMandateRolesAction\:\:execute\(\) expects App\\Models\\User, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Memberships/UpdateMembershipAction.php
 
 		-
 			message: '#^Parameter \$user of method App\\Actions\\Memberships\\UpdateMembershipAction\:\:syncRole\(\) expects App\\Models\\User, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
@@ -355,10 +919,208 @@ parameters:
 			path: app/Actions/Payouts/UpdatePayoutAction.php
 
 		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$direction\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$membership\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Cannot call method isAfter\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Match arm comparison between string and App\\Enums\\PenaltyTrigger\:\:ContributionIncomplete is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Match arm comparison between string and App\\Enums\\PenaltyTrigger\:\:ContributionLate is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Match arm comparison between string and App\\Enums\\PenaltyTrigger\:\:Manual is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Match arm comparison between string and App\\Enums\\PenaltyTrigger\:\:MeetingAbsent is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Match arm comparison between string and App\\Enums\\PenaltyTrigger\:\:MeetingLate is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: string$#'
+			identifier: match.unhandled
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Method App\\Actions\\Penalties\\ApplyAutomaticMeetingPenaltiesAction\:\:contributionFor\(\) should return App\\Models\\Contribution\|null but returns Illuminate\\Database\\Eloquent\\Model\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Method App\\Actions\\Penalties\\ApplyAutomaticMeetingPenaltiesAction\:\:unpaidContributions\(\) should return Illuminate\\Support\\Collection\<int, array\{App\\Models\\Membership, App\\Models\\Contribution\}\> but returns Illuminate\\Support\\Collection\<int, array\{mixed, App\\Models\\Contribution\}\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 3
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{mixed, App\\Models\\Contribution\|null\}, Closure\(App\\Models\\MeetingAttendance\)\: array\{mixed, App\\Models\\Contribution\|null\} given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{mixed, App\\Models\\Contribution\}, Closure\(App\\Models\\Contribution\)\: array\{mixed, App\\Models\\Contribution\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:filter\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: bool\)\|null, Closure\(App\\Models\\Contribution\)\: bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:filter\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: bool\)\|null, Closure\(App\\Models\\MeetingAttendance\)\: bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Parameter \#1 \$date of method App\\Actions\\Penalties\\ApplyAutomaticMeetingPenaltiesAction\:\:deadline\(\) expects Carbon\\CarbonImmutable, string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Parameter \#2 \$string of function explode expects string, float\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 3
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between string and App\\Enums\\PenaltyCalculationType\:\:Fixed will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between string\|null and App\\Enums\\PenaltyGraceUnit\:\:Days will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>amount_due" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Actions/Penalties/ApplyAutomaticMeetingPenaltiesAction.php
+
+		-
+			message: '#^Method App\\Actions\\Penalties\\CreateDefaultPenaltyRulesAction\:\:defaults\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Penalties/CreateDefaultPenaltyRulesAction.php
+
+		-
+			message: '#^Method App\\Actions\\Penalties\\SavePenaltyRuleAction\:\:execute\(\) has parameter \$attributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Penalties/SavePenaltyRuleAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\PenaltyStatus\:\:Pending will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/Penalties/WaivePenaltyAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/Penalties/WaivePenaltyAction.php
+
+		-
+			message: '#^Method App\\Actions\\Repayments\\CreateRepaymentAction\:\:format\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: app/Actions/Repayments/CreateRepaymentAction.php
+
+		-
+			message: '#^Method App\\Actions\\Repayments\\CreateRepaymentAction\:\:toCents\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: app/Actions/Repayments/CreateRepaymentAction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and App\\Enums\\LoanStatus\:\:Active will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Actions/Repayments/CreateRepaymentAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Actions/Repayments/CreateRepaymentAction.php
+
+		-
 			message: '#^Access to an undefined property Illuminate\\Support\\HigherOrderCollectionProxy\<string, Illuminate\\Database\\Eloquent\\Model, Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\>\:\:\$transactions\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Actions/Reports/BuildMeetingReportAction.php
+
+		-
+			message: '#^Method App\\Actions\\Roles\\SaveGroupRoleAction\:\:execute\(\) has parameter \$permissionNames with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Roles/SaveGroupRoleAction.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
@@ -433,6 +1195,12 @@ parameters:
 			path: app/Actions/Sessions/CreateSessionAction.php
 
 		-
+			message: '#^Offset ''beneficiaries_per…'' on array\{name\: string, description\?\: string\|null, start_at\: string, end_at\?\: string\|null\} on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Actions/Sessions/CreateSessionAction.php
+
+		-
 			message: '#^Offset ''default…'' on array\{name\: string, description\?\: string\|null, start_at\: string, end_at\?\: string\|null\} on left side of \?\? does not exist\.$#'
 			identifier: nullCoalesce.offset
 			count: 1
@@ -451,22 +1219,76 @@ parameters:
 			path: app/Actions/Sessions/CreateSessionAction.php
 
 		-
+			message: '#^Strict comparison using \=\=\= between App\\Enums\\DrawAllocationMode\:\:OnePerMember and App\\Enums\\DrawAllocationMode\:\:Custom will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Actions/Sessions/CreateSessionAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasOne\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Sessions/ForceDeleteSessionAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasOne\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Sessions/PrepareSessionAction.php
+
+		-
 			message: '#^Method App\\Actions\\Sessions\\UpdateSessionAction\:\:execute\(\) has parameter \$attributes with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: app/Actions/Sessions/UpdateSessionAction.php
 
 		-
-			message: '#^Parameter \$query of method App\\Support\\UniqueSlug\:\:generate\(\) expects Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>, Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Tontine\> given\.$#'
-			identifier: argument.type
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:credits\(\)\.$#'
+			identifier: method.notFound
 			count: 1
-			path: app/Actions/Tontines/CreateTontineAction.php
+			path: app/Actions/Transactions/BuildSessionTransactionJournalAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:debits\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Actions/Transactions/BuildSessionTransactionJournalAction.php
+
+		-
+			message: '#^Method App\\Actions\\Transactions\\BuildSessionTransactionJournalAction\:\:execute\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Actions/Transactions/BuildSessionTransactionJournalAction.php
 
 		-
 			message: '#^Parameter \#1 \$participant of static method App\\Data\\SessionParticipantData\:\:fromModel\(\) expects App\\Models\\SessionParticipant, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Data/ContributionData.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/DonationData.php
+
+		-
+			message: '#^Parameter \$amount of class App\\Data\\DonationData constructor expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/DonationData.php
+
+		-
+			message: '#^Parameter \$paid_at of class App\\Data\\DonationData constructor expects Carbon\\CarbonImmutable\|null, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/DonationData.php
+
+		-
+			message: '#^Parameter \$status of class App\\Data\\DonationData constructor expects App\\Enums\\DonationStatus, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/DonationData.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$meetings\.$#'
@@ -509,6 +1331,102 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: app/Data/ExpectedDrawMeetingData.php
+
+		-
+			message: '#^Anonymous function never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Data/GroupData.php
+
+		-
+			message: '#^Method App\\Data\\GroupData\:\:prepareForPipeline\(\) has parameter \$properties with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Data/GroupData.php
+
+		-
+			message: '#^Method App\\Data\\GroupData\:\:prepareForPipeline\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Data/GroupData.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$full_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/InsuranceContributionData.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/InsuranceContributionData.php
+
+		-
+			message: '#^Parameter \$amount of class App\\Data\\InsuranceContributionData constructor expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/InsuranceContributionData.php
+
+		-
+			message: '#^Parameter \$occurred_at of class App\\Data\\InsuranceContributionData constructor expects Carbon\\CarbonImmutable, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/InsuranceContributionData.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/LoanData.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/LoanData.php
+
+		-
+			message: '#^Parameter \#1 \$amount of static method App\\Data\\LoanData\:\:toCents\(\) expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/LoanData.php
+
+		-
+			message: '#^Parameter \#10 \$status of class App\\Data\\LoanData constructor expects App\\Enums\\LoanStatus, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/LoanData.php
+
+		-
+			message: '#^Parameter \#3 \$principal_amount of class App\\Data\\LoanData constructor expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/LoanData.php
+
+		-
+			message: '#^Parameter \#4 \$interest_rate of class App\\Data\\LoanData constructor expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/LoanData.php
+
+		-
+			message: '#^Parameter \#6 \$interest_amount of class App\\Data\\LoanData constructor expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/LoanData.php
+
+		-
+			message: '#^Parameter \#7 \$total_due of class App\\Data\\LoanData constructor expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/LoanData.php
+
+		-
+			message: '#^Parameter \#8 \$due_at of class App\\Data\\LoanData constructor expects Carbon\\CarbonImmutable, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/LoanData.php
 
 		-
 			message: '#^Parameter \#1 \$participant of static method App\\Data\\SessionParticipantData\:\:fromModel\(\) expects App\\Models\\SessionParticipant, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
@@ -601,6 +1519,18 @@ parameters:
 			path: app/Data/MeetingNoteData.php
 
 		-
+			message: '#^Parameter \$generated_at of class App\\Data\\MeetingScheduleData constructor expects Carbon\\CarbonImmutable\|null, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/MeetingScheduleData.php
+
+		-
+			message: '#^Parameter \$starts_at of class App\\Data\\MeetingScheduleData constructor expects Carbon\\CarbonImmutable, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/MeetingScheduleData.php
+
+		-
 			message: '#^Access to an undefined property App\\Models\\Meeting\:\:\$name\.$#'
 			identifier: property.notFound
 			count: 1
@@ -611,6 +1541,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: app/Data/MeetingSummaryData.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\User\:\:\$full_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/MemberUserData.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\Membership\:\:\$creator\.$#'
@@ -649,6 +1585,114 @@ parameters:
 			path: app/Data/PayoutData.php
 
 		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/PenaltyData.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/PenaltyData.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Data/PenaltyData.php
+
+		-
+			message: '#^Cannot call method format\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Data/PenaltyData.php
+
+		-
+			message: '#^Cannot call method label\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Data/PenaltyData.php
+
+		-
+			message: '#^Parameter \$amount of class App\\Data\\PenaltyData constructor expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/PenaltyData.php
+
+		-
+			message: '#^Cannot call method label\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: app/Data/PenaltyRuleData.php
+
+		-
+			message: '#^Method App\\Data\\PenaltyRuleData\:\:valueLabel\(\) should return string but returns float\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Data/PenaltyRuleData.php
+
+		-
+			message: '#^Parameter \$calculation_type of class App\\Data\\PenaltyRuleData constructor expects App\\Enums\\PenaltyCalculationType, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/PenaltyRuleData.php
+
+		-
+			message: '#^Parameter \$grace_unit of class App\\Data\\PenaltyRuleData constructor expects App\\Enums\\PenaltyGraceUnit\|null, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/PenaltyRuleData.php
+
+		-
+			message: '#^Parameter \$trigger of class App\\Data\\PenaltyRuleData constructor expects App\\Enums\\PenaltyTrigger, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/PenaltyRuleData.php
+
+		-
+			message: '#^Parameter \$value of class App\\Data\\PenaltyRuleData constructor expects string\|null, float\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/PenaltyRuleData.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between string and App\\Enums\\PenaltyCalculationType\:\:Percentage will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Data/PenaltyRuleData.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$membership\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Data/RepaymentData.php
+
+		-
+			message: '#^Parameter \#4 \$amount of class App\\Data\\RepaymentData constructor expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/RepaymentData.php
+
+		-
+			message: '#^Parameter \#5 \$interest_amount of class App\\Data\\RepaymentData constructor expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/RepaymentData.php
+
+		-
+			message: '#^Parameter \#6 \$principal_amount of class App\\Data\\RepaymentData constructor expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/RepaymentData.php
+
+		-
+			message: '#^Parameter \#7 \$paid_at of class App\\Data\\RepaymentData constructor expects Carbon\\CarbonImmutable, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/RepaymentData.php
+
+		-
 			message: '#^Parameter \$joined_at of class App\\Data\\SessionParticipantData constructor expects Carbon\\CarbonImmutable\|Spatie\\LaravelData\\Optional\|null, string given\.$#'
 			identifier: argument.type
 			count: 1
@@ -661,22 +1705,40 @@ parameters:
 			path: app/Data/SessionParticipantData.php
 
 		-
-			message: '#^Anonymous function never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$full_name\.$#'
+			identifier: property.notFound
 			count: 1
-			path: app/Data/TontineData.php
+			path: app/Data/TransactionData.php
 
 		-
-			message: '#^Method App\\Data\\TontineData\:\:prepareForPipeline\(\) has parameter \$properties with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$user\.$#'
+			identifier: property.notFound
 			count: 1
-			path: app/Data/TontineData.php
+			path: app/Data/TransactionData.php
 
 		-
-			message: '#^Method App\\Data\\TontineData\:\:prepareForPipeline\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Parameter \$amount of class App\\Data\\TransactionData constructor expects string, float given\.$#'
+			identifier: argument.type
 			count: 1
-			path: app/Data/TontineData.php
+			path: app/Data/TransactionData.php
+
+		-
+			message: '#^Parameter \$direction of class App\\Data\\TransactionData constructor expects App\\Enums\\TransactionDirection, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/TransactionData.php
+
+		-
+			message: '#^Parameter \$occurred_at of class App\\Data\\TransactionData constructor expects Carbon\\CarbonImmutable, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/TransactionData.php
+
+		-
+			message: '#^Parameter \$type of class App\\Data\\TransactionData constructor expects App\\Enums\\TransactionType, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Data/TransactionData.php
 
 		-
 			message: '#^Method App\\Enums\\AttendanceStatus\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
@@ -691,10 +1753,40 @@ parameters:
 			path: app/Enums/ContributionStatus.php
 
 		-
+			message: '#^Method App\\Enums\\DonationStatus\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/DonationStatus.php
+
+		-
 			message: '#^Method App\\Enums\\DrawAllocationMode\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: app/Enums/DrawAllocationMode.php
+
+		-
+			message: '#^Method App\\Enums\\GroupRole\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/GroupRole.php
+
+		-
+			message: '#^Method App\\Enums\\LoanStatus\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/LoanStatus.php
+
+		-
+			message: '#^Method App\\Enums\\MeetingMonthlyPattern\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/MeetingMonthlyPattern.php
+
+		-
+			message: '#^Method App\\Enums\\MeetingRecurrence\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/MeetingRecurrence.php
 
 		-
 			message: '#^Method App\\Enums\\MeetingStatus\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
@@ -709,16 +1801,172 @@ parameters:
 			path: app/Enums/MembershipStatus.php
 
 		-
-			message: '#^Match expression does not handle remaining values\: App\\Enums\\TontinePermission\:\:CancelMeetings\|App\\Enums\\TontinePermission\:\:CancelPayouts\|App\\Enums\\TontinePermission\:\:CloseMeetings\|App\\Enums\\TontinePermission\:\:CreateMeetingAgenda\|App\\Enums\\TontinePermission\:\:CreateMeetingDecisions\|App\\Enums\\TontinePermission\:\:CreateMeetingNotes\|App\\Enums\\TontinePermission\:\:CreateMeetings\|App\\Enums\\TontinePermission\:\:CreatePayouts\|App\\Enums\\TontinePermission\:\:DeleteMeetingAgenda\|App\\Enums\\TontinePermission\:\:DeleteMeetingDecisions\|App\\Enums\\TontinePermission\:\:DeleteMeetingNotes\|App\\Enums\\TontinePermission\:\:DeleteMeetings\|App\\Enums\\TontinePermission\:\:OpenMeetings\|App\\Enums\\TontinePermission\:\:PayPayouts\|App\\Enums\\TontinePermission\:\:RecordContributionPayments\|App\\Enums\\TontinePermission\:\:RestoreDraws\|App\\Enums\\TontinePermission\:\:UpdateDraws\|App\\Enums\\TontinePermission\:\:UpdateMeetingAgenda\|App\\Enums\\TontinePermission\:\:UpdateMeetingAttendances\|App\\Enums\\TontinePermission\:\:UpdateMeetingDecisions\|App\\Enums\\TontinePermission\:\:UpdateMeetingNotes\|App\\Enums\\TontinePermission\:\:UpdateMeetings\|App\\Enums\\TontinePermission\:\:UpdatePayouts\|App\\Enums\\TontinePermission\:\:ViewMeetingAgenda\|App\\Enums\\TontinePermission\:\:ViewMeetingAttendances\|App\\Enums\\TontinePermission\:\:ViewMeetingDecisions\|App\\Enums\\TontinePermission\:\:ViewMeetingNotes\|App\\Enums\\TontinePermission\:\:ViewMeetings\|App\\Enums\\TontinePermission\:\:ViewPayouts$#'
-			identifier: match.unhandled
-			count: 1
-			path: app/Enums/TontinePermission.php
-
-		-
-			message: '#^Method App\\Enums\\TontineRole\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method App\\Enums\\PayoutStatus\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: app/Enums/TontineRole.php
+			path: app/Enums/PayoutStatus.php
+
+		-
+			message: '#^Method App\\Enums\\PenaltyCalculationType\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/PenaltyCalculationType.php
+
+		-
+			message: '#^Method App\\Enums\\PenaltyGraceUnit\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/PenaltyGraceUnit.php
+
+		-
+			message: '#^Method App\\Enums\\PenaltyTrigger\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/PenaltyTrigger.php
+
+		-
+			message: '#^Method App\\Enums\\TransactionDirection\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/TransactionDirection.php
+
+		-
+			message: '#^Method App\\Enums\\TransactionType\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Enums/TransactionType.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\InsuranceContribution\:\:\$currency\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$activeSession\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$scheduled_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:credits\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:credits\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Cannot call method format\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Cannot call method label\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\AccountController\:\:group\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\InsuranceContribution\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Pagination\\AbstractPaginator\<int,App\\Models\\Contribution\>\:\:through\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Pagination\\AbstractPaginator\<int,App\\Models\\InsuranceContribution\>\:\:through\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Pagination\\AbstractPaginator\<int,App\\Models\\Loan\>\:\:through\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Parameter \#1 \$group of method App\\Http\\Controllers\\AccountController\:\:group\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\InsuranceContribution\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Pagination\\AbstractPaginator\<int,App\\Models\\Contribution\>\:\:through\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Pagination\\AbstractPaginator\<int,App\\Models\\InsuranceContribution\>\:\:through\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Pagination\\AbstractPaginator\<int,App\\Models\\Loan\>\:\:through\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Http/Controllers/AccountController.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Carbon\\CarbonImmutable\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/AccountController.php
 
 		-
 			message: '#^Method App\\Http\\Controllers\\ContributionController\:\:create\(\) has no return type specified\.$#'
@@ -769,6 +2017,36 @@ parameters:
 			path: app/Http/Controllers/ContributionPaymentController.php
 
 		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:orderFromRequest\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/DonationController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:active\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/DonationController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\DonationController\:\:cancel\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/DonationController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\DonationController\:\:pay\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/DonationController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\DonationController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/DonationController.php
+
+		-
 			message: '#^Method App\\Http\\Controllers\\DrawController\:\:swap\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
 			identifier: return.type
 			count: 1
@@ -797,6 +2075,204 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: app/Http/Controllers/DrawController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/GroupFinanceController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$meetings\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/GroupFinanceController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/GroupFinanceController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/GroupFinanceController.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Http/Controllers/GroupFinanceController.php
+
+		-
+			message: '#^Access to an undefined property Spatie\\Permission\\Models\\Role\:\:\$group_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/GroupRoleController.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: string$#'
+			identifier: match.unhandled
+			count: 1
+			path: app/Http/Controllers/GroupRoleController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\GroupRoleController\:\:serializeRole\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/GroupRoleController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\GroupRoleController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/GroupRoleController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\GroupRoleController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/GroupRoleController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Pagination\\AbstractPaginator\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:through\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array, Closure\(Spatie\\Permission\\Models\\Role\)\: array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/GroupRoleController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\InsuranceController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/InsuranceController.php
+
+		-
+			message: '#^Parameter \$membership of method App\\Actions\\Insurance\\CreateInsuranceContributionAction\:\:execute\(\) expects App\\Models\\Membership, App\\Models\\Membership\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Membership\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/InsuranceController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:orderFromRequest\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/LoanController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:active\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/LoanController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\LoanController\:\:approve\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/LoanController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\LoanController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/LoanController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MandateController\:\:activate\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MandateController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MandateController\:\:serializeMandate\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/MandateController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MandateController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MandateController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MandateController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MandateController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Pagination\\AbstractPaginator\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:through\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array, Closure\(App\\Models\\Mandate\)\: array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/MandateController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/MandateRoleAssignmentController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$full_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/MandateRoleAssignmentController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$role_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/MandateRoleAssignmentController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MandateRoleAssignmentController\:\:destroy\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MandateRoleAssignmentController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MandateRoleAssignmentController\:\:end\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MandateRoleAssignmentController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MandateRoleAssignmentController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MandateRoleAssignmentController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MandateRoleAssignmentController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MandateRoleAssignmentController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{value\: string, label\: string\}, Closure\(Spatie\\Permission\\Models\\Role\)\: array\{value\: string, label\: string\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/MandateRoleAssignmentController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Pagination\\AbstractPaginator\<int,App\\Models\\Membership\>\:\:through\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/MandateRoleAssignmentController.php
+
+		-
+			message: '#^Parameter \#3 \$role of method App\\Actions\\Mandates\\SetMandateMemberRoleAction\:\:execute\(\) expects Spatie\\Permission\\Models\\Role\|null, Illuminate\\Database\\Eloquent\\Collection\<int, Spatie\\Permission\\Models\\Role\>\|Spatie\\Permission\\Models\\Role\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/MandateRoleAssignmentController.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Pagination\\AbstractPaginator\<int,App\\Models\\Membership\>\:\:through\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Http/Controllers/MandateRoleAssignmentController.php
 
 		-
 			message: '#^Method App\\Http\\Controllers\\MeetingAgendaItemController\:\:destroy\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
@@ -829,6 +2305,18 @@ parameters:
 			path: app/Http/Controllers/MeetingAttendanceController.php
 
 		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:orderFromRequest\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/MeetingController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:onlyTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/MeetingController.php
+
+		-
 			message: '#^Method App\\Http\\Controllers\\MeetingController\:\:cancel\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
 			identifier: return.type
 			count: 1
@@ -841,7 +2329,25 @@ parameters:
 			path: app/Http/Controllers/MeetingController.php
 
 		-
+			message: '#^Method App\\Http\\Controllers\\MeetingController\:\:destroy\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingController\:\:forceDelete\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingController.php
+
+		-
 			message: '#^Method App\\Http\\Controllers\\MeetingController\:\:open\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingController\:\:restore\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
 			identifier: return.type
 			count: 1
 			path: app/Http/Controllers/MeetingController.php
@@ -855,6 +2361,12 @@ parameters:
 		-
 			message: '#^Method App\\Http\\Controllers\\MeetingController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
 			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingController.php
+
+		-
+			message: '#^Parameter \#1 \$schedule of static method App\\Data\\MeetingScheduleData\:\:fromModel\(\) expects App\\Models\\MeetingSchedule, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
 			count: 1
 			path: app/Http/Controllers/MeetingController.php
 
@@ -895,7 +2407,25 @@ parameters:
 			path: app/Http/Controllers/MeetingNoteController.php
 
 		-
+			message: '#^Method App\\Http\\Controllers\\MeetingScheduleController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingScheduleController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MeetingScheduleController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MeetingScheduleController.php
+
+		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/MembershipController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$full_name\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Controllers/MembershipController.php
@@ -907,19 +2437,13 @@ parameters:
 			path: app/Http/Controllers/MembershipController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MembershipController.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$roles\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: app/Http/Controllers/MembershipController.php
 
 		-
-			message: '#^Anonymous function should return Illuminate\\Pagination\\LengthAwarePaginator\<int, array\{id\: int, tontine_id\: int, tontine_slug\: string, member_number\: string, status\: string, role\: array\{name\: mixed, label\: mixed\}\|null, user\: array\{id\: mixed, name\: mixed, email\: mixed\}\}\> but returns Illuminate\\Pagination\\LengthAwarePaginator\<int, array\{id\: int, tontine_id\: int, tontine_slug\: string, member_number\: string, status\: string, role\: array\{name\: mixed, label\: mixed\}\|null, user\: array\{id\: mixed, name\: mixed, email\: mixed\}\}\>\.$#'
+			message: '#^Anonymous function should return Illuminate\\Pagination\\LengthAwarePaginator\<int, array\{id\: int, group_id\: int, group_slug\: string, member_number\: string, status\: string, role\: array\{name\: mixed, label\: mixed\}\|null, user\: array\{id\: mixed, name\: mixed, email\: mixed\}\}\> but returns Illuminate\\Pagination\\LengthAwarePaginator\<int, array\{id\: int, group_id\: int, group_slug\: string, member_number\: string, status\: string, role\: array\{name\: mixed, label\: mixed\}\|null, user\: array\{id\: mixed, name\: mixed, email\: mixed\}\}\>\.$#'
 			identifier: return.type
 			count: 1
 			path: app/Http/Controllers/MembershipController.php
@@ -985,6 +2509,84 @@ parameters:
 			path: app/Http/Controllers/PayoutController.php
 
 		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/PenaltyController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\PenaltyController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/PenaltyController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\PenaltyController\:\:waive\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/PenaltyController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{value\: decimal\-int\-string, label\: string\}, Closure\(App\\Models\\Meeting\)\: array\{value\: decimal\-int\-string, label\: string\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/PenaltyController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{value\: decimal\-int\-string, label\: string\}, Closure\(App\\Models\\PenaltyRule\)\: array\{value\: decimal\-int\-string, label\: string\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/PenaltyController.php
+
+		-
+			message: '#^Parameter \$meeting of method App\\Actions\\Penalties\\CreateManualPenaltyAction\:\:execute\(\) expects App\\Models\\Meeting, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/PenaltyController.php
+
+		-
+			message: '#^Parameter \$rule of method App\\Actions\\Penalties\\CreateManualPenaltyAction\:\:execute\(\) expects App\\Models\\PenaltyRule, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/PenaltyController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:orderFromRequest\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/PenaltyRuleController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\PenaltyRuleController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/PenaltyRuleController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\PenaltyRuleController\:\:update\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/PenaltyRuleController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\RepaymentController\:\:store\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/RepaymentController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:onlyTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/SessionController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:orderFromRequest\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/SessionController.php
+
+		-
 			message: '#^Method App\\Http\\Controllers\\SessionController\:\:activate\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
 			identifier: return.type
 			count: 1
@@ -998,6 +2600,24 @@ parameters:
 
 		-
 			message: '#^Method App\\Http\\Controllers\\SessionController\:\:destroy\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/SessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SessionController\:\:forceDelete\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/SessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SessionController\:\:prepare\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/SessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SessionController\:\:restore\(\) should return Illuminate\\Http\\RedirectResponse but returns Symfony\\Component\\HttpFoundation\\RedirectResponse\.$#'
 			identifier: return.type
 			count: 1
 			path: app/Http/Controllers/SessionController.php
@@ -1045,61 +2665,49 @@ parameters:
 			path: app/Http/Controllers/SessionParticipantController.php
 
 		-
-			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:create\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Controllers/TransactionController.php
+			message: '#^Access to an undefined property App\\Models\\User\:\:\$full_name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Controllers/WithUserSearchController.php
 
 		-
-			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:destroy\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Controllers/TransactionController.php
-
-		-
-			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:edit\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Controllers/TransactionController.php
-
-		-
-			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:index\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Controllers/TransactionController.php
-
-		-
-			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:show\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Controllers/TransactionController.php
-
-		-
-			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:store\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Controllers/TransactionController.php
-
-		-
-			message: '#^Method App\\Http\\Controllers\\TransactionController\:\:update\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Controllers/TransactionController.php
+			message: '#^Access to an undefined property App\\Models\\User\:\:\$member_number\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Controllers/WithUserSearchController.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 3
 			path: app/Http/Controllers/WithUserSearchController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$full_name\.$#'
 			identifier: property.notFound
+			count: 3
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:active\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: app/Http/Controllers/WithUserSearchController.php
 
 		-
-			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:membershipsInTontine\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:activeMembershipsInGroup\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:membershipsInGroup\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:membershipsInSession\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Http/Controllers/WithUserSearchController.php
@@ -1117,13 +2725,13 @@ parameters:
 			path: app/Http/Controllers/WithUserSearchController.php
 
 		-
-			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:usersInTontine\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:usersInGroup\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Http/Controllers/WithUserSearchController.php
 
 		-
-			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:usersInTontine\(\) should return Illuminate\\Support\\Collection but returns array\.$#'
+			message: '#^Method App\\Http\\Controllers\\WithUserSearchController\:\:usersInGroup\(\) should return Illuminate\\Support\\Collection but returns array\.$#'
 			identifier: return.type
 			count: 1
 			path: app/Http/Controllers/WithUserSearchController.php
@@ -1131,13 +2739,25 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Membership\>\:\:map\(\) contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
-			count: 1
+			count: 3
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\User\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 2
 			path: app/Http/Controllers/WithUserSearchController.php
 
 		-
 			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Membership\>\:\:map\(\) contains unresolvable type\.$#'
 			identifier: method.unresolvableReturnType
-			count: 1
+			count: 3
+			path: app/Http/Controllers/WithUserSearchController.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\User\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 2
 			path: app/Http/Controllers/WithUserSearchController.php
 
 		-
@@ -1153,6 +2773,12 @@ parameters:
 			path: app/Http/Middleware/HandleInertiaRequests.php
 
 		-
+			message: '#^Method App\\Http\\Middleware\\HandleInertiaRequests\:\:navigation\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Middleware/HandleInertiaRequests.php
+
+		-
 			message: '#^Parameter \#1 \$json of function json_decode expects string, string\|false given\.$#'
 			identifier: argument.type
 			count: 1
@@ -1162,7 +2788,7 @@ parameters:
 			message: '#^Parameter \#1 \$boolean of function abort_unless expects bool, App\\Models\\User\|null given\.$#'
 			identifier: argument.type
 			count: 1
-			path: app/Http/Middleware/SetTontineTeam.php
+			path: app/Http/Middleware/SetGroupTeam.php
 
 		-
 			message: '#^Access to an undefined property \(object\|string\)\:\:\$id\.$#'
@@ -1189,12 +2815,6 @@ parameters:
 			path: app/Http/Requests/FormMeetingNoteRequest.php
 
 		-
-			message: '#^Access to an undefined property \(object\|string\)\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Requests/FormMembershipRequest.php
-
-		-
 			message: '#^Method App\\Http\\Requests\\FormMembershipRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -1205,6 +2825,30 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Requests/FormSessionRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\SaveGroupRoleRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/SaveGroupRoleRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\SaveMandateRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/SaveMandateRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\SaveMandateRoleAssignmentRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/SaveMandateRoleAssignmentRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\SavePenaltyRuleRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/SavePenaltyRuleRequest.php
 
 		-
 			message: '#^Method App\\Http\\Requests\\SessionParticipants\\StoreSessionParticipantRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
@@ -1225,10 +2869,52 @@ parameters:
 			path: app/Http/Requests/StoreContributionPaymentRequest.php
 
 		-
+			message: '#^Method App\\Http\\Requests\\StoreDonationRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/StoreDonationRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\StoreInsuranceContributionRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/StoreInsuranceContributionRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\StoreLoanRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/StoreLoanRequest.php
+
+		-
 			message: '#^Method App\\Http\\Requests\\StoreMeetingRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: app/Http/Requests/StoreMeetingRequest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasActiveMembership\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Requests/StoreMeetingScheduleRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\StoreMeetingScheduleRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/StoreMeetingScheduleRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\StorePenaltyRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/StorePenaltyRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\StoreRepaymentRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/StoreRepaymentRequest.php
 
 		-
 			message: '#^Method App\\Http\\Requests\\SwapDrawEntriesRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
@@ -1241,6 +2927,12 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: app/Http/Requests/UpdateMeetingRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\WaivePenaltyRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/WaivePenaltyRequest.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:credits\(\)\.$#'
@@ -1271,6 +2963,60 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Contribution.php
+
+		-
+			message: '#^Class App\\Models\\Donation uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Donation.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/Donation.php
+
+		-
+			message: '#^Method App\\Models\\Donation\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Donation.php
+
+		-
+			message: '#^Method App\\Models\\Donation\:\:membership\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Donation.php
+
+		-
+			message: '#^Method App\\Models\\Donation\:\:orderFromRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Donation.php
+
+		-
+			message: '#^Method App\\Models\\Donation\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Donation.php
+
+		-
+			message: '#^Method App\\Models\\Donation\:\:session\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Donation.php
+
+		-
+			message: '#^Method App\\Models\\Donation\:\:transactions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Donation.php
+
+		-
+			message: '#^Property App\\Models\\Donation\:\:\$sortable has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/Donation.php
 
 		-
 			message: '#^Method App\\Models\\Draw\:\:confirmer\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
@@ -1327,6 +3073,306 @@ parameters:
 			path: app/Models/DrawEntry.php
 
 		-
+			message: '#^Access to an undefined property App\\Models\\Group\:\:\$default_membership_role\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Class App\\Models\\Group uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Generic type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<App\\Models\\User\> in PHPDoc tag @return does not specify all template types of class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\: TRelatedModel, TDeclaringModel$#'
+			identifier: generics.lessTypes
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Generic type Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership\> in PHPDoc tag @return does not specify all template types of class Illuminate\\Database\\Eloquent\\Relations\\HasMany\: TRelatedModel, TDeclaringModel$#'
+			identifier: generics.lessTypes
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:activeMandate\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:activeSession\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:hasActiveMembership\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:mandates\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:members\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:memberships\(\) should return Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership\> but returns Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership, \$this\(App\\Models\\Group\)\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:orderFromRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:owner\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<App\\Models\\User\> but returns Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<App\\Models\\User, \$this\(App\\Models\\Group\)\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:penaltyRules\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:roles\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:scopeAccessibleBy\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:scopeAccessibleBy\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Method App\\Models\\Group\:\:sessions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperGroup\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Property App\\Models\\Group\:\:\$sortable has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/Group.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/InsuranceContribution.php
+
+		-
+			message: '#^Method App\\Models\\InsuranceContribution\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/InsuranceContribution.php
+
+		-
+			message: '#^Method App\\Models\\InsuranceContribution\:\:membership\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/InsuranceContribution.php
+
+		-
+			message: '#^Method App\\Models\\InsuranceContribution\:\:orderFromRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/InsuranceContribution.php
+
+		-
+			message: '#^Method App\\Models\\InsuranceContribution\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/InsuranceContribution.php
+
+		-
+			message: '#^Method App\\Models\\InsuranceContribution\:\:session\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/InsuranceContribution.php
+
+		-
+			message: '#^Method App\\Models\\InsuranceContribution\:\:transactions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/InsuranceContribution.php
+
+		-
+			message: '#^Property App\\Models\\InsuranceContribution\:\:\$sortable has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/InsuranceContribution.php
+
+		-
+			message: '#^Class App\\Models\\Loan uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Loan.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/Loan.php
+
+		-
+			message: '#^Method App\\Models\\Loan\:\:approver\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Loan.php
+
+		-
+			message: '#^Method App\\Models\\Loan\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Loan.php
+
+		-
+			message: '#^Method App\\Models\\Loan\:\:membership\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Loan.php
+
+		-
+			message: '#^Method App\\Models\\Loan\:\:orderFromRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Loan.php
+
+		-
+			message: '#^Method App\\Models\\Loan\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Loan.php
+
+		-
+			message: '#^Method App\\Models\\Loan\:\:repayments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Loan.php
+
+		-
+			message: '#^Method App\\Models\\Loan\:\:session\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Loan.php
+
+		-
+			message: '#^Method App\\Models\\Loan\:\:transactions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Loan.php
+
+		-
+			message: '#^Property App\\Models\\Loan\:\:\$sortable has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/Loan.php
+
+		-
+			message: '#^Class App\\Models\\Mandate uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Mandate.php
+
+		-
+			message: '#^Method App\\Models\\Mandate\:\:assignments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Mandate.php
+
+		-
+			message: '#^Method App\\Models\\Mandate\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Mandate.php
+
+		-
+			message: '#^Method App\\Models\\Mandate\:\:group\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Mandate.php
+
+		-
+			message: '#^Class App\\Models\\MandateRoleAssignment uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MandateRoleAssignment.php
+
+		-
+			message: '#^Method App\\Models\\MandateRoleAssignment\:\:appointer\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MandateRoleAssignment.php
+
+		-
+			message: '#^Method App\\Models\\MandateRoleAssignment\:\:mandate\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MandateRoleAssignment.php
+
+		-
+			message: '#^Method App\\Models\\MandateRoleAssignment\:\:membership\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MandateRoleAssignment.php
+
+		-
+			message: '#^Method App\\Models\\MandateRoleAssignment\:\:role\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MandateRoleAssignment.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
 			message: '#^Method App\\Models\\Meeting\:\:agendaItems\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
@@ -1357,13 +3403,37 @@ parameters:
 			path: app/Models/Meeting.php
 
 		-
+			message: '#^Method App\\Models\\Meeting\:\:meetingSchedule\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
 			message: '#^Method App\\Models\\Meeting\:\:notes\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Meeting.php
 
 		-
+			message: '#^Method App\\Models\\Meeting\:\:orderFromRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Method App\\Models\\Meeting\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
 			message: '#^Method App\\Models\\Meeting\:\:payouts\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Method App\\Models\\Meeting\:\:penalties\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Meeting.php
@@ -1377,6 +3447,12 @@ parameters:
 		-
 			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperMeeting\.$#'
 			identifier: class.notFound
+			count: 1
+			path: app/Models/Meeting.php
+
+		-
+			message: '#^Property App\\Models\\Meeting\:\:\$sortable has no type specified\.$#'
+			identifier: missingType.property
 			count: 1
 			path: app/Models/Meeting.php
 
@@ -1483,6 +3559,24 @@ parameters:
 			path: app/Models/MeetingNote.php
 
 		-
+			message: '#^Method App\\Models\\MeetingSchedule\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingSchedule.php
+
+		-
+			message: '#^Method App\\Models\\MeetingSchedule\:\:meetings\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingSchedule.php
+
+		-
+			message: '#^Method App\\Models\\MeetingSchedule\:\:session\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/MeetingSchedule.php
+
+		-
 			message: '#^Class App\\Models\\Membership uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
 			identifier: missingType.generics
 			count: 1
@@ -1495,7 +3589,25 @@ parameters:
 			path: app/Models/Membership.php
 
 		-
+			message: '#^Method App\\Models\\Membership\:\:group\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Method App\\Models\\Membership\:\:insuranceContributions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Membership.php
+
+		-
 			message: '#^Method App\\Models\\Membership\:\:inviter\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Method App\\Models\\Membership\:\:mandateRoleAssignments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Membership.php
@@ -1508,6 +3620,12 @@ parameters:
 
 		-
 			message: '#^Method App\\Models\\Membership\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Membership.php
+
+		-
+			message: '#^Method App\\Models\\Membership\:\:penalties\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Membership.php
@@ -1526,12 +3644,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Models\\Membership\:\:sessionParticipations\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Models/Membership.php
-
-		-
-			message: '#^Method App\\Models\\Membership\:\:tontine\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Membership.php
@@ -1585,6 +3697,162 @@ parameters:
 			path: app/Models/Payout.php
 
 		-
+			message: '#^Class App\\Models\\Penalty uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Penalty.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/Penalty.php
+
+		-
+			message: '#^Method App\\Models\\Penalty\:\:contribution\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Penalty.php
+
+		-
+			message: '#^Method App\\Models\\Penalty\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Penalty.php
+
+		-
+			message: '#^Method App\\Models\\Penalty\:\:meeting\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Penalty.php
+
+		-
+			message: '#^Method App\\Models\\Penalty\:\:membership\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Penalty.php
+
+		-
+			message: '#^Method App\\Models\\Penalty\:\:orderFromRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Penalty.php
+
+		-
+			message: '#^Method App\\Models\\Penalty\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Penalty.php
+
+		-
+			message: '#^Method App\\Models\\Penalty\:\:rule\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Penalty.php
+
+		-
+			message: '#^Method App\\Models\\Penalty\:\:waivedBy\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Penalty.php
+
+		-
+			message: '#^Property App\\Models\\Penalty\:\:\$sortable has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/Penalty.php
+
+		-
+			message: '#^Class App\\Models\\PenaltyRule uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PenaltyRule.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/PenaltyRule.php
+
+		-
+			message: '#^Method App\\Models\\PenaltyRule\:\:group\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PenaltyRule.php
+
+		-
+			message: '#^Method App\\Models\\PenaltyRule\:\:orderFromRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/PenaltyRule.php
+
+		-
+			message: '#^Method App\\Models\\PenaltyRule\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PenaltyRule.php
+
+		-
+			message: '#^Method App\\Models\\PenaltyRule\:\:penalties\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/PenaltyRule.php
+
+		-
+			message: '#^Property App\\Models\\PenaltyRule\:\:\$sortable has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/PenaltyRule.php
+
+		-
+			message: '#^Class App\\Models\\Repayment uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Repayment.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/Repayment.php
+
+		-
+			message: '#^Method App\\Models\\Repayment\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Repayment.php
+
+		-
+			message: '#^Method App\\Models\\Repayment\:\:loan\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Repayment.php
+
+		-
+			message: '#^Method App\\Models\\Repayment\:\:orderFromRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Repayment.php
+
+		-
+			message: '#^Method App\\Models\\Repayment\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Repayment.php
+
+		-
+			message: '#^Method App\\Models\\Repayment\:\:transactions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Repayment.php
+
+		-
+			message: '#^Property App\\Models\\Repayment\:\:\$sortable has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/Repayment.php
+
+		-
 			message: '#^Expression on left side of \?\? is not nullable\.$#'
 			identifier: nullCoalesce.expr
 			count: 1
@@ -1603,7 +3871,37 @@ parameters:
 			path: app/Models/Session.php
 
 		-
+			message: '#^Method App\\Models\\Session\:\:donations\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
 			message: '#^Method App\\Models\\Session\:\:draw\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:group\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:insuranceContributions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:loans\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
+			message: '#^Method App\\Models\\Session\:\:meetingSchedule\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Session.php
@@ -1633,13 +3931,19 @@ parameters:
 			path: app/Models/Session.php
 
 		-
+			message: '#^Method App\\Models\\Session\:\:penalties\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasManyThrough does not specify its types\: TRelatedModel, TIntermediateModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Session.php
+
+		-
 			message: '#^Method App\\Models\\Session\:\:sessionParticipations\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Session.php
 
 		-
-			message: '#^Method App\\Models\\Session\:\:tontine\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			message: '#^Method App\\Models\\Session\:\:transactions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Session.php
@@ -1699,110 +4003,14 @@ parameters:
 			path: app/Models/SessionParticipant.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Tontine\:\:\$default_membership_role\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Class App\\Models\\Tontine uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			message: '#^Class App\\Models\\Transaction uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Models/Tontine.php
+			path: app/Models/Transaction.php
 
 		-
 			message: '#^Expression on left side of \?\? is not nullable\.$#'
 			identifier: nullCoalesce.expr
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Generic type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<App\\Models\\User\> in PHPDoc tag @return does not specify all template types of class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\: TRelatedModel, TDeclaringModel$#'
-			identifier: generics.lessTypes
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Generic type Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership\> in PHPDoc tag @return does not specify all template types of class Illuminate\\Database\\Eloquent\\Relations\\HasMany\: TRelatedModel, TDeclaringModel$#'
-			identifier: generics.lessTypes
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Method App\\Models\\Tontine\:\:activeSession\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Method App\\Models\\Tontine\:\:hasActiveMembership\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Method App\\Models\\Tontine\:\:members\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Method App\\Models\\Tontine\:\:memberships\(\) should return Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership\> but returns Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership, \$this\(App\\Models\\Tontine\)\>\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Method App\\Models\\Tontine\:\:orderFromRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Method App\\Models\\Tontine\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Method App\\Models\\Tontine\:\:owner\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<App\\Models\\User\> but returns Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<App\\Models\\User, \$this\(App\\Models\\Tontine\)\>\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Method App\\Models\\Tontine\:\:scopeAccessibleBy\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Method App\\Models\\Tontine\:\:scopeAccessibleBy\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Method App\\Models\\Tontine\:\:sessions\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^PHPDoc tag @mixin contains unknown class App\\Models\\IdeHelperTontine\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Property App\\Models\\Tontine\:\:\$sortable has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: app/Models/Tontine.php
-
-		-
-			message: '#^Class App\\Models\\Transaction uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
-			identifier: missingType.generics
 			count: 1
 			path: app/Models/Transaction.php
 
@@ -1813,13 +4021,19 @@ parameters:
 			path: app/Models/Transaction.php
 
 		-
-			message: '#^Method App\\Models\\Transaction\:\:meeting\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			message: '#^Method App\\Models\\Transaction\:\:membership\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Transaction.php
 
 		-
-			message: '#^Method App\\Models\\Transaction\:\:membership\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			message: '#^Method App\\Models\\Transaction\:\:orderFromRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Method App\\Models\\Transaction\:\:orderFromRequest\(\) has parameter \$builder with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Transaction.php
@@ -1855,14 +4069,14 @@ parameters:
 			path: app/Models/Transaction.php
 
 		-
-			message: '#^Method App\\Models\\Transaction\:\:tontine\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			message: '#^Method App\\Models\\Transaction\:\:transactionable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Transaction.php
 
 		-
-			message: '#^Method App\\Models\\Transaction\:\:transactionable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
-			identifier: missingType.generics
+			message: '#^Property App\\Models\\Transaction\:\:\$sortable has no type specified\.$#'
+			identifier: missingType.property
 			count: 1
 			path: app/Models/Transaction.php
 
@@ -1873,20 +4087,26 @@ parameters:
 			path: app/Models/User.php
 
 		-
+			message: '#^Method App\\Models\\User\:\:fullName\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:groups\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\<App\\Models\\Group, Illuminate\\Database\\Eloquent\\Relations\\Pivot, ''pivot''\> but returns Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\<App\\Models\\Group, \$this\(App\\Models\\User\), Illuminate\\Database\\Eloquent\\Relations\\Pivot, ''pivot''\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/User.php
+
+		-
 			message: '#^Method App\\Models\\User\:\:memberships\(\) should return Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership\> but returns Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Membership, \$this\(App\\Models\\User\)\>\.$#'
 			identifier: return.type
 			count: 1
 			path: app/Models/User.php
 
 		-
-			message: '#^Method App\\Models\\User\:\:ownedTontines\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			message: '#^Method App\\Models\\User\:\:ownedGroups\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
-			count: 1
-			path: app/Models/User.php
-
-		-
-			message: '#^Method App\\Models\\User\:\:tontines\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\<App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Relations\\Pivot, ''pivot''\> but returns Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\<App\\Models\\Tontine, \$this\(App\\Models\\User\), Illuminate\\Database\\Eloquent\\Relations\\Pivot, ''pivot''\>\.$#'
-			identifier: return.type
 			count: 1
 			path: app/Models/User.php
 
@@ -1897,10 +4117,16 @@ parameters:
 			path: app/Models/User.php
 
 		-
-			message: '#^Type string in generic type Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\<App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Relations\\Pivot, string\> in PHPDoc tag @return is not subtype of template type TPivotModel of Illuminate\\Database\\Eloquent\\Relations\\Pivot \= Illuminate\\Database\\Eloquent\\Relations\\Pivot of class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\.$#'
+			message: '#^Type string in generic type Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\<App\\Models\\Group, Illuminate\\Database\\Eloquent\\Relations\\Pivot, string\> in PHPDoc tag @return is not subtype of template type TPivotModel of Illuminate\\Database\\Eloquent\\Relations\\Pivot \= Illuminate\\Database\\Eloquent\\Relations\\Pivot of class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\.$#'
 			identifier: generics.notSubtype
 			count: 1
 			path: app/Models/User.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Policies/ContributionPolicy.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
@@ -1909,13 +4135,31 @@ parameters:
 			path: app/Policies/ContributionPolicy.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
-			identifier: property.notFound
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: app/Policies/ContributionPolicy.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Policies/DonationPolicy.php
+
+		-
+			message: '#^Parameter \#2 \$group of method App\\Policies\\DonationPolicy\:\:can\(\) expects App\\Models\\Group\|App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Policies/DonationPolicy.php
+
+		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/DonationPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
 			identifier: property.notFound
 			count: 4
 			path: app/Policies/DrawPolicy.php
@@ -1927,31 +4171,79 @@ parameters:
 			path: app/Policies/DrawPolicy.php
 
 		-
-			message: '#^Parameter \$tontine of method App\\Policies\\DrawPolicy\:\:can\(\) expects App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			message: '#^Parameter \$group of method App\\Policies\\DrawPolicy\:\:can\(\) expects App\\Models\\Group\|App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
 			identifier: argument.type
 			count: 2
 			path: app/Policies/DrawPolicy.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Policies/MeetingAgendaItemPolicy.php
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/DrawPolicy.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Policies/MeetingAgendaItemPolicy.php
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/GroupPolicy.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasActiveMembership\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/InsuranceContributionPolicy.php
+
+		-
+			message: '#^Parameter \#2 \$group of method App\\Policies\\InsuranceContributionPolicy\:\:can\(\) expects App\\Models\\Group\|App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Policies/InsuranceContributionPolicy.php
+
+		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/InsuranceContributionPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
 			identifier: property.notFound
 			count: 2
-			path: app/Policies/MeetingAttendancePolicy.php
+			path: app/Policies/LoanPolicy.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			message: '#^Parameter \#2 \$group of method App\\Policies\\LoanPolicy\:\:can\(\) expects App\\Models\\Group\|App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Policies/LoanPolicy.php
+
+		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/LoanPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Policies/MeetingAgendaItemPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Policies/MeetingAgendaItemPolicy.php
+
+		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/MeetingAgendaItemPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Policies/MeetingAttendancePolicy.php
@@ -1960,10 +4252,22 @@ parameters:
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
 			identifier: property.notFound
 			count: 2
+			path: app/Policies/MeetingAttendancePolicy.php
+
+		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/MeetingAttendancePolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
+			identifier: property.notFound
+			count: 2
 			path: app/Policies/MeetingDecisionPolicy.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
 			identifier: property.notFound
 			count: 2
 			path: app/Policies/MeetingDecisionPolicy.php
@@ -1975,21 +4279,33 @@ parameters:
 			path: app/Policies/MeetingDecisionPolicy.php
 
 		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/MeetingDecisionPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Policies/MeetingNotePolicy.php
+
+		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
 			identifier: property.notFound
 			count: 3
 			path: app/Policies/MeetingNotePolicy.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
-			identifier: property.notFound
-			count: 2
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
 			path: app/Policies/MeetingNotePolicy.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
 			identifier: property.notFound
-			count: 16
+			count: 20
 			path: app/Policies/MeetingPolicy.php
 
 		-
@@ -1999,9 +4315,15 @@ parameters:
 			path: app/Policies/MeetingPolicy.php
 
 		-
-			message: '#^Parameter \#2 \$tontine of method App\\Policies\\MeetingPolicy\:\:can\(\) expects App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			message: '#^Parameter \#2 \$group of method App\\Policies\\MeetingPolicy\:\:can\(\) expects App\\Models\\Group\|App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
 			identifier: argument.type
 			count: 2
+			path: app/Policies/MeetingPolicy.php
+
+		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
 			path: app/Policies/MeetingPolicy.php
 
 		-
@@ -2011,10 +4333,22 @@ parameters:
 			path: app/Policies/MembershipPolicy.php
 
 		-
-			message: '#^Parameter \#2 \$tontine of method App\\Policies\\MembershipPolicy\:\:can\(\) expects App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			message: '#^Parameter \#2 \$group of method App\\Policies\\MembershipPolicy\:\:can\(\) expects App\\Models\\Group\|App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
 			identifier: argument.type
 			count: 3
 			path: app/Policies/MembershipPolicy.php
+
+		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/MembershipPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Policies/PayoutPolicy.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
@@ -2023,13 +4357,55 @@ parameters:
 			path: app/Policies/PayoutPolicy.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
-			identifier: property.notFound
-			count: 2
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
 			path: app/Policies/PayoutPolicy.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tontine\.$#'
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Policies/PenaltyPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasActiveMembership\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Policies/PenaltyPolicy.php
+
+		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/PenaltyPolicy.php
+
+		-
+			message: '#^Parameter \#2 \$group of method App\\Policies\\PenaltyRulePolicy\:\:can\(\) expects App\\Models\\Group\|App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/PenaltyRulePolicy.php
+
+		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/PenaltyRulePolicy.php
+
+		-
+			message: '#^Parameter \#2 \$group of method App\\Policies\\RepaymentPolicy\:\:can\(\) expects App\\Models\\Group\|App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/RepaymentPolicy.php
+
+		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/RepaymentPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$group\.$#'
 			identifier: property.notFound
 			count: 8
 			path: app/Policies/SessionParticipantPolicy.php
@@ -2041,22 +4417,52 @@ parameters:
 			path: app/Policies/SessionParticipantPolicy.php
 
 		-
-			message: '#^Parameter \#2 \$tontine of method App\\Policies\\SessionParticipantPolicy\:\:can\(\) expects App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			message: '#^Parameter \#2 \$group of method App\\Policies\\SessionParticipantPolicy\:\:can\(\) expects App\\Models\\Group\|App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
 			identifier: argument.type
 			count: 2
 			path: app/Policies/SessionParticipantPolicy.php
 
 		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/SessionParticipantPolicy.php
+
+		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasActiveMembership\(\)\.$#'
 			identifier: method.notFound
-			count: 5
+			count: 8
 			path: app/Policies/SessionPolicy.php
 
 		-
-			message: '#^Parameter \#2 \$tontine of method App\\Policies\\SessionPolicy\:\:can\(\) expects App\\Models\\Tontine, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			message: '#^Parameter \#2 \$group of method App\\Policies\\SessionPolicy\:\:can\(\) expects App\\Models\\Group\|App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
 			identifier: argument.type
-			count: 5
+			count: 8
 			path: app/Policies/SessionPolicy.php
+
+		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/SessionPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasActiveMembership\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Policies/TransactionPolicy.php
+
+		-
+			message: '#^Parameter \#2 \$group of method App\\Policies\\TransactionPolicy\:\:can\(\) expects App\\Models\\Group\|App\\Models\\Session, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/TransactionPolicy.php
+
+		-
+			message: '#^Parameter \$group of method App\\Support\\GroupPermissionChecker\:\:allows\(\) expects App\\Models\\Group, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Policies/TransactionPolicy.php
 
 		-
 			message: '#^Method App\\Support\\DrawCalendar\:\:positionsForMeeting\(\) return type has no value type specified in iterable type array\.$#'
@@ -2075,6 +4481,30 @@ parameters:
 			identifier: class.notFound
 			count: 1
 			path: config/media-library.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Membership\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Membership\>\:\:\$group_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: database/factories/DonationFactory.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Membership\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Membership\>\:\:\$group_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: database/factories/InsuranceContributionFactory.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:participants\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: database/factories/InsuranceContributionFactory.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Membership\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Membership\>\:\:\$group_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: database/factories/LoanFactory.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\Meeting\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Meeting\>\:\:\$session\.$#'

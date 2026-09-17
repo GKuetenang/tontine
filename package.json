@@ -10,7 +10,8 @@
         "format:check": "prettier --check resources/",
         "lint": "eslint . --fix",
         "lint:check": "eslint .",
-        "types:check": "tsc --noEmit"
+        "wayfinder:generate": "php artisan wayfinder:generate --with-form",
+        "types:check": "pnpm run wayfinder:generate && tsc --noEmit"
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",

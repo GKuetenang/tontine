@@ -17,3 +17,9 @@ pint:
 .PHONY: types
 types:
 	php artisan typescript:transform
+
+
+.PHONY: check
+
+check:
+	composer ci:check

@@ -82,7 +82,7 @@ class GroupData extends Data
             'image' => Lazy::whenLoaded(
                 'media',
                 $group,
-                fn(): ?string => $group->getFirstMediaUrl(),
+                fn (): ?string => $group->getFirstMediaUrl(),
             ),
             'image_file' => Optional::create(),
             'can' => $can ?? Optional::create(),
