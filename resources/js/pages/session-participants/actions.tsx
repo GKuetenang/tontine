@@ -9,6 +9,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import sessionParticipants from '@/routes/groups/sessions/participants';
 import type { ResultGroup, Session, SessionParticipant } from '@/types';
 
@@ -21,6 +22,7 @@ type Props = {
 };
 
 export function Actions({ group, session, participant }: Props) {
+    const { t } = useTranslation();
     const { can, canAny } = useAuthorization();
 
     const hasActions = canAny(
@@ -33,7 +35,7 @@ export function Actions({ group, session, participant }: Props) {
         return (
             <span
                 className="text-muted-foreground"
-                aria-label="Aucune action disponible"
+                aria-label={t('Aucune action disponible')}
             >
                 —
             </span>
@@ -48,7 +50,7 @@ export function Actions({ group, session, participant }: Props) {
                         className="ml-auto"
                         variant="ghost"
                         size="icon"
-                        aria-label="Actions du participant"
+                        aria-label={t('Actions du participant')}
                     >
                         <EllipsisIcon className="size-4" />
                     </Button>
@@ -68,7 +70,7 @@ export function Actions({ group, session, participant }: Props) {
                                         }
                                     >
                                         <Pencil className="size-4" />
-                                        Modifier
+                                        {t('Modifier')}
                                     </DropdownMenuItem>
                                 }
                             />
@@ -97,7 +99,7 @@ export function Actions({ group, session, participant }: Props) {
                                     }}
                                 >
                                     <TrashIcon className="size-4" />
-                                    Retirer
+                                    {t('Retirer')}
                                 </Link>
                             </DropdownMenuItem>
                         )}
@@ -127,7 +129,7 @@ export function Actions({ group, session, participant }: Props) {
                                     }}
                                 >
                                     <RotateCcwIcon className="size-4" />
-                                    Réactiver
+                                    {t('Réactiver')}
                                 </Link>
                             </DropdownMenuItem>
                         )}

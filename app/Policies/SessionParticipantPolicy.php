@@ -3,13 +3,15 @@
 namespace App\Policies;
 
 use App\Enums\GroupPermission;
-use App\Models\Group;
 use App\Models\Session;
 use App\Models\SessionParticipant;
 use App\Models\User;
+use App\Policies\Concerns\ChecksGroupPermissions;
 
 class SessionParticipantPolicy
 {
+    use ChecksGroupPermissions;
+
     /**
      * Consulter les participants d'une session.
      */
@@ -108,25 +110,4 @@ class SessionParticipantPolicy
      * Vérifie une permission dans le contexte exact
      * de la réunion concernée.
      */
-    private function can(
-        User $user,
-        Group $group,
-        GroupPermission $permission,
-    ): bool {
-        $previousTeamId = getPermissionsTeamId();
-
-        try {
-            setPermissionsTeamId($group->id);
-
-            $user->unsetRelation('roles');
-            $user->unsetRelation('permissions');
-
-            return $user->can($permission->value);
-        } finally {
-            setPermissionsTeamId($previousTeamId);
-
-            $user->unsetRelation('roles');
-            $user->unsetRelation('permissions');
-        }
-    }
 }

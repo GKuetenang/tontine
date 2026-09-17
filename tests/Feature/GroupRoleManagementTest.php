@@ -3,14 +3,71 @@
 use App\Actions\Groups\CreateDefaultGroupRolesAction;
 use App\Actions\Memberships\CreateMembershipAction;
 use App\Enums\GroupPermission;
+use App\Enums\GroupRole;
 use App\Models\Group;
 use App\Models\User;
+use App\Support\GroupPermissionChecker;
 use Database\Seeders\PermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Spatie\Permission\Models\Role;
 
 uses(RefreshDatabase::class);
+
+it('creates a protected administrator role with every group permission', function (): void {
+    [, $group] = roleManagementContext();
+    $administrator = $group->roles()
+        ->where('name', GroupRole::Administrator->value)
+        ->sole();
+
+    expect($administrator->permissions()->pluck('name')->all())
+        ->toEqualCanonicalizing(
+            array_map(
+                fn (GroupPermission $permission): string => $permission->value,
+                GroupPermission::cases(),
+            ),
+        );
+});
+
+it('removes stale group roles before deciding a permission', function (): void {
+    app(PermissionSeeder::class)->run();
+
+    $owner = User::factory()->create();
+    $member = User::factory()->create();
+
+    $this->actingAs($owner)
+        ->post(route('groups.store'), [
+            'name' => 'Groupe sécurisé',
+            'member_number_prefix' => 'SEC',
+            'default_loan_interest_rate' => '10.00',
+            'default_loan_term_months' => 5,
+            'initial_mandate_name' => 'Mandat initial',
+            'initial_mandate_starts_at' => today()->subDay()->toDateString(),
+            'initial_mandate_ends_at' => today()->addYear()->toDateString(),
+        ])
+        ->assertSessionHasNoErrors();
+
+    $group = Group::query()->where('user_id', $owner->id)->sole();
+    app(CreateMembershipAction::class)->execute($group, $member, GroupRole::Member->value);
+
+    setPermissionsTeamId($group->id);
+    $member->syncRoles([GroupRole::Administrator->value]);
+    $member->unsetRelation('roles');
+    $member->unsetRelation('permissions');
+
+    expect($member->can(GroupPermission::UpdateGroup->value))->toBeTrue()
+        ->and(app(GroupPermissionChecker::class)->allows(
+            $member,
+            $group,
+            GroupPermission::UpdateGroup,
+        ))->toBeFalse();
+
+    setPermissionsTeamId($group->id);
+    $member->unsetRelation('roles');
+
+    expect($member->hasRole(GroupRole::Administrator->value))->toBeFalse()
+        ->and($member->hasRole(GroupRole::Member->value))->toBeTrue();
+});
 
 function roleManagementContext(): array
 {
@@ -117,6 +174,14 @@ it('updates an existing role but protects the president role', function (): void
     $this->actingAs($president)
         ->put(route('groups.roles.update', [$group, $presidentRole]), [
             'name' => 'Administrateur',
+            'permissions' => [],
+        ])
+        ->assertForbidden();
+
+    $administratorRole = $group->roles()->where('name', GroupRole::Administrator->value)->sole();
+    $this->actingAs($president)
+        ->put(route('groups.roles.update', [$group, $administratorRole]), [
+            'name' => 'Administrateur modifié',
             'permissions' => [],
         ])
         ->assertForbidden();

@@ -21,6 +21,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 
+import { useTranslation } from '@/hooks/use-translation';
 import decisions from '@/routes/groups/sessions/meetings/decisions';
 
 import type { Meeting, MeetingDecision, Session, Group } from '@/types';
@@ -42,6 +43,7 @@ export function EditMeetingDecisionForm({
     meeting,
     decision,
 }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
 
     const [description, setDescription] = useState(decision?.description ?? '');
@@ -94,7 +96,7 @@ export function EditMeetingDecisionForm({
                     </DialogTitle>
 
                     <DialogDescription>
-                        Enregistrer une décision prise pendant l’assise.
+                        {t('Enregistrer une décision prise pendant l’assise.')}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -111,7 +113,7 @@ export function EditMeetingDecisionForm({
                         <>
                             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-2">
                                 <FormField
-                                    label="Point de l’ordre du jour"
+                                    label={t('Point de l’ordre du jour')}
                                     htmlFor="meeting_agenda_item_id"
                                     error={errors['meeting_agenda_item_id']}
                                     optional
@@ -139,7 +141,7 @@ export function EditMeetingDecisionForm({
                                 </FormField>
 
                                 <FormField
-                                    label="Titre"
+                                    label={t('Titre')}
                                     htmlFor="title"
                                     error={errors.title}
                                     required
@@ -148,12 +150,14 @@ export function EditMeetingDecisionForm({
                                         id="title"
                                         name="title"
                                         defaultValue={decision?.title ?? ''}
-                                        placeholder="Ex. Nouvelle cotisation mensuelle"
+                                        placeholder={t(
+                                            'Ex. Nouvelle cotisation mensuelle',
+                                        )}
                                     />
                                 </FormField>
 
                                 <FormField
-                                    label="Description"
+                                    label={t('Description')}
                                     htmlFor="description"
                                     error={errors.description}
                                     optional
@@ -167,7 +171,9 @@ export function EditMeetingDecisionForm({
                                     <RichTextEditor
                                         value={description}
                                         onChange={setDescription}
-                                        placeholder="Décrire la décision..."
+                                        placeholder={t(
+                                            'Décrire la décision...',
+                                        )}
                                     />
                                 </FormField>
                             </div>
@@ -175,13 +181,13 @@ export function EditMeetingDecisionForm({
                             <DialogFooter className="shrink-0 border-t pt-4">
                                 <DialogClose asChild>
                                     <Button type="button" variant="outline">
-                                        Annuler
+                                        {t('Annuler')}
                                     </Button>
                                 </DialogClose>
 
                                 <Button type="submit" disabled={processing}>
                                     {processing ? <Spinner /> : <SaveIcon />}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </>

@@ -19,6 +19,7 @@ import {
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
+import { useTranslation } from '@/hooks/use-translation';
 import meetings from '@/routes/groups/sessions/meetings';
 
 import type { Meeting, Session, Group } from '@/types';
@@ -32,6 +33,7 @@ type Props = {
 };
 
 export function Actions({ group, session, meeting }: Props) {
+    const { t } = useTranslation();
     const { can, canAny } = useAuthorization();
 
     const hasActions = canAny(
@@ -47,7 +49,7 @@ export function Actions({ group, session, meeting }: Props) {
         return (
             <span
                 className="text-muted-foreground"
-                aria-label="Aucune action disponible"
+                aria-label={t('Aucune action disponible')}
             >
                 —
             </span>
@@ -68,7 +70,7 @@ export function Actions({ group, session, meeting }: Props) {
                         className="ml-auto"
                         variant="ghost"
                         size="icon"
-                        aria-label="Actions de l’assise"
+                        aria-label={t('Actions de l’assise')}
                     >
                         <EllipsisIcon className="size-4" />
                     </Button>
@@ -88,7 +90,7 @@ export function Actions({ group, session, meeting }: Props) {
                                         }
                                     >
                                         <PencilIcon className="size-4" />
-                                        Modifier
+                                        {t('Modifier')}
                                     </DropdownMenuItem>
                                 }
                             />
@@ -111,7 +113,7 @@ export function Actions({ group, session, meeting }: Props) {
                                 }}
                             >
                                 <DoorOpenIcon className="size-4" />
-                                Ouvrir
+                                {t('Ouvrir')}
                             </Link>
                         </DropdownMenuItem>
                     )}
@@ -135,7 +137,7 @@ export function Actions({ group, session, meeting }: Props) {
                                     }}
                                 >
                                     <LockKeyholeIcon className="size-4" />
-                                    Clôturer
+                                    {t('Clôturer')}
                                 </Link>
                             </DropdownMenuItem>
                         )}
@@ -159,20 +161,23 @@ export function Actions({ group, session, meeting }: Props) {
                                     }}
                                 >
                                     <BanIcon className="size-4" />
-                                    Annuler
+                                    {t('Annuler')}
                                 </Link>
                             </DropdownMenuItem>
                         )}
 
                     {can('meetings.delete') &&
-                        meeting.status === 'scheduled' && (
+                        (meeting.status === 'scheduled' ||
+                            meeting.status === 'cancelled') && (
                             <>
                                 <DropdownMenuSeparator />
 
                                 <DropdownMenuItem asChild>
                                     <Link
                                         className="w-full"
-                                        href={meetings.close(routeParams)}
+                                        href={meetings.destroy(routeParams)}
+                                        method="delete"
+                                        as="button"
                                         onBefore={() =>
                                             confirm(
                                                 'Voulez-vous vraiment supprimer cette assise ?',
@@ -186,7 +191,7 @@ export function Actions({ group, session, meeting }: Props) {
                                         }}
                                     >
                                         <TrashIcon className="size-4" />
-                                        Supprimer
+                                        {t('Supprimer')}
                                     </Link>
                                 </DropdownMenuItem>
                             </>

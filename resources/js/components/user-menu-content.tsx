@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
+import { useTranslation } from '@/hooks/use-translation';
 import { logout } from '@/routes';
 import account from '@/routes/account';
 import { edit } from '@/routes/profile';
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export function UserMenuContent({ user }: Props) {
+    const { t } = useTranslation();
     const cleanup = useMobileNavigation();
 
     const handleLogout = () => {
@@ -42,7 +44,7 @@ export function UserMenuContent({ user }: Props) {
                         onClick={cleanup}
                     >
                         <CircleUserRoundIcon className="mr-2" />
-                        Mon espace
+                        {t('Mon espace')}
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
@@ -53,7 +55,7 @@ export function UserMenuContent({ user }: Props) {
                         onClick={cleanup}
                     >
                         <Settings className="mr-2" />
-                        Paramètres
+                        {t('Paramètres')}
                     </Link>
                 </DropdownMenuItem>
             </DropdownMenuGroup>
@@ -67,7 +69,7 @@ export function UserMenuContent({ user }: Props) {
                     data-test="logout-button"
                 >
                     <LogOut className="mr-2" />
-                    Se déconnecter
+                    {t('Se déconnecter')}
                 </Link>
             </DropdownMenuItem>
         </>

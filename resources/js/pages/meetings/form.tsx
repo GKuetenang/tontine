@@ -1,8 +1,3 @@
-import { Form } from '@inertiajs/react';
-import { format } from 'date-fns';
-import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
-import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import { Button } from '@/components/ui/button';
 import { DateTimePicker } from '@/components/ui/datetime-picker';
@@ -18,11 +13,17 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
+import { useTranslation } from '@/hooks/use-translation';
 import { parseDate } from '@/lib';
+import { Form } from '@inertiajs/react';
+import { format } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 
 import meetings from '@/routes/groups/sessions/meetings';
 
-import type { Meeting, Session, Group } from '@/types';
+import type { Group, Meeting, Session } from '@/types';
 
 type Props = {
     trigger: ReactElement;
@@ -32,6 +33,7 @@ type Props = {
 };
 
 export function EditMeetingForm({ trigger, group, session, meeting }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
 
     const [scheduledAt, setScheduledAt] = useState<Date | undefined>(() =>
@@ -48,14 +50,14 @@ export function EditMeetingForm({ trigger, group, session, meeting }: Props) {
 
     const action = meeting.id
         ? meetings.update.form({
-              group: group.slug!,
-              session: session.slug,
-              meeting: meeting.slug,
-          })
+            group: group.slug!,
+            session: session.slug,
+            meeting: meeting.slug,
+        })
         : meetings.store.form({
-              group: group.slug!,
-              session: session.slug,
-          });
+            group: group.slug!,
+            session: session.slug,
+        });
 
     const isEditing = Boolean(meeting.id);
 
@@ -93,7 +95,7 @@ export function EditMeetingForm({ trigger, group, session, meeting }: Props) {
 
                             <FormField
                                 error={errors['title']}
-                                label="Titre"
+                                label={t('Titre')}
                                 htmlFor="title"
                                 required
                             >
@@ -101,14 +103,14 @@ export function EditMeetingForm({ trigger, group, session, meeting }: Props) {
                                     id="title"
                                     name="title"
                                     defaultValue={meeting?.title}
-                                    placeholder="Ex. Assise mensuelle"
+                                    placeholder={t('Ex. Assise mensuelle')}
                                     aria-invalid={!!errors['title']}
                                 />
                             </FormField>
 
                             <FormField
                                 error={errors['scheduled_at']}
-                                label="Date et heure"
+                                label={t('Date et heure')}
                                 htmlFor="scheduled_at"
                                 required
                             >
@@ -118,17 +120,20 @@ export function EditMeetingForm({ trigger, group, session, meeting }: Props) {
                                     value={
                                         scheduledAt
                                             ? format(
-                                                  scheduledAt,
-                                                  'yyyy-MM-dd HH:mm:ss',
-                                              )
+                                                scheduledAt,
+                                                'yyyy-MM-dd HH:mm:ss',
+                                            )
                                             : ''
                                     }
                                 />
 
                                 <DateTimePicker
+                                    weekStartsOn={1}
                                     granularity="minute"
                                     className="text-foreground"
-                                    placeholder="Choisir une date et une heure"
+                                    placeholder={t(
+                                        'Choisir une date et une heure',
+                                    )}
                                     value={scheduledAt}
                                     onChange={setScheduledAt}
                                 />
@@ -136,7 +141,7 @@ export function EditMeetingForm({ trigger, group, session, meeting }: Props) {
 
                             <FormField
                                 error={errors['location']}
-                                label="Lieu"
+                                label={t('Lieu')}
                                 htmlFor="location"
                                 optional
                             >
@@ -144,14 +149,14 @@ export function EditMeetingForm({ trigger, group, session, meeting }: Props) {
                                     id="location"
                                     name="location"
                                     defaultValue={meeting?.location ?? ''}
-                                    placeholder="Ex. Domicile du président"
+                                    placeholder={t('Ex. Domicile du président')}
                                     aria-invalid={!!errors['location']}
                                 />
                             </FormField>
 
                             <FormField
                                 error={errors['description']}
-                                label="Description"
+                                label={t('Description')}
                                 htmlFor="description"
                                 optional
                             >
@@ -159,7 +164,9 @@ export function EditMeetingForm({ trigger, group, session, meeting }: Props) {
                                     id="description"
                                     name="description"
                                     defaultValue={meeting?.description ?? ''}
-                                    placeholder="Ajouter une description..."
+                                    placeholder={t(
+                                        'Ajouter une description...',
+                                    )}
                                     aria-invalid={!!errors['description']}
                                     className="min-h-24 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40"
                                 />
@@ -168,7 +175,7 @@ export function EditMeetingForm({ trigger, group, session, meeting }: Props) {
                             <DialogFooter>
                                 <DialogClose asChild>
                                     <Button type="button" variant="outline">
-                                        Annuler
+                                        {t('Annuler')}
                                     </Button>
                                 </DialogClose>
 

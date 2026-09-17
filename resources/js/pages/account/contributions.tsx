@@ -11,6 +11,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTranslation } from '@/hooks/use-translation';
 import { AccountLayout } from '@/layouts/account-layout';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
@@ -33,74 +34,84 @@ export default withAppLayout<Props>(
         { title: 'Mon espace', href: account.index() },
         { title: 'Mes cotisations', href: account.contributions.index() },
     ] as BreadcrumbItem[],
-    ({ collection }) => (
-        <AccountLayout>
-            <Head title="Mes cotisations" />
-            <Heading
-                title="Mes cotisations"
-                description="Suivez les montants attendus et les paiements enregistrés à votre nom."
-            />
-            <Card className="bg-background pt-0">
-                <CardHeader className="border-b py-4">
-                    <CardTitle>Historique des cotisations</CardTitle>
-                </CardHeader>
-                <CardContent className="px-0">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="pl-6">Assise</TableHead>
-                                <TableHead>Réunion</TableHead>
-                                <TableHead>Statut</TableHead>
-                                <TableHead>Attendu</TableHead>
-                                <TableHead className="pr-6 text-right">
-                                    Payé
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {collection.data.map((item) => (
-                                <TableRow key={item.id} className="h-14">
-                                    <TableCell className="pl-6">
-                                        <p className="font-medium">
-                                            {item.meeting_title}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground">
-                                            {formatDate(item.scheduled_at)}
-                                        </p>
-                                    </TableCell>
-                                    <TableCell>{item.group.name}</TableCell>
-                                    <TableCell>
-                                        <Badge variant="outline">
-                                            {item.status_label}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell>
-                                        {formatCurrency(
-                                            item.amount_due,
-                                            item.group.currency,
-                                        )}
-                                    </TableCell>
-                                    <TableCell className="pr-6 text-right font-medium">
-                                        {formatCurrency(
-                                            item.amount_paid,
-                                            item.group.currency,
-                                        )}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                    {collection.data.length === 0 && (
-                        <p className="p-8 text-center text-sm text-muted-foreground">
-                            Aucune cotisation enregistrée à votre nom.
-                        </p>
+    ({ collection }) => {
+        const { t } = useTranslation();
+
+        return (
+            <AccountLayout>
+                <Head title={t('Mes cotisations')} />
+                <Heading
+                    title={t('Mes cotisations')}
+                    description={t(
+                        'Suivez les montants attendus et les paiements enregistrés à votre nom.',
                     )}
-                    <CollectionPagination
-                        collection={collection}
-                        className="px-6 pt-6"
-                    />
-                </CardContent>
-            </Card>
-        </AccountLayout>
-    ),
+                />
+                <Card className="bg-background pt-0">
+                    <CardHeader className="border-b py-4">
+                        <CardTitle>{t('Historique des cotisations')}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="px-0">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="pl-6">
+                                        {t('Assise')}
+                                    </TableHead>
+                                    <TableHead>{t('Réunion')}</TableHead>
+                                    <TableHead>{t('Statut')}</TableHead>
+                                    <TableHead>{t('Attendu')}</TableHead>
+                                    <TableHead className="pr-6 text-right">
+                                        {t('Payé')}
+                                    </TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {collection.data.map((item) => (
+                                    <TableRow key={item.id} className="h-14">
+                                        <TableCell className="pl-6">
+                                            <p className="font-medium">
+                                                {item.meeting_title}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {formatDate(item.scheduled_at)}
+                                            </p>
+                                        </TableCell>
+                                        <TableCell>{item.group.name}</TableCell>
+                                        <TableCell>
+                                            <Badge variant="outline">
+                                                {item.status_label}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell>
+                                            {formatCurrency(
+                                                item.amount_due,
+                                                item.group.currency,
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="pr-6 text-right font-medium">
+                                            {formatCurrency(
+                                                item.amount_paid,
+                                                item.group.currency,
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                        {collection.data.length === 0 && (
+                            <p className="p-8 text-center text-sm text-muted-foreground">
+                                {t(
+                                    'Aucune cotisation enregistrée à votre nom.',
+                                )}
+                            </p>
+                        )}
+                        <CollectionPagination
+                            collection={collection}
+                            className="px-6 pt-6"
+                        />
+                    </CardContent>
+                </Card>
+            </AccountLayout>
+        );
+    },
 );

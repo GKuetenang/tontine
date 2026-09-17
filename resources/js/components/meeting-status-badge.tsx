@@ -1,8 +1,11 @@
 import { Badge } from '@/components/ui/badge';
 
+import { useTranslation } from '@/hooks/use-translation';
 import type { Meeting } from '@/types';
 
 export function MeetingStatusBadge({ meeting }: { meeting: Meeting }) {
+    const { t } = useTranslation();
+
     switch (meeting.status) {
         case 'scheduled':
             return (
@@ -10,7 +13,7 @@ export function MeetingStatusBadge({ meeting }: { meeting: Meeting }) {
                     variant="outline"
                     className="rounded-full border-blue-200 bg-blue-50 text-blue-700"
                 >
-                    Prévue
+                    {t('Prévue')}
                 </Badge>
             );
 
@@ -20,7 +23,7 @@ export function MeetingStatusBadge({ meeting }: { meeting: Meeting }) {
                     variant="outline"
                     className="rounded-full border-green-200 bg-green-50 text-green-700"
                 >
-                    En cours
+                    {t('En cours')}
                 </Badge>
             );
 
@@ -30,7 +33,7 @@ export function MeetingStatusBadge({ meeting }: { meeting: Meeting }) {
                     variant="outline"
                     className="rounded-full border-zinc-200 bg-zinc-50 text-zinc-700"
                 >
-                    Terminée
+                    {t('Terminée')}
                 </Badge>
             );
 
@@ -40,7 +43,7 @@ export function MeetingStatusBadge({ meeting }: { meeting: Meeting }) {
                     variant="outline"
                     className="rounded-full border-red-200 bg-red-50 text-red-700"
                 >
-                    Annulée
+                    {t('Annulée')}
                 </Badge>
             );
     }

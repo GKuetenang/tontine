@@ -17,6 +17,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
@@ -57,6 +58,7 @@ export default withAppLayout<Props>(
             { title: 'Dons', href: '#' },
         ] as BreadcrumbItem[],
     ({ group, session, collection, statuses, q }) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
         const routeParameters = {
             group: group.slug!,
@@ -68,10 +70,10 @@ export default withAppLayout<Props>(
 
         return (
             <>
-                <Head title="Dons" />
+                <Head title={t('Dons')} />
                 <div className="space-y-6">
                     <Heading
-                        title="Dons aux membres"
+                        title={t('Dons aux membres')}
                         description={`Aides sans remboursement accordées pendant la session ${session.name}.`}
                     />
                     <Card className="bg-background pt-0">
@@ -83,7 +85,8 @@ export default withAppLayout<Props>(
                                         session={session}
                                         trigger={
                                             <Button className="w-fit">
-                                                <PlusIcon /> Ajouter un don
+                                                <PlusIcon />{' '}
+                                                {t('Ajouter un don')}
                                             </Button>
                                         }
                                     />
@@ -97,11 +100,11 @@ export default withAppLayout<Props>(
                                     <Input
                                         autoFocus
                                         defaultValue={q ?? ''}
-                                        placeholder="Rechercher un membre"
+                                        placeholder={t('Rechercher un membre')}
                                         name="q"
                                     />
                                     <Button variant="outline">
-                                        <SearchIcon /> Rechercher
+                                        <SearchIcon /> {t('Rechercher')}
                                     </Button>
                                 </Form>
                             </div>
@@ -111,19 +114,19 @@ export default withAppLayout<Props>(
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead className="pl-6">
-                                            Membre
+                                            {t('Membre')}
                                         </TableHead>
                                         <SortableTableHead field="created_at">
-                                            Date de création
+                                            {t('Date de création')}
                                         </SortableTableHead>
                                         <SortableTableHead field="amount">
-                                            Montant
+                                            {t('Montant')}
                                         </SortableTableHead>
                                         <SortableTableHead field="status">
-                                            Statut
+                                            {t('Statut')}
                                         </SortableTableHead>
                                         <TableHead className="pr-6 text-right">
-                                            Actions
+                                            {t('Actions')}
                                         </TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -180,7 +183,9 @@ export default withAppLayout<Props>(
                                                                     variant="outline"
                                                                     size="sm"
                                                                 >
-                                                                    Annuler
+                                                                    {t(
+                                                                        'Annuler',
+                                                                    )}
                                                                 </Button>
                                                             </Form>
                                                         )}
@@ -202,7 +207,9 @@ export default withAppLayout<Props>(
                                                                 }
                                                             >
                                                                 <Button size="sm">
-                                                                    Effectuer
+                                                                    {t(
+                                                                        'Effectuer',
+                                                                    )}
                                                                 </Button>
                                                             </Form>
                                                         )}

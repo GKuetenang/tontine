@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 class DeactivateMembershipAction
 {
     public function __construct(
-        private readonly IsLastPresidentAction $isLastPresident,
+        private readonly IsLastGroupAdministratorAction $isLastAdministrator,
     ) {}
 
     public function execute(Membership $membership): Membership
@@ -20,10 +20,10 @@ class DeactivateMembershipAction
         ): Membership {
             $membership->loadMissing(['user', 'group']);
 
-            if ($this->isLastPresident->execute($membership)) {
+            if ($this->isLastAdministrator->execute($membership)) {
                 throw ValidationException::withMessages([
                     'membership' => __(
-                        'Impossible de retirer le dernier président de la réunion.'
+                        'Impossible de retirer le dernier président ou administrateur de la réunion.'
                     ),
                 ]);
             }

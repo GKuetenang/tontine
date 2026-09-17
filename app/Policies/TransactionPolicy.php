@@ -3,13 +3,15 @@
 namespace App\Policies;
 
 use App\Enums\GroupPermission;
-use App\Models\Group;
 use App\Models\Session;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Policies\Concerns\ChecksGroupPermissions;
 
 class TransactionPolicy
 {
+    use ChecksGroupPermissions;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -67,22 +69,5 @@ class TransactionPolicy
     public function forceDelete(User $user, Transaction $transaction): bool
     {
         return false;
-    }
-
-    private function can(User $user, Group $group, GroupPermission $permission): bool
-    {
-        $previousTeamId = getPermissionsTeamId();
-
-        try {
-            setPermissionsTeamId($group->id);
-            $user->unsetRelation('roles');
-            $user->unsetRelation('permissions');
-
-            return $user->can($permission->value);
-        } finally {
-            setPermissionsTeamId($previousTeamId);
-            $user->unsetRelation('roles');
-            $user->unsetRelation('permissions');
-        }
     }
 }

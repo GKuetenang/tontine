@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/dialog';
 import { Spinner } from '@/components/ui/spinner';
 import { UserCombobox } from '@/components/user-combobox';
+import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import memberships from '@/routes/groups/memberships';
 import type { Membership, MemberUser, ResultGroup } from '@/types';
@@ -35,6 +36,7 @@ export function EditMembershipForm({
     membership,
     statuses,
 }: Props) {
+    const { t } = useTranslation();
     const defaultUser = membership.id ? membership.user : null;
 
     const [selectedUser, setSelectedUser] = useState<
@@ -80,16 +82,16 @@ export function EditMembershipForm({
                         <div className="space-y-4">
                             <DialogHeader>
                                 <DialogTitle>
-                                    Ajouter un membre {group.name}
+                                    {t('Ajouter un membre')} {group.name}
                                 </DialogTitle>
                                 <DialogDescription>
-                                    Rechercher par nom ou adresse e-mail.
+                                    {t('Rechercher par nom ou adresse e-mail.')}
                                 </DialogDescription>
                             </DialogHeader>
 
                             <FormField
                                 error={errors['user_id']}
-                                label="Membre"
+                                label={t('Membre')}
                                 htmlFor="user_id"
                             >
                                 <input
@@ -120,14 +122,16 @@ export function EditMembershipForm({
                             {membership.id && (
                                 <FormField
                                     error={errors['status']}
-                                    label="Statut"
+                                    label={t('Statut')}
                                     htmlFor="status"
                                 >
                                     <SelectWithItems
                                         items={statuses}
                                         id="status"
                                         name="status"
-                                        placeholder="Selectionner un statut"
+                                        placeholder={t(
+                                            'Selectionner un statut',
+                                        )}
                                         defaultValue={membership?.status}
                                         aria-invalid={!!errors['status']}
                                     />
@@ -136,7 +140,9 @@ export function EditMembershipForm({
 
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button variant="outline">Cancel</Button>
+                                    <Button variant="outline">
+                                        {t('Cancel')}
+                                    </Button>
                                 </DialogClose>
                                 <Button
                                     type="submit"
@@ -145,7 +151,7 @@ export function EditMembershipForm({
                                     data-test="login-button"
                                 >
                                     {processing ? <Spinner /> : <SaveIcon />}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

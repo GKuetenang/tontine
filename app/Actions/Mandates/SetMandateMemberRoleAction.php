@@ -14,7 +14,10 @@ use Spatie\Permission\Models\Role;
 
 final class SetMandateMemberRoleAction
 {
-    public function __construct(private SyncMemberMandateRolesAction $syncMemberRoles) {}
+    public function __construct(
+        private SyncMemberMandateRolesAction $syncMemberRoles,
+        private EnsureMandateKeepsAdministratorAction $ensureMandateKeepsAdministrator,
+    ) {}
 
     public function execute(Mandate $mandate, Membership $membership, ?Role $role, User $actor): void
     {
@@ -38,12 +41,23 @@ final class SetMandateMemberRoleAction
                 ->lockForUpdate()
                 ->get();
 
-            if ($mandate->status === MandateStatus::Active
-                && $currentAssignments->contains(fn (MandateRoleAssignment $assignment): bool => $assignment->role->name === GroupRole::President->value)
-                && $role?->name !== GroupRole::President->value) {
-                throw ValidationException::withMessages([
-                    'role_id' => __('Nommez d’abord le nouveau président depuis sa ligne.'),
-                ]);
+            $administrativeAssignments = $currentAssignments->filter(
+                fn (MandateRoleAssignment $assignment): bool => in_array($assignment->role->name, [
+                    GroupRole::President->value,
+                    GroupRole::Administrator->value,
+                ], true),
+            );
+
+            $newRoleCanAdminister = $role && in_array($role->name, [
+                GroupRole::President->value,
+                GroupRole::Administrator->value,
+            ], true);
+
+            if ($administrativeAssignments->isNotEmpty() && ! $newRoleCanAdminister) {
+                $this->ensureMandateKeepsAdministrator->execute(
+                    $mandate,
+                    $administrativeAssignments->pluck('id')->all(),
+                );
             }
 
             $affectedUsers = $currentAssignments->pluck('membership.user')->filter()->push($membership->user)->unique('id');

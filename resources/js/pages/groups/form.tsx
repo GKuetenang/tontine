@@ -1,19 +1,20 @@
-import { Form, Head } from '@inertiajs/react';
-import { format } from 'date-fns';
-import { SaveIcon } from 'lucide-react';
-import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { DateTimePicker } from '@/components/ui/datetime-picker';
-import { ImageInput } from '@/components/ui/image-input';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
+import { getDateFnsLocale } from '@/lib';
 import groups from '@/routes/groups';
 import type { BreadcrumbItem, Group } from '@/types';
+import { Form, Head } from '@inertiajs/react';
+import { format } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import { useState } from 'react';
 
 type Props = {
     group: Group;
@@ -31,6 +32,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
+    const { t, locale } = useTranslation();
     const [mandateStartsAt, setMandateStartsAt] = useState<Date>();
     const [mandateEndsAt, setMandateEndsAt] = useState<Date>();
     const action = group.id
@@ -48,9 +50,11 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                         {({ errors, processing, progress }) => (
                             <>
                                 <div className="space-y-4">
-                                    <FormField
-                                        label="Image"
-                                        help="Formats : jpg,jpeg,png ou webp"
+                                    {/* <FormField
+                                        label={t('Image')}
+                                        help={t(
+                                            'Formats : jpg,jpeg,png ou webp',
+                                        )}
                                         error={errors['image_file']}
                                     >
                                         <ImageInput
@@ -62,10 +66,10 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                             defaultValue={group.image}
                                             progress={progress?.progress}
                                         />
-                                    </FormField>
+                                    </FormField> */}
                                     <FormField
                                         error={errors['name']}
-                                        label="Nom"
+                                        label={t('Nom')}
                                         htmlFor="name"
                                         required
                                     >
@@ -78,7 +82,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                     </FormField>
                                     <FormField
                                         error={errors['currency']}
-                                        label="Devise"
+                                        label={t('Devise')}
                                         htmlFor="currency"
                                     >
                                         <Input
@@ -91,10 +95,12 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
 
                                     <FormField
                                         error={errors['member_number_prefix']}
-                                        label="Préfixe du numéro de membre"
+                                        label={t('Préfixe du numéro de membre')}
                                         htmlFor="member_number_prefix"
                                         required
-                                        help="Le préfixe du numéro de membre est utilisé pour identifier les membres de la réunion."
+                                        help={t(
+                                            'Le préfixe du numéro de membre est utilisé pour identifier les membres de la réunion.',
+                                        )}
                                     >
                                         <Input
                                             id="member_number_prefix"
@@ -111,10 +117,12 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                         <FormField
                                             error={
                                                 errors[
-                                                    'default_loan_interest_rate'
+                                                'default_loan_interest_rate'
                                                 ]
                                             }
-                                            label="Taux d’intérêt des prêts (%)"
+                                            label={t(
+                                                'Taux d’intérêt des prêts (%)',
+                                            )}
                                             htmlFor="default_loan_interest_rate"
                                             required
                                         >
@@ -127,7 +135,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                                 }
                                                 aria-invalid={
                                                     !!errors[
-                                                        'default_loan_interest_rate'
+                                                    'default_loan_interest_rate'
                                                     ]
                                                 }
                                             />
@@ -135,10 +143,12 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                         <FormField
                                             error={
                                                 errors[
-                                                    'default_loan_term_months'
+                                                'default_loan_term_months'
                                                 ]
                                             }
-                                            label="Échéance des prêts (mois)"
+                                            label={t(
+                                                'Échéance des prêts (mois)',
+                                            )}
                                             htmlFor="default_loan_term_months"
                                             required
                                         >
@@ -153,7 +163,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                                 }
                                                 aria-invalid={
                                                     !!errors[
-                                                        'default_loan_term_months'
+                                                    'default_loan_term_months'
                                                     ]
                                                 }
                                             />
@@ -162,10 +172,12 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                     <FormField
                                         error={
                                             errors[
-                                                'default_contribution_amount'
+                                            'default_contribution_amount'
                                             ]
                                         }
-                                        label="Montant de réunion par défaut"
+                                        label={t(
+                                            'Montant de réunion par défaut',
+                                        )}
                                         htmlFor="default_contribution_amount"
                                         optional
                                     >
@@ -178,14 +190,14 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                             }
                                             aria-invalid={
                                                 !!errors[
-                                                    'default_contribution_amount'
+                                                'default_contribution_amount'
                                                 ]
                                             }
                                         />
                                     </FormField>
                                     <FormField
                                         error={errors['description']}
-                                        label="Description"
+                                        label={t('Description')}
                                         htmlFor="description"
                                         optional
                                     >
@@ -204,40 +216,40 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                         <div className="space-y-4 rounded-lg border p-4">
                                             <div>
                                                 <h2 className="font-medium">
-                                                    Premier mandat
+                                                    {t('Premier mandat')}
                                                 </h2>
                                                 <p className="text-sm text-muted-foreground">
-                                                    Vous serez président pendant
-                                                    cette période. Les
-                                                    responsabilités suivantes
-                                                    seront gérées dans le module
-                                                    Mandats.
+                                                    {t(
+                                                        'Vous serez administrateur pendant cette période. Les responsabilités suivantes seront gérées dans le module Mandats.',
+                                                    )}
                                                 </p>
                                             </div>
                                             <FormField
                                                 error={
                                                     errors[
-                                                        'initial_mandate_name'
+                                                    'initial_mandate_name'
                                                     ]
                                                 }
-                                                label="Nom du mandat"
+                                                label={t('Nom du mandat')}
                                                 htmlFor="initial_mandate_name"
                                                 required
                                             >
                                                 <Input
                                                     id="initial_mandate_name"
                                                     name="initial_mandate_name"
-                                                    placeholder="Mandat 2026–2028"
+                                                    placeholder={t(
+                                                        'Mandat 2026–2028',
+                                                    )}
                                                 />
                                             </FormField>
                                             <div className="grid gap-4 sm:grid-cols-2">
                                                 <FormField
                                                     error={
                                                         errors[
-                                                            'initial_mandate_starts_at'
+                                                        'initial_mandate_starts_at'
                                                         ]
                                                     }
-                                                    label="Début du mandat"
+                                                    label={t('Début du mandat')}
                                                     htmlFor="initial_mandate_starts_at"
                                                     required
                                                 >
@@ -247,28 +259,32 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                                         value={
                                                             mandateStartsAt
                                                                 ? format(
-                                                                      mandateStartsAt,
-                                                                      'yyyy-MM-dd',
-                                                                  )
+                                                                    mandateStartsAt,
+                                                                    'yyyy-MM-dd',
+                                                                )
                                                                 : ''
                                                         }
                                                     />
                                                     <DateTimePicker
-                                                        granularity="day"
+                                                        weekStartsOn={1}
+                                                        locale={getDateFnsLocale(locale)}
+                                                        granularity="minute"
                                                         value={mandateStartsAt}
                                                         onChange={
                                                             setMandateStartsAt
                                                         }
-                                                        placeholder="Choisir la date de début"
+                                                        placeholder={t(
+                                                            'Choisir la date de début',
+                                                        )}
                                                     />
                                                 </FormField>
                                                 <FormField
                                                     error={
                                                         errors[
-                                                            'initial_mandate_ends_at'
+                                                        'initial_mandate_ends_at'
                                                         ]
                                                     }
-                                                    label="Fin du mandat"
+                                                    label={t('Fin du mandat')}
                                                     htmlFor="initial_mandate_ends_at"
                                                     required
                                                 >
@@ -278,19 +294,23 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                                         value={
                                                             mandateEndsAt
                                                                 ? format(
-                                                                      mandateEndsAt,
-                                                                      'yyyy-MM-dd',
-                                                                  )
+                                                                    mandateEndsAt,
+                                                                    'yyyy-MM-dd',
+                                                                )
                                                                 : ''
                                                         }
                                                     />
                                                     <DateTimePicker
-                                                        granularity="day"
+                                                        weekStartsOn={1}
+                                                        locale={getDateFnsLocale(locale)}
+                                                        granularity="minute"
                                                         value={mandateEndsAt}
                                                         onChange={
                                                             setMandateEndsAt
                                                         }
-                                                        placeholder="Choisir la date de fin"
+                                                        placeholder={t(
+                                                            'Choisir la date de fin',
+                                                        )}
                                                     />
                                                 </FormField>
                                             </div>
@@ -310,7 +330,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                         ) : (
                                             <SaveIcon />
                                         )}
-                                        Enregistrer
+                                        {t('Enregistrer')}
                                     </Button>
                                 </div>
                             </>

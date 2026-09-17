@@ -1,12 +1,3 @@
-import { Head, Link } from '@inertiajs/react';
-import {
-    CalendarDaysIcon,
-    HandCoinsIcon,
-    LandmarkIcon,
-    LogOutIcon,
-    UsersIcon,
-} from 'lucide-react';
-import { toast } from 'sonner';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
@@ -19,12 +10,22 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTranslation } from '@/hooks/use-translation';
 import { AccountLayout } from '@/layouts/account-layout';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import account from '@/routes/account';
 import groups from '@/routes/groups';
 import type { BreadcrumbItem, PaginatedCollection } from '@/types';
+import { Head, Link } from '@inertiajs/react';
+import {
+    CalendarDaysIcon,
+    HandCoinsIcon,
+    LandmarkIcon,
+    LogOutIcon,
+    UsersIcon,
+} from 'lucide-react';
+import { toast } from 'sonner';
 
 type Item = {
     id: number;
@@ -46,154 +47,174 @@ type Props = {
 
 export default withAppLayout<Props>(
     [{ title: 'Mon espace', href: account.index() }] as BreadcrumbItem[],
-    ({ collection, summary }) => (
-        <AccountLayout>
-            <Head title="Mon espace" />
-            <Heading
-                title="Mon espace"
-                description="Retrouvez vos réunions, vos versements et vos obligations personnelles."
-            />
-            <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                {(
-                    [
-                        [UsersIcon, 'Mes réunions', summary.groups_count],
+    ({ collection, summary }) => {
+        const { t } = useTranslation();
+
+        return (
+            <AccountLayout>
+                <Head title={t('Mon espace')} />
+                <Heading
+                    title={t('Mon espace')}
+                    description={t(
+                        'Retrouvez vos réunions, vos versements et vos obligations personnelles.',
+                    )}
+                />
+                <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                    {(
                         [
-                            HandCoinsIcon,
-                            'Versements d’assurance',
-                            summary.insurance_payments_count,
-                        ],
-                        [
-                            CalendarDaysIcon,
-                            'Cotisations non payées',
-                            summary.contributions_due_count,
-                        ],
-                        [
-                            LandmarkIcon,
-                            'Prêts actifs',
-                            summary.active_loans_count,
-                        ],
-                    ] as const
-                ).map(([Icon, label, value]) => (
-                    <Card key={String(label)}>
-                        <CardContent className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-muted-foreground">
-                                    {String(label)}
-                                </p>
-                                <p className="mt-1 text-2xl font-semibold">
-                                    {String(value)}
-                                </p>
-                            </div>
-                            <Icon className="size-5 text-primary" />
-                        </CardContent>
-                    </Card>
-                ))}
-            </section>
-            <Card className="bg-background pt-0">
-                <CardHeader className="border-b py-4">
-                    <CardTitle>Mes réunions</CardTitle>
-                </CardHeader>
-                <CardContent className="px-0">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="pl-6">Réunion</TableHead>
-                                <TableHead>N° membre</TableHead>
-                                <TableHead>Session active</TableHead>
-                                <TableHead>Assurance accumulée</TableHead>
-                                <TableHead className="pr-6 text-right">
-                                    Actions
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {collection.data.map((item) => (
-                                <TableRow key={item.id} className="h-14">
-                                    <TableCell className="pl-6 font-medium">
-                                        {item.group.name}
-                                    </TableCell>
-                                    <TableCell>{item.member_number}</TableCell>
-                                    <TableCell>
-                                        {item.active_session?.name ?? 'Aucune'}
-                                    </TableCell>
-                                    <TableCell className="font-medium">
-                                        {formatCurrency(
-                                            item.insurance_total,
-                                            item.group.currency,
-                                        )}
-                                    </TableCell>
-                                    <TableCell className="pr-6 text-right">
-                                        <div className="flex justify-end gap-2">
-                                            <Button
-                                                asChild
-                                                size="sm"
-                                                variant="outline"
-                                            >
-                                                <Link
-                                                    href={account.insurance.index(
-                                                        {
+                            [UsersIcon, 'Mes réunions', summary.groups_count],
+                            [
+                                HandCoinsIcon,
+                                'Versements d’assurance',
+                                summary.insurance_payments_count,
+                            ],
+                            [
+                                CalendarDaysIcon,
+                                'Cotisations non payées',
+                                summary.contributions_due_count,
+                            ],
+                            [
+                                LandmarkIcon,
+                                'Prêts actifs',
+                                summary.active_loans_count,
+                            ],
+                        ] as const
+                    ).map(([Icon, label, value]) => (
+                        <Card key={String(label)}>
+                            <CardContent className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm text-muted-foreground">
+                                        {String(label)}
+                                    </p>
+                                    <p className="mt-1 text-2xl font-semibold">
+                                        {String(value)}
+                                    </p>
+                                </div>
+                                <Icon className="size-5 text-primary" />
+                            </CardContent>
+                        </Card>
+                    ))}
+                </section>
+                <Card className="bg-background pt-0">
+                    <CardHeader className="border-b py-4">
+                        <CardTitle>{t('Mes réunions')}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="px-0">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="pl-6">
+                                        {t('Réunion')}
+                                    </TableHead>
+                                    <TableHead>{t('N° membre')}</TableHead>
+                                    <TableHead>{t('Session active')}</TableHead>
+                                    <TableHead>
+                                        {t('Assurance accumulée')}
+                                    </TableHead>
+                                    <TableHead className="pr-6 text-right">
+                                        {t('Actions')}
+                                    </TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {collection.data.map((item) => (
+                                    <TableRow key={item.id} className="h-14">
+                                        <TableCell className="pl-6 font-medium">
+                                            {item.group.name}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.member_number}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.active_session?.name ??
+                                                'Aucune'}
+                                        </TableCell>
+                                        <TableCell className="font-medium">
+                                            {formatCurrency(
+                                                item.insurance_total,
+                                                item.group.currency,
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="pr-6 text-right">
+                                            <div className="flex justify-end gap-2">
+                                                <Button
+                                                    asChild
+                                                    size="sm"
+                                                    variant="outline"
+                                                >
+                                                    <Link
+                                                        href={account.insurance.index(
+                                                            {
+                                                                group: item
+                                                                    .group.slug,
+                                                            },
+                                                        )}
+                                                    >
+                                                        {t('Assurance')}
+                                                    </Link>
+                                                </Button>
+                                                <Button asChild size="sm">
+                                                    <Link
+                                                        href={groups.show({
                                                             group: item.group
                                                                 .slug,
-                                                        },
-                                                    )}
+                                                        })}
+                                                    >
+                                                        {t('Consulter')}
+                                                    </Link>
+                                                </Button>
+                                                <Button
+                                                    asChild
+                                                    size="sm"
+                                                    variant="destructive"
                                                 >
-                                                    Assurance
-                                                </Link>
-                                            </Button>
-                                            <Button asChild size="sm">
-                                                <Link
-                                                    href={groups.show({
-                                                        group: item.group.slug,
-                                                    })}
-                                                >
-                                                    Consulter
-                                                </Link>
-                                            </Button>
-                                            <Button
-                                                asChild
-                                                size="sm"
-                                                variant="destructive"
-                                            >
-                                                <Link
-                                                    href={account.memberships.destroy(
-                                                        { membership: item.id },
-                                                    )}
-                                                    method="delete"
-                                                    as="button"
-                                                    onBefore={() =>
-                                                        confirm(
-                                                            `Voulez-vous vraiment quitter la réunion « ${item.group.name} » ?`,
-                                                        )
-                                                    }
-                                                    onError={(errors) =>
-                                                        toast.error(
-                                                            Object.values(
-                                                                errors,
-                                                            )[0] ??
+                                                    <Link
+                                                        href={account.memberships.destroy(
+                                                            {
+                                                                membership:
+                                                                    item.id,
+                                                            },
+                                                        )}
+                                                        method="delete"
+                                                        as="button"
+                                                        onBefore={() =>
+                                                            confirm(
+                                                                `Voulez-vous vraiment quitter la réunion « ${item.group.name} » ?`,
+                                                            )
+                                                        }
+                                                        onError={(errors) =>
+                                                            toast.error(
+                                                                Object.values(
+                                                                    errors,
+                                                                )[0] ??
                                                                 'Impossible de quitter cette réunion.',
-                                                        )
-                                                    }
-                                                >
-                                                    <LogOutIcon /> Quitter
-                                                </Link>
-                                            </Button>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                    {collection.data.length === 0 && (
-                        <p className="p-8 text-center text-sm text-muted-foreground">
-                            Vous n’appartenez encore à aucune réunion.
-                        </p>
-                    )}
-                    <CollectionPagination
-                        collection={collection}
-                        className="px-6 pt-6"
-                    />
-                </CardContent>
-            </Card>
-        </AccountLayout>
-    ),
+                                                            )
+                                                        }
+                                                    >
+                                                        <LogOutIcon />{' '}
+                                                        {t('Quitter')}
+                                                    </Link>
+                                                </Button>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                        {collection.data.length === 0 && (
+                            <p className="p-8 text-center text-sm text-muted-foreground">
+                                {t(
+                                    'Vous n’appartenez encore à aucune réunion.',
+                                )}
+                            </p>
+                        )}
+                        <CollectionPagination
+                            collection={collection}
+                            className="px-6 pt-6"
+                        />
+                    </CardContent>
+                </Card>
+            </AccountLayout>
+        );
+    },
 );

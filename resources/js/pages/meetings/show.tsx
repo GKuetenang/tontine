@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 
 import { MeetingAgenda } from '@/pages/meeting-agendas/show';
@@ -78,6 +79,8 @@ export default withAppLayout<Props>(
         ] as BreadcrumbItem[],
 
     ({ group, session, meeting, payoutContext }: Props) => {
+        const { t } = useTranslation();
+
         return (
             <>
                 <Head title={meeting.title} />
@@ -96,7 +99,7 @@ export default withAppLayout<Props>(
                                 className="hover:bg-sidebar-accent data-[state=active]:bg-sidebar-accent data-[state=active]:shadow-none!"
                             >
                                 <InfoIcon className="size-4" />
-                                Aperçu
+                                {t('Aperçu')}
                             </TabsTrigger>
 
                             <TabsTrigger
@@ -104,7 +107,7 @@ export default withAppLayout<Props>(
                                 className="hover:bg-sidebar-accent data-[state=active]:bg-sidebar-accent data-[state=active]:shadow-none!"
                             >
                                 <ClipboardListIcon className="size-4" />
-                                Ordre du jour
+                                {t('Ordre du jour')}
                             </TabsTrigger>
 
                             <TabsTrigger
@@ -112,7 +115,7 @@ export default withAppLayout<Props>(
                                 className="hover:bg-sidebar-accent data-[state=active]:bg-sidebar-accent data-[state=active]:shadow-none!"
                             >
                                 <UsersIcon className="size-4" />
-                                Présences
+                                {t('Présences')}
                             </TabsTrigger>
 
                             <TabsTrigger
@@ -120,12 +123,12 @@ export default withAppLayout<Props>(
                                 className="hover:bg-sidebar-accent data-[state=active]:bg-sidebar-accent data-[state=active]:shadow-none!"
                             >
                                 <CoinsIcon className="size-4" />
-                                Cotisations
+                                {t('Cotisations')}
                             </TabsTrigger>
 
                             <TabsTrigger value="payouts">
                                 <HandCoinsIcon className="size-4" />
-                                Versements
+                                {t('Versements')}
                             </TabsTrigger>
 
                             <TabsTrigger
@@ -133,7 +136,7 @@ export default withAppLayout<Props>(
                                 className="hover:bg-sidebar-accent data-[state=active]:bg-sidebar-accent data-[state=active]:shadow-none!"
                             >
                                 <NotebookPenIcon className="size-4" />
-                                Notes
+                                {t('Notes')}
                             </TabsTrigger>
 
                             <TabsTrigger
@@ -141,7 +144,7 @@ export default withAppLayout<Props>(
                                 className="hover:bg-sidebar-accent data-[state=active]:bg-sidebar-accent data-[state=active]:shadow-none!"
                             >
                                 <CheckCircle2Icon className="size-4" />
-                                Décisions
+                                {t('Décisions')}
                             </TabsTrigger>
                         </TabsList>
 

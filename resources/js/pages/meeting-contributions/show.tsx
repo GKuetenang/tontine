@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/table';
 
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { formatCurrency } from '@/lib/utils';
 
 import type { Meeting, Session, Group } from '@/types';
@@ -30,6 +31,7 @@ type Props = {
 };
 
 export function MeetingContributions({ group, session, meeting }: Props) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
 
     if (meeting.status === 'scheduled') {
@@ -57,31 +59,31 @@ export function MeetingContributions({ group, session, meeting }: Props) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Cotisations</CardTitle>
+                <CardTitle>{t('Cotisations')}</CardTitle>
             </CardHeader>
 
             <CardContent className="space-y-6 px-0">
                 <div className="grid gap-4 px-6 md:grid-cols-2 xl:grid-cols-4">
                     <ContributionSummaryCard
-                        title="Total attendu"
+                        title={t('Total attendu')}
                         value={formatCurrency(totalDue, group.currency)}
                         icon={CoinsIcon}
                     />
 
                     <ContributionSummaryCard
-                        title="Encaissé"
+                        title={t('Encaissé')}
                         value={formatCurrency(totalPaid, group.currency)}
                         icon={BanknoteIcon}
                     />
 
                     <ContributionSummaryCard
-                        title="Reste à payer"
+                        title={t('Reste à payer')}
                         value={formatCurrency(totalRemaining, group.currency)}
                         icon={CircleDollarSignIcon}
                     />
 
                     <ContributionSummaryCard
-                        title="Payées"
+                        title={t('Payées')}
                         value={`${paidCount} / ${contributions.length}`}
                         icon={CheckCircle2Icon}
                     />
@@ -90,17 +92,17 @@ export function MeetingContributions({ group, session, meeting }: Props) {
                 <Table>
                     <TableHeader>
                         <TableRow className="[&>th:first-child]:pl-6 [&>th:last-child]:pr-6">
-                            <TableHead>Membre</TableHead>
+                            <TableHead>{t('Membre')}</TableHead>
 
-                            <TableHead>N° membre</TableHead>
+                            <TableHead>{t('N° membre')}</TableHead>
 
-                            <TableHead>Montant dû</TableHead>
+                            <TableHead>{t('Montant dû')}</TableHead>
 
-                            <TableHead>Payé</TableHead>
+                            <TableHead>{t('Payé')}</TableHead>
 
-                            <TableHead>Reste</TableHead>
+                            <TableHead>{t('Reste')}</TableHead>
 
-                            <TableHead>Statut</TableHead>
+                            <TableHead>{t('Statut')}</TableHead>
 
                             <TableHead className="text-end" />
                         </TableRow>

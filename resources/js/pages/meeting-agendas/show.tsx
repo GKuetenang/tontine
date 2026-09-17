@@ -25,6 +25,7 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import agenda from '@/routes/groups/sessions/meetings/agenda';
 import type { Meeting, MeetingAgendaItem, Session, Group } from '@/types';
 
@@ -49,6 +50,7 @@ export function MeetingAgenda(props: Props) {
 }
 
 function MeetingAgendaContent({ group, session, meeting }: Props) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
 
     const [items, setItems] = useState<MeetingAgendaItem[]>(() =>
@@ -127,7 +129,7 @@ function MeetingAgendaContent({ group, session, meeting }: Props) {
     return (
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Ordre du jour</CardTitle>
+                <CardTitle>{t('Ordre du jour')}</CardTitle>
 
                 {canEdit && can('meeting-agenda.create') && (
                     <EditAgendaItemForm
@@ -137,7 +139,7 @@ function MeetingAgendaContent({ group, session, meeting }: Props) {
                         trigger={
                             <Button size="sm">
                                 <PlusIcon className="size-4" />
-                                Ajouter un point
+                                {t('Ajouter un point')}
                             </Button>
                         }
                     />

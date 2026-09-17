@@ -1,5 +1,6 @@
 import { HandCoinsIcon } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslation } from '@/hooks/use-translation';
 
 type Props = {
     message?: string;
@@ -8,10 +9,12 @@ type Props = {
 export function MeetingPayoutsPlaceholder({
     message = 'Les versements pourront être enregistrés lorsque l’assise sera en cours.',
 }: Props) {
+    const { t } = useTranslation();
+
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Versements</CardTitle>
+                <CardTitle>{t('Versements')}</CardTitle>
             </CardHeader>
 
             <CardContent>
@@ -22,7 +25,7 @@ export function MeetingPayoutsPlaceholder({
 
                     <div className="space-y-1">
                         <p className="font-medium">
-                            Aucun versement disponible
+                            {t('Aucun versement disponible')}
                         </p>
 
                         <p className="max-w-md text-sm text-muted-foreground">

@@ -30,6 +30,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
@@ -113,6 +114,7 @@ export default withAppLayout<Props>(
         transaction_types,
         transaction_directions,
     }) => {
+        const { t } = useTranslation();
         const [direction, setDirection] = useState(filters.direction || 'all');
         const [type, setType] = useState(filters.type || 'all');
         const [from, setFrom] = useState<Date | undefined>(
@@ -138,10 +140,10 @@ export default withAppLayout<Props>(
 
         return (
             <>
-                <Head title="Journal des transactions" />
+                <Head title={t('Journal des transactions')} />
                 <div className="space-y-6">
                     <Heading
-                        title="Journal financier"
+                        title={t('Journal financier')}
                         description={`Mouvements auditables de la session ${session.name}.`}
                     />
                     <div className="grid gap-4 sm:grid-cols-3">
@@ -167,7 +169,7 @@ export default withAppLayout<Props>(
                     <Card className="bg-background pt-0">
                         <CardHeader className="border-b py-4">
                             <div className="flex items-center justify-between gap-4">
-                                <CardTitle>Transactions</CardTitle>
+                                <CardTitle>{t('Transactions')}</CardTitle>
                                 <Form
                                     {...sessions.transactions.index.form({
                                         group: group.slug!,
@@ -187,11 +189,15 @@ export default withAppLayout<Props>(
                                         onValueChange={setDirection}
                                     >
                                         <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Toutes directions" />
+                                            <SelectValue
+                                                placeholder={t(
+                                                    'Toutes directions',
+                                                )}
+                                            />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="all">
-                                                Toutes directions
+                                                {t('Toutes directions')}
                                             </SelectItem>
                                             {transaction_directions.map(
                                                 (option) => (
@@ -215,11 +221,13 @@ export default withAppLayout<Props>(
                                         onValueChange={setType}
                                     >
                                         <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Tous types" />
+                                            <SelectValue
+                                                placeholder={t('Tous types')}
+                                            />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="all">
-                                                Tous types
+                                                {t('Tous types')}
                                             </SelectItem>
                                             {transaction_types.map((option) => (
                                                 <SelectItem
@@ -243,7 +251,7 @@ export default withAppLayout<Props>(
                                     <DateFilter
                                         value={from}
                                         onChange={setFrom}
-                                        placeholder="Date de début"
+                                        placeholder={t('Date de début')}
                                     />
                                     <input
                                         type="hidden"
@@ -255,14 +263,14 @@ export default withAppLayout<Props>(
                                     <DateFilter
                                         value={to}
                                         onChange={setTo}
-                                        placeholder="Date de fin"
+                                        placeholder={t('Date de fin')}
                                     />
                                     <Button
                                         variant="outline"
                                         className="w-fit"
                                         disabled={!canFilter}
                                     >
-                                        <ListFilterIcon /> Filtrer
+                                        <ListFilterIcon /> {t('Filtrer')}
                                     </Button>
                                 </Form>
                             </div>
@@ -275,20 +283,20 @@ export default withAppLayout<Props>(
                                             field="occurred_at"
                                             className="pl-6"
                                         >
-                                            Date
+                                            {t('Date')}
                                         </SortableTableHead>
                                         <SortableTableHead field="type">
-                                            Type
+                                            {t('Type')}
                                         </SortableTableHead>
-                                        <TableHead>Membre</TableHead>
+                                        <TableHead>{t('Membre')}</TableHead>
                                         <SortableTableHead field="direction">
-                                            Direction
+                                            {t('Direction')}
                                         </SortableTableHead>
                                         <SortableTableHead
                                             field="amount"
                                             className="pr-6 text-right"
                                         >
-                                            Montant
+                                            {t('Montant')}
                                         </SortableTableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -347,7 +355,7 @@ export default withAppLayout<Props>(
                             </Table>
                             {collection.data.length === 0 && (
                                 <p className="p-8 text-center text-sm text-muted-foreground">
-                                    Aucune transaction pour ces critères.
+                                    {t('Aucune transaction pour ces critères.')}
                                 </p>
                             )}
                             <CollectionPagination

@@ -202,7 +202,7 @@ Important concepts:
 
 Slug is unique. Do not assume group name must be globally unique unless the current schema explicitly enforces it.
 
-The creator is automatically represented in membership and normally has the president role.
+The creator is automatically represented in membership and receives the administrator role in the initial mandate.
 
 ## 8. Membership
 
@@ -210,8 +210,8 @@ Membership is group-scoped.
 
 Important rules:
 - no duplicate membership for the same user in the same group;
-- creator membership is created automatically as president;
-- last president cannot be deactivated;
+- creator membership is created automatically as an administrator;
+- the last active president or administrator cannot be deactivated;
 - deactivation removes team roles and soft-deletes membership;
 - `verified_at` is retained;
 - default status is Active;
@@ -1020,7 +1020,21 @@ period inside the Mandate. Overlapping presidents are forbidden. Ending an
 assignment records who ended it and an optional reason; historical assignments
 must not be deleted.
 
+Every Group has two protected full-access governance roles: `president` and
+`administrator`. A Mandate must always have at least one active assignment able
+to administer the Group through either role. The last president may therefore
+be replaced or removed only when an administrator is already in function (and
+the inverse rule applies to the last administrator). Both roles receive every
+`GroupPermission` and cannot be edited through role management.
+
 Membership provides the base `member` role. Temporary governance roles are
 derived from the active Mandate assignments and projected into Spatie's team
 role tables. Once a Group has activated its first Mandate, direct membership
 updates must not become an alternate way to grant governance roles.
+
+Backend permission decisions use `GroupPermissionChecker`. It selects the
+Group as the current Spatie team, refreshes the user's projected roles from the
+active Mandate, requires an active Membership, evaluates the permission, then
+restores the previous team context. Policies reuse this behavior through
+`ChecksGroupPermissions`; frontend abilities are informational only and never
+replace a Policy or Gate check.

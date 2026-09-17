@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { useTranslation } from '@/hooks/use-translation';
 import { formatCurrency } from '@/lib/utils';
 import groups from '@/routes/groups';
 import type { Session, Group } from '@/types';
@@ -11,6 +12,8 @@ export function SessionRow({
     group: Group;
     session: Session;
 }) {
+    const { t } = useTranslation();
+
     return (
         <div className="flex items-center justify-between gap-4 py-4">
             <div className="min-w-0">
@@ -35,7 +38,7 @@ export function SessionRow({
                     <span>•</span>
 
                     <span>
-                        {session.participants_count ?? 0} participant
+                        {session.participants_count ?? 0} {t('participant')}
                         {(session.participants_count ?? 0) > 1 ? 's' : ''}
                     </span>
                 </div>

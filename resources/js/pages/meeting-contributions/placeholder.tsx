@@ -1,11 +1,14 @@
 import { CoinsIcon } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslation } from '@/hooks/use-translation';
 
 export function ContributionPlaceholder() {
+    const { t } = useTranslation();
+
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Cotisations</CardTitle>
+                <CardTitle>{t('Cotisations')}</CardTitle>
             </CardHeader>
 
             <CardContent>
@@ -16,13 +19,13 @@ export function ContributionPlaceholder() {
 
                     <div className="space-y-1">
                         <p className="font-medium">
-                            L’assise n’est pas encore ouverte
+                            {t('L’assise n’est pas encore ouverte')}
                         </p>
 
                         <p className="max-w-md text-sm text-muted-foreground">
-                            Les cotisations seront générées automatiquement pour
-                            les participants actifs lors de l’ouverture de la
-                            assise.
+                            {t(
+                                'Les cotisations seront générées automatiquement pour les participants actifs lors de l’ouverture de la assise.',
+                            )}
                         </p>
                     </div>
                 </div>

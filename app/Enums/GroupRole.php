@@ -5,6 +5,7 @@ namespace App\Enums;
 enum GroupRole: string
 {
     case President = 'president';
+    case Administrator = 'administrator';
     case Secretary = 'secretary';
     case Treasurer = 'treasurer';
     case Member = 'member';
@@ -26,6 +27,7 @@ enum GroupRole: string
     {
         return match ($this) {
             self::President => __('Président'),
+            self::Administrator => __('Administrateur'),
             self::Secretary => __('Secrétaire'),
             self::Treasurer => __('Trésorier'),
             self::Member => __('Membre'),
@@ -40,7 +42,7 @@ enum GroupRole: string
     public function defaultPermissions(): array
     {
         return match ($this) {
-            self::President => GroupPermission::cases(),
+            self::President, self::Administrator => GroupPermission::cases(),
 
             self::Secretary => [
                 GroupPermission::ViewGroup,
@@ -56,6 +58,7 @@ enum GroupRole: string
                 GroupPermission::CreateSessions,
                 GroupPermission::UpdateSessions,
                 GroupPermission::ActivateSessions,
+                GroupPermission::PrepareSessions,
                 GroupPermission::CloseSessions,
 
                 GroupPermission::ViewSessionParticipants,

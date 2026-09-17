@@ -15,6 +15,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
@@ -52,96 +53,108 @@ export default withAppLayout<Props>(
             },
             { title: 'Remboursements', href: '#' },
         ] as BreadcrumbItem[],
-    ({ group, session, collection, q }) => (
-        <>
-            <Head title="Remboursements" />
-            <Heading
-                title="Remboursements"
-                description="Historique des remboursements de prêts de la session."
-            />
-            <Card className="bg-background pt-0">
-                <CardHeader className="border-b py-4">
-                    <div className="flex items-center justify-between">
-                        <CardTitle>Mouvements enregistrés</CardTitle>
-                        <Form
-                            {...sessions.repayments.index.form({
-                                group: group.slug!,
-                                session: session.slug,
-                            })}
-                            className="flex items-center gap-1"
-                        >
-                            <Input
-                                autoFocus
-                                defaultValue={q ?? ''}
-                                placeholder="Rechercher un membre"
-                                name="q"
-                            />
-                            <Button variant="outline">
-                                <SearchIcon /> Rechercher
-                            </Button>
-                        </Form>
-                    </div>
-                </CardHeader>
-                <CardContent className="px-0">
-                    <Table className="border-spacing-4">
-                        <TableHeader>
-                            <TableRow>
-                                <SortableTableHead
-                                    field="paid_at"
-                                    className="pl-6"
-                                >
-                                    Date
-                                </SortableTableHead>
-                                <TableHead>Membre</TableHead>
-                                <SortableTableHead field="amount">
-                                    Montant
-                                </SortableTableHead>
-                                <SortableTableHead field="interest_amount">
-                                    Intérêt
-                                </SortableTableHead>
-                                <SortableTableHead
-                                    field="principal_amount"
-                                    className="pr-6 text-right"
-                                >
-                                    Capital
-                                </SortableTableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody className="[&_td]:py-3">
-                            {collection.data.map((item) => (
-                                <TableRow key={item.id} className="h-14">
-                                    <TableCell className="pl-6">
-                                        {formatDate(item.paid_at)}
-                                    </TableCell>
-                                    <TableCell>{item.member_name}</TableCell>
-                                    <TableCell>
-                                        <Badge variant="success">
-                                            + {formatCurrency(item.amount)}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell>
-                                        {formatCurrency(item.interest_amount)}
-                                    </TableCell>
-                                    <TableCell className="pr-6 text-right">
-                                        {formatCurrency(item.principal_amount)}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                    {collection.data.length === 0 && (
-                        <p className="p-8 text-center text-sm text-muted-foreground">
-                            {q
-                                ? `Aucun remboursement ne correspond à la recherche « ${q} ».`
-                                : 'Aucun remboursement enregistré.'}
-                        </p>
+    ({ group, session, collection, q }) => {
+        const { t } = useTranslation();
+
+        return (
+            <>
+                <Head title={t('Remboursements')} />
+                <Heading
+                    title={t('Remboursements')}
+                    description={t(
+                        'Historique des remboursements de prêts de la session.',
                     )}
-                    <CollectionPagination
-                        className="px-6 pt-6"
-                        collection={collection}
-                    />
-                </CardContent>
-            </Card>
-        </>
-    ),
+                />
+                <Card className="bg-background pt-0">
+                    <CardHeader className="border-b py-4">
+                        <div className="flex items-center justify-between">
+                            <CardTitle>{t('Mouvements enregistrés')}</CardTitle>
+                            <Form
+                                {...sessions.repayments.index.form({
+                                    group: group.slug!,
+                                    session: session.slug,
+                                })}
+                                className="flex items-center gap-1"
+                            >
+                                <Input
+                                    autoFocus
+                                    defaultValue={q ?? ''}
+                                    placeholder={t('Rechercher un membre')}
+                                    name="q"
+                                />
+                                <Button variant="outline">
+                                    <SearchIcon /> {t('Rechercher')}
+                                </Button>
+                            </Form>
+                        </div>
+                    </CardHeader>
+                    <CardContent className="px-0">
+                        <Table className="border-spacing-4">
+                            <TableHeader>
+                                <TableRow>
+                                    <SortableTableHead
+                                        field="paid_at"
+                                        className="pl-6"
+                                    >
+                                        {t('Date')}
+                                    </SortableTableHead>
+                                    <TableHead>{t('Membre')}</TableHead>
+                                    <SortableTableHead field="amount">
+                                        {t('Montant')}
+                                    </SortableTableHead>
+                                    <SortableTableHead field="interest_amount">
+                                        {t('Intérêt')}
+                                    </SortableTableHead>
+                                    <SortableTableHead
+                                        field="principal_amount"
+                                        className="pr-6 text-right"
+                                    >
+                                        {t('Capital')}
+                                    </SortableTableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody className="[&_td]:py-3">
+                                {collection.data.map((item) => (
+                                    <TableRow key={item.id} className="h-14">
+                                        <TableCell className="pl-6">
+                                            {formatDate(item.paid_at)}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.member_name}
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge variant="success">
+                                                + {formatCurrency(item.amount)}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell>
+                                            {formatCurrency(
+                                                item.interest_amount,
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="pr-6 text-right">
+                                            {formatCurrency(
+                                                item.principal_amount,
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                        {collection.data.length === 0 && (
+                            <p className="p-8 text-center text-sm text-muted-foreground">
+                                {q
+                                    ? `Aucun remboursement ne correspond à la recherche « ${q} ».`
+                                    : 'Aucun remboursement enregistré.'}
+                            </p>
+                        )}
+                        <CollectionPagination
+                            className="px-6 pt-6"
+                            collection={collection}
+                        />
+                    </CardContent>
+                </Card>
+            </>
+        );
+    },
 );

@@ -124,6 +124,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             [SessionController::class, 'activate'],
         )->name('groups.sessions.activate');
 
+        Route::patch(
+            'groups/{group:slug}/sessions/{session:slug}/prepare',
+            [SessionController::class, 'prepare'],
+        )->name('groups.sessions.prepare');
+
         Route::get(
             'groups/{group:slug}/sessions/{session:slug}/transactions',
             [TransactionController::class, 'index'],
@@ -260,12 +265,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'show',
                 'store',
                 'update',
+                'destroy',
             ])
             ->scoped([
                 'group' => 'slug',
                 'session' => 'slug',
                 'meeting' => 'slug',
             ]);
+
+        Route::get(
+            'groups/{group:slug}/sessions/{session:slug}/meetings-trash',
+            [MeetingController::class, 'trash'],
+        )->name('groups.sessions.meetings.trash');
+        Route::patch(
+            'groups/{group:slug}/sessions/{session:slug}/meetings/{meeting:slug}/restore',
+            [MeetingController::class, 'restore'],
+        )->withTrashed()->name('groups.sessions.meetings.restore');
+        Route::delete(
+            'groups/{group:slug}/sessions/{session:slug}/meetings/{meeting:slug}/force-delete',
+            [MeetingController::class, 'forceDelete'],
+        )->withTrashed()->name('groups.sessions.meetings.force-delete');
 
         Route::post(
             'groups/{group:slug}/sessions/{session:slug}/meeting-schedule',

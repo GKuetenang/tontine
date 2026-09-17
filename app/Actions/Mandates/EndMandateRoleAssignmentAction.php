@@ -11,7 +11,10 @@ use Illuminate\Validation\ValidationException;
 
 final class EndMandateRoleAssignmentAction
 {
-    public function __construct(private SyncMemberMandateRolesAction $syncMemberRoles) {}
+    public function __construct(
+        private SyncMemberMandateRolesAction $syncMemberRoles,
+        private EnsureMandateKeepsAdministratorAction $ensureMandateKeepsAdministrator,
+    ) {}
 
     public function execute(MandateRoleAssignment $assignment, User $actor, string $endsAt, ?string $reason): MandateRoleAssignment
     {
@@ -26,6 +29,14 @@ final class EndMandateRoleAssignmentAction
                 throw ValidationException::withMessages([
                     'ends_at' => __('La date de fin doit être comprise dans la période de l’affectation et du mandat.'),
                 ]);
+            }
+
+            if ($this->ensureMandateKeepsAdministrator->assignmentIsAdministrator($assignment)
+                && $end->lt($assignment->mandate->ends_at)) {
+                $this->ensureMandateKeepsAdministrator->execute(
+                    $assignment->mandate,
+                    [$assignment->id],
+                );
             }
 
             $assignment->forceFill([

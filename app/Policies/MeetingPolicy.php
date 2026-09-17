@@ -3,13 +3,15 @@
 namespace App\Policies;
 
 use App\Enums\GroupPermission;
-use App\Models\Group;
 use App\Models\Meeting;
 use App\Models\Session;
 use App\Models\User;
+use App\Policies\Concerns\ChecksGroupPermissions;
 
 class MeetingPolicy
 {
+    use ChecksGroupPermissions;
+
     public function viewAny(
         User $user,
         Session $session,
@@ -112,6 +114,18 @@ class MeetingPolicy
             );
     }
 
+    public function restore(User $user, Meeting $meeting): bool
+    {
+        return $meeting->session->group->hasActiveMembership($user)
+            && $this->can($user, $meeting->session->group, GroupPermission::RestoreMeetings);
+    }
+
+    public function forceDelete(User $user, Meeting $meeting): bool
+    {
+        return $meeting->session->group->hasActiveMembership($user)
+            && $this->can($user, $meeting->session->group, GroupPermission::ForceDeleteMeetings);
+    }
+
     public function report(
         User $user,
         Meeting $meeting,
@@ -136,27 +150,5 @@ class MeetingPolicy
                 $meeting->session->group,
                 GroupPermission::ExportReports,
             );
-    }
-
-    private function can(
-        User $user,
-        Group $group,
-        GroupPermission $permission,
-    ): bool {
-        $previousTeamId = getPermissionsTeamId();
-
-        try {
-            setPermissionsTeamId($group->id);
-
-            $user->unsetRelation('roles');
-            $user->unsetRelation('permissions');
-
-            return $user->can($permission->value);
-        } finally {
-            setPermissionsTeamId($previousTeamId);
-
-            $user->unsetRelation('roles');
-            $user->unsetRelation('permissions');
-        }
     }
 }

@@ -18,6 +18,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import groups from '@/routes/groups';
@@ -83,12 +84,13 @@ export default withAppLayout<Props>(
             },
         ] as BreadcrumbItem[],
     ({ collection, q, group, sessionParticipant, session }: Props) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
 
         return (
             <>
-                <Head title="Tous les participants" />
-                <Heading title="Tous les participants" />
+                <Head title={t('Tous les participants')} />
+                <Heading title={t('Tous les participants')} />
                 <div className="space-y-4">
                     <Card className="bg-background pt-0">
                         <CardHeader className="border-b py-4">
@@ -104,7 +106,7 @@ export default withAppLayout<Props>(
                                                 className="w-fit"
                                             >
                                                 <PlusIcon />
-                                                Ajouter un participant
+                                                {t('Ajouter un participant')}
                                             </Button>
                                         }
                                     />
@@ -119,12 +121,12 @@ export default withAppLayout<Props>(
                                     <Input
                                         autoFocus
                                         defaultValue={q ?? ''}
-                                        placeholder="Rechercher un membre"
+                                        placeholder={t('Rechercher un membre')}
                                         name="q"
                                     />
                                     <Button variant="outline">
                                         <SearchIcon />
-                                        Rechercher
+                                        {t('Rechercher')}
                                     </Button>
                                 </Form>
                             </div>
@@ -134,18 +136,18 @@ export default withAppLayout<Props>(
                                 <TableHeader>
                                     <TableRow className="[&>th:first-child]:pl-6 [&>th:last-child]:pr-6">
                                         <SortableTableHead field="name">
-                                            Nom
+                                            {t('Nom')}
                                         </SortableTableHead>
                                         <SortableTableHead field="default_contibution_amount">
-                                            Montant de group
+                                            {t('Montant de group')}
                                         </SortableTableHead>
                                         <SortableTableHead field="draw_entries_count">
-                                            Parts
+                                            {t('Parts')}
                                         </SortableTableHead>
                                         <SortableTableHead field="joined_at">
-                                            A rejoint le
+                                            {t('A rejoint le')}
                                         </SortableTableHead>
-                                        <TableHead>Statut</TableHead>
+                                        <TableHead>{t('Statut')}</TableHead>
                                         <TableHead className="text-end"></TableHead>
                                     </TableRow>
                                 </TableHeader>

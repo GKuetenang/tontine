@@ -29,6 +29,7 @@ import {
 
 import { Spinner } from '@/components/ui/spinner';
 
+import { useTranslation } from '@/hooks/use-translation';
 import payouts from '@/routes/groups/sessions/meetings/payouts';
 
 import type {
@@ -59,6 +60,7 @@ export function CreatePayoutForm({
     context,
     defaultCandidate,
 }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
 
     const [drawEntryId, setDrawEntryId] = useState(
@@ -81,11 +83,12 @@ export function CreatePayoutForm({
 
             <DialogContent className="sm:max-w-lg">
                 <DialogHeader>
-                    <DialogTitle>Préparer un versement</DialogTitle>
+                    <DialogTitle>{t('Préparer un versement')}</DialogTitle>
 
                     <DialogDescription>
-                        Sélectionnez le bénéficiaire et saisissez le montant à
-                        verser.
+                        {t(
+                            'Sélectionnez le bénéficiaire et saisissez le montant à verser.',
+                        )}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -106,7 +109,7 @@ export function CreatePayoutForm({
                     {({ errors, processing }) => (
                         <div className="space-y-4">
                             <FormField
-                                label="Bénéficiaire"
+                                label={t('Bénéficiaire')}
                                 htmlFor="draw_entry_id"
                                 error={errors.draw_entry_id}
                                 required
@@ -122,7 +125,11 @@ export function CreatePayoutForm({
                                     onValueChange={setDrawEntryId}
                                 >
                                     <SelectTrigger id="draw_entry_id">
-                                        <SelectValue placeholder="Sélectionner un bénéficiaire" />
+                                        <SelectValue
+                                            placeholder={t(
+                                                'Sélectionner un bénéficiaire',
+                                            )}
+                                        />
                                     </SelectTrigger>
 
                                     <SelectContent>
@@ -133,8 +140,9 @@ export function CreatePayoutForm({
                                                     candidate.draw_entry_id,
                                                 )}
                                             >
-                                                {candidate.member_name} —
-                                                Position {candidate.position}
+                                                {candidate.member_name}{' '}
+                                                {t('— Position')}{' '}
+                                                {candidate.position}
                                                 {candidate.entry_number > 1
                                                     ? ` — Part ${candidate.entry_number}`
                                                     : ''}
@@ -148,7 +156,7 @@ export function CreatePayoutForm({
                             </FormField>
 
                             <FormField
-                                label="Montant"
+                                label={t('Montant')}
                                 htmlFor="amount"
                                 error={errors.amount}
                                 required
@@ -166,7 +174,7 @@ export function CreatePayoutForm({
                             <DialogFooter>
                                 <DialogClose asChild>
                                     <Button type="button" variant="outline">
-                                        Annuler
+                                        {t('Annuler')}
                                     </Button>
                                 </DialogClose>
 
@@ -179,7 +187,7 @@ export function CreatePayoutForm({
                                     ) : (
                                         <SaveIcon className="size-4" />
                                     )}
-                                    Préparer
+                                    {t('Préparer')}
                                 </Button>
                             </DialogFooter>
                         </div>

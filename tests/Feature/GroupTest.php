@@ -137,6 +137,21 @@ test('authenticated users can create a group', function (): void {
         'is_public' => false,
         'is_verified' => false,
     ]);
+
+    $previousTeamId = getPermissionsTeamId();
+
+    try {
+        setPermissionsTeamId($group->id);
+        $user->unsetRelation('roles');
+        $user->unsetRelation('permissions');
+
+        expect($user->hasRole(GroupRole::Administrator->value))->toBeTrue()
+            ->and($user->hasRole(GroupRole::President->value))->toBeFalse();
+    } finally {
+        setPermissionsTeamId($previousTeamId);
+        $user->unsetRelation('roles');
+        $user->unsetRelation('permissions');
+    }
 });
 
 test('loan rate and term are mandatory when creating a group', function (): void {

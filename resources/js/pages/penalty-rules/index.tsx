@@ -18,6 +18,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import groups from '@/routes/groups';
 import type {
@@ -55,13 +56,14 @@ export default withAppLayout<Props>(
         grace_units: graceUnits,
         q,
     }) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
 
         return (
             <>
-                <Head title="Règles de pénalité" />
+                <Head title={t('Règles de pénalité')} />
                 <Heading
-                    title="Règles de pénalité"
+                    title={t('Règles de pénalité')}
                     description={'Configuration des pénalités de ' + group.name}
                 />
                 <Card className="bg-background pt-0">
@@ -77,7 +79,7 @@ export default withAppLayout<Props>(
                                         trigger={
                                             <Button className="w-fit">
                                                 <PlusIcon />
-                                                Ajouter une règle
+                                                {t('Ajouter une règle')}
                                             </Button>
                                         }
                                     />
@@ -92,11 +94,11 @@ export default withAppLayout<Props>(
                                 <Input
                                     autoFocus
                                     defaultValue={q ?? ''}
-                                    placeholder="Rechercher une règle"
+                                    placeholder={t('Rechercher une règle')}
                                     name="q"
                                 />
                                 <Button variant="outline">
-                                    <SearchIcon /> Rechercher
+                                    <SearchIcon /> {t('Rechercher')}
                                 </Button>
                             </Form>
                         </div>
@@ -109,28 +111,28 @@ export default withAppLayout<Props>(
                                         field="name"
                                         className="pl-6"
                                     >
-                                        Règle
+                                        {t('Règle')}
                                     </SortableTableHead>
                                     <SortableTableHead field="trigger">
-                                        Déclencheur
+                                        {t('Déclencheur')}
                                     </SortableTableHead>
                                     <SortableTableHead field="calculation_type">
-                                        Calcul
+                                        {t('Calcul')}
                                     </SortableTableHead>
                                     <SortableTableHead field="value">
-                                        Valeur
+                                        {t('Valeur')}
                                     </SortableTableHead>
                                     <SortableTableHead field="grace_period">
-                                        Tolérance
+                                        {t('Tolérance')}
                                     </SortableTableHead>
                                     <SortableTableHead field="is_automatic">
-                                        Application
+                                        {t('Application')}
                                     </SortableTableHead>
                                     <SortableTableHead field="is_active">
-                                        Statut
+                                        {t('Statut')}
                                     </SortableTableHead>
                                     <TableHead className="pr-6 text-right">
-                                        Actions
+                                        {t('Actions')}
                                     </TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -187,7 +189,7 @@ export default withAppLayout<Props>(
                                                             size="sm"
                                                         >
                                                             <Settings2Icon />
-                                                            Configurer
+                                                            {t('Configurer')}
                                                         </Button>
                                                     }
                                                 />

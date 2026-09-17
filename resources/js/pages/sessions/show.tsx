@@ -6,6 +6,7 @@ import { OverviewCard } from '@/components/groups/overview-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 
@@ -40,6 +41,8 @@ export default withAppLayout<Props>(
         ] as BreadcrumbItem[],
 
     ({ group, session }: Props) => {
+        const { t } = useTranslation();
+
         return (
             <>
                 <Head title={session.name} />
@@ -47,33 +50,33 @@ export default withAppLayout<Props>(
                 <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl">
                     <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                         <OverviewCard
-                            title="Participants"
+                            title={t('Participants')}
                             value={session.participants_count ?? 0}
-                            description="Participants de la session"
+                            description={t('Participants de la session')}
                             icon={Users}
                         />
 
                         <OverviewCard
-                            title="Assises"
+                            title={t('Assises')}
                             value={session.meetings_count ?? 0}
-                            description="Assises de la session"
+                            description={t('Assises de la session')}
                             icon={CalendarDays}
                         />
 
                         <OverviewCard
-                            title="Cotisation"
+                            title={t('Cotisation')}
                             value={formatCurrency(
                                 session.default_contribution_amount,
                                 group.currency,
                             )}
-                            description="Montant par défaut"
+                            description={t('Montant par défaut')}
                             icon={Coins}
                         />
 
                         <OverviewCard
-                            title="Tirage"
+                            title={t('Tirage')}
                             value={session.draw_allocation_mode_label ?? '—'}
-                            description="Mode d’attribution des tours"
+                            description={t('Mode d’attribution des tours')}
                             icon={Shuffle}
                         />
                     </section>
@@ -81,13 +84,15 @@ export default withAppLayout<Props>(
                     <section className="grid gap-6 xl:grid-cols-3">
                         <Card className="xl:col-span-2">
                             <CardHeader>
-                                <CardTitle>Accès rapides</CardTitle>
+                                <CardTitle>{t('Accès rapides')}</CardTitle>
                             </CardHeader>
 
                             <CardContent className="grid gap-4 md:grid-cols-3">
                                 <SessionModuleCard
-                                    title="Participants"
-                                    description="Voir et gérer les participants de la session."
+                                    title={t('Participants')}
+                                    description={t(
+                                        'Voir et gérer les participants de la session.',
+                                    )}
                                     icon={Users}
                                     href={groups.sessions.participants.index({
                                         group: group.slug!,
@@ -96,8 +101,10 @@ export default withAppLayout<Props>(
                                 />
 
                                 <SessionModuleCard
-                                    title="Assises"
-                                    description="Créer et gérer les assises de la session."
+                                    title={t('Assises')}
+                                    description={t(
+                                        'Créer et gérer les assises de la session.',
+                                    )}
                                     icon={CalendarDays}
                                     href={groups.sessions.meetings.index({
                                         group: group.slug!,
@@ -106,8 +113,10 @@ export default withAppLayout<Props>(
                                 />
 
                                 <SessionModuleCard
-                                    title="Tirage"
-                                    description="Configurer et gérer le tirage de la session."
+                                    title={t('Tirage')}
+                                    description={t(
+                                        'Configurer et gérer le tirage de la session.',
+                                    )}
                                     icon={Shuffle}
                                     href={groups.sessions.draw.show({
                                         group: group.slug!,
@@ -119,17 +128,17 @@ export default withAppLayout<Props>(
 
                         <Card>
                             <CardHeader>
-                                <CardTitle>Informations</CardTitle>
+                                <CardTitle>{t('Informations')}</CardTitle>
                             </CardHeader>
 
                             <CardContent className="space-y-4">
                                 <InformationRow
-                                    label="Nom"
+                                    label={t('Nom')}
                                     value={session.name}
                                 />
 
                                 <InformationRow
-                                    label="Cotisation"
+                                    label={t('Cotisation')}
                                     value={formatCurrency(
                                         session.default_contribution_amount,
                                         group.currency,
@@ -137,7 +146,7 @@ export default withAppLayout<Props>(
                                 />
 
                                 <InformationRow
-                                    label="Mode d’attribution"
+                                    label={t('Mode d’attribution')}
                                     value={
                                         session.draw_allocation_mode_label ??
                                         '—'
@@ -145,17 +154,17 @@ export default withAppLayout<Props>(
                                 />
 
                                 <InformationRow
-                                    label="Date de début"
+                                    label={t('Date de début')}
                                     value={formatDate(session.start_at)}
                                 />
 
                                 <InformationRow
-                                    label="Date de fin"
+                                    label={t('Date de fin')}
                                     value={formatDate(session.end_at)}
                                 />
 
                                 <InformationRow
-                                    label="Statut"
+                                    label={t('Statut')}
                                     value={getStatusLabel(session.status)}
                                 />
                             </CardContent>
@@ -165,7 +174,7 @@ export default withAppLayout<Props>(
                     {session.description && (
                         <Card>
                             <CardHeader>
-                                <CardTitle>Description</CardTitle>
+                                <CardTitle>{t('Description')}</CardTitle>
                             </CardHeader>
 
                             <CardContent>

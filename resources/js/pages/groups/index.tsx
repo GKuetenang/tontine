@@ -1,5 +1,3 @@
-import { Form, Head, Link } from '@inertiajs/react';
-import { PlusIcon, SearchIcon, Trash2Icon } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SortableTableHead } from '@/components/sortable-table-head';
@@ -14,10 +12,13 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
 import groups from '@/routes/groups';
-import type { BreadcrumbItem, PaginatedCollection, Group } from '@/types';
+import type { BreadcrumbItem, Group, PaginatedCollection } from '@/types';
+import { Form, Head, Link } from '@inertiajs/react';
+import { PlusIcon, SearchIcon, Trash2Icon } from 'lucide-react';
 import { Actions } from './actions';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -33,6 +34,7 @@ type Props = {
 };
 
 export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
+    const { t } = useTranslation();
     // const { can } = useAuthorization();
 
     // const { auth } = usePage().props;
@@ -40,8 +42,8 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
 
     return (
         <>
-            <Head title="Toutes les réunions" />
-            <Heading title="Toutes les réunions" />
+            <Head title={t('Toutes les réunions')} />
+            <Heading title={t('Toutes les réunions')} />
             <Card className="bg-background pt-0">
                 <CardHeader className="border-b py-4">
                     <div className="flex items-center justify-between">
@@ -49,12 +51,12 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                             <Button asChild className="w-fit">
                                 <Link href={groups.create()}>
                                     <PlusIcon />
-                                    Ajouter une réunion
+                                    {t('Ajouter une réunion')}
                                 </Link>
                             </Button>
                             <Button asChild className="w-fit" variant="outline">
                                 <Link href={groups.trash()}>
-                                    <Trash2Icon /> Corbeille
+                                    <Trash2Icon /> {t('Corbeille')}
                                 </Link>
                             </Button>
                         </div>
@@ -65,12 +67,12 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                             <Input
                                 autoFocus
                                 defaultValue={q ?? ''}
-                                placeholder="Rechercher une réunion"
+                                placeholder={t('Rechercher une réunion')}
                                 name="q"
                             />
                             <Button variant="outline">
                                 <SearchIcon />
-                                Rechercher
+                                {t('Rechercher')}
                             </Button>
                         </Form>
                     </div>
@@ -80,19 +82,19 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                         <TableHeader>
                             <TableRow className="[&>th:first-child]:pl-6 [&>th:last-child]:pr-6">
                                 <SortableTableHead field="name">
-                                    Nom
+                                    {t('Nom')}
                                 </SortableTableHead>
                                 <SortableTableHead field="member_number_prefix">
-                                    Préfixe
+                                    {t('Préfixe')}
                                 </SortableTableHead>
                                 <SortableTableHead field="default_contribution_amount">
-                                    Cotisation par défaut
+                                    {t('Cotisation par défaut')}
                                 </SortableTableHead>
                                 <SortableTableHead field="default_loan_interest_rate">
-                                    Taux des prêts
+                                    {t('Taux des prêts')}
                                 </SortableTableHead>
                                 <SortableTableHead field="default_loan_term_months">
-                                    Échéance
+                                    {t('Échéance')}
                                 </SortableTableHead>
                                 <TableHead className="text-end"></TableHead>
                             </TableRow>
@@ -105,7 +107,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                 >
                                     <TableCell>
                                         <div className="flex items-center gap-3">
-                                            {item.image ? (
+                                            {/* {item.image ? (
                                                 <img
                                                     src={item.image}
                                                     alt={item.name}
@@ -113,7 +115,7 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                                 />
                                             ) : (
                                                 <div className="aspect-square size-14 rounded-lg bg-secondary"></div>
-                                            )}
+                                            )} */}
                                             {item.can?.view && (
                                                 <Link
                                                     className="hover:underline"
@@ -142,7 +144,8 @@ export default withAppLayout(breadcrumbs, ({ collection, q }: Props) => {
                                         {item.default_loan_interest_rate} %
                                     </TableCell>
                                     <TableCell>
-                                        {item.default_loan_term_months} mois
+                                        {item.default_loan_term_months}{' '}
+                                        {t('mois')}
                                     </TableCell>
                                     <TableCell>
                                         <Actions group={item} />

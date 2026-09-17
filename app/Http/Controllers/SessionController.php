@@ -7,6 +7,7 @@ use App\Actions\Sessions\CloseSessionAction;
 use App\Actions\Sessions\CreateSessionAction;
 use App\Actions\Sessions\DeleteSessionAction;
 use App\Actions\Sessions\ForceDeleteSessionAction;
+use App\Actions\Sessions\PrepareSessionAction;
 use App\Actions\Sessions\RestoreSessionAction;
 use App\Actions\Sessions\UpdateSessionAction;
 use App\Data\SessionData;
@@ -51,7 +52,9 @@ class SessionController extends Controller
                 'slug' => $group->slug,
             ],
             'collection' => $sessions,
-            'session' => fn () => new Session,
+            'session' => fn() => new Session([
+                'default_contribution_amount' => $group->default_contribution_amount
+            ]),
             'draw_allocation_modes' => DrawAllocationMode::getOptions(),
         ]);
     }
@@ -108,7 +111,7 @@ class SessionController extends Controller
             'collection' => SessionData::collect(
                 $group->sessions()
                     ->onlyTrashed()
-                    ->when($q, fn ($query) => $query->where('name', 'like', "%{$q}%"))
+                    ->when($q, fn($query) => $query->where('name', 'like', "%{$q}%"))
                     ->orderFromRequest($request)
                     ->paginate(10)
                     ->withQueryString(),
@@ -193,6 +196,20 @@ class SessionController extends Controller
         return Inertia::flash(
             'success',
             __('La session a été fermée avec succès.'),
+        )->back();
+    }
+
+    public function prepare(
+        Group $group,
+        Session $session,
+        PrepareSessionAction $action,
+    ): RedirectResponse {
+        $this->authorize('prepare', $session);
+        $action->execute($session);
+
+        return Inertia::flash(
+            'success',
+            __('La session a été remise en préparation avec succès.'),
         )->back();
     }
 }

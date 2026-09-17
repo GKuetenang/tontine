@@ -6,18 +6,22 @@ import { Card, CardContent } from '@/components/ui/card';
 import { FeatureGrid } from '@/components/welcome/feature-grid';
 import { ProductPreview } from '@/components/welcome/product-preview';
 import { WelcomeHeader } from '@/components/welcome/welcome-header';
+import { useTranslation } from '@/hooks/use-translation';
 import { dashboard, login, register } from '@/routes';
 
 export default function Welcome() {
+    const { t } = useTranslation();
     const { auth, name } = usePage().props;
     const primaryRoute = auth.user ? dashboard() : register();
 
     return (
         <>
-            <Head title="Gérez votre réunion simplement">
+            <Head title={t('Gérez votre réunion simplement')}>
                 <meta
                     name="description"
-                    content="Une plateforme complète pour gérer les membres, assises et finances de votre réunion."
+                    content={t(
+                        'Une plateforme complète pour gérer les membres, assises et finances de votre réunion.',
+                    )}
                 />
             </Head>
             <div className="min-h-screen bg-background text-foreground">
@@ -32,20 +36,19 @@ export default function Welcome() {
                                     variant="secondary"
                                     className="mb-6 rounded-full px-3 py-1"
                                 >
-                                    <HandCoinsIcon /> La gestion collective,
-                                    simplifiée
+                                    <HandCoinsIcon />{' '}
+                                    {t('La gestion collective, simplifiée')}
                                 </Badge>
                                 <h1 className="text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-                                    Gérez votre réunion avec{' '}
+                                    {t('Gérez votre réunion avec')}{' '}
                                     <span className="text-primary">
-                                        clarté et confiance.
+                                        {t('clarté et confiance.')}
                                     </span>
                                 </h1>
                                 <p className="mt-6 max-w-lg text-lg leading-8 text-muted-foreground">
-                                    Membres, assises, cotisations, prêts et
-                                    rapports : centralisez toute la vie de votre
-                                    association dans un espace simple, sécurisé
-                                    et traçable.
+                                    {t(
+                                        'Membres, assises, cotisations, prêts et rapports : centralisez toute la vie de votre association dans un espace simple, sécurisé et traçable.',
+                                    )}
                                 </p>
                                 <div className="mt-8 flex flex-wrap gap-3">
                                     <Button asChild size="lg">
@@ -63,7 +66,7 @@ export default function Welcome() {
                                             variant="outline"
                                         >
                                             <Link href={login()}>
-                                                J’ai déjà un compte
+                                                {t('J’ai déjà un compte')}
                                             </Link>
                                         </Button>
                                     )}
@@ -136,13 +139,14 @@ export default function Welcome() {
                                 <CardContent className="flex flex-col items-center justify-between gap-8 p-8 text-center sm:p-12 lg:flex-row lg:text-left">
                                     <div className="max-w-2xl">
                                         <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                                            Prêt à mieux organiser votre réunion
-                                            ?
+                                            {t(
+                                                'Prêt à mieux organiser votre réunion ?',
+                                            )}
                                         </h2>
                                         <p className="mt-3 text-primary-foreground/75">
-                                            Créez votre espace, ajoutez vos
-                                            membres et planifiez votre première
-                                            assise.
+                                            {t(
+                                                'Créez votre espace, ajoutez vos membres et planifiez votre première assise.',
+                                            )}
                                         </p>
                                     </div>
                                     <Button
@@ -171,8 +175,9 @@ export default function Welcome() {
                             {name}
                         </div>
                         <p>
-                            Une gestion collective plus claire, assise après
-                            assise.
+                            {t(
+                                'Une gestion collective plus claire, assise après assise.',
+                            )}
                         </p>
                     </div>
                 </footer>

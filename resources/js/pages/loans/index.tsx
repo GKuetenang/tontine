@@ -17,6 +17,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
@@ -58,6 +59,7 @@ export default withAppLayout<Props>(
             { title: 'Prêts', href: '#' },
         ] as BreadcrumbItem[],
     ({ group, session, collection, statuses, q }) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
         const params = { group: group.slug!, session: session.slug };
         const statusLabels = Object.fromEntries(
@@ -66,11 +68,11 @@ export default withAppLayout<Props>(
 
         return (
             <>
-                <Head title="Prêts" />
+                <Head title={t('Prêts')} />
                 <div className="space-y-6">
                     <Heading
-                        title="Prêts"
-                        description="Prêts et échéances de la session."
+                        title={t('Prêts')}
+                        description={t('Prêts et échéances de la session.')}
                     />
                     <Card className="bg-background pt-0">
                         <CardHeader className="border-b py-4">
@@ -81,7 +83,8 @@ export default withAppLayout<Props>(
                                         session={session}
                                         trigger={
                                             <Button className="w-fit">
-                                                <PlusIcon /> Ajouter un prêt
+                                                <PlusIcon />{' '}
+                                                {t('Ajouter un prêt')}
                                             </Button>
                                         }
                                     />
@@ -93,11 +96,13 @@ export default withAppLayout<Props>(
                                     <Input
                                         autoFocus
                                         defaultValue={q ?? ''}
-                                        placeholder="Rechercher un emprunteur"
+                                        placeholder={t(
+                                            'Rechercher un emprunteur',
+                                        )}
                                         name="q"
                                     />
                                     <Button variant="outline">
-                                        <SearchIcon /> Rechercher
+                                        <SearchIcon /> {t('Rechercher')}
                                     </Button>
                                 </Form>
                             </div>
@@ -107,26 +112,26 @@ export default withAppLayout<Props>(
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead className="pl-6">
-                                            Emprunteur
+                                            {t('Emprunteur')}
                                         </TableHead>
                                         <SortableTableHead field="due_at">
-                                            Échéance
+                                            {t('Échéance')}
                                         </SortableTableHead>
                                         <SortableTableHead field="principal_amount">
-                                            Capital
+                                            {t('Capital')}
                                         </SortableTableHead>
                                         <SortableTableHead field="interest_amount">
-                                            Intérêt
+                                            {t('Intérêt')}
                                         </SortableTableHead>
                                         <SortableTableHead field="total_due">
-                                            Total dû
+                                            {t('Total dû')}
                                         </SortableTableHead>
-                                        <TableHead>Solde</TableHead>
+                                        <TableHead>{t('Solde')}</TableHead>
                                         <SortableTableHead field="status">
-                                            Statut
+                                            {t('Statut')}
                                         </SortableTableHead>
                                         <TableHead className="pr-6 text-right">
-                                            Actions
+                                            {t('Actions')}
                                         </TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -204,8 +209,9 @@ export default withAppLayout<Props>(
                                                                     variant="outline"
                                                                 >
                                                                     <CheckIcon />
-                                                                    Approuver et
-                                                                    décaisser
+                                                                    {t(
+                                                                        'Approuver et décaisser',
+                                                                    )}
                                                                 </Button>
                                                             </Form>
                                                         )}
@@ -224,7 +230,9 @@ export default withAppLayout<Props>(
                                                                         size="sm"
                                                                         variant="outline"
                                                                     >
-                                                                        Rembourser
+                                                                        {t(
+                                                                            'Rembourser',
+                                                                        )}
                                                                     </Button>
                                                                 }
                                                             />

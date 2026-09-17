@@ -17,6 +17,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
@@ -56,13 +57,14 @@ export default withAppLayout<Props>(
             { title: 'Pénalités', href: '#' },
         ] as BreadcrumbItem[],
     ({ group, session, collection, q, meetings, rules }) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
 
         return (
             <>
-                <Head title="Pénalités" />
+                <Head title={t('Pénalités')} />
                 <Heading
-                    title="Pénalités"
+                    title={t('Pénalités')}
                     description={`Pénalités appliquées pendant la session ${session.name}.`}
                 />
                 <Card className="bg-background pt-0">
@@ -76,7 +78,8 @@ export default withAppLayout<Props>(
                                     rules={rules}
                                     trigger={
                                         <Button className="w-fit">
-                                            <PlusIcon /> Ajouter une pénalité
+                                            <PlusIcon />{' '}
+                                            {t('Ajouter une pénalité')}
                                         </Button>
                                     }
                                 />
@@ -91,10 +94,10 @@ export default withAppLayout<Props>(
                                 <Input
                                     name="q"
                                     defaultValue={q ?? ''}
-                                    placeholder="Rechercher un membre"
+                                    placeholder={t('Rechercher un membre')}
                                 />
                                 <Button variant="outline">
-                                    <SearchIcon /> Rechercher
+                                    <SearchIcon /> {t('Rechercher')}
                                 </Button>
                             </Form>
                         </div>
@@ -104,24 +107,24 @@ export default withAppLayout<Props>(
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className="pl-6">
-                                        Membre
+                                        {t('Membre')}
                                     </TableHead>
-                                    <TableHead>Règle</TableHead>
-                                    <TableHead>Assise</TableHead>
+                                    <TableHead>{t('Règle')}</TableHead>
+                                    <TableHead>{t('Assise')}</TableHead>
                                     <SortableTableHead field="source">
-                                        Origine
+                                        {t('Origine')}
                                     </SortableTableHead>
                                     <SortableTableHead field="assessed_at">
-                                        Date
+                                        {t('Date')}
                                     </SortableTableHead>
                                     <SortableTableHead field="amount">
-                                        Montant
+                                        {t('Montant')}
                                     </SortableTableHead>
                                     <SortableTableHead field="status">
-                                        Statut
+                                        {t('Statut')}
                                     </SortableTableHead>
                                     <TableHead className="pr-6 text-right">
-                                        Actions
+                                        {t('Actions')}
                                     </TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -173,7 +176,7 @@ export default withAppLayout<Props>(
                                                                 variant="outline"
                                                             >
                                                                 <ShieldOffIcon />{' '}
-                                                                Exempter
+                                                                {t('Exempter')}
                                                             </Button>
                                                         }
                                                     />

@@ -1,6 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { GripVerticalIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from '@/hooks/use-translation';
 import type { Meeting, MeetingAgendaItem, Session, Group } from '@/types';
 import { AgendaItem } from './agenda-item';
 
@@ -15,6 +16,7 @@ export function SortableAgendaItem({
     meeting: Meeting;
     item: MeetingAgendaItem;
 }) {
+    const { t } = useTranslation();
     const {
         attributes,
         listeners,
@@ -55,7 +57,7 @@ export function SortableAgendaItem({
                         className="cursor-grab rounded-full text-muted-foreground active:cursor-grabbing"
                         {...attributes}
                         {...listeners}
-                        aria-label="Déplacer ce point"
+                        aria-label={t('Déplacer ce point')}
                     >
                         <GripVerticalIcon className="size-4" />
                     </Button>

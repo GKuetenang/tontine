@@ -7,6 +7,7 @@ import {
     ShieldCheckIcon,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslation } from '@/hooks/use-translation';
 
 const features = [
     [
@@ -42,6 +43,8 @@ const features = [
 ];
 
 export function FeatureGrid() {
+    const { t } = useTranslation();
+
     return (
         <section
             id="fonctionnalites"
@@ -50,14 +53,17 @@ export function FeatureGrid() {
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl text-center">
                     <p className="text-sm font-medium text-primary">
-                        Une gestion complète
+                        {t('Une gestion complète')}
                     </p>
                     <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                        Tout ce dont votre réunion a besoin, au même endroit
+                        {t(
+                            'Tout ce dont votre réunion a besoin, au même endroit',
+                        )}
                     </h2>
                     <p className="mt-4 text-muted-foreground">
-                        Des assises aux finances, chaque module partage la même
-                        information et conserve un historique fiable.
+                        {t(
+                            'Des assises aux finances, chaque module partage la même information et conserve un historique fiable.',
+                        )}
                     </p>
                 </div>
                 <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">

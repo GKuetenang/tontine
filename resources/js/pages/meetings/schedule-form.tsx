@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react';
 import { rrulestr } from 'rrule';
 
 import { FormField } from '@/components/form-field';
+import { SearchableSelect } from '@/components/searchable-select';
 import type { SelectOption } from '@/components/select-with-items';
 import { SelectWithItems } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
@@ -22,10 +23,11 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
+import { useTranslation } from '@/hooks/use-translation';
 import { parseDate } from '@/lib';
 import meetingSchedule from '@/routes/groups/sessions/meeting-schedule';
 
-import type { MeetingSchedule, Session, Group } from '@/types';
+import type { Group, MeetingSchedule, Session } from '@/types';
 
 type Props = {
     trigger: ReactElement;
@@ -99,6 +101,7 @@ export function MeetingScheduleForm({
     monthlyPatterns,
     schedule,
 }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const isEditing = Boolean(schedule);
     const [recurrence, setRecurrence] = useState(
@@ -109,11 +112,11 @@ export function MeetingScheduleForm({
     );
     const [monthlyPattern, setMonthlyPattern] = useState(
         (schedule?.rrule.includes('FREQ=MONTHLY') &&
-        schedule.rrule.includes('BYDAY=')
+            schedule.rrule.includes('BYDAY=')
             ? 'weekday_ordinal'
             : undefined) ??
-            monthlyPatterns[0]?.value ??
-            'day_of_month',
+        monthlyPatterns[0]?.value ??
+        'day_of_month',
     );
     const [startsAt, setStartsAt] = useState<Date | undefined>(() =>
         sessionDate(schedule?.starts_at ?? session.start_at),
@@ -145,13 +148,13 @@ export function MeetingScheduleForm({
     };
     const action = isEditing
         ? meetingSchedule.update.form({
-              group: group.slug!,
-              session: session.slug,
-          })
+            group: group.slug!,
+            session: session.slug,
+        })
         : meetingSchedule.store.form({
-              group: group.slug!,
-              session: session.slug,
-          });
+            group: group.slug!,
+            session: session.slug,
+        });
 
     const occurrences = useMemo(() => {
         const sessionEnd = sessionDate(session.end_at);
@@ -188,9 +191,9 @@ export function MeetingScheduleForm({
                     onBefore={() =>
                         confirm(
                             'Voulez-vous ' +
-                                (isEditing ? 'mettre à jour ' : 'générer ') +
-                                occurrences.length +
-                                ' assise(s) pour cette session ?',
+                            (isEditing ? 'mettre à jour ' : 'générer ') +
+                            occurrences.length +
+                            ' assise(s) pour cette session ?',
                         )
                     }
                     onSuccess={() => setOpen(false)}
@@ -204,9 +207,9 @@ export function MeetingScheduleForm({
                                         : 'Configurer les assises'}
                                 </DialogTitle>
                                 <DialogDescription>
-                                    La configuration sera appliquée globalement
-                                    aux assises générées entre le début et la
-                                    fin de la session.
+                                    {t(
+                                        'La configuration sera appliquée globalement aux assises générées entre le début et la fin de la session.',
+                                    )}
                                 </DialogDescription>
                             </DialogHeader>
 
@@ -219,7 +222,7 @@ export function MeetingScheduleForm({
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <FormField
                                     error={errors['recurrence']}
-                                    label="Récurrence"
+                                    label={t('Récurrence')}
                                     htmlFor="recurrence"
                                     required
                                 >
@@ -229,13 +232,15 @@ export function MeetingScheduleForm({
                                         items={recurrences}
                                         defaultValue={recurrence}
                                         onValueChange={setRecurrence}
-                                        placeholder="Choisir une récurrence"
+                                        placeholder={t(
+                                            'Choisir une récurrence',
+                                        )}
                                     />
                                 </FormField>
 
                                 <FormField
                                     error={errors['interval']}
-                                    label="Répéter tous les"
+                                    label={t('Répéter tous les')}
                                     htmlFor="interval"
                                     required
                                 >
@@ -269,7 +274,7 @@ export function MeetingScheduleForm({
                                 {recurrence === 'monthly' && (
                                     <FormField
                                         error={errors['monthly_pattern']}
-                                        label="Répétition mensuelle"
+                                        label={t('Répétition mensuelle')}
                                         htmlFor="monthly_pattern"
                                         required
                                     >
@@ -279,30 +284,40 @@ export function MeetingScheduleForm({
                                             items={monthlyPatterns}
                                             defaultValue={monthlyPattern}
                                             onValueChange={setMonthlyPattern}
-                                            placeholder="Choisir la règle mensuelle"
+                                            placeholder={t(
+                                                'Choisir la règle mensuelle',
+                                            )}
                                         />
                                     </FormField>
                                 )}
 
                                 <FormField
                                     error={errors['timezone']}
-                                    label="Fuseau horaire"
+                                    label={t('Fuseau horaire')}
                                     htmlFor="timezone"
                                     required
                                 >
-                                    <SelectWithItems
+                                    <SearchableSelect
                                         id="timezone"
                                         name="timezone"
                                         items={timezones}
-                                        defaultValue={defaultTimezone}
+                                        value={timezone}
                                         onValueChange={setTimezone}
-                                        placeholder="Choisir un fuseau horaire"
+                                        placeholder={t(
+                                            'Choisir un fuseau horaire',
+                                        )}
+                                        searchPlaceholder={t(
+                                            'Rechercher un fuseau horaire…',
+                                        )}
+                                        emptyMessage={t(
+                                            'Aucun fuseau horaire trouvé.',
+                                        )}
                                     />
                                 </FormField>
 
                                 <FormField
                                     error={errors['starts_at']}
-                                    label="Première assise"
+                                    label={t('Première assise')}
                                     htmlFor="starts_at"
                                     required
                                 >
@@ -312,24 +327,27 @@ export function MeetingScheduleForm({
                                         value={
                                             startsAt
                                                 ? format(
-                                                      startsAt,
-                                                      'yyyy-MM-dd HH:mm:ss',
-                                                  )
+                                                    startsAt,
+                                                    'yyyy-MM-dd HH:mm:ss',
+                                                )
                                                 : ''
                                         }
                                     />
                                     <DateTimePicker
+                                        weekStartsOn={1}
                                         granularity="minute"
                                         className="text-foreground"
                                         value={startsAt}
                                         onChange={setStartsAt}
-                                        placeholder="Choisir la date et l’heure"
+                                        placeholder={t(
+                                            'Choisir la date et l’heure',
+                                        )}
                                     />
                                 </FormField>
 
                                 <FormField
                                     error={errors['default_duration_minutes']}
-                                    label="Durée (minutes)"
+                                    label={t('Durée (minutes)')}
                                     htmlFor="default_duration_minutes"
                                     required
                                 >
@@ -348,7 +366,7 @@ export function MeetingScheduleForm({
 
                                 <FormField
                                     error={errors['default_title']}
-                                    label="Titre par défaut"
+                                    label={t('Titre par défaut')}
                                     htmlFor="default_title"
                                     required
                                 >
@@ -363,7 +381,7 @@ export function MeetingScheduleForm({
 
                                 <FormField
                                     error={errors['default_location']}
-                                    label="Lieu par défaut"
+                                    label={t('Lieu par défaut')}
                                     htmlFor="default_location"
                                     optional
                                 >
@@ -373,7 +391,9 @@ export function MeetingScheduleForm({
                                         defaultValue={
                                             schedule?.default_location ?? ''
                                         }
-                                        placeholder="Ex. Siège de l’association"
+                                        placeholder={t(
+                                            'Ex. Siège de l’association',
+                                        )}
                                     />
                                 </FormField>
                             </div>
@@ -381,7 +401,8 @@ export function MeetingScheduleForm({
                             <div className="rounded-lg border bg-muted/30 p-4">
                                 <div className="flex items-center gap-2 font-medium">
                                     <CalendarRangeIcon className="size-4" />
-                                    Aperçu : {occurrences.length} assise(s)
+                                    {t('Aperçu :')} {occurrences.length}{' '}
+                                    {t('assise(s)')}
                                     <span className="text-xs font-normal text-muted-foreground">
                                         ({timezone})
                                     </span>
@@ -399,8 +420,8 @@ export function MeetingScheduleForm({
                                 </div>
                                 {occurrences.length > 6 && (
                                     <p className="mt-2 text-xs text-muted-foreground">
-                                        Et {occurrences.length - 6} autre(s)
-                                        assise(s)…
+                                        {t('Et')} {occurrences.length - 6}{' '}
+                                        {t('autre(s) assise(s)…')}
                                     </p>
                                 )}
                             </div>
@@ -408,7 +429,7 @@ export function MeetingScheduleForm({
                             <DialogFooter>
                                 <DialogClose asChild>
                                     <Button type="button" variant="outline">
-                                        Annuler
+                                        {t('Annuler')}
                                     </Button>
                                 </DialogClose>
                                 <Button

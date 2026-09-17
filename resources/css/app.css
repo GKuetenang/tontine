@@ -14,7 +14,7 @@
     }
 
     body:has(#meeting-report) [data-slot='sidebar'],
-    body:has(#meeting-report) [data-slot='sidebar-inset'] > header {
+    body:has(#meeting-report) [data-slot='sidebar-inset']>header {
         display: none !important;
     }
 
@@ -250,6 +250,10 @@
     .optional::after {
         content: ' (optionnel)';
         @apply text-muted-foreground;
+    }
+
+    .bg-card-gradient {
+        @apply bg-linear-to-br from-primary/12 via-background to-background
     }
 }
 

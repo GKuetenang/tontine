@@ -1,6 +1,7 @@
 import { Form } from '@inertiajs/react';
 import { RotateCcwIcon, SaveIcon } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import type { SelectOption } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,6 +13,7 @@ import {
 } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { TableCell, TableRow } from '@/components/ui/table';
+import { useTranslation } from '@/hooks/use-translation';
 import assignments from '@/routes/groups/mandates/assignments';
 import type { ResultGroup } from '@/types';
 
@@ -23,7 +25,7 @@ export type MandateMember = {
     role_id: number | null;
 };
 
-export function AssignmentRow({
+export default function AssignmentRow({
     group,
     mandateId,
     member,
@@ -36,6 +38,7 @@ export function AssignmentRow({
     roles: SelectOption[];
     canUpdate: boolean;
 }) {
+    const { t } = useTranslation();
     const initialRole = member.role_id ? String(member.role_id) : 'none';
     const [roleId, setRoleId] = useState(initialRole);
     const changed = roleId !== initialRole;
@@ -55,11 +58,11 @@ export function AssignmentRow({
                     disabled={!canUpdate}
                 >
                     <SelectTrigger className="w-full max-w-xs">
-                        <SelectValue placeholder="Aucune responsabilité" />
+                        <SelectValue placeholder={t('Aucune responsabilité')} />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="none">
-                            Aucune responsabilité
+                            {t('Aucune responsabilité')}
                         </SelectItem>
                         {roles.map((role) => (
                             <SelectItem
@@ -80,6 +83,13 @@ export function AssignmentRow({
                             mandate: mandateId,
                             membership: member.id,
                         })}
+                        onError={(errors) => {
+                            const firstError = Object.values(errors)[0];
+
+                            if (firstError) {
+                                toast.error(firstError);
+                            }
+                        }}
                     >
                         {({ processing }) => (
                             <div className="flex justify-end gap-1">
@@ -95,7 +105,7 @@ export function AssignmentRow({
                                     disabled={!changed || processing}
                                     onClick={() => setRoleId(initialRole)}
                                 >
-                                    <RotateCcwIcon /> Annuler
+                                    <RotateCcwIcon /> {t('Annuler')}
                                 </Button>
                                 <Button
                                     type="submit"
@@ -103,7 +113,7 @@ export function AssignmentRow({
                                     disabled={!changed || processing}
                                 >
                                     {processing ? <Spinner /> : <SaveIcon />}{' '}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </div>
                         )}

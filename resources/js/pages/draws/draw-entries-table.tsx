@@ -23,6 +23,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTranslation } from '@/hooks/use-translation';
 import drawRoutes from '@/routes/groups/sessions/draw';
 import type { Draw, ResultGroup, Session } from '@/types';
 
@@ -38,6 +39,7 @@ type Props = {
 };
 
 export function DrawEntriesTable({ group, session, draw, canSwap }: Props) {
+    const { t } = useTranslation();
     const [entries, setEntries] = useState<DrawEntry[]>(() =>
         [...(draw.entries ?? [])].sort((a, b) => a.position - b.position),
     );
@@ -125,13 +127,13 @@ export function DrawEntriesTable({ group, session, draw, canSwap }: Props) {
                     <TableRow>
                         {canSwap && <TableHead className="w-12" />}
 
-                        <TableHead className="w-24">Position</TableHead>
+                        <TableHead className="w-24">{t('Position')}</TableHead>
 
-                        <TableHead>Participant</TableHead>
+                        <TableHead>{t('Participant')}</TableHead>
 
-                        <TableHead>Part</TableHead>
+                        <TableHead>{t('Part')}</TableHead>
 
-                        <TableHead>Date prévue</TableHead>
+                        <TableHead>{t('Date prévue')}</TableHead>
                     </TableRow>
                 </TableHeader>
 
@@ -154,7 +156,7 @@ export function DrawEntriesTable({ group, session, draw, canSwap }: Props) {
 
                             <div>
                                 <p className="font-medium">
-                                    Position {activeEntry.position}
+                                    {t('Position')} {activeEntry.position}
                                 </p>
 
                                 <p className="text-sm text-muted-foreground">

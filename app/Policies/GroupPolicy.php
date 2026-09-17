@@ -5,9 +5,12 @@ namespace App\Policies;
 use App\Enums\GroupPermission;
 use App\Models\Group;
 use App\Models\User;
+use App\Policies\Concerns\ChecksGroupPermissions;
 
 class GroupPolicy
 {
+    use ChecksGroupPermissions;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -21,8 +24,7 @@ class GroupPolicy
      */
     public function view(User $user, Group $group): bool
     {
-        return $group->hasActiveMembership($user)
-            && $user->can(GroupPermission::ViewGroup->value);
+        return $this->can($user, $group, GroupPermission::ViewGroup);
     }
 
     /**
@@ -38,8 +40,7 @@ class GroupPolicy
      */
     public function update(User $user, Group $group): bool
     {
-        return $group->hasActiveMembership($user)
-            && $user->can(GroupPermission::UpdateGroup->value);
+        return $this->can($user, $group, GroupPermission::UpdateGroup);
     }
 
     /**
@@ -47,8 +48,7 @@ class GroupPolicy
      */
     public function delete(User $user, Group $group): bool
     {
-        return $group->hasActiveMembership($user)
-            && $user->can(GroupPermission::DeleteGroup->value);
+        return $this->can($user, $group, GroupPermission::DeleteGroup);
     }
 
     /**
@@ -56,8 +56,7 @@ class GroupPolicy
      */
     public function restore(User $user, Group $group): bool
     {
-        return $group->hasActiveMembership($user)
-            && $user->can(GroupPermission::RestoreGroup->value);
+        return $this->can($user, $group, GroupPermission::RestoreGroup);
     }
 
     /**
@@ -65,7 +64,6 @@ class GroupPolicy
      */
     public function forceDelete(User $user, Group $group): bool
     {
-        return $group->hasActiveMembership($user)
-            && $user->can(GroupPermission::ForceDeleteGroup->value);
+        return $this->can($user, $group, GroupPermission::ForceDeleteGroup);
     }
 }

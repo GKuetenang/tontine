@@ -6,8 +6,10 @@ use App\Actions\Sessions\ActivateSessionAction;
 use App\Actions\Sessions\CloseSessionAction;
 use App\Actions\Sessions\CreateSessionAction;
 use App\Actions\Sessions\DeleteSessionAction;
+use App\Actions\Sessions\PrepareSessionAction;
 use App\Actions\Sessions\UpdateSessionAction;
 use App\Enums\SessionStatus;
+use App\Models\Draw;
 use App\Models\Group;
 use App\Models\Membership;
 use App\Models\Session;
@@ -387,6 +389,29 @@ test('an active session can be closed', function (): void {
         ->status->toBe(SessionStatus::Closed)
         ->closed_at->not->toBeNull();
 });
+
+test('an active session can be returned to preparation', function (): void {
+    $session = Session::factory()->active()->create();
+
+    $prepared = app(PrepareSessionAction::class)->execute($session);
+
+    expect($prepared->status)->toBe(SessionStatus::Draft)
+        ->and($prepared->activated_at)->toBeNull()
+        ->and($prepared->closed_at)->toBeNull();
+});
+
+test('a closed session cannot be returned to preparation', function (): void {
+    app(PrepareSessionAction::class)->execute(
+        Session::factory()->closed()->create(),
+    );
+})->throws(ValidationException::class);
+
+test('a session with a confirmed draw cannot be returned to preparation', function (): void {
+    $session = Session::factory()->active()->create();
+    Draw::factory()->for($session)->create(['confirmed_at' => now()]);
+
+    app(PrepareSessionAction::class)->execute($session);
+})->throws(ValidationException::class);
 
 test('a draft session cannot be closed', function (): void {
     $session = Session::factory()

@@ -1,3 +1,5 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import account from '@/routes/account';
 import { router, usePage } from '@inertiajs/react';
 import {
     CoinsIcon,
@@ -6,8 +8,6 @@ import {
     UsersIcon,
 } from 'lucide-react';
 import type { PropsWithChildren } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import account from '@/routes/account';
 
 const items = [
     {
@@ -57,7 +57,7 @@ export function AccountLayout({ children }: PropsWithChildren) {
             }}
             className="w-full"
         >
-            <TabsList className="h-auto w-full justify-start gap-2 overflow-x-auto">
+            <TabsList className="h-auto w-full justify-start gap-2 overflow-x-auto overflow-y-hidden">
                 {items.map((item) => (
                     <TabsTrigger
                         key={item.value}

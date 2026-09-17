@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/dialog';
 import { Spinner } from '@/components/ui/spinner';
 
+import { useTranslation } from '@/hooks/use-translation';
 import attendances from '@/routes/groups/sessions/meetings/attendances';
 
 import type { Meeting, MeetingAttendance, Session, Group } from '@/types';
@@ -58,6 +59,7 @@ export function EditAttendanceForm({
     meeting,
     attendance,
 }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
 
     const action = attendances.update.form({
@@ -76,11 +78,13 @@ export function EditAttendanceForm({
                     {({ errors, processing }) => (
                         <div className="space-y-4">
                             <DialogHeader>
-                                <DialogTitle>Modifier la présence</DialogTitle>
+                                <DialogTitle>
+                                    {t('Modifier la présence')}
+                                </DialogTitle>
                             </DialogHeader>
 
                             <FormField
-                                label="Statut"
+                                label={t('Statut')}
                                 htmlFor="status"
                                 error={errors.status}
                                 required
@@ -94,7 +98,7 @@ export function EditAttendanceForm({
                             </FormField>
 
                             <FormField
-                                label="Note"
+                                label={t('Note')}
                                 htmlFor="note"
                                 error={errors.note}
                                 optional
@@ -110,13 +114,13 @@ export function EditAttendanceForm({
                             <DialogFooter>
                                 <DialogClose asChild>
                                     <Button type="button" variant="outline">
-                                        Annuler
+                                        {t('Annuler')}
                                     </Button>
                                 </DialogClose>
 
                                 <Button type="submit" disabled={processing}>
                                     {processing ? <Spinner /> : <SaveIcon />}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

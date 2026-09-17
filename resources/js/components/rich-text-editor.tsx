@@ -30,6 +30,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
+import { useTranslation } from '@/hooks/use-translation';
 import {
     ALLOWED_IMAGE_TYPES,
     fileToBase64,
@@ -65,6 +66,7 @@ export function RichTextEditor({
     onChange,
     placeholder = 'Saisir les notes de l’assise...',
 }: Props) {
+    const { t } = useTranslation();
     const [linkOpen, setLinkOpen] = useState(false);
 
     const [linkUrl, setLinkUrl] = useState('');
@@ -375,7 +377,7 @@ export function RichTextEditor({
                     variant={editorState.isBold ? 'secondary' : 'ghost'}
                     size="icon"
                     className={toolbarButtonClass}
-                    title="Gras"
+                    title={t('Gras')}
                     onClick={() => editor.chain().focus().toggleBold().run()}
                 >
                     <BoldIcon className="size-4" />
@@ -386,7 +388,7 @@ export function RichTextEditor({
                     variant={editorState.isItalic ? 'secondary' : 'ghost'}
                     size="icon"
                     className={toolbarButtonClass}
-                    title="Italique"
+                    title={t('Italique')}
                     onClick={() => editor.chain().focus().toggleItalic().run()}
                 >
                     <ItalicIcon className="size-4" />
@@ -397,7 +399,7 @@ export function RichTextEditor({
                     variant={editorState.isUnderline ? 'secondary' : 'ghost'}
                     size="icon"
                     className={toolbarButtonClass}
-                    title="Souligné"
+                    title={t('Souligné')}
                     onClick={() =>
                         editor.chain().focus().toggleUnderline().run()
                     }
@@ -412,7 +414,7 @@ export function RichTextEditor({
                     variant={editorState.isHeading1 ? 'secondary' : 'ghost'}
                     size="icon"
                     className={toolbarButtonClass}
-                    title="Titre 1"
+                    title={t('Titre 1')}
                     onClick={() =>
                         editor
                             .chain()
@@ -431,7 +433,7 @@ export function RichTextEditor({
                     variant={editorState.isHeading2 ? 'secondary' : 'ghost'}
                     size="icon"
                     className={toolbarButtonClass}
-                    title="Titre 2"
+                    title={t('Titre 2')}
                     onClick={() =>
                         editor
                             .chain()
@@ -450,7 +452,7 @@ export function RichTextEditor({
                     variant={editorState.isHeading3 ? 'secondary' : 'ghost'}
                     size="icon"
                     className={toolbarButtonClass}
-                    title="Titre 3"
+                    title={t('Titre 3')}
                     onClick={() =>
                         editor
                             .chain()
@@ -471,7 +473,7 @@ export function RichTextEditor({
                     variant={editorState.isBulletList ? 'secondary' : 'ghost'}
                     size="icon"
                     className={toolbarButtonClass}
-                    title="Liste à puces"
+                    title={t('Liste à puces')}
                     onClick={() =>
                         editor.chain().focus().toggleBulletList().run()
                     }
@@ -484,7 +486,7 @@ export function RichTextEditor({
                     variant={editorState.isOrderedList ? 'secondary' : 'ghost'}
                     size="icon"
                     className={toolbarButtonClass}
-                    title="Liste numérotée"
+                    title={t('Liste numérotée')}
                     onClick={() =>
                         editor.chain().focus().toggleOrderedList().run()
                     }
@@ -501,7 +503,7 @@ export function RichTextEditor({
                             variant={editorState.isLink ? 'secondary' : 'ghost'}
                             size="icon"
                             className={toolbarButtonClass}
-                            title="Lien"
+                            title={t('Lien')}
                             onClick={openLinkEditor}
                         >
                             <LinkIcon className="size-4" />
@@ -512,18 +514,18 @@ export function RichTextEditor({
                         <div className="space-y-3">
                             <div className="space-y-1">
                                 <p className="text-sm font-medium">
-                                    Ajouter un lien
+                                    {t('Ajouter un lien')}
                                 </p>
 
                                 <p className="text-xs text-muted-foreground">
-                                    Saisissez l’adresse du lien.
+                                    {t('Saisissez l’adresse du lien.')}
                                 </p>
                             </div>
 
                             <Input
                                 type="url"
                                 value={linkUrl}
-                                placeholder="https://example.com"
+                                placeholder={t('https://example.com')}
                                 autoFocus
                                 onChange={(event) =>
                                     setLinkUrl(event.target.value)
@@ -546,7 +548,7 @@ export function RichTextEditor({
                                         onClick={removeLink}
                                     >
                                         <Link2OffIcon className="size-4" />
-                                        Retirer
+                                        {t('Retirer')}
                                     </Button>
                                 ) : (
                                     <div />
@@ -557,7 +559,7 @@ export function RichTextEditor({
                                     size="sm"
                                     onClick={applyLink}
                                 >
-                                    Appliquer
+                                    {t('Appliquer')}
                                 </Button>
                             </div>
                         </div>
@@ -571,7 +573,7 @@ export function RichTextEditor({
                     variant="ghost"
                     size="icon"
                     className={toolbarButtonClass}
-                    title="Annuler"
+                    title={t('Annuler')}
                     disabled={!editorState.canUndo}
                     onClick={undo}
                 >
@@ -583,7 +585,7 @@ export function RichTextEditor({
                     variant="ghost"
                     size="icon"
                     className={toolbarButtonClass}
-                    title="Rétablir"
+                    title={t('Rétablir')}
                     disabled={!editorState.canRedo}
                     onClick={redo}
                 >
@@ -595,8 +597,9 @@ export function RichTextEditor({
 
             <div className="border-t bg-muted/20 px-4 py-2">
                 <p className="text-xs text-muted-foreground">
-                    Vous pouvez glisser-déposer ou coller une image JPG, PNG ou
-                    WEBP. Cliquez sur une image pour la redimensionner.
+                    {t(
+                        'Vous pouvez glisser-déposer ou coller une image JPG, PNG ou WEBP. Cliquez sur une image pour la redimensionner.',
+                    )}
                 </p>
             </div>
         </div>

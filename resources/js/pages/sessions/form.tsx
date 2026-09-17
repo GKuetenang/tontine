@@ -1,8 +1,3 @@
-import { Form } from '@inertiajs/react';
-import { format } from 'date-fns';
-import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
-import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import type { SelectOption } from '@/components/select-with-items';
 import { SelectWithItems } from '@/components/select-with-items';
@@ -21,9 +16,15 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
+import { useTranslation } from '@/hooks/use-translation';
 import { parseDate } from '@/lib';
 import sessions from '@/routes/groups/sessions';
 import type { Session } from '@/types';
+import { Form } from '@inertiajs/react';
+import { format } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 import type { ResultGroup } from '.';
 
 type Props = {
@@ -39,6 +40,7 @@ export function EditSessionForm({
     session,
     draw_allocation_modes,
 }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const configurationLocked = session.status === 'active';
 
@@ -105,7 +107,7 @@ export function EditSessionForm({
 
                             <FormField
                                 error={errors['name']}
-                                label="Nom"
+                                label={t('Nom')}
                                 htmlFor="name"
                                 required
                             >
@@ -119,7 +121,7 @@ export function EditSessionForm({
 
                             <FormField
                                 error={errors.description}
-                                label="Description"
+                                label={t('Description')}
                                 htmlFor="description"
                                 optional
                             >
@@ -132,7 +134,7 @@ export function EditSessionForm({
 
                             <FormField
                                 error={errors['default_contribution_amount']}
-                                label="Montant par defaut"
+                                label={t('Montant par defaut')}
                                 htmlFor="default_contribution_amount"
                                 optional
                             >
@@ -151,7 +153,7 @@ export function EditSessionForm({
                             </FormField>
                             <FormField
                                 error={errors['beneficiaries_per_meeting']}
-                                label="Bénéficiaires par assise"
+                                label={t('Bénéficiaires par assise')}
                                 htmlFor="beneficiaries_per_meeting"
                                 optional
                             >
@@ -170,7 +172,7 @@ export function EditSessionForm({
 
                             <FormField
                                 error={errors['draw_allocation_mode']}
-                                label="Mode"
+                                label={t('Mode')}
                                 htmlFor="draw_allocation_mode"
                             >
                                 <SelectWithItems
@@ -197,7 +199,9 @@ export function EditSessionForm({
 
                             <FormField
                                 error={errors['base_contribution_amount']}
-                                label="Montant de base pour l’attribution des tours"
+                                label={t(
+                                    'Montant de base pour l’attribution des tours',
+                                )}
                                 htmlFor="base_contribution_amount"
                                 optional
                             >
@@ -218,7 +222,7 @@ export function EditSessionForm({
 
                             <FormField
                                 error={errors['start_at']}
-                                label="Date de début"
+                                label={t('Date de début')}
                                 htmlFor="start_at"
                             >
                                 <input
@@ -227,16 +231,17 @@ export function EditSessionForm({
                                     value={
                                         startDate
                                             ? format(
-                                                  startDate,
-                                                  'yyyy-MM-dd HH:mm:ss',
-                                              )
+                                                startDate,
+                                                'yyyy-MM-dd HH:mm:ss',
+                                            )
                                             : ''
                                     }
                                 />
                                 <DateTimePicker
+                                    weekStartsOn={1}
                                     granularity="minute"
                                     className="text-foreground"
-                                    placeholder="Choisir une date"
+                                    placeholder={t('Choisir une date')}
                                     value={startDate}
                                     onChange={setStartDate}
                                 />
@@ -244,13 +249,14 @@ export function EditSessionForm({
 
                             <FormField
                                 error={errors['end_at']}
-                                label="Date de fin"
+                                label={t('Date de fin')}
                                 htmlFor="end_at"
                             >
                                 <DateTimePicker
+                                    weekStartsOn={1}
                                     granularity="minute"
                                     className="text-foreground"
-                                    placeholder="Choisir une date"
+                                    placeholder={t('Choisir une date')}
                                     value={endDate}
                                     onChange={setEndDate}
                                 />
@@ -260,9 +266,9 @@ export function EditSessionForm({
                                     value={
                                         endDate
                                             ? format(
-                                                  endDate,
-                                                  'yyyy-MM-dd HH:mm:ss',
-                                              )
+                                                endDate,
+                                                'yyyy-MM-dd HH:mm:ss',
+                                            )
                                             : ''
                                     }
                                 />
@@ -271,7 +277,7 @@ export function EditSessionForm({
                             <DialogFooter>
                                 <DialogClose asChild>
                                     <Button type="button" variant="outline">
-                                        Annuler
+                                        {t('Annuler')}
                                     </Button>
                                 </DialogClose>
                                 <Button
@@ -281,7 +287,7 @@ export function EditSessionForm({
                                     data-test="save-session-button"
                                 >
                                     {processing ? <Spinner /> : <SaveIcon />}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

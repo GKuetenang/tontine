@@ -9,6 +9,7 @@ import {
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
+import { useTranslation } from '@/hooks/use-translation';
 import type { Meeting, Session, Group } from '@/types';
 
 import { AttendanceRow } from './attendace-row';
@@ -21,6 +22,7 @@ type Props = {
 };
 
 export function MeetingAttendances({ group, session, meeting }: Props) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
 
     const attendances = meeting.attendances ?? [];
@@ -32,22 +34,22 @@ export function MeetingAttendances({ group, session, meeting }: Props) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Présences</CardTitle>
+                <CardTitle>{t('Présences')}</CardTitle>
             </CardHeader>
 
             <CardContent className="px-0">
                 <Table>
                     <TableHeader>
                         <TableRow className="[&>th:first-child]:pl-6 [&>th:last-child]:pr-6">
-                            <TableHead>Membre</TableHead>
+                            <TableHead>{t('Membre')}</TableHead>
 
-                            <TableHead>N° membre</TableHead>
+                            <TableHead>{t('N° membre')}</TableHead>
 
-                            <TableHead>Statut</TableHead>
+                            <TableHead>{t('Statut')}</TableHead>
 
-                            <TableHead>Arrivée</TableHead>
+                            <TableHead>{t('Arrivée')}</TableHead>
 
-                            <TableHead>Note</TableHead>
+                            <TableHead>{t('Note')}</TableHead>
 
                             <TableHead className="text-end" />
                         </TableRow>

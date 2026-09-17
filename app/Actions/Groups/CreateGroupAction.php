@@ -71,11 +71,11 @@ class CreateGroupAction
                 'starts_at' => $mandateStartsAt,
                 'ends_at' => $mandateEndsAt,
             ]);
-            $presidentRole = $group->roles()->where('name', GroupRole::President->value)->sole();
+            $administratorRole = $group->roles()->where('name', GroupRole::Administrator->value)->sole();
             $this->saveMandateAssignment->execute(
                 mandate: $mandate,
                 membership: $membership,
-                role: $presidentRole,
+                role: $administratorRole,
                 appointer: $owner,
                 startsAt: $mandateStartsAt,
                 endsAt: $mandateEndsAt,

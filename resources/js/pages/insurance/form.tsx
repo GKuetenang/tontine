@@ -1,8 +1,3 @@
-import { Form } from '@inertiajs/react';
-import { format } from 'date-fns';
-import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
-import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import { Button } from '@/components/ui/button';
 import { DateTimePicker } from '@/components/ui/datetime-picker';
@@ -20,9 +15,15 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { UserCombobox } from '@/components/user-combobox';
+import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import insurance from '@/routes/groups/sessions/insurance';
-import type { MemberUser, Session, Group } from '@/types';
+import type { Group, MemberUser, Session } from '@/types';
+import { Form } from '@inertiajs/react';
+import { format } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 
 type Props = { trigger: ReactElement; group: Group; session: Session };
 
@@ -31,6 +32,7 @@ export function CreateInsuranceContributionForm({
     group,
     session,
 }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<MemberUser | null>(null);
     const [occurredAt, setOccurredAt] = useState<Date | undefined>();
@@ -75,15 +77,18 @@ export function CreateInsuranceContributionForm({
                     {({ errors, processing }) => (
                         <div className="space-y-4">
                             <DialogHeader>
-                                <DialogTitle>Nouveau versement</DialogTitle>
+                                <DialogTitle>
+                                    {t('Nouveau versement')}
+                                </DialogTitle>
                                 <DialogDescription>
-                                    Enregistrez la contribution d’un membre au
-                                    fonds d’assurance.
+                                    {t(
+                                        'Enregistrez la contribution d’un membre au fonds d’assurance.',
+                                    )}
                                 </DialogDescription>
                             </DialogHeader>
                             <FormField
                                 error={errors.membership_id}
-                                label="Membre"
+                                label={t('Membre')}
                                 htmlFor="membership_id"
                                 required
                             >
@@ -99,7 +104,7 @@ export function CreateInsuranceContributionForm({
                                         className={cn(
                                             'rounded-sm border bg-accent px-2 py-1.5',
                                             errors.membership_id &&
-                                                'border-destructive bg-destructive/20',
+                                            'border-destructive bg-destructive/20',
                                         )}
                                     >
                                         <p className="text-sm">
@@ -113,7 +118,7 @@ export function CreateInsuranceContributionForm({
                             </FormField>
                             <FormField
                                 error={errors.amount}
-                                label="Montant versé"
+                                label={t('Montant versé')}
                                 htmlFor="amount"
                                 required
                             >
@@ -126,7 +131,7 @@ export function CreateInsuranceContributionForm({
                             </FormField>
                             <FormField
                                 error={errors.occurred_at}
-                                label="Date du versement"
+                                label={t('Date du versement')}
                                 htmlFor="occurred_at"
                             >
                                 {occurredAt && (
@@ -140,27 +145,30 @@ export function CreateInsuranceContributionForm({
                                     />
                                 )}
                                 <DateTimePicker
+                                    weekStartsOn={1}
                                     granularity="minute"
                                     value={occurredAt}
                                     onChange={setOccurredAt}
-                                    placeholder="Utiliser la date et l’heure actuelles"
+                                    placeholder={t(
+                                        'Utiliser la date et l’heure actuelles',
+                                    )}
                                 />
                             </FormField>
                             <FormField
                                 error={errors.description}
-                                label="Motif"
+                                label={t('Motif')}
                                 htmlFor="description"
                             >
                                 <Textarea
                                     id="description"
                                     name="description"
-                                    placeholder="Facultatif"
+                                    placeholder={t('Facultatif')}
                                 />
                             </FormField>
                             <DialogFooter>
                                 <DialogClose asChild>
                                     <Button type="button" variant="outline">
-                                        Annuler
+                                        {t('Annuler')}
                                     </Button>
                                 </DialogClose>
                                 <Button
@@ -168,7 +176,7 @@ export function CreateInsuranceContributionForm({
                                     disabled={processing || !selectedUser}
                                 >
                                     {processing ? <Spinner /> : <SaveIcon />}{' '}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

@@ -14,6 +14,7 @@ import {
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
+import { useTranslation } from '@/hooks/use-translation';
 import { formatDate } from '@/lib';
 
 import decisions from '@/routes/groups/sessions/meetings/decisions';
@@ -35,6 +36,7 @@ export function MeetingDecisionItem({
     meeting,
     decision,
 }: Props) {
+    const { t } = useTranslation();
     const { can, canAny } = useAuthorization();
 
     const canEdit = meeting.status === 'in_progress';
@@ -56,7 +58,7 @@ export function MeetingDecisionItem({
                 ) : (
                     <div>
                         <span className="inline-flex rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
-                            Décision générale
+                            {t('Décision générale')}
                         </span>
                     </div>
                 )}
@@ -74,7 +76,7 @@ export function MeetingDecisionItem({
                                         type="button"
                                         variant="outline"
                                         size="icon"
-                                        title="Modifier"
+                                        title={t('Modifier')}
                                     >
                                         <PencilIcon className="size-4" />
                                     </Button>
@@ -87,7 +89,7 @@ export function MeetingDecisionItem({
                                 asChild
                                 size="icon"
                                 variant="destructive-outline"
-                                title="Supprimer"
+                                title={t('Supprimer')}
                             >
                                 <Link
                                     href={decisions.destroy({

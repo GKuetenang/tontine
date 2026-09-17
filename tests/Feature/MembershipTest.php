@@ -27,7 +27,7 @@ afterEach(function (): void {
     setPermissionsTeamId(null);
 });
 
-test('creating a group creates a member adhesion and assigns the presidency through its first mandate', function () {
+test('creating a group creates a member adhesion and assigns administration through its first mandate', function () {
     $user = User::factory()->create();
 
     /** @var TestCase $this */
@@ -63,7 +63,7 @@ test('creating a group creates a member adhesion and assigns the presidency thro
         ->left_at->toBeNull();
 
     $role = Role::query()
-        ->where('name', 'president')
+        ->where('name', GroupRole::Administrator->value)
         ->where('guard_name', 'web')
         ->where('group_id', $group->id)
         ->firstOrFail();
@@ -303,6 +303,29 @@ test('a president can be deactivated when another active president exists', func
     $this->assertSoftDeleted('memberships', [
         'id' => $firstMembership->id,
     ]);
+});
+
+test('a president can be deactivated when an active administrator exists', function () {
+    $owner = User::factory()->create();
+    $administrator = User::factory()->create();
+    $group = Group::factory()->create(['user_id' => $owner->id]);
+    app(PermissionSeeder::class)->run();
+    app(CreateDefaultGroupRolesAction::class)->execute($group);
+
+    $presidentMembership = app(CreateMembershipAction::class)->execute(
+        group: $group,
+        user: $owner,
+        roleName: GroupRole::President->value,
+    );
+    app(CreateMembershipAction::class)->execute(
+        group: $group,
+        user: $administrator,
+        roleName: GroupRole::Administrator->value,
+    );
+
+    app(DeactivateMembershipAction::class)->execute($presidentMembership);
+
+    $this->assertSoftDeleted('memberships', ['id' => $presidentMembership->id]);
 });
 
 test('a new membership cannot be created when a soft deleted membership already exists', function () {

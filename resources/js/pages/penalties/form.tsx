@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { UserCombobox } from '@/components/user-combobox';
+import { useTranslation } from '@/hooks/use-translation';
 import penalties from '@/routes/groups/sessions/penalties';
 import type { MemberUser } from '@/types';
 
@@ -38,6 +39,7 @@ export function PenaltyForm({
     meetings,
     rules,
 }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const [member, setMember] = useState<MemberUser | null>(null);
 
@@ -61,14 +63,17 @@ export function PenaltyForm({
                     {({ errors, processing }) => (
                         <div className="space-y-4">
                             <DialogHeader>
-                                <DialogTitle>Ajouter une pénalité</DialogTitle>
+                                <DialogTitle>
+                                    {t('Ajouter une pénalité')}
+                                </DialogTitle>
                                 <DialogDescription>
-                                    Enregistrez manuellement une pénalité pour
-                                    un participant.
+                                    {t(
+                                        'Enregistrez manuellement une pénalité pour un participant.',
+                                    )}
                                 </DialogDescription>
                             </DialogHeader>
                             <FormField
-                                label="Membre"
+                                label={t('Membre')}
                                 htmlFor="membership_id"
                                 error={errors.membership_id}
                                 required
@@ -87,7 +92,7 @@ export function PenaltyForm({
                                 )}
                             </FormField>
                             <FormField
-                                label="Assise"
+                                label={t('Assise')}
                                 htmlFor="meeting_id"
                                 error={errors.meeting_id}
                                 required
@@ -95,11 +100,11 @@ export function PenaltyForm({
                                 <SelectWithItems
                                     name="meeting_id"
                                     items={meetings}
-                                    placeholder="Sélectionner une assise"
+                                    placeholder={t('Sélectionner une assise')}
                                 />
                             </FormField>
                             <FormField
-                                label="Règle appliquée"
+                                label={t('Règle appliquée')}
                                 htmlFor="penalty_rule_id"
                                 error={errors.penalty_rule_id}
                                 required
@@ -107,11 +112,13 @@ export function PenaltyForm({
                                 <SelectWithItems
                                     name="penalty_rule_id"
                                     items={rules}
-                                    placeholder="Sélectionner une règle active"
+                                    placeholder={t(
+                                        'Sélectionner une règle active',
+                                    )}
                                 />
                             </FormField>
                             <FormField
-                                label="Montant"
+                                label={t('Montant')}
                                 htmlFor="amount"
                                 error={errors.amount}
                                 required
@@ -124,7 +131,7 @@ export function PenaltyForm({
                                 />
                             </FormField>
                             <FormField
-                                label="Motif"
+                                label={t('Motif')}
                                 htmlFor="reason"
                                 error={errors.reason}
                                 required
@@ -133,7 +140,9 @@ export function PenaltyForm({
                             </FormField>
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button variant="outline">Annuler</Button>
+                                    <Button variant="outline">
+                                        {t('Annuler')}
+                                    </Button>
                                 </DialogClose>
                                 <Button
                                     disabled={
@@ -144,7 +153,7 @@ export function PenaltyForm({
                                     }
                                 >
                                     {processing ? <Spinner /> : <SaveIcon />}{' '}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

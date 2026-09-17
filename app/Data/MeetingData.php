@@ -60,6 +60,12 @@ class MeetingData extends Data
             format: 'Y-m-d\TH:i:s',
         )]
         public CarbonImmutable $updated_at,
+
+        #[WithTransformer(
+            DateTimeInterfaceTransformer::class,
+            format: 'Y-m-d\TH:i:s',
+        )]
+        public ?CarbonImmutable $deleted_at,
     ) {}
 
     public static function fromModel(Meeting $meeting): self
@@ -128,6 +134,7 @@ class MeetingData extends Data
 
             created_at: $meeting->created_at,
             updated_at: $meeting->updated_at,
+            deleted_at: $meeting->deleted_at,
         );
     }
 }

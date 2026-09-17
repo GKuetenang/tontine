@@ -2,6 +2,7 @@ import { Link } from '@inertiajs/react';
 import { FileTextIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { formatDate } from '@/lib';
 import meetings from '@/routes/groups/sessions/meetings';
 import type { Meeting, Session, Group } from '@/types';
@@ -17,6 +18,7 @@ export function MeetingHeader({
     session: Session;
     group: Group;
 }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
 
     return (
@@ -24,7 +26,8 @@ export function MeetingHeader({
             <div className="flex flex-col gap-2">
                 <div className="flex flex-wrap items-center gap-3">
                     <h1 className="text-2xl font-semibold">
-                        Assise #{meeting.number} — {meeting.title}
+                        {t('Assise #')}
+                        {meeting.number} — {meeting.title}
                     </h1>
 
                     <MeetingStatusBadge meeting={meeting} />
@@ -52,7 +55,7 @@ export function MeetingHeader({
                             })}
                         >
                             <FileTextIcon className="size-4" />
-                            Rapport
+                            {t('Rapport')}
                         </Link>
                     </Button>
                 )}

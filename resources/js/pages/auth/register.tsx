@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { useTranslation } from '@/hooks/use-translation';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
 
@@ -14,9 +15,11 @@ type Props = {
 };
 
 export default function Register({ passwordRules }: Props) {
+    const { t } = useTranslation();
+
     return (
         <>
-            <Head title="Register" />
+            <Head title={t('Register')} />
             <Form
                 {...store.form()}
                 resetOnSuccess={['password', 'password_confirmation']}
@@ -27,7 +30,9 @@ export default function Register({ passwordRules }: Props) {
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="first_name">First name</Label>
+                                <Label htmlFor="first_name">
+                                    {t('First name')}
+                                </Label>
                                 <Input
                                     id="first_name"
                                     type="text"
@@ -36,7 +41,7 @@ export default function Register({ passwordRules }: Props) {
                                     tabIndex={1}
                                     autoComplete="given-name"
                                     name="first_name"
-                                    placeholder="First name"
+                                    placeholder={t('First name')}
                                 />
                                 <InputError
                                     message={errors.first_name}
@@ -45,7 +50,7 @@ export default function Register({ passwordRules }: Props) {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Last name</Label>
+                                <Label htmlFor="name">{t('Last name')}</Label>
                                 <Input
                                     id="name"
                                     type="text"
@@ -53,7 +58,7 @@ export default function Register({ passwordRules }: Props) {
                                     tabIndex={2}
                                     autoComplete="family-name"
                                     name="name"
-                                    placeholder="Last name"
+                                    placeholder={t('Last name')}
                                 />
                                 <InputError
                                     message={errors.name}
@@ -62,7 +67,9 @@ export default function Register({ passwordRules }: Props) {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="email">
+                                    {t('Email address')}
+                                </Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -70,20 +77,22 @@ export default function Register({ passwordRules }: Props) {
                                     tabIndex={2}
                                     autoComplete="email"
                                     name="email"
-                                    placeholder="email@example.com"
+                                    placeholder={t('email@example.com')}
                                 />
                                 <InputError message={errors.email} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="password">
+                                    {t('Password')}
+                                </Label>
                                 <PasswordInput
                                     id="password"
                                     required
                                     tabIndex={3}
                                     autoComplete="new-password"
                                     name="password"
-                                    placeholder="Password"
+                                    placeholder={t('Password')}
                                     passwordrules={passwordRules}
                                 />
                                 <InputError message={errors.password} />
@@ -91,7 +100,7 @@ export default function Register({ passwordRules }: Props) {
 
                             <div className="grid gap-2">
                                 <Label htmlFor="password_confirmation">
-                                    Confirm password
+                                    {t('Confirm password')}
                                 </Label>
                                 <PasswordInput
                                     id="password_confirmation"
@@ -99,7 +108,7 @@ export default function Register({ passwordRules }: Props) {
                                     tabIndex={4}
                                     autoComplete="new-password"
                                     name="password_confirmation"
-                                    placeholder="Confirm password"
+                                    placeholder={t('Confirm password')}
                                     passwordrules={passwordRules}
                                 />
                                 <InputError
@@ -114,14 +123,14 @@ export default function Register({ passwordRules }: Props) {
                                 data-test="register-user-button"
                             >
                                 {processing && <Spinner />}
-                                Create account
+                                {t('Create account')}
                             </Button>
                         </div>
 
                         <div className="text-center text-sm text-muted-foreground">
-                            Already have an account?{' '}
+                            {t('Already have an account?')}{' '}
                             <TextLink href={login()} tabIndex={6}>
-                                Log in
+                                {t('Log in')}
                             </TextLink>
                         </div>
                     </>

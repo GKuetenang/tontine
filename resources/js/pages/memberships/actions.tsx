@@ -10,6 +10,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import memberships from '@/routes/groups/memberships';
 import type { Membership, ResultGroup } from '@/types';
 import { EditMembershipForm } from './form';
@@ -21,6 +22,7 @@ type Props = {
 };
 
 export function Actions({ group, membership, statuses }: Props) {
+    const { t } = useTranslation();
     console.log({ membership });
 
     const { can, canAny } = useAuthorization();
@@ -36,7 +38,7 @@ export function Actions({ group, membership, statuses }: Props) {
         return (
             <span
                 className="text-muted-foreground"
-                aria-label="Aucune action disponible"
+                aria-label={t('Aucune action disponible')}
             >
                 —
             </span>
@@ -51,7 +53,7 @@ export function Actions({ group, membership, statuses }: Props) {
                         className="ml-auto"
                         variant="ghost"
                         size="icon"
-                        aria-label="Actions de la membership"
+                        aria-label={t('Actions de la membership')}
                     >
                         <EllipsisIcon className="size-4" />
                     </Button>
@@ -68,7 +70,7 @@ export function Actions({ group, membership, statuses }: Props) {
                                     onSelect={(event) => event.preventDefault()}
                                 >
                                     <Pencil className="size-4" />
-                                    Modifier
+                                    {t('Modifier')}
                                 </DropdownMenuItem>
                             }
                         />
@@ -93,7 +95,7 @@ export function Actions({ group, membership, statuses }: Props) {
                                 }}
                             >
                                 <TrashIcon size={16} />
-                                Supprimer
+                                {t('Supprimer')}
                             </Link>
                         </DropdownMenuItem>
                     )}

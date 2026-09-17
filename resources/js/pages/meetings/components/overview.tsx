@@ -6,35 +6,38 @@ import {
 } from 'lucide-react';
 import { InformationRow } from '@/components/groups/information-row';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslation } from '@/hooks/use-translation';
 import { formatDate } from '@/lib';
 import { getMeetingStatusLabel } from '@/lib/utils';
 import type { Meeting } from '@/types';
 import { SummaryCard } from './summary-card';
 
 export function MeetingOverview({ meeting }: { meeting: Meeting }) {
+    const { t } = useTranslation();
+
     return (
         <>
             <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                 <SummaryCard
-                    title="Date prévue"
+                    title={t('Date prévue')}
                     value={formatDate(meeting.scheduled_at)}
                     icon={CalendarDaysIcon}
                 />
 
                 <SummaryCard
-                    title="Lieu"
+                    title={t('Lieu')}
                     value={meeting.location ?? 'Non défini'}
                     icon={MapPinIcon}
                 />
 
                 <SummaryCard
-                    title="Présences"
+                    title={t('Présences')}
                     value={meeting.attendances_count ?? 0}
                     icon={UsersIcon}
                 />
 
                 <SummaryCard
-                    title="Cotisations"
+                    title={t('Cotisations')}
                     value={meeting.contributions_count ?? 0}
                     icon={CoinsIcon}
                 />
@@ -43,7 +46,7 @@ export function MeetingOverview({ meeting }: { meeting: Meeting }) {
             <section className="grid gap-6 xl:grid-cols-3">
                 <Card className="xl:col-span-2">
                     <CardHeader>
-                        <CardTitle>Description</CardTitle>
+                        <CardTitle>{t('Description')}</CardTitle>
                     </CardHeader>
 
                     <CardContent>
@@ -53,7 +56,7 @@ export function MeetingOverview({ meeting }: { meeting: Meeting }) {
                             </p>
                         ) : (
                             <p className="text-sm text-muted-foreground">
-                                Aucune description.
+                                {t('Aucune description.')}
                             </p>
                         )}
                     </CardContent>
@@ -61,37 +64,37 @@ export function MeetingOverview({ meeting }: { meeting: Meeting }) {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Informations</CardTitle>
+                        <CardTitle>{t('Informations')}</CardTitle>
                     </CardHeader>
 
                     <CardContent className="space-y-4">
                         <InformationRow
-                            label="Numéro"
+                            label={t('Numéro')}
                             value={`#${meeting.number}`}
                         />
 
                         <InformationRow
-                            label="Statut"
+                            label={t('Statut')}
                             value={getMeetingStatusLabel(meeting.status)}
                         />
 
                         <InformationRow
-                            label="Date prévue"
+                            label={t('Date prévue')}
                             value={formatDate(meeting.scheduled_at)}
                         />
 
                         <InformationRow
-                            label="Ouverture"
+                            label={t('Ouverture')}
                             value={formatDate(meeting.opened_at)}
                         />
 
                         <InformationRow
-                            label="Clôture"
+                            label={t('Clôture')}
                             value={formatDate(meeting.closed_at)}
                         />
 
                         <InformationRow
-                            label="Lieu"
+                            label={t('Lieu')}
                             value={meeting.location ?? '—'}
                         />
                     </CardContent>

@@ -1,7 +1,3 @@
-import { Form, Head } from '@inertiajs/react';
-import { format, parseISO } from 'date-fns';
-import { ListFilterIcon } from 'lucide-react';
-import { useState } from 'react';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -23,12 +19,17 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
 import groups from '@/routes/groups';
 import finances from '@/routes/groups/finances';
 import type { BreadcrumbItem, Group } from '@/types';
+import { Form, Head } from '@inertiajs/react';
+import { format, parseISO } from 'date-fns';
+import { ListFilterIcon } from 'lucide-react';
+import { useState } from 'react';
 
 type FinancialSummary = {
     credits: string;
@@ -86,6 +87,7 @@ export default withAppLayout<Props>(
             { title: 'Finances', href: '#' },
         ] as BreadcrumbItem[],
     ({ group, dashboard, filters, sessions }) => {
+        const { t } = useTranslation();
         const currency = group.currency ?? 'XAF';
         const [sessionId, setSessionId] = useState(
             filters.session_id ? String(filters.session_id) : 'all',
@@ -105,9 +107,9 @@ export default withAppLayout<Props>(
 
         return (
             <>
-                <Head title="Finances" />
+                <Head title={t('Finances')} />
                 <Heading
-                    title="État financier"
+                    title={t('État financier')}
                     description={`Situation financière consolidée de ${group.name}.`}
                 />
                 <div className="space-y-6">
@@ -121,7 +123,7 @@ export default withAppLayout<Props>(
                             >
                                 <div className="space-y-2">
                                     <Label htmlFor="finance-session">
-                                        Session
+                                        {t('Session')}
                                     </Label>
                                     <input
                                         type="hidden"
@@ -141,11 +143,15 @@ export default withAppLayout<Props>(
                                             id="finance-session"
                                             className="mb-0 w-full"
                                         >
-                                            <SelectValue placeholder="Toutes les sessions" />
+                                            <SelectValue
+                                                placeholder={t(
+                                                    'Toutes les sessions',
+                                                )}
+                                            />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="all">
-                                                Toutes les sessions
+                                                {t('Toutes les sessions')}
                                             </SelectItem>
                                             {sessions.map((session) => (
                                                 <SelectItem
@@ -160,7 +166,7 @@ export default withAppLayout<Props>(
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="finance-meeting">
-                                        Assise
+                                        {t('Assise')}
                                     </Label>
                                     <input
                                         type="hidden"
@@ -178,11 +184,15 @@ export default withAppLayout<Props>(
                                             id="finance-meeting"
                                             className="mb-0 w-full"
                                         >
-                                            <SelectValue placeholder="Toutes les assises" />
+                                            <SelectValue
+                                                placeholder={t(
+                                                    'Toutes les assises',
+                                                )}
+                                            />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="all">
-                                                Toutes les assises
+                                                {t('Toutes les assises')}
                                             </SelectItem>
                                             {meetings.map((meeting) => (
                                                 <SelectItem
@@ -196,7 +206,9 @@ export default withAppLayout<Props>(
                                     </Select>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="finance-from">Du</Label>
+                                    <Label htmlFor="finance-from">
+                                        {t('Du')}
+                                    </Label>
                                     <input
                                         type="hidden"
                                         name="from"
@@ -207,14 +219,19 @@ export default withAppLayout<Props>(
                                         }
                                     />
                                     <DateTimePicker
+                                        weekStartsOn={1}
                                         granularity="day"
                                         value={from}
                                         onChange={setFrom}
-                                        placeholder="Choisir la date de début"
+                                        placeholder={t(
+                                            'Choisir la date de début',
+                                        )}
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="finance-to">Au</Label>
+                                    <Label htmlFor="finance-to">
+                                        {t('Au')}
+                                    </Label>
                                     <input
                                         type="hidden"
                                         name="to"
@@ -223,14 +240,17 @@ export default withAppLayout<Props>(
                                         }
                                     />
                                     <DateTimePicker
+                                        weekStartsOn={1}
                                         granularity="day"
                                         value={to}
                                         onChange={setTo}
-                                        placeholder="Choisir la date de fin"
+                                        placeholder={t(
+                                            'Choisir la date de fin',
+                                        )}
                                     />
                                 </div>
                                 <Button variant="outline" className="w-fit">
-                                    <ListFilterIcon /> Filtrer
+                                    <ListFilterIcon /> {t('Filtrer')}
                                 </Button>
                             </Form>
                         </CardHeader>
@@ -262,18 +282,22 @@ export default withAppLayout<Props>(
                     <div className="grid gap-6 xl:grid-cols-2">
                         <Card className="bg-background pt-0">
                             <CardHeader className="border-b py-4">
-                                <CardTitle>Ventilation par type</CardTitle>
+                                <CardTitle>
+                                    {t('Ventilation par type')}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent className="px-0">
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
                                             <TableHead className="pl-6">
-                                                Type
+                                                {t('Type')}
                                             </TableHead>
-                                            <TableHead>Entrées</TableHead>
+                                            <TableHead>
+                                                {t('Entrées')}
+                                            </TableHead>
                                             <TableHead className="pr-6 text-right">
-                                                Sorties
+                                                {t('Sorties')}
                                             </TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -307,19 +331,23 @@ export default withAppLayout<Props>(
 
                         <Card className="bg-background pt-0">
                             <CardHeader className="border-b py-4">
-                                <CardTitle>Dernières transactions</CardTitle>
+                                <CardTitle>
+                                    {t('Dernières transactions')}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent className="px-0">
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
                                             <TableHead className="pl-6">
-                                                Date
+                                                {t('Date')}
                                             </TableHead>
-                                            <TableHead>Type</TableHead>
-                                            <TableHead>Session</TableHead>
+                                            <TableHead>{t('Type')}</TableHead>
+                                            <TableHead>
+                                                {t('Session')}
+                                            </TableHead>
                                             <TableHead className="pr-6 text-right">
-                                                Montant
+                                                {t('Montant')}
                                             </TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -351,7 +379,7 @@ export default withAppLayout<Props>(
                                                         className={`pr-6 text-right font-medium ${transaction.direction === 'credit' ? 'text-emerald-600' : 'text-destructive'}`}
                                                     >
                                                         {transaction.direction ===
-                                                        'credit'
+                                                            'credit'
                                                             ? '+'
                                                             : '−'}{' '}
                                                         {formatCurrency(
@@ -366,7 +394,9 @@ export default withAppLayout<Props>(
                                 </Table>
                                 {dashboard.recent_transactions.length === 0 && (
                                     <p className="p-8 text-center text-sm text-muted-foreground">
-                                        Aucune transaction pour cette période.
+                                        {t(
+                                            'Aucune transaction pour cette période.',
+                                        )}
                                     </p>
                                 )}
                             </CardContent>

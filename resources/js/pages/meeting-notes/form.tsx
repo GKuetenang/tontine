@@ -20,6 +20,7 @@ import {
 
 import { Spinner } from '@/components/ui/spinner';
 
+import { useTranslation } from '@/hooks/use-translation';
 import notes from '@/routes/groups/sessions/meetings/notes';
 
 import type { Meeting, MeetingNote, Session, Group } from '@/types';
@@ -39,6 +40,7 @@ export function EditMeetingNoteForm({
     meeting,
     note,
 }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
 
     const [content, setContent] = useState(note?.content ?? '');
@@ -98,13 +100,14 @@ export function EditMeetingNoteForm({
                                 </DialogTitle>
 
                                 <DialogDescription>
-                                    Consigner une information importante de la
-                                    assise.
+                                    {t(
+                                        'Consigner une information importante de la assise.',
+                                    )}
                                 </DialogDescription>
                             </DialogHeader>
 
                             <FormField
-                                label="Point de l’ordre du jour"
+                                label={t('Point de l’ordre du jour')}
                                 htmlFor="meeting_agenda_item_id"
                                 error={errors['meeting_agenda_item_id']}
                                 optional
@@ -128,7 +131,7 @@ export function EditMeetingNoteForm({
                             </FormField>
 
                             <FormField
-                                label="Note"
+                                label={t('Note')}
                                 htmlFor="content"
                                 error={errors.content}
                                 required
@@ -148,13 +151,13 @@ export function EditMeetingNoteForm({
                             <DialogFooter>
                                 <DialogClose asChild>
                                     <Button type="button" variant="outline">
-                                        Annuler
+                                        {t('Annuler')}
                                     </Button>
                                 </DialogClose>
 
                                 <Button type="submit" disabled={processing}>
                                     {processing ? <Spinner /> : <SaveIcon />}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

@@ -3,6 +3,7 @@ import { ContributionStatusBadge } from '@/components/contribution-status-badge'
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 
+import { useTranslation } from '@/hooks/use-translation';
 import { formatCurrency } from '@/lib/utils';
 
 import type { Contribution, Meeting, Session, Group } from '@/types';
@@ -24,6 +25,7 @@ export function ContributionRow({
     contribution,
     canPay,
 }: Props) {
+    const { t } = useTranslation();
     const membership = contribution.session_participant?.membership;
 
     const user = membership?.user;
@@ -75,7 +77,7 @@ export function ContributionRow({
                         trigger={
                             <Button variant="outline" size="sm">
                                 <BanknoteIcon className="size-4" />
-                                Paiement
+                                {t('Paiement')}
                             </Button>
                         }
                     />

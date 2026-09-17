@@ -18,6 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { UserCombobox } from '@/components/user-combobox';
+import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import sessionParticipants from '@/routes/groups/sessions/participants';
 import type {
@@ -40,6 +41,7 @@ export function EditSessionParticipantForm({
     session,
     participant,
 }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
 
     const [selectedUser, setSelectedUser] = useState<MemberUser | null>(
@@ -112,7 +114,7 @@ export function EditSessionParticipantForm({
                             {!isEditing && (
                                 <FormField
                                     error={errors['membership_id']}
-                                    label="Membre"
+                                    label={t('Membre')}
                                     htmlFor="membership_id"
                                     required
                                 >
@@ -146,7 +148,7 @@ export function EditSessionParticipantForm({
 
                             <FormField
                                 error={errors['contribution_amount']}
-                                label="Montant de cotisation"
+                                label={t('Montant de cotisation')}
                                 htmlFor="contribution_amount"
                                 required
                             >
@@ -165,7 +167,7 @@ export function EditSessionParticipantForm({
                             {session.draw_allocation_mode === 'custom' && (
                                 <FormField
                                     error={errors['draw_entries_count']}
-                                    label="Nombre de tours"
+                                    label={t('Nombre de tours')}
                                     htmlFor="draw_entries_count"
                                     required
                                 >
@@ -186,12 +188,14 @@ export function EditSessionParticipantForm({
 
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button variant="outline">Annuler</Button>
+                                    <Button variant="outline">
+                                        {t('Annuler')}
+                                    </Button>
                                 </DialogClose>
 
                                 <Button type="submit" disabled={processing}>
                                     {processing ? <Spinner /> : <SaveIcon />}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

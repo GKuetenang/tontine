@@ -8,6 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useTranslation } from '@/hooks/use-translation';
 import groups from '@/routes/groups';
 import type { Group } from '@/types';
 
@@ -16,13 +17,14 @@ type Props = {
 };
 
 export function Actions({ group }: Props) {
+    const { t } = useTranslation();
     const hasActions = group.can?.update || group.can?.delete;
 
     if (!hasActions) {
         return (
             <span
                 className="text-muted-foreground"
-                aria-label="Aucune action disponible"
+                aria-label={t('Aucune action disponible')}
             >
                 —
             </span>
@@ -37,7 +39,7 @@ export function Actions({ group }: Props) {
                         className="ml-auto"
                         variant="ghost"
                         size="icon"
-                        aria-label="Actions de la réunion"
+                        aria-label={t('Actions de la réunion')}
                     >
                         <EllipsisIcon className="size-4" />
                     </Button>
@@ -55,7 +57,7 @@ export function Actions({ group }: Props) {
                                 })}
                             >
                                 <EditIcon size={16} />
-                                Modifier
+                                {t('Modifier')}
                             </Link>
                         </DropdownMenuItem>
                     )}
@@ -78,7 +80,7 @@ export function Actions({ group }: Props) {
                                 }}
                             >
                                 <TrashIcon size={16} />
-                                Supprimer
+                                {t('Supprimer')}
                             </Link>
                         </DropdownMenuItem>
                     )}

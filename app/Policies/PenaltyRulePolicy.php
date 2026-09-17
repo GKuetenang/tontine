@@ -6,24 +6,24 @@ use App\Enums\GroupPermission;
 use App\Models\Group;
 use App\Models\PenaltyRule;
 use App\Models\User;
+use App\Policies\Concerns\ChecksGroupPermissions;
 
 class PenaltyRulePolicy
 {
+    use ChecksGroupPermissions;
+
     public function viewAny(User $user, Group $group): bool
     {
-        return $group->hasActiveMembership($user)
-            && $user->can(GroupPermission::ViewPenalties->value);
+        return $this->can($user, $group, GroupPermission::ViewPenalties);
     }
 
     public function create(User $user, Group $group): bool
     {
-        return $group->hasActiveMembership($user)
-            && $user->can(GroupPermission::CreatePenalties->value);
+        return $this->can($user, $group, GroupPermission::CreatePenalties);
     }
 
     public function update(User $user, PenaltyRule $rule): bool
     {
-        return $rule->group->hasActiveMembership($user)
-            && $user->can(GroupPermission::UpdatePenalties->value);
+        return $this->can($user, $rule->group, GroupPermission::UpdatePenalties);
     }
 }

@@ -52,6 +52,7 @@ enum GroupPermission: string
     case CreateSessions = 'sessions.create';
     case UpdateSessions = 'sessions.update';
     case ActivateSessions = 'sessions.activate';
+    case PrepareSessions = 'sessions.prepare';
     case CloseSessions = 'sessions.close';
     case DeleteSessions = 'sessions.delete';
     case RestoreSessions = 'sessions.restore';
@@ -91,6 +92,8 @@ enum GroupPermission: string
     case CloseMeetings = 'meetings.close';
     case CancelMeetings = 'meetings.cancel';
     case DeleteMeetings = 'meetings.delete';
+    case RestoreMeetings = 'meetings.restore';
+    case ForceDeleteMeetings = 'meetings.force-delete';
 
     // Meeting agenda
     case ViewMeetingAgenda = 'meeting-agenda.view';
@@ -229,6 +232,7 @@ enum GroupPermission: string
             self::CreateSessions => __('Créer des sessions'),
             self::UpdateSessions => __('Modifier les sessions'),
             self::ActivateSessions => __('Activer les sessions'),
+            self::PrepareSessions => __('Remettre les sessions en préparation'),
             self::CloseSessions => __('Fermer les sessions'),
             self::DeleteSessions => __('Supprimer les sessions'),
             self::RestoreSessions => __('Restaurer les sessions'),
@@ -255,6 +259,8 @@ enum GroupPermission: string
             self::CloseMeetings => __('Clôturer les assises'),
             self::CancelMeetings => __('Annuler les assises'),
             self::DeleteMeetings => __('Supprimer les assises'),
+            self::RestoreMeetings => __('Restaurer les assises'),
+            self::ForceDeleteMeetings => __('Supprimer définitivement les assises'),
 
             self::ViewMeetingAgenda => __('Consulter les ordres du jour'),
             self::CreateMeetingAgenda => __('Créer les éléments d’ordre du jour'),

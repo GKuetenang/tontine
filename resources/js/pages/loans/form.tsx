@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { UserCombobox } from '@/components/user-combobox';
+import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import loans from '@/routes/groups/sessions/loans';
 import type { MemberUser, Session, Group } from '@/types';
@@ -31,6 +32,7 @@ export function CreateLoanForm({
     group: Group;
     session: Session;
 }) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const [borrower, setBorrower] = useState<MemberUser | null>(null);
 
@@ -61,11 +63,13 @@ export function CreateLoanForm({
                     {({ errors, processing }) => (
                         <div className="space-y-4">
                             <DialogHeader>
-                                <DialogTitle>Créer un prêt</DialogTitle>
+                                <DialogTitle>{t('Créer un prêt')}</DialogTitle>
                                 <DialogDescription>
-                                    Taux de {group.default_loan_interest_rate} %
-                                    sur le capital initial, échéance à{' '}
-                                    {group.default_loan_term_months} mois.
+                                    {t('Taux de')}{' '}
+                                    {group.default_loan_interest_rate}{' '}
+                                    {t('% sur le capital initial, échéance à')}{' '}
+                                    {group.default_loan_term_months}{' '}
+                                    {t('mois.')}
                                 </DialogDescription>
                             </DialogHeader>
                             {errors.loan && (
@@ -78,7 +82,7 @@ export function CreateLoanForm({
                             )}
                             <FormField
                                 error={errors.membership_id}
-                                label="Emprunteur"
+                                label={t('Emprunteur')}
                                 htmlFor="membership_id"
                                 required
                             >
@@ -108,7 +112,7 @@ export function CreateLoanForm({
                             </FormField>
                             <FormField
                                 error={errors.principal_amount}
-                                label="Capital"
+                                label={t('Capital')}
                                 htmlFor="principal_amount"
                                 required
                             >
@@ -120,21 +124,23 @@ export function CreateLoanForm({
                             </FormField>
                             <FormField
                                 error={errors.reason}
-                                label="Motif"
+                                label={t('Motif')}
                                 htmlFor="reason"
                             >
                                 <Textarea id="reason" name="reason" />
                             </FormField>
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button variant="outline">Annuler</Button>
+                                    <Button variant="outline">
+                                        {t('Annuler')}
+                                    </Button>
                                 </DialogClose>
                                 <Button
                                     type="submit"
                                     disabled={processing || !borrower}
                                 >
                                     {processing ? <Spinner /> : <SaveIcon />}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

@@ -2,6 +2,7 @@ import { useDraggable, useDroppable } from '@dnd-kit/core';
 import { GripVerticalIcon } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
 
+import { useTranslation } from '@/hooks/use-translation';
 import { formatDate } from '@/lib';
 
 import type { Draw } from '@/types';
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export function DrawEntryRow({ entry, canDrag }: Props) {
+    const { t } = useTranslation();
     const {
         attributes,
         listeners,
@@ -50,7 +52,7 @@ export function DrawEntryRow({ entry, canDrag }: Props) {
                     <button
                         type="button"
                         className="flex cursor-grab touch-none items-center justify-center text-muted-foreground transition-colors hover:text-foreground active:cursor-grabbing"
-                        title="Permuter cette position"
+                        title={t('Permuter cette position')}
                         {...attributes}
                         {...listeners}
                     >
@@ -79,11 +81,14 @@ export function DrawEntryRow({ entry, canDrag }: Props) {
                         </p>
 
                         <p className="text-xs text-muted-foreground">
-                            Assise #{entry.expected_meeting.number}
+                            {t('Assise #')}
+                            {entry.expected_meeting.number}
                         </p>
                     </div>
                 ) : (
-                    <span className="text-muted-foreground">Non planifiée</span>
+                    <span className="text-muted-foreground">
+                        {t('Non planifiée')}
+                    </span>
                 )}
             </TableCell>
         </TableRow>

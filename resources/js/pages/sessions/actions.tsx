@@ -4,6 +4,7 @@ import {
     EllipsisIcon,
     LockKeyholeIcon,
     Pencil,
+    RotateCcwIcon,
     TrashIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -16,6 +17,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import sessions from '@/routes/groups/sessions';
 import type { ResultGroup, Session } from '@/types';
 import { EditSessionForm } from './form';
@@ -27,6 +29,7 @@ type Props = {
 };
 
 export function Actions({ group, session, draw_allocation_modes }: Props) {
+    const { t } = useTranslation();
     const { can, canAny } = useAuthorization();
 
     const hasActions = canAny(
@@ -34,6 +37,7 @@ export function Actions({ group, session, draw_allocation_modes }: Props) {
         'sessions.create',
         'sessions.update',
         'sessions.activate',
+        'sessions.prepare',
         'sessions.close',
         'sessions.delete',
     );
@@ -42,7 +46,7 @@ export function Actions({ group, session, draw_allocation_modes }: Props) {
         return (
             <span
                 className="text-muted-foreground"
-                aria-label="Aucune action disponible"
+                aria-label={t('Aucune action disponible')}
             >
                 —
             </span>
@@ -57,7 +61,7 @@ export function Actions({ group, session, draw_allocation_modes }: Props) {
                         className="ml-auto"
                         variant="ghost"
                         size="icon"
-                        aria-label="Actions de la session"
+                        aria-label={t('Actions de la session')}
                     >
                         <EllipsisIcon className="size-4" />
                     </Button>
@@ -74,7 +78,7 @@ export function Actions({ group, session, draw_allocation_modes }: Props) {
                                     onSelect={(event) => event.preventDefault()}
                                 >
                                     <Pencil className="size-4" />
-                                    Modifier
+                                    {t('Modifier')}
                                 </DropdownMenuItem>
                             }
                         />
@@ -101,10 +105,33 @@ export function Actions({ group, session, draw_allocation_modes }: Props) {
                                     }}
                                 >
                                     <CheckCircle2Icon size={16} />
-                                    Activer
+                                    {t('Activer')}
                                 </Link>
                             </DropdownMenuItem>
                         )}
+
+                    {can('sessions.prepare') && session.status === 'active' && (
+                        <DropdownMenuItem asChild>
+                            <Link
+                                className="w-full"
+                                href={sessions.prepare({
+                                    group: group.slug,
+                                    session: session.slug,
+                                })}
+                                onBefore={() =>
+                                    confirm(
+                                        'Voulez-vous vraiment remettre cette session en préparation ?',
+                                    )
+                                }
+                                onError={(errors) =>
+                                    toast.error(Object.values(errors)[0])
+                                }
+                            >
+                                <RotateCcwIcon size={16} />
+                                {t('Remettre en préparation')}
+                            </Link>
+                        </DropdownMenuItem>
+                    )}
 
                     {can('sessions.close') &&
                         !(session.status === 'closed') && (
@@ -127,7 +154,7 @@ export function Actions({ group, session, draw_allocation_modes }: Props) {
                                     }}
                                 >
                                     <LockKeyholeIcon size={16} />
-                                    Fermer
+                                    {t('Fermer')}
                                 </Link>
                             </DropdownMenuItem>
                         )}
@@ -151,7 +178,7 @@ export function Actions({ group, session, draw_allocation_modes }: Props) {
                                 }}
                             >
                                 <TrashIcon size={16} />
-                                Supprimer
+                                {t('Supprimer')}
                             </Link>
                         </DropdownMenuItem>
                     )}

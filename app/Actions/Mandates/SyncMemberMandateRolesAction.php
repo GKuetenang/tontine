@@ -18,6 +18,10 @@ final class SyncMemberMandateRolesAction
         $membership = $group->memberships()->active()->where('user_id', $user->id)->first();
 
         if (! $membership) {
+            $user->syncRoles([]);
+            $user->unsetRelation('roles');
+            $user->unsetRelation('permissions');
+
             return;
         }
 

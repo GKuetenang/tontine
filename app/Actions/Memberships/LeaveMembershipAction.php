@@ -2,15 +2,17 @@
 
 namespace App\Actions\Memberships;
 
-use App\Enums\GroupRole;
 use App\Enums\MembershipStatus;
 use App\Models\Membership;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 final class LeaveMembershipAction
 {
+    public function __construct(
+        private IsLastGroupAdministratorAction $isLastAdministrator,
+    ) {}
+
     public function execute(
         Membership $membership,
     ): void {
@@ -21,7 +23,7 @@ final class LeaveMembershipAction
             ]);
 
             $this->ensureMembershipCanLeave($membership);
-            $this->ensureNotLastPresident($membership);
+            $this->ensureNotLastAdministrator($membership);
             $this->endCurrentMandateAssignments($membership);
             $this->removeTeamRoles($membership);
 
@@ -70,45 +72,14 @@ final class LeaveMembershipAction
         }
     }
 
-    private function ensureNotLastPresident(
-        Membership $membership,
-    ): void {
-        $user = $membership->user;
-
-        $previousTeamId = getPermissionsTeamId();
-
-        try {
-            setPermissionsTeamId(
-                $membership->group_id,
-            );
-
-            $user->unsetRelation('roles');
-            $user->unsetRelation('permissions');
-
-            if (
-                ! $user->hasRole(
-                    GroupRole::President->value,
-                )
-            ) {
-                return;
-            }
-
-            $presidentsCount = User::role(
-                GroupRole::President->value,
-            )->count();
-
-            if ($presidentsCount <= 1) {
-                throw ValidationException::withMessages([
-                    'membership' => __(
-                        'Le dernier président de la réunion ne peut pas quitter la réunion.'
-                    ),
-                ]);
-            }
-        } finally {
-            setPermissionsTeamId($previousTeamId);
-
-            $user->unsetRelation('roles');
-            $user->unsetRelation('permissions');
+    private function ensureNotLastAdministrator(Membership $membership): void
+    {
+        if ($this->isLastAdministrator->execute($membership)) {
+            throw ValidationException::withMessages([
+                'membership' => __(
+                    'Le dernier président ou administrateur de la réunion ne peut pas la quitter.'
+                ),
+            ]);
         }
     }
 

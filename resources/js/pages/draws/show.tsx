@@ -15,6 +15,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 
 import groups from '@/routes/groups';
@@ -65,6 +66,7 @@ export default withAppLayout<Props>(
     ],
 
     ({ group, session, draw }: Props) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
 
         const isDraft = session.status === 'draft';
@@ -117,7 +119,7 @@ export default withAppLayout<Props>(
                 <div className="space-y-2">
                     <div className="flex flex-wrap items-center gap-2">
                         <h1 className="text-2xl font-semibold tracking-tight">
-                            Tirage — {session.name}
+                            {t('Tirage —')} {session.name}
                         </h1>
 
                         {draw && (
@@ -135,7 +137,9 @@ export default withAppLayout<Props>(
                     </div>
 
                     <p className="text-sm text-muted-foreground">
-                        Gérez et consultez l’ordre des tours de cette session.
+                        {t(
+                            'Gérez et consultez l’ordre des tours de cette session.',
+                        )}
                     </p>
 
                     {/* {draw && (
@@ -153,7 +157,7 @@ export default withAppLayout<Props>(
                             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                                 <div>
                                     <p className="font-semibold">
-                                        Ordre du tirage
+                                        {t('Ordre du tirage')}
                                     </p>
 
                                     <p className="mt-1 text-sm text-muted-foreground">
@@ -178,7 +182,7 @@ export default withAppLayout<Props>(
                                                         ).url
                                                     }
                                                 >
-                                                    Participants
+                                                    {t('Participants')}
                                                 </Link>
                                             </Button>
                                         )}
@@ -221,8 +225,9 @@ export default withAppLayout<Props>(
                                     <AlertTriangleIcon />
 
                                     <AlertDescription>
-                                        La session est encore en préparation.
-                                        Activez-la avant de générer le tirage.
+                                        {t(
+                                            'La session est encore en préparation. Activez-la avant de générer le tirage.',
+                                        )}
                                     </AlertDescription>
                                 </Alert>
                             )}
@@ -231,11 +236,14 @@ export default withAppLayout<Props>(
                                 <Alert className="border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
                                     <AlertTriangleIcon />
 
-                                    <AlertTitle>Aucun tirage généré</AlertTitle>
+                                    <AlertTitle>
+                                        {t('Aucun tirage généré')}
+                                    </AlertTitle>
 
                                     <AlertDescription>
-                                        Générez le tirage pour déterminer
-                                        l’ordre des participants.
+                                        {t(
+                                            'Générez le tirage pour déterminer l’ordre des participants.',
+                                        )}
                                     </AlertDescription>
                                 </Alert>
                             )}
@@ -265,7 +273,7 @@ export default withAppLayout<Props>(
                                                         onError={handleError}
                                                     >
                                                         <RotateCcwIcon className="size-4" />
-                                                        Réinitialiser
+                                                        {t('Réinitialiser')}
                                                     </Link>
                                                 </Button>
                                             )}
@@ -293,7 +301,7 @@ export default withAppLayout<Props>(
                                                         onError={handleError}
                                                     >
                                                         <TrashIcon className="size-4" />
-                                                        Supprimer
+                                                        {t('Supprimer')}
                                                     </Link>
                                                 </Button>
                                             )}
@@ -318,7 +326,7 @@ export default withAppLayout<Props>(
                                                         onError={handleError}
                                                     >
                                                         <CheckIcon className="size-4" />
-                                                        Confirmer
+                                                        {t('Confirmer')}
                                                     </Link>
                                                 </Button>
                                             )}
@@ -335,8 +343,9 @@ export default withAppLayout<Props>(
                                         />
                                     ) : (
                                         <div className="rounded-md border border-dashed p-6 text-sm text-muted-foreground">
-                                            Ce tirage ne contient actuellement
-                                            aucune entrée.
+                                            {t(
+                                                'Ce tirage ne contient actuellement aucune entrée.',
+                                            )}
                                         </div>
                                     )}
                                 </div>

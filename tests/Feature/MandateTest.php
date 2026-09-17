@@ -4,7 +4,9 @@ use App\Actions\Groups\CreateDefaultGroupRolesAction;
 use App\Actions\Mandates\ActivateMandateAction;
 use App\Actions\Mandates\EndMandateRoleAssignmentAction;
 use App\Actions\Mandates\SaveMandateRoleAssignmentAction;
+use App\Actions\Mandates\SetMandateMemberRoleAction;
 use App\Actions\Memberships\CreateMembershipAction;
+use App\Enums\GroupPermission;
 use App\Enums\GroupRole;
 use App\Enums\MandateStatus;
 use App\Http\Middleware\HandleInertiaRequests;
@@ -92,7 +94,7 @@ it('rejects overlapping presidents in the same mandate', function (): void {
         ->toThrow(ValidationException::class);
 });
 
-it('keeps a trace when a responsibility ends during an active mandate', function (): void {
+it('prevents ending the only presidency during an active mandate', function (): void {
     [$creator, , $group, $creatorMembership] = mandateContext();
     $mandate = Mandate::factory()->create([
         'group_id' => $group->id,
@@ -111,16 +113,67 @@ it('keeps a trace when a responsibility ends during an active mandate', function
     );
     app(ActivateMandateAction::class)->execute($mandate);
 
-    app(EndMandateRoleAssignmentAction::class)->execute(
+    expect(fn () => app(EndMandateRoleAssignmentAction::class)->execute(
         $assignment,
         $creator,
         today()->toDateString(),
         'Fin de fonction',
+    ))->toThrow(ValidationException::class);
+
+    expect($assignment->refresh()->end_reason)->toBeNull();
+});
+
+it('allows removing the president when an administrator is in function', function (): void {
+    [$creator, $administrator, $group, $creatorMembership, $administratorMembership] = mandateContext();
+    $mandate = Mandate::factory()->create([
+        'group_id' => $group->id,
+        'created_by' => $creator->id,
+        'starts_at' => today()->subMonth(),
+        'ends_at' => today()->addYear(),
+    ]);
+    $presidentRole = $group->roles()->where('name', GroupRole::President->value)->sole();
+    $administratorRole = $group->roles()->where('name', GroupRole::Administrator->value)->sole();
+    $save = app(SaveMandateRoleAssignmentAction::class);
+    $save->execute($mandate, $creatorMembership, $presidentRole, $creator, $mandate->starts_at->toDateString(), $mandate->ends_at->toDateString());
+    $save->execute($mandate, $administratorMembership, $administratorRole, $creator, $mandate->starts_at->toDateString(), $mandate->ends_at->toDateString());
+    app(ActivateMandateAction::class)->execute($mandate);
+
+    app(SetMandateMemberRoleAction::class)
+        ->execute($mandate, $creatorMembership, null, $creator);
+
+    setPermissionsTeamId($group->id);
+    $creator->unsetRelation('roles');
+    $administrator->unsetRelation('roles');
+
+    expect($creator->hasRole(GroupRole::President->value))->toBeFalse()
+        ->and($administrator->hasRole(GroupRole::Administrator->value))->toBeTrue()
+        ->and($administrator->getAllPermissions()->pluck('name')->all())
+        ->toEqualCanonicalizing(array_map(
+            fn (GroupPermission $permission): string => $permission->value,
+            GroupPermission::cases(),
+        ));
+});
+
+it('activates a mandate administered without a president', function (): void {
+    [$creator, , $group, $creatorMembership] = mandateContext();
+    $mandate = Mandate::factory()->create([
+        'group_id' => $group->id,
+        'created_by' => $creator->id,
+        'starts_at' => today()->subMonth(),
+        'ends_at' => today()->addYear(),
+    ]);
+    $administratorRole = $group->roles()->where('name', GroupRole::Administrator->value)->sole();
+    app(SaveMandateRoleAssignmentAction::class)->execute(
+        $mandate,
+        $creatorMembership,
+        $administratorRole,
+        $creator,
+        $mandate->starts_at->toDateString(),
+        $mandate->ends_at->toDateString(),
     );
 
-    expect($assignment->refresh()->end_reason)->toBe('Fin de fonction')
-        ->and($assignment->ended_by)->toBe($creator->id)
-        ->and($assignment->exists)->toBeTrue();
+    expect(app(ActivateMandateAction::class)->execute($mandate)->status)
+        ->toBe(MandateStatus::Active);
 });
 
 it('rejects direct governance role assignment after mandates become authoritative', function (): void {

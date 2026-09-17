@@ -2,7 +2,10 @@
 
 use App\Actions\Meetings\CancelMeetingAction;
 use App\Actions\Meetings\CreateMeetingAction;
+use App\Actions\Meetings\DeleteMeetingAction;
+use App\Actions\Meetings\ForceDeleteMeetingAction;
 use App\Actions\Meetings\OpenMeetingAction;
+use App\Actions\Meetings\RestoreMeetingAction;
 use App\Actions\Meetings\UpdateMeetingAction;
 use App\Enums\AttendanceStatus;
 use App\Enums\MeetingStatus;
@@ -67,6 +70,31 @@ test('meeting receives the next number in its session', function (): void {
 
     expect($second->number)->toBe(2);
 });
+
+test('a scheduled meeting can be moved to and restored from the trash', function (): void {
+    $meeting = Meeting::factory()->scheduled()->create();
+
+    app(DeleteMeetingAction::class)->execute($meeting);
+    expect($meeting->refresh()->trashed())->toBeTrue();
+
+    app(RestoreMeetingAction::class)->execute($meeting);
+    expect($meeting->refresh()->trashed())->toBeFalse();
+});
+
+test('a trashed meeting without history can be permanently deleted', function (): void {
+    $meeting = Meeting::factory()->scheduled()->create();
+    $meeting->delete();
+
+    app(ForceDeleteMeetingAction::class)->execute($meeting);
+
+    $this->assertDatabaseMissing('meetings', ['id' => $meeting->id]);
+});
+
+test('a completed meeting cannot be moved to the trash', function (): void {
+    app(DeleteMeetingAction::class)->execute(
+        Meeting::factory()->completed()->create(),
+    );
+})->throws(ValidationException::class);
 
 test('meeting receives a slug that remains unchanged after update', function (): void {
     $session = Session::factory()->create();

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Actions\Meetings\CancelMeetingAction;
 use App\Actions\Meetings\CloseMeetingAction;
 use App\Actions\Meetings\CreateMeetingAction;
+use App\Actions\Meetings\DeleteMeetingAction;
+use App\Actions\Meetings\ForceDeleteMeetingAction;
 use App\Actions\Meetings\OpenMeetingAction;
+use App\Actions\Meetings\RestoreMeetingAction;
 use App\Actions\Meetings\UpdateMeetingAction;
 use App\Actions\Payouts\BuildMeetingPayoutContextAction;
 use App\Data\MeetingData;
@@ -21,6 +24,7 @@ use App\Models\Session;
 use Carbon\CarbonImmutable;
 use DateTimeZone;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -28,6 +32,7 @@ use Inertia\Response;
 class MeetingController extends Controller
 {
     public function index(
+        Request $request,
         Group $group,
         Session $session,
     ): Response {
@@ -42,7 +47,8 @@ class MeetingController extends Controller
                 'attendances',
                 'contributions',
             ])
-            ->orderBy('scheduled_at')
+            ->when($request->filled('q'), fn ($query) => $query->where('title', 'like', '%'.$request->string('q')->trim().'%'))
+            ->orderFromRequest($request)
             ->paginate(10)
             ->withQueryString();
         $session->load('meetingSchedule');
@@ -68,10 +74,28 @@ class MeetingController extends Controller
             'meeting_recurrences' => MeetingRecurrence::getOptions(),
             'meeting_monthly_patterns' => MeetingMonthlyPattern::getOptions(),
             'timezones' => collect(DateTimeZone::listIdentifiers())
-                ->map(fn(string $timezone): array => [
+                ->map(fn (string $timezone): array => [
                     'label' => $timezone,
                     'value' => $timezone,
                 ]),
+            'q' => $request->string('q')->trim()->toString() ?: null,
+        ]);
+    }
+
+    public function trash(Request $request, Group $group, Session $session): Response
+    {
+        Gate::authorize('viewAny', [Meeting::class, $session]);
+        $q = $request->string('q')->trim()->toString();
+
+        return Inertia::render('meetings/trash', [
+            'group' => ['id' => $group->id, 'name' => $group->name, 'slug' => $group->slug],
+            'session' => ['id' => $session->id, 'name' => $session->name, 'slug' => $session->slug],
+            'collection' => MeetingData::collect(
+                $session->meetings()->onlyTrashed()
+                    ->when($q, fn ($query) => $query->where('title', 'like', "%{$q}%"))
+                    ->orderFromRequest($request)->paginate(10)->withQueryString(),
+            ),
+            'q' => $q ?: null,
         ]);
     }
 
@@ -96,7 +120,7 @@ class MeetingController extends Controller
             'decisions.agendaItem',
             'decisions.creator',
 
-            'payouts' => fn($query) => $query->latest(),
+            'payouts' => fn ($query) => $query->latest(),
 
             'payouts.drawEntry.sessionParticipant.membership.user',
             'payouts.creator',
@@ -117,11 +141,11 @@ class MeetingController extends Controller
                 'slug' => $group->slug,
             ],
 
-            'session' => fn() => SessionData::fromModel(
+            'session' => fn () => SessionData::fromModel(
                 $session,
             ),
 
-            'meeting' => fn() => MeetingData::fromModel(
+            'meeting' => fn () => MeetingData::fromModel(
                 $meeting,
             ),
             'payoutContext' => $payoutContext,
@@ -265,5 +289,29 @@ class MeetingController extends Controller
                 'L’assise a été annulée avec succès.'
             ),
         )->back();
+    }
+
+    public function destroy(Group $group, Session $session, Meeting $meeting, DeleteMeetingAction $action): RedirectResponse
+    {
+        $this->authorize('delete', $meeting);
+        $action->execute($meeting);
+
+        return Inertia::flash('success', __('L’assise a été placée dans la corbeille.'))->back();
+    }
+
+    public function restore(Group $group, Session $session, Meeting $meeting, RestoreMeetingAction $action): RedirectResponse
+    {
+        $this->authorize('restore', $meeting);
+        $action->execute($meeting);
+
+        return Inertia::flash('success', __('L’assise a été restaurée avec succès.'))->back();
+    }
+
+    public function forceDelete(Group $group, Session $session, Meeting $meeting, ForceDeleteMeetingAction $action): RedirectResponse
+    {
+        $this->authorize('forceDelete', $meeting);
+        $action->execute($meeting);
+
+        return Inertia::flash('success', __('L’assise a été supprimée définitivement.'))->back();
     }
 }

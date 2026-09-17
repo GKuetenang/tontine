@@ -11,6 +11,7 @@ import {
     CommandLoading,
 } from '@/components/ui/command';
 import { Spinner } from '@/components/ui/spinner';
+import { useTranslation } from '@/hooks/use-translation';
 import type { MemberUser } from '@/types';
 
 type PageProps = {
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export function UserCombobox({ onSelect }: Props) {
+    const { t } = useTranslation();
     const { users = [] } = usePage<PageProps>().props;
 
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -81,7 +83,7 @@ export function UserCombobox({ onSelect }: Props) {
             <CommandInput
                 value={search}
                 onValueChange={handleSearch}
-                placeholder="Rechercher un utilisateur"
+                placeholder={t('Rechercher un utilisateur')}
             />
 
             {search.trim().length >= 2 && (
@@ -89,14 +91,14 @@ export function UserCombobox({ onSelect }: Props) {
                     {fetching ? (
                         <CommandLoading>
                             <div className="flex items-center justify-center gap-2">
-                                Recherche
+                                {t('Recherche')}
                                 <Spinner />
                             </div>
                         </CommandLoading>
                     ) : (
                         <>
                             <CommandEmpty>
-                                Aucun utilisateur trouvé
+                                {t('Aucun utilisateur trouvé')}
                             </CommandEmpty>
 
                             <CommandGroup>

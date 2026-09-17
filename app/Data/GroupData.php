@@ -82,7 +82,7 @@ class GroupData extends Data
             'image' => Lazy::whenLoaded(
                 'media',
                 $group,
-                fn (): ?string => $group->getFirstMediaUrl(),
+                fn(): ?string => $group->getFirstMediaUrl(),
             ),
             'image_file' => Optional::create(),
             'can' => $can ?? Optional::create(),
@@ -115,7 +115,7 @@ class GroupData extends Data
         if (! $request->route('group') instanceof Group) {
             $rules += [
                 'initial_mandate_name' => ['required', 'string', 'max:255'],
-                'initial_mandate_starts_at' => ['required', 'date', 'before_or_equal:today'],
+                'initial_mandate_starts_at' => ['required', 'date'],
                 'initial_mandate_ends_at' => ['required', 'date', 'after_or_equal:today', 'after_or_equal:initial_mandate_starts_at'],
             ];
         }

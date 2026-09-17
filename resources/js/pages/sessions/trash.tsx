@@ -17,6 +17,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import groups from '@/routes/groups';
@@ -38,19 +39,20 @@ export default withAppLayout<Props>(
             { title: 'Corbeille', href: '#' },
         ] as BreadcrumbItem[],
     ({ group, collection, q }) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
 
         return (
             <>
-                <Head title="Corbeille des sessions" />
+                <Head title={t('Corbeille des sessions')} />
                 <Heading
-                    title="Corbeille des sessions"
+                    title={t('Corbeille des sessions')}
                     description={`Sessions supprimées de ${group.name}.`}
                 />
                 <Card className="bg-background pt-0">
                     <CardHeader className="border-b py-4">
                         <div className="flex items-center justify-between gap-3">
-                            <CardTitle>Sessions supprimées</CardTitle>
+                            <CardTitle>{t('Sessions supprimées')}</CardTitle>
                             <Form
                                 {...sessions.trash.form({ group: group.slug })}
                                 className="flex items-center gap-1"
@@ -58,10 +60,10 @@ export default withAppLayout<Props>(
                                 <Input
                                     defaultValue={q ?? ''}
                                     name="q"
-                                    placeholder="Rechercher une session"
+                                    placeholder={t('Rechercher une session')}
                                 />
                                 <Button variant="outline">
-                                    <SearchIcon /> Rechercher
+                                    <SearchIcon /> {t('Rechercher')}
                                 </Button>
                             </Form>
                         </div>
@@ -74,14 +76,14 @@ export default withAppLayout<Props>(
                                         field="name"
                                         className="pl-6"
                                     >
-                                        Session
+                                        {t('Session')}
                                     </SortableTableHead>
-                                    <TableHead>Statut</TableHead>
+                                    <TableHead>{t('Statut')}</TableHead>
                                     <SortableTableHead field="deleted_at">
-                                        Supprimée le
+                                        {t('Supprimée le')}
                                     </SortableTableHead>
                                     <TableHead className="pr-6 text-right">
-                                        Actions
+                                        {t('Actions')}
                                     </TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -121,7 +123,7 @@ export default withAppLayout<Props>(
                                                             as="button"
                                                         >
                                                             <RotateCcwIcon />{' '}
-                                                            Restaurer
+                                                            {t('Restaurer')}
                                                         </Link>
                                                     </Button>
                                                 )}
@@ -157,8 +159,9 @@ export default withAppLayout<Props>(
                                                             }
                                                         >
                                                             <Trash2Icon />{' '}
-                                                            Supprimer
-                                                            définitivement
+                                                            {t(
+                                                                'Supprimer définitivement',
+                                                            )}
                                                         </Link>
                                                     </Button>
                                                 )}

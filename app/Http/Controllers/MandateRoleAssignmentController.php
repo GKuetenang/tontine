@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Mandates\DeleteMandateRoleAssignmentAction;
 use App\Actions\Mandates\EndMandateRoleAssignmentAction;
 use App\Actions\Mandates\SaveMandateRoleAssignmentAction;
 use App\Actions\Mandates\SetMandateMemberRoleAction;
@@ -18,7 +19,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
@@ -147,14 +147,16 @@ class MandateRoleAssignmentController extends WithUserSearchController
         return Inertia::flash('success', __('Responsabilité attribuée avec succès.'))->back();
     }
 
-    public function destroy(Request $request, Group $group, Mandate $mandate, MandateRoleAssignment $assignment): RedirectResponse
-    {
+    public function destroy(
+        Request $request,
+        Group $group,
+        Mandate $mandate,
+        MandateRoleAssignment $assignment,
+        DeleteMandateRoleAssignmentAction $action,
+    ): RedirectResponse {
         Gate::authorize(GroupPermission::AssignMandateRoles->value);
         abort_unless($mandate->group_id === $group->id && $assignment->mandate_id === $mandate->id, 404);
-        if ($mandate->status !== MandateStatus::Draft) {
-            throw ValidationException::withMessages(['assignment' => __('Une affectation active ou historique ne peut pas être supprimée.')]);
-        }
-        $assignment->delete();
+        $action->execute($assignment);
 
         return Inertia::flash('success', __('Affectation supprimée avec succès.'))->back();
     }

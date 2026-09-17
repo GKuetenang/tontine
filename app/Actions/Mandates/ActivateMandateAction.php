@@ -25,14 +25,17 @@ final class ActivateMandateAction
                 throw ValidationException::withMessages(['mandate' => __('La date actuelle doit être comprise dans la période du mandat.')]);
             }
 
-            $hasPresident = $lockedMandate->assignments()
-                ->whereHas('role', fn ($query) => $query->where('name', GroupRole::President->value))
+            $hasAdministrator = $lockedMandate->assignments()
+                ->whereHas('role', fn ($query) => $query->whereIn('name', [
+                    GroupRole::President->value,
+                    GroupRole::Administrator->value,
+                ]))
                 ->whereDate('starts_at', '<=', today())
                 ->where(fn ($query) => $query->whereNull('ends_at')->orWhereDate('ends_at', '>=', today()))
                 ->exists();
 
-            if (! $hasPresident) {
-                throw ValidationException::withMessages(['mandate' => __('Le mandat doit avoir un président en fonction à sa date d’activation.')]);
+            if (! $hasAdministrator) {
+                throw ValidationException::withMessages(['mandate' => __('Le mandat doit avoir un président ou un administrateur en fonction à sa date d’activation.')]);
             }
 
             $lockedMandate->group->mandates()

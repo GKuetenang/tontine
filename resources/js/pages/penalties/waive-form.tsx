@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dialog';
 import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
+import { useTranslation } from '@/hooks/use-translation';
 import penalties from '@/routes/groups/sessions/penalties';
 
 export function WaivePenaltyForm({
@@ -28,6 +29,7 @@ export function WaivePenaltyForm({
     session: string;
     penalty: number;
 }) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
 
     return (
@@ -42,14 +44,17 @@ export function WaivePenaltyForm({
                     {({ errors, processing }) => (
                         <div className="space-y-4">
                             <DialogHeader>
-                                <DialogTitle>Exempter le membre</DialogTitle>
+                                <DialogTitle>
+                                    {t('Exempter le membre')}
+                                </DialogTitle>
                                 <DialogDescription>
-                                    La pénalité restera visible dans
-                                    l’historique et ne sera plus exigible.
+                                    {t(
+                                        'La pénalité restera visible dans l’historique et ne sera plus exigible.',
+                                    )}
                                 </DialogDescription>
                             </DialogHeader>
                             <FormField
-                                label="Motif de l’exemption"
+                                label={t('Motif de l’exemption')}
                                 htmlFor="reason"
                                 error={errors.reason}
                                 required
@@ -58,11 +63,13 @@ export function WaivePenaltyForm({
                             </FormField>
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button variant="outline">Annuler</Button>
+                                    <Button variant="outline">
+                                        {t('Annuler')}
+                                    </Button>
                                 </DialogClose>
                                 <Button disabled={processing}>
-                                    {processing && <Spinner />} Confirmer
-                                    l’exemption
+                                    {processing && <Spinner />}{' '}
+                                    {t('Confirmer l’exemption')}
                                 </Button>
                             </DialogFooter>
                         </div>

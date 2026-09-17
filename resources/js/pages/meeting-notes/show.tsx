@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
+import { useTranslation } from '@/hooks/use-translation';
 import type { Meeting, Session, Group } from '@/types';
 
 import { EditMeetingNoteForm } from './form';
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export function MeetingNotes({ group, session, meeting }: Props) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
 
     if (meeting.status === 'scheduled') {
@@ -33,10 +35,10 @@ export function MeetingNotes({ group, session, meeting }: Props) {
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                    <CardTitle>Notes</CardTitle>
+                    <CardTitle>{t('Notes')}</CardTitle>
 
                     <p className="mt-1 text-sm text-muted-foreground">
-                        {notes.length} note
+                        {notes.length} {t('note')}
                         {notes.length > 1 ? 's' : ''}
                     </p>
                 </div>
@@ -49,7 +51,7 @@ export function MeetingNotes({ group, session, meeting }: Props) {
                         trigger={
                             <Button size="sm">
                                 <PlusIcon className="size-4" />
-                                Ajouter une note
+                                {t('Ajouter une note')}
                             </Button>
                         }
                     />
@@ -64,11 +66,12 @@ export function MeetingNotes({ group, session, meeting }: Props) {
                         </div>
 
                         <div className="space-y-1">
-                            <p className="font-medium">Aucune note</p>
+                            <p className="font-medium">{t('Aucune note')}</p>
 
                             <p className="text-sm text-muted-foreground">
-                                Les notes prises pendant l’assise apparaîtront
-                                ici.
+                                {t(
+                                    'Les notes prises pendant l’assise apparaîtront ici.',
+                                )}
                             </p>
                         </div>
                     </div>

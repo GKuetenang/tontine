@@ -5,8 +5,11 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslation } from '@/hooks/use-translation';
 
 export function ProductPreview() {
+    const { t } = useTranslation();
+
     return (
         <div className="relative mx-auto w-full max-w-2xl lg:mx-0">
             <div className="absolute -inset-8 -z-10 rounded-full bg-primary/10 blur-3xl" />
@@ -14,14 +17,14 @@ export function ProductPreview() {
                 <CardHeader className="flex-row items-center justify-between border-b bg-muted/30 py-4">
                     <div>
                         <p className="text-xs text-muted-foreground">
-                            Vue d’ensemble
+                            {t('Vue d’ensemble')}
                         </p>
                         <CardTitle className="mt-1 text-base">
-                            Association Espoir
+                            {t('Association Espoir')}
                         </CardTitle>
                     </div>
                     <Badge className="bg-emerald-500/10 text-emerald-700 hover:bg-emerald-500/10 dark:text-emerald-400">
-                        Session active
+                        {t('Session active')}
                     </Badge>
                 </CardHeader>
                 <CardContent className="space-y-5 p-5 sm:p-6">
@@ -50,7 +53,7 @@ export function ProductPreview() {
                         <div className="rounded-xl border p-4">
                             <div className="mb-4 flex items-center justify-between">
                                 <p className="text-sm font-medium">
-                                    Cotisations de l’assise
+                                    {t('Cotisations de l’assise')}
                                 </p>
                                 <span className="text-xs text-muted-foreground">
                                     18 / 24
@@ -88,20 +91,20 @@ export function ProductPreview() {
                         </div>
                         <div className="rounded-xl border bg-primary p-4 text-primary-foreground">
                             <p className="text-xs text-primary-foreground/70">
-                                À faire aujourd’hui
+                                {t('À faire aujourd’hui')}
                             </p>
                             <p className="mt-2 text-xl font-semibold">
-                                3 actions
+                                {t('3 actions')}
                             </p>
                             <div className="mt-5 space-y-2 text-xs">
                                 <p className="rounded-md bg-primary-foreground/10 p-2.5">
-                                    Valider un prêt
+                                    {t('Valider un prêt')}
                                 </p>
                                 <p className="rounded-md bg-primary-foreground/10 p-2.5">
-                                    Compléter les présences
+                                    {t('Compléter les présences')}
                                 </p>
                                 <p className="rounded-md bg-primary-foreground/10 p-2.5">
-                                    Préparer l’ordre du jour
+                                    {t('Préparer l’ordre du jour')}
                                 </p>
                             </div>
                         </div>

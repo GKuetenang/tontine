@@ -6,9 +6,12 @@ use App\Enums\GroupPermission;
 use App\Models\Group;
 use App\Models\Session;
 use App\Models\User;
+use App\Policies\Concerns\ChecksGroupPermissions;
 
 class SessionPolicy
 {
+    use ChecksGroupPermissions;
+
     /**
      * Consulter la liste des membres d’une réunion.
      */
@@ -131,29 +134,14 @@ class SessionPolicy
         );
     }
 
+    public function prepare(User $user, Session $session): bool
+    {
+        return $session->group->hasActiveMembership($user)
+            && $this->can($user, $session->group, GroupPermission::PrepareSessions);
+    }
+
     /**
      * Vérifie une permission dans le contexte exact
      * de la réunion concernée.
      */
-    private function can(
-        User $user,
-        Group $group,
-        GroupPermission $permission,
-    ): bool {
-        $previousTeamId = getPermissionsTeamId();
-
-        try {
-            setPermissionsTeamId($group->id);
-
-            $user->unsetRelation('roles');
-            $user->unsetRelation('permissions');
-
-            return $user->can($permission->value);
-        } finally {
-            setPermissionsTeamId($previousTeamId);
-
-            $user->unsetRelation('roles');
-            $user->unsetRelation('permissions');
-        }
-    }
 }

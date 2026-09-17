@@ -18,6 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { useTranslation } from '@/hooks/use-translation';
 import roles from '@/routes/groups/roles';
 import type { Group } from '@/types';
 
@@ -46,11 +47,12 @@ type Props = {
 };
 
 export function RoleForm({ group, permissions, trigger, role }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<string[]>(role?.permissions ?? []);
     const groups = Map.groupBy(permissions, (permission) => permission.group);
     const action = role
-        ? roles.update.form({ group: group.slug!, role: role.id })
+        ? roles.update.form({ group: group.slug!, role: String(role.id) })
         : roles.store.form({ group: group.slug! });
 
     const toggle = (permission: string, checked: boolean) => {
@@ -75,12 +77,13 @@ export function RoleForm({ group, permissions, trigger, role }: Props) {
                                         : 'Créer un rôle'}
                                 </DialogTitle>
                                 <DialogDescription>
-                                    Sélectionnez uniquement les responsabilités
-                                    nécessaires à ce rôle.
+                                    {t(
+                                        'Sélectionnez uniquement les responsabilités nécessaires à ce rôle.',
+                                    )}
                                 </DialogDescription>
                             </DialogHeader>
                             <FormField
-                                label="Nom"
+                                label={t('Nom')}
                                 htmlFor="role-name"
                                 error={errors.name}
                                 required
@@ -145,12 +148,12 @@ export function RoleForm({ group, permissions, trigger, role }: Props) {
                             <DialogFooter>
                                 <DialogClose asChild>
                                     <Button type="button" variant="outline">
-                                        Annuler
+                                        {t('Annuler')}
                                     </Button>
                                 </DialogClose>
                                 <Button type="submit" disabled={processing}>
                                     {processing ? <Spinner /> : <SaveIcon />}{' '}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

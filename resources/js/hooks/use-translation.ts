@@ -20,7 +20,7 @@ function resolveTranslation(
 }
 
 export function useTranslation() {
-    const { translations } = usePage().props;
+    const { translations, locale } = usePage().props;
 
     function t(key: string, replacements: TranslationValues = {}): string {
         const translation = resolveTranslation(translations, key);
@@ -41,5 +41,5 @@ export function useTranslation() {
         );
     }
 
-    return { t };
+    return { t, locale };
 }

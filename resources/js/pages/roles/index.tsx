@@ -16,6 +16,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import groups from '@/routes/groups';
 import roles from '@/routes/groups/roles';
@@ -41,13 +42,14 @@ export default withAppLayout<Props>(
             { title: 'Rôles et permissions', href: '#' },
         ] as BreadcrumbItem[],
     ({ group, collection, permissions, q }) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
 
         return (
             <>
-                <Head title="Rôles et permissions" />
+                <Head title={t('Rôles et permissions')} />
                 <Heading
-                    title="Rôles et permissions"
+                    title={t('Rôles et permissions')}
                     description={`Gérez les responsabilités au sein de ${group.name}.`}
                 />
                 <Card className="bg-background pt-0">
@@ -59,7 +61,7 @@ export default withAppLayout<Props>(
                                     permissions={permissions}
                                     trigger={
                                         <Button className="w-fit">
-                                            <PlusIcon /> Ajouter un rôle
+                                            <PlusIcon /> {t('Ajouter un rôle')}
                                         </Button>
                                     }
                                 />
@@ -71,11 +73,11 @@ export default withAppLayout<Props>(
                                 <Input
                                     autoFocus
                                     defaultValue={q ?? ''}
-                                    placeholder="Rechercher un rôle"
+                                    placeholder={t('Rechercher un rôle')}
                                     name="q"
                                 />
                                 <Button variant="outline">
-                                    <SearchIcon /> Rechercher
+                                    <SearchIcon /> {t('Rechercher')}
                                 </Button>
                             </Form>
                         </div>
@@ -88,12 +90,12 @@ export default withAppLayout<Props>(
                                         field="name"
                                         className="pl-6"
                                     >
-                                        Rôle
+                                        {t('Rôle')}
                                     </SortableTableHead>
-                                    <TableHead>Membres</TableHead>
-                                    <TableHead>Permissions</TableHead>
+                                    <TableHead>{t('Membres')}</TableHead>
+                                    <TableHead>{t('Permissions')}</TableHead>
                                     <TableHead className="pr-6 text-right">
-                                        Actions
+                                        {t('Actions')}
                                     </TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -109,7 +111,7 @@ export default withAppLayout<Props>(
                                         <TableCell>
                                             <Badge variant="outline">
                                                 {role.permissions_count}{' '}
-                                                permission(s)
+                                                {t('permission(s)')}
                                             </Badge>
                                         </TableCell>
                                         <TableCell className="pr-6 text-right">
@@ -127,7 +129,9 @@ export default withAppLayout<Props>(
                                                                 variant="outline"
                                                             >
                                                                 <Settings2Icon />{' '}
-                                                                Configurer
+                                                                {t(
+                                                                    'Configurer',
+                                                                )}
                                                             </Button>
                                                         }
                                                     />

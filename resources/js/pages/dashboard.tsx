@@ -1,13 +1,4 @@
-import { Head, Link, usePage } from '@inertiajs/react';
-import {
-    ArrowRightIcon,
-    CalendarDaysIcon,
-    LandmarkIcon,
-    MapPinIcon,
-    PlusIcon,
-    ReceiptTextIcon,
-    UsersIcon,
-} from 'lucide-react';
+import DashboardCard from '@/components/dashboard-card';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -26,6 +17,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
@@ -33,6 +25,16 @@ import { dashboard } from '@/routes';
 import groups from '@/routes/groups';
 import meetings from '@/routes/groups/sessions/meetings';
 import type { BreadcrumbItem } from '@/types';
+import { Head, Link, usePage } from '@inertiajs/react';
+import {
+    ArrowRightIcon,
+    CalendarDaysIcon,
+    LandmarkIcon,
+    MapPinIcon,
+    PlusIcon,
+    ReceiptTextIcon,
+    UsersIcon,
+} from 'lucide-react';
 
 type Money = { currency: string; amount: string };
 type MeetingItem = {
@@ -89,6 +91,8 @@ const moneySummary = (items: Money[]) => {
 };
 
 function EmptyDashboard() {
+    const { t } = useTranslation();
+
     return (
         <Card>
             <CardContent className="grid min-h-[440px] place-items-center p-8 text-center">
@@ -98,16 +102,17 @@ function EmptyDashboard() {
                     </div>
                     <div className="space-y-2">
                         <h2 className="text-2xl font-semibold">
-                            Commencez avec votre première réunion
+                            {t('Commencez avec votre première réunion')}
                         </h2>
                         <p className="text-muted-foreground">
-                            Créez une réunion pour organiser les membres, les
-                            sessions, les assises et les opérations financières.
+                            {t(
+                                'Créez une réunion pour organiser les membres, les sessions, les assises et les opérations financières.',
+                            )}
                         </p>
                     </div>
                     <Button asChild className="w-fit">
                         <Link href={groups.create()}>
-                            <PlusIcon /> Créer une réunion
+                            <PlusIcon /> {t('Créer une réunion')}
                         </Link>
                     </Button>
                     <div className="grid gap-3 pt-4 text-left sm:grid-cols-3">
@@ -139,6 +144,7 @@ export default withAppLayout<Props>(
         recent_transactions,
         groups: items,
     }) => {
+        const { t } = useTranslation();
         const { auth } = usePage().props;
         const firstName = auth.user.first_name || auth.user.name;
         const statistics = [
@@ -170,15 +176,17 @@ export default withAppLayout<Props>(
 
         return (
             <>
-                <Head title="Tableau de bord" />
+                <Head title={t('Tableau de bord')} />
                 <div className="flex items-start justify-between gap-4">
                     <Heading
                         title={`Bonjour, ${firstName}`}
-                        description="Voici l’essentiel de vos réunions et les prochaines actions à suivre."
+                        description={t(
+                            'Voici l’essentiel de vos réunions et les prochaines actions à suivre.',
+                        )}
                     />
                     <Button asChild className="w-fit">
                         <Link href={groups.create()}>
-                            <PlusIcon /> Créer une réunion
+                            <PlusIcon /> {t('Créer une réunion')}
                         </Link>
                     </Button>
                 </div>
@@ -189,24 +197,13 @@ export default withAppLayout<Props>(
                         <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                             {statistics.map(
                                 ({ icon: Icon, title, value, detail }) => (
-                                    <Card key={title}>
-                                        <CardContent className="flex items-start justify-between gap-4">
-                                            <div>
-                                                <p className="text-sm text-muted-foreground">
-                                                    {title}
-                                                </p>
-                                                <p className="mt-1 text-2xl font-semibold">
-                                                    {value}
-                                                </p>
-                                                <p className="mt-1 text-xs text-muted-foreground">
-                                                    {detail}
-                                                </p>
-                                            </div>
-                                            <div className="rounded-lg bg-primary/10 p-2 text-primary">
-                                                <Icon className="size-5" />
-                                            </div>
-                                        </CardContent>
-                                    </Card>
+                                    <DashboardCard
+                                        key={title}
+                                        title={title}
+                                        value={value}
+                                        detail={detail}
+                                        icon={Icon}
+                                    />
                                 ),
                             )}
                         </section>
@@ -214,10 +211,13 @@ export default withAppLayout<Props>(
                         <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
                             <Card className="bg-background pt-0">
                                 <CardHeader className="border-b py-4">
-                                    <CardTitle>Prochaines assises</CardTitle>
+                                    <CardTitle>
+                                        {t('Prochaines assises')}
+                                    </CardTitle>
                                     <CardDescription>
-                                        Les assises des sessions auxquelles vous
-                                        participez.
+                                        {t(
+                                            'Les assises des sessions auxquelles vous participez.',
+                                        )}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="divide-y px-0">
@@ -253,17 +253,20 @@ export default withAppLayout<Props>(
                                     ))}
                                     {next_meetings.length === 0 && (
                                         <p className="p-8 text-center text-sm text-muted-foreground">
-                                            Aucune assise à venir.
+                                            {t('Aucune assise à venir.')}
                                         </p>
                                     )}
                                 </CardContent>
                             </Card>
                             <Card className="bg-background pt-0">
                                 <CardHeader className="border-b py-4">
-                                    <CardTitle>Actions rapides</CardTitle>
+                                    <CardTitle>
+                                        {t('Actions rapides')}
+                                    </CardTitle>
                                     <CardDescription>
-                                        Accédez rapidement aux espaces les plus
-                                        utiles.
+                                        {t(
+                                            'Accédez rapidement aux espaces les plus utiles.',
+                                        )}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="grid gap-3">
@@ -273,7 +276,8 @@ export default withAppLayout<Props>(
                                         className="justify-start"
                                     >
                                         <Link href={groups.index()}>
-                                            <UsersIcon /> Voir mes réunions
+                                            <UsersIcon />{' '}
+                                            {t('Voir mes réunions')}
                                         </Link>
                                     </Button>
                                     <Button
@@ -282,7 +286,8 @@ export default withAppLayout<Props>(
                                         className="justify-start"
                                     >
                                         <Link href={groups.create()}>
-                                            <PlusIcon /> Créer une réunion
+                                            <PlusIcon />{' '}
+                                            {t('Créer une réunion')}
                                         </Link>
                                     </Button>
                                     {items[0] && (
@@ -296,8 +301,9 @@ export default withAppLayout<Props>(
                                                     group: items[0].slug,
                                                 })}
                                             >
-                                                <ArrowRightIcon /> Continuer
-                                                avec {items[0].name}
+                                                <ArrowRightIcon />{' '}
+                                                {t('Continuer avec')}{' '}
+                                                {items[0].name}
                                             </Link>
                                         </Button>
                                     )}
@@ -307,10 +313,11 @@ export default withAppLayout<Props>(
 
                         <Card className="bg-background pt-0">
                             <CardHeader className="border-b py-4">
-                                <CardTitle>Activité récente</CardTitle>
+                                <CardTitle>{t('Activité récente')}</CardTitle>
                                 <CardDescription>
-                                    Vos dernières opérations financières
-                                    personnelles.
+                                    {t(
+                                        'Vos dernières opérations financières personnelles.',
+                                    )}
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="px-0">
@@ -318,12 +325,16 @@ export default withAppLayout<Props>(
                                     <TableHeader>
                                         <TableRow>
                                             <TableHead className="pl-6">
-                                                Date
+                                                {t('Date')}
                                             </TableHead>
-                                            <TableHead>Réunion</TableHead>
-                                            <TableHead>Opération</TableHead>
+                                            <TableHead>
+                                                {t('Réunion')}
+                                            </TableHead>
+                                            <TableHead>
+                                                {t('Opération')}
+                                            </TableHead>
                                             <TableHead className="pr-6 text-right">
-                                                Montant
+                                                {t('Montant')}
                                             </TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -353,7 +364,7 @@ export default withAppLayout<Props>(
                                                         className={`pr-6 text-right font-medium ${transaction.direction === 'credit' ? 'text-emerald-600' : 'text-destructive'}`}
                                                     >
                                                         {transaction.direction ===
-                                                        'credit'
+                                                            'credit'
                                                             ? '+'
                                                             : '−'}{' '}
                                                         {formatCurrency(
@@ -368,7 +379,9 @@ export default withAppLayout<Props>(
                                 </Table>
                                 {recent_transactions.length === 0 && (
                                     <p className="p-8 text-center text-sm text-muted-foreground">
-                                        Aucune opération personnelle récente.
+                                        {t(
+                                            'Aucune opération personnelle récente.',
+                                        )}
                                     </p>
                                 )}
                             </CardContent>
@@ -377,10 +390,11 @@ export default withAppLayout<Props>(
                         <Card className="bg-background pt-0">
                             <CardHeader className="flex-row items-center justify-between border-b py-4">
                                 <div>
-                                    <CardTitle>Mes réunions</CardTitle>
+                                    <CardTitle>{t('Mes réunions')}</CardTitle>
                                     <CardDescription>
-                                        Vos espaces actifs et leur session
-                                        courante.
+                                        {t(
+                                            'Vos espaces actifs et leur session courante.',
+                                        )}
                                     </CardDescription>
                                 </div>
                                 <Button
@@ -389,7 +403,7 @@ export default withAppLayout<Props>(
                                     className="w-fit"
                                 >
                                     <Link href={groups.index()}>
-                                        Tout afficher
+                                        {t('Tout afficher')}
                                     </Link>
                                 </Button>
                             </CardHeader>
@@ -416,7 +430,7 @@ export default withAppLayout<Props>(
                                         </p>
                                         <p className="mt-1 text-xs text-muted-foreground">
                                             {group.active_members_count}{' '}
-                                            membre(s) actif(s)
+                                            {t('membre(s) actif(s)')}
                                         </p>
                                     </Link>
                                 ))}

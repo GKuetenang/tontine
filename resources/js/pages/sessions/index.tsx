@@ -17,6 +17,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
@@ -54,12 +55,13 @@ type Props = {
 export default withAppLayout(
     breadcrumbs,
     ({ collection, q, group, session, draw_allocation_modes }: Props) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
 
         return (
             <>
-                <Head title="Tous les sessions" />
-                <Heading title="Tous les sessions" />
+                <Head title={t('Tous les sessions')} />
+                <Heading title={t('Tous les sessions')} />
                 <Card className="bg-background pt-0">
                     <CardHeader className="border-b py-4">
                         <div className="flex items-center justify-between">
@@ -77,7 +79,7 @@ export default withAppLayout(
                                                 className="w-fit"
                                             >
                                                 <PlusIcon />
-                                                Ajouter une session
+                                                {t('Ajouter une session')}
                                             </Button>
                                         }
                                     />
@@ -94,7 +96,7 @@ export default withAppLayout(
                                                 group: group.slug,
                                             })}
                                         >
-                                            <Trash2Icon /> Corbeille
+                                            <Trash2Icon /> {t('Corbeille')}
                                         </Link>
                                     </Button>
                                 )}
@@ -108,12 +110,12 @@ export default withAppLayout(
                                 <Input
                                     autoFocus
                                     defaultValue={q ?? ''}
-                                    placeholder="Rechercher une session"
+                                    placeholder={t('Rechercher une session')}
                                     name="q"
                                 />
                                 <Button variant="outline">
                                     <SearchIcon />
-                                    Rechercher
+                                    {t('Rechercher')}
                                 </Button>
                             </Form>
                         </div>
@@ -123,22 +125,22 @@ export default withAppLayout(
                             <TableHeader>
                                 <TableRow className="[&>th:first-child]:pl-6 [&>th:last-child]:pr-6">
                                     <SortableTableHead field="name">
-                                        Nom
+                                        {t('Nom')}
                                     </SortableTableHead>
                                     <SortableTableHead field="default_contribution_amount">
-                                        Montant par defaut
+                                        {t('Montant par defaut')}
                                     </SortableTableHead>
                                     <SortableTableHead field="draw_allocation_mode">
-                                        Mode d’attribution des tours
+                                        {t('Mode d’attribution des tours')}
                                     </SortableTableHead>
                                     <SortableTableHead field="start_at">
-                                        Date de début
+                                        {t('Date de début')}
                                     </SortableTableHead>
                                     <SortableTableHead field="end_at">
-                                        Date de fin
+                                        {t('Date de fin')}
                                     </SortableTableHead>
                                     <SortableTableHead field="status">
-                                        Statut
+                                        {t('Statut')}
                                     </SortableTableHead>
                                     <TableHead className="text-end"></TableHead>
                                 </TableRow>

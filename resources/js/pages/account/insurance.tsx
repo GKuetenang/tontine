@@ -10,6 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTranslation } from '@/hooks/use-translation';
 import { AccountLayout } from '@/layouts/account-layout';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
@@ -33,72 +34,85 @@ export default withAppLayout<Props>(
         { title: 'Mon espace', href: account.index() },
         { title: 'Mon assurance', href: account.insurance.index() },
     ] as BreadcrumbItem[],
-    ({ collection, totals }) => (
-        <AccountLayout>
-            <Head title="Mon assurance" />
-            <Heading
-                title="Mon assurance"
-                description="Historique de vos versements d’assurance dans vos différentes réunions."
-            />
-            <div className="grid gap-4 sm:grid-cols-3">
-                {totals.map((total) => (
-                    <Card key={total.currency}>
-                        <CardContent>
-                            <p className="text-sm text-muted-foreground">
-                                Total accumulé · {total.currency}
-                            </p>
-                            <p className="mt-1 text-2xl font-semibold">
-                                {formatCurrency(total.amount, total.currency)}
-                            </p>
-                        </CardContent>
-                    </Card>
-                ))}
-            </div>
-            <Card className="bg-background pt-0">
-                <CardHeader className="border-b py-4">
-                    <CardTitle>Mes versements</CardTitle>
-                </CardHeader>
-                <CardContent className="px-0">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="pl-6">Date</TableHead>
-                                <TableHead>Réunion</TableHead>
-                                <TableHead>Session</TableHead>
-                                <TableHead className="pr-6 text-right">
-                                    Montant
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {collection.data.map((item) => (
-                                <TableRow key={item.id} className="h-14">
-                                    <TableCell className="pl-6">
-                                        {formatDate(item.occurred_at)}
-                                    </TableCell>
-                                    <TableCell>{item.group.name}</TableCell>
-                                    <TableCell>{item.session_name}</TableCell>
-                                    <TableCell className="pr-6 text-right font-medium">
-                                        {formatCurrency(
-                                            item.amount,
-                                            item.group.currency,
-                                        )}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                    {collection.data.length === 0 && (
-                        <p className="p-8 text-center text-sm text-muted-foreground">
-                            Aucun versement d’assurance enregistré.
-                        </p>
+    ({ collection, totals }) => {
+        const { t } = useTranslation();
+
+        return (
+            <AccountLayout>
+                <Head title={t('Mon assurance')} />
+                <Heading
+                    title={t('Mon assurance')}
+                    description={t(
+                        'Historique de vos versements d’assurance dans vos différentes réunions.',
                     )}
-                    <CollectionPagination
-                        collection={collection}
-                        className="px-6 pt-6"
-                    />
-                </CardContent>
-            </Card>
-        </AccountLayout>
-    ),
+                />
+                <div className="grid gap-4 sm:grid-cols-3">
+                    {totals.map((total) => (
+                        <Card key={total.currency}>
+                            <CardContent>
+                                <p className="text-sm text-muted-foreground">
+                                    {t('Total accumulé ·')} {total.currency}
+                                </p>
+                                <p className="mt-1 text-2xl font-semibold">
+                                    {formatCurrency(
+                                        total.amount,
+                                        total.currency,
+                                    )}
+                                </p>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
+                <Card className="bg-background pt-0">
+                    <CardHeader className="border-b py-4">
+                        <CardTitle>{t('Mes versements')}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="px-0">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="pl-6">
+                                        {t('Date')}
+                                    </TableHead>
+                                    <TableHead>{t('Réunion')}</TableHead>
+                                    <TableHead>{t('Session')}</TableHead>
+                                    <TableHead className="pr-6 text-right">
+                                        {t('Montant')}
+                                    </TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {collection.data.map((item) => (
+                                    <TableRow key={item.id} className="h-14">
+                                        <TableCell className="pl-6">
+                                            {formatDate(item.occurred_at)}
+                                        </TableCell>
+                                        <TableCell>{item.group.name}</TableCell>
+                                        <TableCell>
+                                            {item.session_name}
+                                        </TableCell>
+                                        <TableCell className="pr-6 text-right font-medium">
+                                            {formatCurrency(
+                                                item.amount,
+                                                item.group.currency,
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                        {collection.data.length === 0 && (
+                            <p className="p-8 text-center text-sm text-muted-foreground">
+                                {t('Aucun versement d’assurance enregistré.')}
+                            </p>
+                        )}
+                        <CollectionPagination
+                            collection={collection}
+                            className="px-6 pt-6"
+                        />
+                    </CardContent>
+                </Card>
+            </AccountLayout>
+        );
+    },
 );

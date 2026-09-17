@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
+import { useTranslation } from '@/hooks/use-translation';
 import { formatCurrency } from '@/lib/utils';
 import payouts from '@/routes/groups/sessions/meetings/payouts';
 
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export function PayoutItem({ group, session, meeting, payout }: Props) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
 
     const beneficiary =
@@ -62,9 +64,9 @@ export function PayoutItem({ group, session, meeting, payout }: Props) {
 
                 {payout.draw_entry && (
                     <p className="text-xs text-muted-foreground">
-                        Position {payout.draw_entry.position}
+                        {t('Position')} {payout.draw_entry.position}
                         {' • '}
-                        Part {payout.draw_entry.entry_number}
+                        {t('Part')} {payout.draw_entry.entry_number}
                     </p>
                 )}
             </div>
@@ -93,7 +95,7 @@ export function PayoutItem({ group, session, meeting, payout }: Props) {
                                 onError={handleError}
                             >
                                 <XIcon className="size-4" />
-                                Annuler
+                                {t('Annuler')}
                             </Link>
                         </Button>
                     )}
@@ -122,7 +124,7 @@ export function PayoutItem({ group, session, meeting, payout }: Props) {
                                 onError={handleError}
                             >
                                 <CheckIcon className="size-4" />
-                                Marquer comme payé
+                                {t('Marquer comme payé')}
                             </Link>
                         </Button>
                     )}

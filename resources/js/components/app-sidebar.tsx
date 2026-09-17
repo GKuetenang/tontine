@@ -14,6 +14,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useTranslation } from '@/hooks/use-translation';
 import { getSessionNavItems, getGroupNavItems } from '@/lib/utils';
 
 import { dashboard } from '@/routes';
@@ -27,6 +28,7 @@ type SidebarPageProps = {
 };
 
 export function AppSidebar() {
+    const { t } = useTranslation();
     const { props } = usePage<SidebarPageProps>();
 
     const group = props.group;
@@ -64,7 +66,7 @@ export function AppSidebar() {
 
                 {group?.slug && (
                     <NavContext
-                        label="Réunion"
+                        label={t('Réunion')}
                         title={group.name}
                         items={getGroupNavItems(group)}
                     />
@@ -72,7 +74,7 @@ export function AppSidebar() {
 
                 {group && session?.slug && (
                     <NavContext
-                        label="Session"
+                        label={t('Session')}
                         title={session.name}
                         items={getSessionNavItems(group, session)}
                     />

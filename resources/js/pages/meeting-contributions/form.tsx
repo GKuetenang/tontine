@@ -1,11 +1,11 @@
+import { FormField } from '@/components/form-field';
+import { Button } from '@/components/ui/button';
+import { DateTimePicker } from '@/components/ui/datetime-picker';
 import { Form } from '@inertiajs/react';
 import { format } from 'date-fns';
 import { SaveIcon } from 'lucide-react';
 import type { ReactElement } from 'react';
 import { useState } from 'react';
-import { FormField } from '@/components/form-field';
-import { Button } from '@/components/ui/button';
-import { DateTimePicker } from '@/components/ui/datetime-picker';
 
 import {
     Dialog,
@@ -21,10 +21,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 
+import { useTranslation } from '@/hooks/use-translation';
 import { formatCurrency } from '@/lib/utils';
 import payments from '@/routes/groups/sessions/meetings/contributions/payments';
 
-import type { Contribution, Meeting, Session, Group } from '@/types';
+import type { Contribution, Group, Meeting, Session } from '@/types';
 
 type Props = {
     trigger: ReactElement;
@@ -41,6 +42,7 @@ export function RecordContributionPaymentForm({
     meeting,
     contribution,
 }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
 
     const [occurredAt, setOccurredAt] = useState<Date | undefined>(
@@ -79,11 +81,11 @@ export function RecordContributionPaymentForm({
                         <div className="space-y-4">
                             <DialogHeader>
                                 <DialogTitle>
-                                    Enregistrer un paiement
+                                    {t('Enregistrer un paiement')}
                                 </DialogTitle>
 
                                 <DialogDescription>
-                                    Montant restant :{' '}
+                                    {t('Montant restant :')}{' '}
                                     {formatCurrency(
                                         contribution.remaining_amount,
                                         group.currency,
@@ -92,7 +94,7 @@ export function RecordContributionPaymentForm({
                             </DialogHeader>
 
                             <FormField
-                                label="Montant payé"
+                                label={t('Montant payé')}
                                 htmlFor="amount"
                                 error={errors.amount}
                                 required
@@ -108,7 +110,7 @@ export function RecordContributionPaymentForm({
                             </FormField>
 
                             <FormField
-                                label="Date du paiement"
+                                label={t('Date du paiement')}
                                 htmlFor="occurred_at"
                                 error={errors.occurred_at}
                                 required
@@ -119,14 +121,15 @@ export function RecordContributionPaymentForm({
                                     value={
                                         occurredAt
                                             ? format(
-                                                  occurredAt,
-                                                  'yyyy-MM-dd HH:mm:ss',
-                                              )
+                                                occurredAt,
+                                                'yyyy-MM-dd HH:mm:ss',
+                                            )
                                             : ''
                                     }
                                 />
 
                                 <DateTimePicker
+                                    weekStartsOn={1}
                                     granularity="minute"
                                     value={occurredAt}
                                     onChange={setOccurredAt}
@@ -134,7 +137,7 @@ export function RecordContributionPaymentForm({
                             </FormField>
 
                             <FormField
-                                label="Description"
+                                label={t('Description')}
                                 htmlFor="description"
                                 error={errors.description}
                                 optional
@@ -142,7 +145,7 @@ export function RecordContributionPaymentForm({
                                 <textarea
                                     id="description"
                                     name="description"
-                                    placeholder="Ex. Paiement en espèces"
+                                    placeholder={t('Ex. Paiement en espèces')}
                                     className="min-h-24 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm"
                                 />
                             </FormField>
@@ -150,13 +153,13 @@ export function RecordContributionPaymentForm({
                             <DialogFooter>
                                 <DialogClose asChild>
                                     <Button type="button" variant="outline">
-                                        Annuler
+                                        {t('Annuler')}
                                     </Button>
                                 </DialogClose>
 
                                 <Button type="submit" disabled={processing}>
                                     {processing ? <Spinner /> : <SaveIcon />}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

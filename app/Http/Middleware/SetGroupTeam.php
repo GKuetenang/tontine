@@ -2,15 +2,15 @@
 
 namespace App\Http\Middleware;
 
-use App\Actions\Mandates\SyncMemberMandateRolesAction;
 use App\Models\Group;
+use App\Support\GroupPermissionChecker;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SetGroupTeam
 {
-    public function __construct(private SyncMemberMandateRolesAction $syncMemberRoles) {}
+    public function __construct(private GroupPermissionChecker $permissions) {}
 
     public function handle(Request $request, Closure $next): Response
     {
@@ -20,11 +20,7 @@ class SetGroupTeam
 
         $user = $request->user();
         abort_unless($user, 401);
-        setPermissionsTeamId($group->id);
-
-        $user->unsetRelation('roles');
-        $user->unsetRelation('permissions');
-        $this->syncMemberRoles->execute($group, $user);
+        $this->permissions->prepare($user, $group);
 
         return $next($request);
     }

@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
+import { useTranslation } from '@/hooks/use-translation';
 import type { Meeting, MeetingPayoutContext, Session, Group } from '@/types';
 
 import { CreatePayoutForm } from './form';
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export function MeetingPayouts({ group, session, meeting, context }: Props) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
 
     const payouts = meeting.payouts ?? [];
@@ -31,7 +33,11 @@ export function MeetingPayouts({ group, session, meeting, context }: Props) {
 
     if (meeting.status === 'scheduled') {
         return (
-            <MeetingPayoutsPlaceholder message="Les versements pourront être préparés lorsque l’assise sera en cours." />
+            <MeetingPayoutsPlaceholder
+                message={t(
+                    'Les versements pourront être préparés lorsque l’assise sera en cours.',
+                )}
+            />
         );
     }
 
@@ -39,11 +45,12 @@ export function MeetingPayouts({ group, session, meeting, context }: Props) {
         <Card>
             <CardHeader className="flex flex-row items-start justify-between gap-4">
                 <div className="space-y-1">
-                    <CardTitle>Versements</CardTitle>
+                    <CardTitle>{t('Versements')}</CardTitle>
 
                     <p className="text-sm text-muted-foreground">
-                        Gérez les versements effectués aux bénéficiaires pendant
-                        cette assise.
+                        {t(
+                            'Gérez les versements effectués aux bénéficiaires pendant cette assise.',
+                        )}
                     </p>
                 </div>
 
@@ -57,7 +64,7 @@ export function MeetingPayouts({ group, session, meeting, context }: Props) {
                         trigger={
                             <Button type="button" size="sm">
                                 <HandCoinsIcon className="size-4" />
-                                Nouveau versement
+                                {t('Nouveau versement')}
                             </Button>
                         }
                     />
@@ -69,13 +76,14 @@ export function MeetingPayouts({ group, session, meeting, context }: Props) {
                     <div className="space-y-3">
                         <div>
                             <p className="font-medium">
-                                Bénéficiaire
-                                {context.expected.length > 1 ? 's' : ''} prévu
+                                {t('Bénéficiaire')}
+                                {context.expected.length > 1 ? 's' : ''}{' '}
+                                {t('prévu')}
                                 {context.expected.length > 1 ? 's' : ''}
                             </p>
 
                             <p className="text-sm text-muted-foreground">
-                                Selon le tirage confirmé.
+                                {t('Selon le tirage confirmé.')}
                             </p>
                         </div>
 
@@ -90,7 +98,7 @@ export function MeetingPayouts({ group, session, meeting, context }: Props) {
                                     </p>
 
                                     <p className="text-sm text-muted-foreground">
-                                        Position {candidate.position}
+                                        {t('Position')} {candidate.position}
                                         {candidate.entry_number > 1
                                             ? ` • Part ${candidate.entry_number}`
                                             : ''}
@@ -104,18 +112,18 @@ export function MeetingPayouts({ group, session, meeting, context }: Props) {
                 <div className="space-y-3">
                     <div>
                         <p className="font-medium">
-                            Versements de cette assise
+                            {t('Versements de cette assise')}
                         </p>
 
                         <p className="text-sm text-muted-foreground">
-                            {payouts.length} versement
+                            {payouts.length} {t('versement')}
                             {payouts.length > 1 ? 's' : ''}
                         </p>
                     </div>
 
                     {payouts.length === 0 ? (
                         <div className="rounded-md border border-dashed p-6 text-center text-sm text-muted-foreground">
-                            Aucun versement enregistré pour cette assise.
+                            {t('Aucun versement enregistré pour cette assise.')}
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

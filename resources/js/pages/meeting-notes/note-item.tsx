@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/card';
 import { useAuthorization } from '@/hooks/use-authorization';
 
+import { useTranslation } from '@/hooks/use-translation';
 import { formatDate } from '@/lib';
 import notes from '@/routes/groups/sessions/meetings/notes';
 
@@ -27,6 +28,7 @@ type Props = {
 };
 
 export function MeetingNoteItem({ group, session, meeting, note }: Props) {
+    const { t } = useTranslation();
     const { can, canAny } = useAuthorization();
 
     const canEdit = meeting.status === 'in_progress';
@@ -47,7 +49,7 @@ export function MeetingNoteItem({ group, session, meeting, note }: Props) {
                 ) : (
                     <div>
                         <span className="inline-flex rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
-                            Note générale
+                            {t('Note générale')}
                         </span>
                     </div>
                 )}

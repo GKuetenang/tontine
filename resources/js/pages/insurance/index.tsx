@@ -15,6 +15,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
@@ -59,6 +60,7 @@ export default withAppLayout<Props>(
             { title: 'Assurance', href: '#' },
         ] as BreadcrumbItem[],
     ({ group, session, collection, summary, q }) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
         const cards = [
             {
@@ -74,10 +76,10 @@ export default withAppLayout<Props>(
 
         return (
             <>
-                <Head title="Assurance" />
+                <Head title={t('Assurance')} />
                 <div className="space-y-6">
                     <Heading
-                        title="Assurance"
+                        title={t('Assurance')}
                         description={`Versements des membres pendant la session ${session.name}.`}
                     />
                     <div className="grid gap-4 sm:grid-cols-3">
@@ -103,7 +105,8 @@ export default withAppLayout<Props>(
                                         session={session}
                                         trigger={
                                             <Button className="w-fit">
-                                                <PlusIcon /> Nouveau versement
+                                                <PlusIcon />{' '}
+                                                {t('Nouveau versement')}
                                             </Button>
                                         }
                                     />
@@ -118,11 +121,11 @@ export default withAppLayout<Props>(
                                     <Input
                                         autoFocus
                                         defaultValue={q ?? ''}
-                                        placeholder="Rechercher un membre"
+                                        placeholder={t('Rechercher un membre')}
                                         name="q"
                                     />
                                     <Button variant="outline">
-                                        <SearchIcon /> Rechercher
+                                        <SearchIcon /> {t('Rechercher')}
                                     </Button>
                                 </Form>
                             </div>
@@ -135,15 +138,17 @@ export default withAppLayout<Props>(
                                             field="occurred_at"
                                             className="pl-6"
                                         >
-                                            Date
+                                            {t('Date')}
                                         </SortableTableHead>
-                                        <TableHead>Membre</TableHead>
-                                        <TableHead>Enregistré par</TableHead>
+                                        <TableHead>{t('Membre')}</TableHead>
+                                        <TableHead>
+                                            {t('Enregistré par')}
+                                        </TableHead>
                                         <SortableTableHead
                                             field="amount"
                                             className="pr-6 text-right"
                                         >
-                                            Montant versé
+                                            {t('Montant versé')}
                                         </SortableTableHead>
                                     </TableRow>
                                 </TableHeader>

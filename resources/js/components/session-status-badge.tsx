@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/badge';
+import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import type { Session } from '@/types';
 
@@ -8,6 +9,8 @@ type SessionStatusProps = {
 };
 
 export function SessionStatusBadge({ session, className }: SessionStatusProps) {
+    const { t } = useTranslation();
+
     switch (session.status) {
         case 'draft':
             return (
@@ -15,7 +18,7 @@ export function SessionStatusBadge({ session, className }: SessionStatusProps) {
                     variant="secondary"
                     className={cn('rounded-full', className)}
                 >
-                    Préparation
+                    {t('Préparation')}
                 </Badge>
             );
 
@@ -27,14 +30,14 @@ export function SessionStatusBadge({ session, className }: SessionStatusProps) {
                         className,
                     )}
                 >
-                    Active
+                    {t('Active')}
                 </Badge>
             );
 
         case 'closed':
             return (
                 <Badge className={cn(className)} variant="secondary">
-                    Fermée
+                    {t('Fermée')}
                 </Badge>
             );
     }

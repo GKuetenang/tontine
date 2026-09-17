@@ -20,6 +20,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import groups from '@/routes/groups';
 import mandates from '@/routes/groups/mandates';
@@ -49,13 +50,14 @@ export default withAppLayout<Props>(
             { title: 'Mandats', href: '#' },
         ] as BreadcrumbItem[],
     ({ group, collection }) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
 
         return (
             <>
-                <Head title="Mandats" />
+                <Head title={t('Mandats')} />
                 <Heading
-                    title="Mandats"
+                    title={t('Mandats')}
                     description={`Historique de la gouvernance de ${group.name}.`}
                 />
                 <Card className="bg-background pt-0">
@@ -66,7 +68,8 @@ export default withAppLayout<Props>(
                                     group={group}
                                     trigger={
                                         <Button className="w-fit">
-                                            <PlusIcon /> Ajouter un mandat
+                                            <PlusIcon />{' '}
+                                            {t('Ajouter un mandat')}
                                         </Button>
                                     }
                                 />
@@ -81,16 +84,16 @@ export default withAppLayout<Props>(
                                         field="name"
                                         className="pl-6"
                                     >
-                                        Mandat
+                                        {t('Mandat')}
                                     </SortableTableHead>
                                     <SortableTableHead field="starts_at">
-                                        Période
+                                        {t('Période')}
                                     </SortableTableHead>
                                     <SortableTableHead field="status">
-                                        Statut
+                                        {t('Statut')}
                                     </SortableTableHead>
                                     <TableHead className="pr-6 text-right">
-                                        Actions
+                                        {t('Actions')}
                                     </TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -128,7 +131,9 @@ export default withAppLayout<Props>(
                                                                     variant="outline"
                                                                 >
                                                                     <PencilIcon />{' '}
-                                                                    Modifier
+                                                                    {t(
+                                                                        'Modifier',
+                                                                    )}
                                                                 </Button>
                                                             }
                                                         />
@@ -151,8 +156,9 @@ export default withAppLayout<Props>(
                                                             )}
                                                         >
                                                             <Settings2Icon />{' '}
-                                                            Gérer les
-                                                            responsabilités
+                                                            {t(
+                                                                'Gérer les responsabilités',
+                                                            )}
                                                         </Link>
                                                     </Button>
                                                 )}
@@ -179,7 +185,7 @@ export default withAppLayout<Props>(
                                                                 }
                                                             >
                                                                 <BadgeCheckIcon />{' '}
-                                                                Activer
+                                                                {t('Activer')}
                                                             </Link>
                                                         </Button>
                                                     )}
@@ -191,7 +197,7 @@ export default withAppLayout<Props>(
                         </Table>
                         {collection.data.length === 0 && (
                             <p className="p-8 text-center text-sm text-muted-foreground">
-                                Aucun mandat enregistré.
+                                {t('Aucun mandat enregistré.')}
                             </p>
                         )}
                         <CollectionPagination

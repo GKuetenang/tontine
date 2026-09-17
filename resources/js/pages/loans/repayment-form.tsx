@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
+import { useTranslation } from '@/hooks/use-translation';
 import { formatCurrency } from '@/lib/utils';
 import loans from '@/routes/groups/sessions/loans';
 import type { Loan, Session, Group } from '@/types';
@@ -31,6 +32,7 @@ export function CreateRepaymentForm({
     session: Session;
     loan: Loan;
 }) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
 
     return (
@@ -55,13 +57,14 @@ export function CreateRepaymentForm({
                         <div className="space-y-4">
                             <DialogHeader>
                                 <DialogTitle>
-                                    Enregistrer un remboursement
+                                    {t('Enregistrer un remboursement')}
                                 </DialogTitle>
                                 <DialogDescription>
-                                    Solde restant :{' '}
-                                    {formatCurrency(loan.remaining_amount)}.
-                                    L’intérêt restant sera imputé avant le
-                                    capital.
+                                    {t('Solde restant :')}{' '}
+                                    {formatCurrency(loan.remaining_amount)}
+                                    {t(
+                                        '. L’intérêt restant sera imputé avant le capital.',
+                                    )}
                                 </DialogDescription>
                             </DialogHeader>
                             {errors.repayment && (
@@ -74,7 +77,7 @@ export function CreateRepaymentForm({
                             )}
                             <FormField
                                 error={errors.amount}
-                                label="Montant remboursé"
+                                label={t('Montant remboursé')}
                                 htmlFor="amount"
                                 required
                             >
@@ -87,7 +90,9 @@ export function CreateRepaymentForm({
                             </FormField>
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button variant="outline">Annuler</Button>
+                                    <Button variant="outline">
+                                        {t('Annuler')}
+                                    </Button>
                                 </DialogClose>
                                 <Button type="submit" disabled={processing}>
                                     {processing ? (
@@ -95,7 +100,7 @@ export function CreateRepaymentForm({
                                     ) : (
                                         <CircleDollarSign />
                                     )}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

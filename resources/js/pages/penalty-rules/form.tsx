@@ -20,6 +20,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { useTranslation } from '@/hooks/use-translation';
 import penaltyRules from '@/routes/groups/penalty-rules';
 import type { PenaltyRule, Group } from '@/types';
 
@@ -40,6 +41,7 @@ export function PenaltyRuleForm({
     calculationTypes,
     graceUnits,
 }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const [automatic, setAutomatic] = useState(rule?.is_automatic ?? false);
     const [active, setActive] = useState(rule?.is_active ?? false);
@@ -65,13 +67,14 @@ export function PenaltyRuleForm({
                                         : 'Ajouter une règle'}
                                 </DialogTitle>
                                 <DialogDescription>
-                                    Les modifications s’appliquent directement
-                                    aux prochaines pénalités de la réunion.
+                                    {t(
+                                        'Les modifications s’appliquent directement aux prochaines pénalités de la réunion.',
+                                    )}
                                 </DialogDescription>
                             </DialogHeader>
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <FormField
-                                    label="Nom"
+                                    label={t('Nom')}
                                     htmlFor={'name-' + suffix}
                                     error={errors['name']}
                                     required
@@ -83,7 +86,7 @@ export function PenaltyRuleForm({
                                     />
                                 </FormField>
                                 <FormField
-                                    label="Déclencheur"
+                                    label={t('Déclencheur')}
                                     htmlFor={'trigger-' + suffix}
                                     error={errors['trigger']}
                                     required
@@ -96,7 +99,7 @@ export function PenaltyRuleForm({
                                     />
                                 </FormField>
                                 <FormField
-                                    label="Calcul"
+                                    label={t('Calcul')}
                                     htmlFor={'calculation-' + suffix}
                                     error={errors['calculation_type']}
                                     required
@@ -111,7 +114,7 @@ export function PenaltyRuleForm({
                                     />
                                 </FormField>
                                 <FormField
-                                    label="Valeur"
+                                    label={t('Valeur')}
                                     htmlFor={'value-' + suffix}
                                     error={errors['value']}
                                     required={active}
@@ -126,7 +129,7 @@ export function PenaltyRuleForm({
                                     />
                                 </FormField>
                                 <FormField
-                                    label="Délai de tolérance"
+                                    label={t('Délai de tolérance')}
                                     htmlFor={'grace-' + suffix}
                                     error={errors['grace_period']}
                                     optional
@@ -140,7 +143,7 @@ export function PenaltyRuleForm({
                                     />
                                 </FormField>
                                 <FormField
-                                    label="Unité du délai"
+                                    label={t('Unité du délai')}
                                     htmlFor={'unit-' + suffix}
                                     error={errors['grace_unit']}
                                     optional
@@ -163,7 +166,7 @@ export function PenaltyRuleForm({
                                             setAutomatic(checked === true)
                                         }
                                     />
-                                    Application automatique
+                                    {t('Application automatique')}
                                 </Label>
                                 <input
                                     type="hidden"
@@ -177,7 +180,7 @@ export function PenaltyRuleForm({
                                             setActive(checked === true)
                                         }
                                     />
-                                    Règle active
+                                    {t('Règle active')}
                                 </Label>
                                 <input
                                     type="hidden"
@@ -188,12 +191,12 @@ export function PenaltyRuleForm({
                             <DialogFooter>
                                 <DialogClose asChild>
                                     <Button type="button" variant="outline">
-                                        Annuler
+                                        {t('Annuler')}
                                     </Button>
                                 </DialogClose>
                                 <Button type="submit" disabled={processing}>
                                     {processing ? <Spinner /> : <SaveIcon />}{' '}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

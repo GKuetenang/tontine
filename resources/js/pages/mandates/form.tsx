@@ -1,8 +1,3 @@
-import { Form } from '@inertiajs/react';
-import { format, parseISO } from 'date-fns';
-import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
-import { useState } from 'react';
 import { FormField } from '@/components/form-field';
 import { Button } from '@/components/ui/button';
 import { DateTimePicker } from '@/components/ui/datetime-picker';
@@ -18,8 +13,14 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
+import { useTranslation } from '@/hooks/use-translation';
 import mandates from '@/routes/groups/mandates';
 import type { Group } from '@/types';
+import { Form } from '@inertiajs/react';
+import { format, parseISO } from 'date-fns';
+import { SaveIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 import type { MandateItem } from './index';
 
 export function MandateForm({
@@ -31,6 +32,7 @@ export function MandateForm({
     mandate?: MandateItem;
     trigger: ReactElement;
 }) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const [startsAt, setStartsAt] = useState<Date | undefined>(
         mandate ? parseISO(mandate.starts_at) : undefined,
@@ -56,12 +58,13 @@ export function MandateForm({
                                         : 'Créer un mandat'}
                                 </DialogTitle>
                                 <DialogDescription>
-                                    Définissez une période de gouvernance
-                                    indépendante des sessions.
+                                    {t(
+                                        'Définissez une période de gouvernance indépendante des sessions.',
+                                    )}
                                 </DialogDescription>
                             </DialogHeader>
                             <FormField
-                                label="Nom"
+                                label={t('Nom')}
                                 htmlFor="name"
                                 error={errors.name}
                             >
@@ -74,7 +77,7 @@ export function MandateForm({
                             </FormField>
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <FormField
-                                    label="Début"
+                                    label={t('Début')}
                                     htmlFor="starts_at"
                                     error={errors.starts_at}
                                 >
@@ -88,14 +91,17 @@ export function MandateForm({
                                         }
                                     />
                                     <DateTimePicker
+                                        weekStartsOn={1}
                                         granularity="day"
                                         value={startsAt}
                                         onChange={setStartsAt}
-                                        placeholder="Choisir la date de début"
+                                        placeholder={t(
+                                            'Choisir la date de début',
+                                        )}
                                     />
                                 </FormField>
                                 <FormField
-                                    label="Fin"
+                                    label={t('Fin')}
                                     htmlFor="ends_at"
                                     error={errors.ends_at}
                                 >
@@ -109,20 +115,25 @@ export function MandateForm({
                                         }
                                     />
                                     <DateTimePicker
+                                        weekStartsOn={1}
                                         granularity="day"
                                         value={endsAt}
                                         onChange={setEndsAt}
-                                        placeholder="Choisir la date de fin"
+                                        placeholder={t(
+                                            'Choisir la date de fin',
+                                        )}
                                     />
                                 </FormField>
                             </div>
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button variant="outline">Annuler</Button>
+                                    <Button variant="outline">
+                                        {t('Annuler')}
+                                    </Button>
                                 </DialogClose>
                                 <Button type="submit" disabled={processing}>
                                     {processing ? <Spinner /> : <SaveIcon />}{' '}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

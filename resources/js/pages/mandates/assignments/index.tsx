@@ -15,6 +15,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { EditMembershipForm } from '@/pages/memberships/form';
 import groups from '@/routes/groups';
@@ -27,7 +28,7 @@ import type {
     ResultGroup,
 } from '@/types';
 import type { MandateMember } from './assignment-row';
-import { AssignmentRow } from './assignment-row';
+import AssignmentRow from './assignment-row';
 
 type Props = {
     group: ResultGroup;
@@ -47,6 +48,7 @@ export default withAppLayout<Props>(
             { title: mandate.name, href: '#' },
         ] as BreadcrumbItem[],
     ({ group, mandate, collection, roles, q, membership }) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
         const canUpdate =
             mandate.status !== 'closed' && can('mandates.roles.assign');
@@ -55,7 +57,7 @@ export default withAppLayout<Props>(
             <>
                 <Head title={`Responsabilités — ${mandate.name}`} />
                 <Heading
-                    title="Gérer les responsabilités"
+                    title={t('Gérer les responsabilités')}
                     description={`Attribuez les rôles du mandat « ${mandate.name} » aux membres de la réunion.`}
                 />
                 <Card className="bg-background pt-0">
@@ -69,7 +71,7 @@ export default withAppLayout<Props>(
                                     trigger={
                                         <Button type="button" className="w-fit">
                                             <PlusIcon />
-                                            Ajouter un membre
+                                            {t('Ajouter un membre')}
                                         </Button>
                                     }
                                 />
@@ -84,11 +86,11 @@ export default withAppLayout<Props>(
                                 <Input
                                     autoFocus
                                     defaultValue={q ?? ''}
-                                    placeholder="Rechercher un membre"
+                                    placeholder={t('Rechercher un membre')}
                                     name="q"
                                 />
                                 <Button variant="outline">
-                                    <SearchIcon /> Rechercher
+                                    <SearchIcon /> {t('Rechercher')}
                                 </Button>
                             </Form>
                         </div>
@@ -101,11 +103,13 @@ export default withAppLayout<Props>(
                                         field="name"
                                         className="pl-6"
                                     >
-                                        Membre
+                                        {t('Membre')}
                                     </SortableTableHead>
-                                    <TableHead>Rôle dans le mandat</TableHead>
+                                    <TableHead>
+                                        {t('Rôle dans le mandat')}
+                                    </TableHead>
                                     <TableHead className="pr-6 text-right">
-                                        Actions
+                                        {t('Actions')}
                                     </TableHead>
                                 </TableRow>
                             </TableHeader>

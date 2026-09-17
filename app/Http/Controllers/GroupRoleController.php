@@ -68,7 +68,7 @@ class GroupRoleController extends Controller
     {
         Gate::authorize(GroupPermission::UpdateRoles->value);
         abort_unless((int) $role->group_id === $group->id, 404);
-        abort_if($role->name === GroupRole::President->value, 403);
+        abort_if(in_array($role->name, [GroupRole::President->value, GroupRole::Administrator->value], true), 403);
         $action->execute($group, $request->string('name')->toString(), $request->validated('permissions', []), $role);
 
         return Inertia::flash('success', __('Rôle mis à jour avec succès.'))->back();
@@ -83,7 +83,7 @@ class GroupRoleController extends Controller
             'permissions' => $role->permissions->pluck('name')->values()->all(),
             'permissions_count' => $role->permissions->count(),
             'users_count' => $role->users_count,
-            'editable' => $role->name !== GroupRole::President->value,
+            'editable' => ! in_array($role->name, [GroupRole::President->value, GroupRole::Administrator->value], true),
         ];
     }
 

@@ -2,18 +2,22 @@ import { Link } from '@inertiajs/react';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import type { PaginatedCollection } from '@/types';
 
 type Props = { collection: PaginatedCollection<unknown>; className?: string };
 
 export function CollectionPagination({ collection, className }: Props) {
+    const { t } = useTranslation();
+
     return (
         <div className={cn('flex items-center justify-between', className)}>
             <div className="hidden flex-1 text-sm text-muted-foreground lg:flex">
-                Page {collection.current_page} sur {collection.last_page}
+                {t('Page')} {collection.current_page} {t('sur')}{' '}
+                {collection.last_page}
             </div>
-            <nav role="navigation" aria-label="Pagination">
+            <nav role="navigation" aria-label={t('Pagination')}>
                 <ul className="flex items-center gap-1">
                     {collection.links.map((link, index) => (
                         <li key={index}>

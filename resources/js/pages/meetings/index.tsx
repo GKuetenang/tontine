@@ -7,6 +7,7 @@ import {
     PlusIcon,
     RepeatIcon,
     SearchIcon,
+    Trash2Icon,
 } from 'lucide-react';
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
@@ -33,6 +34,7 @@ import {
 } from '@/components/ui/table';
 
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 
 import { formatDate } from '@/lib';
@@ -108,6 +110,7 @@ export default withAppLayout<Props>(
         meeting_monthly_patterns: monthlyPatterns,
         timezones,
     }: Props) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
         const recurrenceInterval = Number(
             schedule?.rrule.match(/INTERVAL=(\d+)/)?.[1] ?? 1,
@@ -130,10 +133,10 @@ export default withAppLayout<Props>(
 
         return (
             <>
-                <Head title="Assises" />
+                <Head title={t('Assises')} />
 
                 <Heading
-                    title="Assises"
+                    title={t('Assises')}
                     description={`Assises de la session ${session.name}`}
                 />
 
@@ -143,7 +146,7 @@ export default withAppLayout<Props>(
                             <div className="space-y-1.5">
                                 <CardTitle className="flex items-center gap-2 text-base">
                                     <CalendarRangeIcon className="size-5" />
-                                    Calendrier des assises
+                                    {t('Calendrier des assises')}
                                 </CardTitle>
                                 <CardDescription>
                                     {schedule
@@ -187,9 +190,9 @@ export default withAppLayout<Props>(
 
                         {schedule && (
                             <CardContent className="grid gap-4 border-t pt-5 sm:grid-cols-2 lg:grid-cols-4">
-                                <div>
+                                <div className="flex items-center gap-2">
                                     <p className="text-xs text-muted-foreground">
-                                        Récurrence
+                                        {t('Récurrence')}
                                     </p>
                                     <Badge variant="secondary" className="mt-1">
                                         <RepeatIcon />
@@ -200,10 +203,27 @@ export default withAppLayout<Props>(
                                             {monthlyPatternLabel}
                                         </p>
                                     )}
+                                    {(can('meetings.restore') ||
+                                        can('meetings.force-delete')) && (
+                                        <Button
+                                            asChild
+                                            variant="outline"
+                                            className="w-fit"
+                                        >
+                                            <Link
+                                                href={meetings.trash({
+                                                    group: group.slug!,
+                                                    session: session.slug,
+                                                })}
+                                            >
+                                                <Trash2Icon /> {t('Corbeille')}
+                                            </Link>
+                                        </Button>
+                                    )}
                                 </div>
                                 <div>
                                     <p className="text-xs text-muted-foreground">
-                                        Première assise
+                                        {t('Première assise')}
                                     </p>
                                     <p className="mt-1 font-medium">
                                         {formatDate(schedule.starts_at)}
@@ -211,7 +231,7 @@ export default withAppLayout<Props>(
                                 </div>
                                 <div>
                                     <p className="text-xs text-muted-foreground">
-                                        Lieu par défaut
+                                        {t('Lieu par défaut')}
                                     </p>
                                     <p className="mt-1 flex items-center gap-1.5 font-medium">
                                         <MapPinIcon className="size-4 text-muted-foreground" />
@@ -221,12 +241,12 @@ export default withAppLayout<Props>(
                                 </div>
                                 <div>
                                     <p className="text-xs text-muted-foreground">
-                                        Durée et fuseau
+                                        {t('Durée et fuseau')}
                                     </p>
                                     <p className="mt-1 flex items-center gap-1.5 font-medium">
                                         <ClockIcon className="size-4 text-muted-foreground" />
-                                        {schedule.default_duration_minutes} min
-                                        · {schedule.timezone}
+                                        {schedule.default_duration_minutes}{' '}
+                                        {t('min ·')} {schedule.timezone}
                                     </p>
                                 </div>
                             </CardContent>
@@ -248,7 +268,7 @@ export default withAppLayout<Props>(
                                                     className="w-fit"
                                                 >
                                                     <PlusIcon />
-                                                    Ajouter une assise
+                                                    {t('Ajouter une assise')}
                                                 </Button>
                                             }
                                         />
@@ -265,13 +285,13 @@ export default withAppLayout<Props>(
                                     <Input
                                         autoFocus
                                         defaultValue={q ?? ''}
-                                        placeholder="Rechercher une assise"
+                                        placeholder={t('Rechercher une assise')}
                                         name="q"
                                     />
 
                                     <Button variant="outline">
                                         <SearchIcon />
-                                        Rechercher
+                                        {t('Rechercher')}
                                     </Button>
                                 </Form>
                             </div>
@@ -282,30 +302,30 @@ export default withAppLayout<Props>(
                                 <TableHeader>
                                     <TableRow className="[&>th:first-child]:pl-6 [&>th:last-child]:pr-6">
                                         <SortableTableHead field="number">
-                                            N°
+                                            {t('N°')}
                                         </SortableTableHead>
 
                                         <SortableTableHead field="title">
-                                            Assise
+                                            {t('Assise')}
                                         </SortableTableHead>
 
                                         <SortableTableHead field="scheduled_at">
-                                            Date prévue
+                                            {t('Date prévue')}
                                         </SortableTableHead>
 
                                         <SortableTableHead field="location">
-                                            Lieu
+                                            {t('Lieu')}
                                         </SortableTableHead>
 
-                                        <TableHead>Durée</TableHead>
+                                        <TableHead>{t('Durée')}</TableHead>
 
                                         <SortableTableHead field="status">
-                                            Statut
+                                            {t('Statut')}
                                         </SortableTableHead>
 
-                                        <TableHead>Ouverture</TableHead>
+                                        <TableHead>{t('Ouverture')}</TableHead>
 
-                                        <TableHead>Clôture</TableHead>
+                                        <TableHead>{t('Clôture')}</TableHead>
 
                                         <TableHead className="text-end" />
                                     </TableRow>

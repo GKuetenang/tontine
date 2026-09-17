@@ -31,6 +31,7 @@ export type GroupPermission =
     | 'sessions.create'
     | 'sessions.update'
     | 'sessions.activate'
+    | 'sessions.prepare'
     | 'sessions.close'
     | 'sessions.delete'
     | 'sessions.restore'
@@ -54,6 +55,8 @@ export type GroupPermission =
     | 'meetings.close'
     | 'meetings.cancel'
     | 'meetings.delete'
+    | 'meetings.restore'
+    | 'meetings.force-delete'
     | 'meeting-agenda.view'
     | 'meeting-agenda.create'
     | 'meeting-agenda.update'
@@ -102,7 +105,13 @@ export type GroupPermission =
     | 'reports.view'
     | 'reports.export';
 export type GroupRole =
-    'president' | 'secretary' | 'treasurer' | 'member' | 'censor' | 'auditor';
+    | 'president'
+    | 'administrator'
+    | 'secretary'
+    | 'treasurer'
+    | 'member'
+    | 'censor'
+    | 'auditor';
 export type LoanStatus = 'pending' | 'active' | 'repaid' | 'cancelled';
 export type MandateStatus = 'draft' | 'active' | 'closed';
 export type MeetingMonthlyPattern = 'day_of_month' | 'weekday_ordinal';

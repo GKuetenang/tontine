@@ -133,6 +133,7 @@ export type Meeting = {
     payouts: undefined | Array<any>;
     created_at: undefined;
     updated_at: undefined;
+    deleted_at: undefined | null;
 };
 export type MeetingAgendaItem = {
     id: number;

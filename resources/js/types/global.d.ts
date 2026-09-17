@@ -1,5 +1,6 @@
 import type { Auth } from '@/types/auth';
 import type { Flash } from './flash';
+import { AcceptedLocales } from './locale';
 
 declare module 'react' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -17,6 +18,7 @@ declare module '@inertiajs/core' {
             [key: string]: unknown;
             flash: Flash;
             translations: Record<string, Record<string, string>>;
+            locale: AcceptedLocales;
         };
     }
 }

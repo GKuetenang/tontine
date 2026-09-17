@@ -12,6 +12,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatDate } from '@/lib';
 import { formatCurrency } from '@/lib/utils';
@@ -113,6 +114,7 @@ export default withAppLayout<Props>(
         ] as BreadcrumbItem[],
 
     ({ group, session, report }: Props) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
         const { meeting, summary } = report;
         const agendaItems = meeting.agenda_items ?? [];
@@ -139,7 +141,7 @@ export default withAppLayout<Props>(
                                 onClick={() => window.print()}
                             >
                                 <PrinterIcon className="size-4" />
-                                Exporter en PDF
+                                {t('Exporter en PDF')}
                             </Button>
                         )}
                     </div>
@@ -150,7 +152,8 @@ export default withAppLayout<Props>(
                         </p>
                         <div>
                             <h1 className="text-3xl font-bold">
-                                Rapport de l’assise #{meeting.number}
+                                {t('Rapport de l’assise #')}
+                                {meeting.number}
                             </h1>
                             <p className="mt-1 text-xl text-muted-foreground">
                                 {meeting.title}
@@ -161,7 +164,9 @@ export default withAppLayout<Props>(
                             {meeting.location && (
                                 <span>{meeting.location}</span>
                             )}
-                            <span>Statut : {meeting.status}</span>
+                            <span>
+                                {t('Statut :')} {meeting.status}
+                            </span>
                         </div>
                         {meeting.description && (
                             <p className="max-w-3xl text-sm">
@@ -174,7 +179,7 @@ export default withAppLayout<Props>(
                         <Card className="shadow-none">
                             <CardContent>
                                 <p className="text-sm text-muted-foreground">
-                                    Présents / retards
+                                    {t('Présents / retards')}
                                 </p>
                                 <p className="mt-1 text-2xl font-semibold">
                                     {summary.present_total + summary.late_total}
@@ -188,7 +193,7 @@ export default withAppLayout<Props>(
                         <Card className="shadow-none">
                             <CardContent>
                                 <p className="text-sm text-muted-foreground">
-                                    Cotisations encaissées
+                                    {t('Cotisations encaissées')}
                                 </p>
                                 <p className="mt-1 text-xl font-semibold">
                                     {formatCurrency(summary.contributions_paid)}
@@ -198,7 +203,7 @@ export default withAppLayout<Props>(
                         <Card className="shadow-none">
                             <CardContent>
                                 <p className="text-sm text-muted-foreground">
-                                    Cotisations restantes
+                                    {t('Cotisations restantes')}
                                 </p>
                                 <p className="mt-1 text-xl font-semibold">
                                     {formatCurrency(
@@ -210,7 +215,7 @@ export default withAppLayout<Props>(
                         <Card className="shadow-none">
                             <CardContent>
                                 <p className="text-sm text-muted-foreground">
-                                    Versements payés
+                                    {t('Versements payés')}
                                 </p>
                                 <p className="mt-1 text-xl font-semibold">
                                     {formatCurrency(summary.payouts_paid)}
@@ -220,12 +225,12 @@ export default withAppLayout<Props>(
                     </section>
 
                     <ReportSection
-                        title="Ordre du jour"
+                        title={t('Ordre du jour')}
                         count={agendaItems.length}
                     >
                         {agendaItems.length === 0 ? (
                             <p className="text-sm text-muted-foreground">
-                                Aucun point à l’ordre du jour.
+                                {t('Aucun point à l’ordre du jour.')}
                             </p>
                         ) : (
                             <div className="space-y-4">
@@ -248,14 +253,17 @@ export default withAppLayout<Props>(
                         )}
                     </ReportSection>
 
-                    <ReportSection title="Présences" count={attendances.length}>
+                    <ReportSection
+                        title={t('Présences')}
+                        count={attendances.length}
+                    >
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Membre</TableHead>
-                                    <TableHead>Statut</TableHead>
-                                    <TableHead>Arrivée</TableHead>
-                                    <TableHead>Note</TableHead>
+                                    <TableHead>{t('Membre')}</TableHead>
+                                    <TableHead>{t('Statut')}</TableHead>
+                                    <TableHead>{t('Arrivée')}</TableHead>
+                                    <TableHead>{t('Note')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -286,17 +294,17 @@ export default withAppLayout<Props>(
                     </ReportSection>
 
                     <ReportSection
-                        title="Cotisations"
+                        title={t('Cotisations')}
                         count={contributions.length}
                     >
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Membre</TableHead>
-                                    <TableHead>Dû</TableHead>
-                                    <TableHead>Payé</TableHead>
-                                    <TableHead>Restant</TableHead>
-                                    <TableHead>Statut</TableHead>
+                                    <TableHead>{t('Membre')}</TableHead>
+                                    <TableHead>{t('Dû')}</TableHead>
+                                    <TableHead>{t('Payé')}</TableHead>
+                                    <TableHead>{t('Restant')}</TableHead>
+                                    <TableHead>{t('Statut')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -333,15 +341,18 @@ export default withAppLayout<Props>(
                         </Table>
                     </ReportSection>
 
-                    <ReportSection title="Versements" count={payouts.length}>
+                    <ReportSection
+                        title={t('Versements')}
+                        count={payouts.length}
+                    >
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Bénéficiaire</TableHead>
-                                    <TableHead>Position</TableHead>
-                                    <TableHead>Montant</TableHead>
-                                    <TableHead>Statut</TableHead>
-                                    <TableHead>Payé le</TableHead>
+                                    <TableHead>{t('Bénéficiaire')}</TableHead>
+                                    <TableHead>{t('Position')}</TableHead>
+                                    <TableHead>{t('Montant')}</TableHead>
+                                    <TableHead>{t('Statut')}</TableHead>
+                                    <TableHead>{t('Payé le')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -373,10 +384,10 @@ export default withAppLayout<Props>(
                         </Table>
                     </ReportSection>
 
-                    <ReportSection title="Notes" count={notes.length}>
+                    <ReportSection title={t('Notes')} count={notes.length}>
                         {notes.length === 0 ? (
                             <p className="text-sm text-muted-foreground">
-                                Aucune note.
+                                {t('Aucune note.')}
                             </p>
                         ) : (
                             <div className="space-y-5">
@@ -404,10 +415,13 @@ export default withAppLayout<Props>(
                         )}
                     </ReportSection>
 
-                    <ReportSection title="Décisions" count={decisions.length}>
+                    <ReportSection
+                        title={t('Décisions')}
+                        count={decisions.length}
+                    >
                         {decisions.length === 0 ? (
                             <p className="text-sm text-muted-foreground">
-                                Aucune décision.
+                                {t('Aucune décision.')}
                             </p>
                         ) : (
                             <div className="space-y-5">
@@ -445,7 +459,8 @@ export default withAppLayout<Props>(
                     </ReportSection>
 
                     <footer className="border-t pt-4 text-xs text-muted-foreground">
-                        Rapport généré le {formatDate(new Date().toISOString())}
+                        {t('Rapport généré le')}{' '}
+                        {formatDate(new Date().toISOString())}
                     </footer>
                 </div>
             </>

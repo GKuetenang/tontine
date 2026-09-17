@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { useAuthorization } from '@/hooks/use-authorization';
 
+import { useTranslation } from '@/hooks/use-translation';
 import type { Meeting, Session, Group } from '@/types';
 
 import { MeetingDecisionItem } from './decision-item';
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export function MeetingDecisions({ group, session, meeting }: Props) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
 
     if (meeting.status === 'scheduled') {
@@ -35,10 +37,10 @@ export function MeetingDecisions({ group, session, meeting }: Props) {
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                    <CardTitle>Décisions</CardTitle>
+                    <CardTitle>{t('Décisions')}</CardTitle>
 
                     <p className="mt-1 text-sm text-muted-foreground">
-                        {decisions.length} décision
+                        {decisions.length} {t('décision')}
                         {decisions.length > 1 ? 's' : ''}
                     </p>
                 </div>
@@ -51,7 +53,7 @@ export function MeetingDecisions({ group, session, meeting }: Props) {
                         trigger={
                             <Button type="button" size="sm">
                                 <PlusIcon className="size-4" />
-                                Ajouter une décision
+                                {t('Ajouter une décision')}
                             </Button>
                         }
                     />
@@ -66,11 +68,14 @@ export function MeetingDecisions({ group, session, meeting }: Props) {
                         </div>
 
                         <div className="space-y-1">
-                            <p className="font-medium">Aucune décision</p>
+                            <p className="font-medium">
+                                {t('Aucune décision')}
+                            </p>
 
                             <p className="text-sm text-muted-foreground">
-                                Les décisions prises pendant l’assise
-                                apparaîtront ici.
+                                {t(
+                                    'Les décisions prises pendant l’assise apparaîtront ici.',
+                                )}
                             </p>
                         </div>
                     </div>

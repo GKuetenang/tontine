@@ -15,6 +15,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTranslation } from '@/hooks/use-translation';
 import { DayPicker, DayPickerProps } from 'react-day-picker';
 
 // ---------- utils start ----------
@@ -378,6 +379,7 @@ interface PeriodSelectorProps {
 
 const TimePeriodSelect = React.forwardRef<HTMLButtonElement, PeriodSelectorProps>(
     ({ period, setPeriod, date, onDateChange, onLeftFocus, onRightFocus }, ref) => {
+        const { t } = useTranslation();
         const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
             if (e.key === 'ArrowRight') onRightFocus?.();
             if (e.key === 'ArrowLeft') onLeftFocus?.();
@@ -410,8 +412,8 @@ const TimePeriodSelect = React.forwardRef<HTMLButtonElement, PeriodSelectorProps
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="AM">AM</SelectItem>
-                        <SelectItem value="PM">PM</SelectItem>
+                        <SelectItem value="AM">{t("AM")}</SelectItem>
+                        <SelectItem value="PM">{t("PM")}</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
@@ -774,7 +776,7 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
                     <Button
                         variant="outline"
                         className={cn(
-                            'w-full justify-start text-left font-normal',
+                            'w-full justify-start text-left font-normal text-foreground',
                             !displayDate && 'text-muted-foreground',
                             className,
                         )}

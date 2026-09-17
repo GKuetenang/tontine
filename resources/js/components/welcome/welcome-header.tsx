@@ -1,11 +1,14 @@
 import { Link } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from '@/hooks/use-translation';
 import { dashboard, login } from '@/routes';
 import AppLogo from '../app-logo';
 
 type Props = { authenticated: boolean };
 
 export function WelcomeHeader({ authenticated }: Props) {
+    const { t } = useTranslation();
+
     return (
         <header className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur-xl">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -22,12 +25,14 @@ export function WelcomeHeader({ authenticated }: Props) {
                 <nav className="flex items-center gap-2">
                     {authenticated ? (
                         <Button asChild>
-                            <Link href={dashboard()}>Tableau de bord</Link>
+                            <Link href={dashboard()}>
+                                {t('Tableau de bord')}
+                            </Link>
                         </Button>
                     ) : (
                         <>
                             <Button asChild>
-                                <Link href={login()}>Se connecter</Link>
+                                <Link href={login()}>{t('Se connecter')}</Link>
                             </Button>
                             {/* <Button asChild>
                                 <Link href={register()}>Créer un compte</Link>

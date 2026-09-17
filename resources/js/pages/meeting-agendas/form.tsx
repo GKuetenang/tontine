@@ -17,6 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 
+import { useTranslation } from '@/hooks/use-translation';
 import agenda from '@/routes/groups/sessions/meetings/agenda';
 
 import type { Meeting, MeetingAgendaItem, Session, Group } from '@/types';
@@ -36,6 +37,7 @@ export function EditAgendaItemForm({
     meeting,
     agendaItem,
 }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
 
     const isEditing = Boolean(agendaItem?.id);
@@ -87,12 +89,14 @@ export function EditAgendaItemForm({
                                 </DialogTitle>
 
                                 <DialogDescription>
-                                    Préparer l’ordre du jour de cette assise.
+                                    {t(
+                                        'Préparer l’ordre du jour de cette assise.',
+                                    )}
                                 </DialogDescription>
                             </DialogHeader>
 
                             <FormField
-                                label="Titre"
+                                label={t('Titre')}
                                 htmlFor="title"
                                 error={errors.title}
                                 required
@@ -105,7 +109,7 @@ export function EditAgendaItemForm({
                             </FormField>
 
                             <FormField
-                                label="Description"
+                                label={t('Description')}
                                 htmlFor="description"
                                 error={errors.description}
                                 optional
@@ -121,13 +125,13 @@ export function EditAgendaItemForm({
                             <DialogFooter>
                                 <DialogClose asChild>
                                     <Button type="button" variant="outline">
-                                        Annuler
+                                        {t('Annuler')}
                                     </Button>
                                 </DialogClose>
 
                                 <Button type="submit" disabled={processing}>
                                     {processing ? <Spinner /> : <SaveIcon />}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>

@@ -17,6 +17,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useAuthorization } from '@/hooks/use-authorization';
+import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import groups from '@/routes/groups';
 import memberships from '@/routes/groups/memberships';
@@ -51,12 +52,13 @@ type Props = {
 export default withAppLayout(
     breadcrumbs,
     ({ collection, q, group, membership, statuses }: Props) => {
+        const { t } = useTranslation();
         const { can } = useAuthorization();
 
         return (
             <>
-                <Head title="Tous les membres" />
-                <Heading title="Tous les membres" />
+                <Head title={t('Tous les membres')} />
+                <Heading title={t('Tous les membres')} />
                 <Card className="bg-background pt-0">
                     <CardHeader className="border-b py-4">
                         <div className="flex items-center justify-between">
@@ -72,7 +74,7 @@ export default withAppLayout(
                                                 className="w-fit"
                                             >
                                                 <PlusIcon />
-                                                Ajouter un membre
+                                                {t('Ajouter un membre')}
                                             </Button>
                                         }
                                     />
@@ -87,12 +89,12 @@ export default withAppLayout(
                                 <Input
                                     autoFocus
                                     defaultValue={q ?? ''}
-                                    placeholder="Rechercher un membre"
+                                    placeholder={t('Rechercher un membre')}
                                     name="q"
                                 />
                                 <Button variant="outline">
                                     <SearchIcon />
-                                    Rechercher
+                                    {t('Rechercher')}
                                 </Button>
                             </Form>
                         </div>
@@ -102,12 +104,12 @@ export default withAppLayout(
                             <TableHeader>
                                 <TableRow className="[&>th:first-child]:pl-6 [&>th:last-child]:pr-6">
                                     <SortableTableHead field="member_number">
-                                        Numéro
+                                        {t('Numéro')}
                                     </SortableTableHead>
-                                    <TableHead>Nom</TableHead>
-                                    <TableHead>Email</TableHead>
-                                    <TableHead>Role</TableHead>
-                                    <TableHead>Statut</TableHead>
+                                    <TableHead>{t('Nom')}</TableHead>
+                                    <TableHead>{t('Email')}</TableHead>
+                                    <TableHead>{t('Role')}</TableHead>
+                                    <TableHead>{t('Statut')}</TableHead>
                                     <TableHead className="text-end"></TableHead>
                                 </TableRow>
                             </TableHeader>

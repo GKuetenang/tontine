@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { UserCombobox } from '@/components/user-combobox';
+import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import donations from '@/routes/groups/sessions/donations';
 import type { MemberUser, Session, Group } from '@/types';
@@ -25,6 +26,7 @@ import type { MemberUser, Session, Group } from '@/types';
 type Props = { trigger: ReactElement; group: Group; session: Session };
 
 export function CreateDonationForm({ trigger, group, session }: Props) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<MemberUser | null>(null);
 
@@ -58,15 +60,16 @@ export function CreateDonationForm({ trigger, group, session }: Props) {
                     {({ errors, processing }) => (
                         <div className="space-y-4">
                             <DialogHeader>
-                                <DialogTitle>Ajouter un don</DialogTitle>
+                                <DialogTitle>{t('Ajouter un don')}</DialogTitle>
                                 <DialogDescription>
-                                    Sélectionnez un participant actif de la
-                                    session.
+                                    {t(
+                                        'Sélectionnez un participant actif de la session.',
+                                    )}
                                 </DialogDescription>
                             </DialogHeader>
                             <FormField
                                 error={errors.membership_id}
-                                label="Bénéficiaire"
+                                label={t('Bénéficiaire')}
                                 htmlFor="membership_id"
                                 required
                             >
@@ -96,7 +99,7 @@ export function CreateDonationForm({ trigger, group, session }: Props) {
                             </FormField>
                             <FormField
                                 error={errors.amount}
-                                label="Montant"
+                                label={t('Montant')}
                                 htmlFor="amount"
                                 required
                             >
@@ -109,7 +112,7 @@ export function CreateDonationForm({ trigger, group, session }: Props) {
                             </FormField>
                             <FormField
                                 error={errors.reason}
-                                label="Motif"
+                                label={t('Motif')}
                                 htmlFor="reason"
                                 required
                             >
@@ -117,14 +120,16 @@ export function CreateDonationForm({ trigger, group, session }: Props) {
                             </FormField>
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button variant="outline">Annuler</Button>
+                                    <Button variant="outline">
+                                        {t('Annuler')}
+                                    </Button>
                                 </DialogClose>
                                 <Button
                                     type="submit"
                                     disabled={processing || !selectedUser}
                                 >
                                     {processing ? <Spinner /> : <SaveIcon />}
-                                    Enregistrer
+                                    {t('Enregistrer')}
                                 </Button>
                             </DialogFooter>
                         </div>
