@@ -1,5 +1,6 @@
 import { Form, Head } from '@inertiajs/react';
 import { PlusIcon, SearchIcon, ShieldOffIcon } from 'lucide-react';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import type { SelectOption } from '@/components/select-with-items';
@@ -30,6 +31,7 @@ import type {
     Penalty,
     Session,
 } from '@/types';
+
 import { PenaltyForm } from './form';
 import { WaivePenaltyForm } from './waive-form';
 

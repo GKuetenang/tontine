@@ -8,11 +8,10 @@ import {
     NotebookPenIcon,
     UsersIcon,
 } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
-
 import { MeetingAgenda } from '@/pages/meeting-agendas/show';
 import { MeetingAttendances } from '@/pages/meeting-attendances/show';
 import { MeetingContributions } from '@/pages/meeting-contributions/show';
@@ -30,6 +29,7 @@ import type {
     Session,
     Group,
 } from '@/types';
+
 import { MeetingOverview } from './components/overview';
 
 type Props = {

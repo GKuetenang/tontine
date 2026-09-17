@@ -27,6 +27,7 @@ import type {
     PaginatedCollection,
     PenaltyRule,
 } from '@/types';
+
 import { PenaltyRuleForm } from './form';
 
 type Props = {

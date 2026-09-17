@@ -1,7 +1,7 @@
 import { Form } from '@inertiajs/react';
 import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
 import { useState } from 'react';
+
 import { FormField } from '@/components/form-field';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -21,6 +21,8 @@ import { Spinner } from '@/components/ui/spinner';
 import { useTranslation } from '@/hooks/use-translation';
 import roles from '@/routes/groups/roles';
 import type { Group } from '@/types';
+
+import type { ReactElement } from 'react';
 
 export type RoleItem = {
     id: number;

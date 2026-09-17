@@ -8,6 +8,7 @@ import {
     TrashIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
+
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -16,12 +17,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
 import { useAuthorization } from '@/hooks/use-authorization';
-
 import { useTranslation } from '@/hooks/use-translation';
 import meetings from '@/routes/groups/sessions/meetings';
-
 import type { Meeting, Session, Group } from '@/types';
 
 import { EditMeetingForm } from './form';

@@ -2,6 +2,7 @@ import { Form, Head } from '@inertiajs/react';
 import { format } from 'date-fns';
 import { CalendarIcon, ListFilterIcon } from 'lucide-react';
 import { useState } from 'react';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import type { SelectOption } from '@/components/select-with-items';

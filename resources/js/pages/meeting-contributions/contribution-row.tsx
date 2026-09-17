@@ -1,11 +1,10 @@
 import { BanknoteIcon } from 'lucide-react';
+
 import { ContributionStatusBadge } from '@/components/contribution-status-badge';
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
-
 import { useTranslation } from '@/hooks/use-translation';
 import { formatCurrency } from '@/lib/utils';
-
 import type { Contribution, Meeting, Session, Group } from '@/types';
 
 import { RecordContributionPaymentForm } from './form';

@@ -1,5 +1,6 @@
 import { Form, Head } from '@inertiajs/react';
 import { PlusIcon, SearchIcon } from 'lucide-react';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SortableTableHead } from '@/components/sortable-table-head';
@@ -28,6 +29,7 @@ import type {
     Session,
     Group,
 } from '@/types';
+
 import { CreateInsuranceContributionForm } from './form';
 
 type Props = {

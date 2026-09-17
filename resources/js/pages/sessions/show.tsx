@@ -1,18 +1,17 @@
-import type { InertiaLinkProps } from '@inertiajs/react';
 import { Head, Link } from '@inertiajs/react';
 import { CalendarDays, Coins, Shuffle, Users } from 'lucide-react';
+
 import { InformationRow } from '@/components/groups/information-row';
 import { OverviewCard } from '@/components/groups/overview-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
 import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
 import { formatCurrency } from '@/lib/utils';
-
 import groups from '@/routes/groups';
-
 import type { BreadcrumbItem, Session, Group } from '@/types';
+
+import type { InertiaLinkProps } from '@inertiajs/react';
 
 type Props = {
     group: Group;

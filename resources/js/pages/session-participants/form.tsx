@@ -1,6 +1,5 @@
 import { Form } from '@inertiajs/react';
 import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
 import { useState } from 'react';
 
 import { FormField } from '@/components/form-field';
@@ -27,6 +26,8 @@ import type {
     Session,
     SessionParticipant,
 } from '@/types';
+
+import type { ReactElement } from 'react';
 
 type Props = {
     trigger: ReactElement;

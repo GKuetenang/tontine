@@ -4,8 +4,8 @@ import {
     CircleDollarSignIcon,
     CoinsIcon,
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Table,
     TableBody,
@@ -13,11 +13,9 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-
 import { useAuthorization } from '@/hooks/use-authorization';
 import { useTranslation } from '@/hooks/use-translation';
 import { formatCurrency } from '@/lib/utils';
-
 import type { Meeting, Session, Group } from '@/types';
 
 import { ContributionRow } from './contribution-row';

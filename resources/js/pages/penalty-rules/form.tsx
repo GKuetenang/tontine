@@ -1,7 +1,7 @@
 import { Form } from '@inertiajs/react';
 import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
 import { useState } from 'react';
+
 import { FormField } from '@/components/form-field';
 import type { SelectOption } from '@/components/select-with-items';
 import { SelectWithItems } from '@/components/select-with-items';
@@ -23,6 +23,8 @@ import { Spinner } from '@/components/ui/spinner';
 import { useTranslation } from '@/hooks/use-translation';
 import penaltyRules from '@/routes/groups/penalty-rules';
 import type { PenaltyRule, Group } from '@/types';
+
+import type { ReactElement } from 'react';
 
 type Props = {
     group: Group;

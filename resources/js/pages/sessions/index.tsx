@@ -1,5 +1,6 @@
 import { Form, Head, Link } from '@inertiajs/react';
 import { PlusIcon, SearchIcon, Trash2Icon } from 'lucide-react';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import type { SelectOption } from '@/components/select-with-items';
@@ -24,6 +25,7 @@ import { formatCurrency } from '@/lib/utils';
 import groups from '@/routes/groups';
 import sessions from '@/routes/groups/sessions';
 import type { BreadcrumbItem, PaginatedCollection, Session } from '@/types';
+
 import { Actions } from './actions';
 import { EditSessionForm } from './form';
 

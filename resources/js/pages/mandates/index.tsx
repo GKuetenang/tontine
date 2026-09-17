@@ -5,6 +5,7 @@ import {
     PlusIcon,
     Settings2Icon,
 } from 'lucide-react';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SortableTableHead } from '@/components/sortable-table-head';
@@ -25,6 +26,7 @@ import { withAppLayout } from '@/layouts/app-layout';
 import groups from '@/routes/groups';
 import mandates from '@/routes/groups/mandates';
 import type { BreadcrumbItem, Group, PaginatedCollection } from '@/types';
+
 import { MandateForm } from './form';
 
 export type MandateItem = {

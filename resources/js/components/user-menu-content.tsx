@@ -1,5 +1,6 @@
 import { Link, router } from '@inertiajs/react';
 import { CircleUserRoundIcon, LogOut, Settings } from 'lucide-react';
+
 import {
     DropdownMenuGroup,
     DropdownMenuItem,

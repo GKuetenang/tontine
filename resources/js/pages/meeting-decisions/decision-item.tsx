@@ -1,24 +1,19 @@
 import { Link } from '@inertiajs/react';
 import { PencilIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
+
 import { RichTextContent } from '@/components/rich-text-content';
-
 import { Button } from '@/components/ui/button';
-
 import {
     Card,
     CardAction,
     CardContent,
     CardHeader,
 } from '@/components/ui/card';
-
 import { useAuthorization } from '@/hooks/use-authorization';
-
 import { useTranslation } from '@/hooks/use-translation';
 import { formatDate } from '@/lib';
-
 import decisions from '@/routes/groups/sessions/meetings/decisions';
-
 import type { Meeting, MeetingDecision, Session, Group } from '@/types';
 
 import { EditMeetingDecisionForm } from './form';

@@ -1,5 +1,6 @@
 import { Form, Head } from '@inertiajs/react';
 import { PlusIcon, SearchIcon, Settings2Icon } from 'lucide-react';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SortableTableHead } from '@/components/sortable-table-head';
@@ -21,8 +22,10 @@ import { withAppLayout } from '@/layouts/app-layout';
 import groups from '@/routes/groups';
 import roles from '@/routes/groups/roles';
 import type { BreadcrumbItem, PaginatedCollection, Group } from '@/types';
-import type { PermissionOption, RoleItem } from './form';
+
 import { RoleForm } from './form';
+
+import type { PermissionOption, RoleItem } from './form';
 
 type Props = {
     group: Group;

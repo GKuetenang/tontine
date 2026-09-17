@@ -7,22 +7,17 @@ import {
     TrashIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
+
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-
 import { Button } from '@/components/ui/button';
-
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-
 import { useAuthorization } from '@/hooks/use-authorization';
-
 import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
-
 import groups from '@/routes/groups';
 import sessions from '@/routes/groups/sessions';
 import drawRoutes from '@/routes/groups/sessions/draw';
 import sessionParticipants from '@/routes/groups/sessions/participants';
-
 import type { Draw, ResultGroup, Session } from '@/types';
 
 import { DrawEntriesTable } from './draw-entries-table';

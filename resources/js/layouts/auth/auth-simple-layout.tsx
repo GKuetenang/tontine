@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+
 import AppLogoIcon from '@/components/app-logo-icon';
 import { useTranslation } from '@/hooks/use-translation';
 import { home } from '@/routes';

@@ -1,10 +1,8 @@
 import { NotebookPenIcon, PlusIcon } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
 import { useAuthorization } from '@/hooks/use-authorization';
-
 import { useTranslation } from '@/hooks/use-translation';
 import type { Meeting, Session, Group } from '@/types';
 

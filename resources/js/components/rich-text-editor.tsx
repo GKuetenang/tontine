@@ -1,11 +1,8 @@
 import FileHandler from '@tiptap/extension-file-handler';
 import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
-
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react';
-
 import StarterKit from '@tiptap/starter-kit';
-
 import {
     BoldIcon,
     Heading1Icon,
@@ -20,9 +17,9 @@ import {
     UnderlineIcon,
     Undo2Icon,
 } from 'lucide-react';
-
 import { useState } from 'react';
 import { toast } from 'sonner';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {

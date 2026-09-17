@@ -1,7 +1,7 @@
 import { Form } from '@inertiajs/react';
 import { CircleDollarSign } from 'lucide-react';
-import type { ReactElement } from 'react';
 import { useState } from 'react';
+
 import { FormField } from '@/components/form-field';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,6 +20,8 @@ import { useTranslation } from '@/hooks/use-translation';
 import { formatCurrency } from '@/lib/utils';
 import loans from '@/routes/groups/sessions/loans';
 import type { Loan, Session, Group } from '@/types';
+
+import type { ReactElement } from 'react';
 
 export function CreateRepaymentForm({
     trigger,

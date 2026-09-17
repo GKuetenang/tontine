@@ -1,11 +1,10 @@
 import { Form } from '@inertiajs/react';
 import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
 import { useState } from 'react';
+
 import { FormField } from '@/components/form-field';
 import { RichTextEditor } from '@/components/rich-text-editor';
 import { SelectWithItems } from '@/components/select-with-items';
-
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -17,14 +16,13 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
-
 import { useTranslation } from '@/hooks/use-translation';
 import decisions from '@/routes/groups/sessions/meetings/decisions';
-
 import type { Meeting, MeetingDecision, Session, Group } from '@/types';
+
+import type { ReactElement } from 'react';
 
 type Props = {
     trigger: ReactElement;

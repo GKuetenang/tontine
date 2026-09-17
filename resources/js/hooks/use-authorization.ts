@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/react';
+
 import type { GroupPermission, GroupRole } from '@/types';
 
 export function useAuthorization() {

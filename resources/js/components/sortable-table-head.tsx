@@ -1,8 +1,10 @@
 import { router, usePage } from '@inertiajs/react';
 import { ArrowDownIcon, ArrowUpDownIcon, ArrowUpIcon } from 'lucide-react';
-import type { ComponentProps } from 'react';
+
 import { TableHead } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
+
+import type { ComponentProps } from 'react';
 
 type Props = ComponentProps<typeof TableHead> & {
     field: string;

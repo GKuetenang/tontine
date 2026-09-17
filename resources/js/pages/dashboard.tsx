@@ -8,6 +8,7 @@ import {
     ReceiptTextIcon,
     UsersIcon,
 } from 'lucide-react';
+
 import DashboardCard from '@/components/dashboard-card';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';

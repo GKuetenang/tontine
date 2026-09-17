@@ -1,4 +1,5 @@
 import { ClipboardListIcon } from 'lucide-react';
+
 import { useTranslation } from '@/hooks/use-translation';
 
 export function EmptyAgenda() {

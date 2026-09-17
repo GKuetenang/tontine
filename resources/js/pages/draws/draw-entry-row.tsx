@@ -1,10 +1,9 @@
 import { useDraggable, useDroppable } from '@dnd-kit/core';
 import { GripVerticalIcon } from 'lucide-react';
-import { TableCell, TableRow } from '@/components/ui/table';
 
+import { TableCell, TableRow } from '@/components/ui/table';
 import { useTranslation } from '@/hooks/use-translation';
 import { formatDate } from '@/lib';
-
 import type { Draw } from '@/types';
 
 type DrawEntry = NonNullable<Draw['entries']>[number];

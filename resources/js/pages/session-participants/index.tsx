@@ -2,6 +2,7 @@ import { Form, Head } from '@inertiajs/react';
 import { format, isValid, parseISO } from 'date-fns';
 import { frCA } from 'date-fns/locale';
 import { PlusIcon, SearchIcon } from 'lucide-react';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SessionParticipantStatusBadge } from '@/components/session-participant-status-badge';
@@ -31,6 +32,7 @@ import type {
     Session,
     SessionParticipant,
 } from '@/types';
+
 import { Actions } from './actions';
 import { EditSessionParticipantForm } from './form';
 

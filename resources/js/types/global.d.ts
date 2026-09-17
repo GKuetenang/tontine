@@ -1,4 +1,5 @@
 import type { Auth } from '@/types/auth';
+
 import type { Flash } from './flash';
 import type { AcceptedLocales } from './locale';
 

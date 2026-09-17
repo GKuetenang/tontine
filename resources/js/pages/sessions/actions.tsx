@@ -8,6 +8,7 @@ import {
     TrashIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
+
 import type { SelectOption } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,6 +21,7 @@ import { useAuthorization } from '@/hooks/use-authorization';
 import { useTranslation } from '@/hooks/use-translation';
 import sessions from '@/routes/groups/sessions';
 import type { ResultGroup, Session } from '@/types';
+
 import { EditSessionForm } from './form';
 
 type Props = {

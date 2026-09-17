@@ -1,7 +1,6 @@
 import { Form } from '@inertiajs/react';
 import { format } from 'date-fns';
 import { CalendarRangeIcon, SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
 import { useMemo, useState } from 'react';
 import { rrulestr } from 'rrule';
 
@@ -26,8 +25,9 @@ import { Spinner } from '@/components/ui/spinner';
 import { useTranslation } from '@/hooks/use-translation';
 import { parseDate } from '@/lib';
 import meetingSchedule from '@/routes/groups/sessions/meeting-schedule';
-
 import type { Group, MeetingSchedule, Session } from '@/types';
+
+import type { ReactElement } from 'react';
 
 type Props = {
     trigger: ReactElement;

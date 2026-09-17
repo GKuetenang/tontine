@@ -1,10 +1,12 @@
 import { Link } from '@inertiajs/react';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-import type { ReactNode } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import type { PaginatedCollection } from '@/types';
+
+import type { ReactNode } from 'react';
 
 type Props = { collection: PaginatedCollection<unknown>; className?: string };
 

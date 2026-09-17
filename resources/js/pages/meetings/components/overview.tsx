@@ -4,12 +4,14 @@ import {
     MapPinIcon,
     UsersIcon,
 } from 'lucide-react';
+
 import { InformationRow } from '@/components/groups/information-row';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
 import { formatDate } from '@/lib';
 import { getMeetingStatusLabel } from '@/lib/utils';
 import type { Meeting } from '@/types';
+
 import { SummaryCard } from './summary-card';
 
 export function MeetingOverview({ meeting }: { meeting: Meeting }) {

@@ -1,5 +1,6 @@
 import { Form, Head } from '@inertiajs/react';
 import { PlusIcon, SearchIcon } from 'lucide-react';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import type { SelectOption } from '@/components/select-with-items';
@@ -27,8 +28,10 @@ import type {
     PaginatedCollection,
     ResultGroup,
 } from '@/types';
-import type { MandateMember } from './assignment-row';
+
 import AssignmentRow from './assignment-row';
+
+import type { MandateMember } from './assignment-row';
 
 type Props = {
     group: ResultGroup;

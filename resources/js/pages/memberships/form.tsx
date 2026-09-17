@@ -1,7 +1,7 @@
 import { Form } from '@inertiajs/react';
 import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
 import { useState } from 'react';
+
 import { FormField } from '@/components/form-field';
 import type { SelectOption } from '@/components/select-with-items';
 import { SelectWithItems } from '@/components/select-with-items';
@@ -22,6 +22,8 @@ import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import memberships from '@/routes/groups/memberships';
 import type { Membership, MemberUser, ResultGroup } from '@/types';
+
+import type { ReactElement } from 'react';
 
 type Props = {
     trigger: ReactElement;

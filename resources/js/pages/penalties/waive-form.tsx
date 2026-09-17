@@ -1,6 +1,6 @@
 import { Form } from '@inertiajs/react';
-import type { ReactElement } from 'react';
 import { useState } from 'react';
+
 import { FormField } from '@/components/form-field';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,6 +17,8 @@ import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { useTranslation } from '@/hooks/use-translation';
 import penalties from '@/routes/groups/sessions/penalties';
+
+import type { ReactElement } from 'react';
 
 export function WaivePenaltyForm({
     trigger,

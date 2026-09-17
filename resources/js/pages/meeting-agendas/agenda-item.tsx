@@ -1,10 +1,12 @@
 import { Link } from '@inertiajs/react';
 import { PencilIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
+
 import { Button } from '@/components/ui/button';
 import { useAuthorization } from '@/hooks/use-authorization';
 import agenda from '@/routes/groups/sessions/meetings/agenda';
 import type { Meeting, MeetingAgendaItem, Session, Group } from '@/types';
+
 import { EditAgendaItemForm } from './form';
 
 export function AgendaItem({

@@ -1,7 +1,7 @@
 import { Form } from '@inertiajs/react';
 import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
 import { useState } from 'react';
+
 import { FormField } from '@/components/form-field';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +22,8 @@ import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import loans from '@/routes/groups/sessions/loans';
 import type { MemberUser, Session, Group } from '@/types';
+
+import type { ReactElement } from 'react';
 
 export function CreateLoanForm({
     trigger,

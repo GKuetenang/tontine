@@ -1,4 +1,5 @@
 import { Head } from '@inertiajs/react';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';

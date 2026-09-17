@@ -5,8 +5,8 @@ import {
     UserRoundCheckIcon,
     UserRoundXIcon,
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 
+import { Badge } from '@/components/ui/badge';
 import type { AttendanceStatus } from '@/types';
 
 const attendanceStatusConfig = {

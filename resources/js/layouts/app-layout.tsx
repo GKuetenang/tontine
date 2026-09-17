@@ -1,6 +1,4 @@
-import type { PageProps } from '@inertiajs/core';
 import { router, usePage } from '@inertiajs/react';
-import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -8,6 +6,9 @@ import { Toaster } from '@/components/ui/sonner';
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import type { BreadcrumbItem } from '@/types';
 import type { Flash } from '@/types/flash';
+
+import type { PageProps } from '@inertiajs/core';
+import type { FC, ReactNode } from 'react';
 
 const AppLayout = ({
     breadcrumbs = [],

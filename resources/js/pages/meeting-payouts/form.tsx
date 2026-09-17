@@ -1,11 +1,9 @@
 import { Form } from '@inertiajs/react';
 import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
 import { useState } from 'react';
+
 import { FormField } from '@/components/form-field';
-
 import { Button } from '@/components/ui/button';
-
 import {
     Dialog,
     DialogClose,
@@ -16,9 +14,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-
 import { Input } from '@/components/ui/input';
-
 import {
     Select,
     SelectContent,
@@ -26,12 +22,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-
 import { Spinner } from '@/components/ui/spinner';
-
 import { useTranslation } from '@/hooks/use-translation';
 import payouts from '@/routes/groups/sessions/meetings/payouts';
-
 import type {
     Meeting,
     MeetingPayoutContext,
@@ -39,6 +32,8 @@ import type {
     Session,
     Group,
 } from '@/types';
+
+import type { ReactElement } from 'react';
 
 type Props = {
     trigger: ReactElement;

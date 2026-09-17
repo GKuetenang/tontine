@@ -7,15 +7,11 @@ import {
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
-import type { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
-
 import { router } from '@inertiajs/react';
-
 import { GripVerticalIcon } from 'lucide-react';
-
 import { useState } from 'react';
-
 import { toast } from 'sonner';
+
 import {
     Table,
     TableBody,
@@ -28,6 +24,8 @@ import drawRoutes from '@/routes/groups/sessions/draw';
 import type { Draw, ResultGroup, Session } from '@/types';
 
 import { DrawEntryRow } from './draw-entry-row';
+
+import type { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
 
 type DrawEntry = NonNullable<Draw['entries']>[number];
 

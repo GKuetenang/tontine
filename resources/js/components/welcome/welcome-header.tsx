@@ -1,7 +1,9 @@
 import { Link } from '@inertiajs/react';
+
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/hooks/use-translation';
 import { dashboard, login } from '@/routes';
+
 import AppLogo from '../app-logo';
 
 type Props = { authenticated: boolean };

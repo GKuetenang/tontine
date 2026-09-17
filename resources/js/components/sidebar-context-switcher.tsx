@@ -1,4 +1,3 @@
-import type { LucideIcon } from 'lucide-react';
 import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -21,6 +20,8 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
+
+import type { LucideIcon } from 'lucide-react';
 
 export type SidebarContextOption = {
     id: number;

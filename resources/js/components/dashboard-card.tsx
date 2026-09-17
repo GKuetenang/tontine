@@ -1,6 +1,7 @@
+import { Card, CardContent } from "./ui/card";
+
 import type { LucideProps } from "lucide-react";
 import type { ForwardRefExoticComponent, RefAttributes } from "react";
-import { Card, CardContent } from "./ui/card";
 
 type Props = {
     title: string;

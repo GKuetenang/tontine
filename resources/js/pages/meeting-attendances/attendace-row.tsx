@@ -1,9 +1,11 @@
 import { PencilIcon } from 'lucide-react';
+
 import { AttendanceStatusBadge } from '@/components/attendance-status-badge';
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { formatDate } from '@/lib';
 import type { Meeting, MeetingAttendance, Session, Group } from '@/types';
+
 import { EditAttendanceForm } from './form';
 
 export function AttendanceRow({

@@ -1,11 +1,13 @@
 import { Link } from '@inertiajs/react';
 import { FileTextIcon } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { useAuthorization } from '@/hooks/use-authorization';
 import { useTranslation } from '@/hooks/use-translation';
 import { formatDate } from '@/lib';
 import meetings from '@/routes/groups/sessions/meetings';
 import type { Meeting, Session, Group } from '@/types';
+
 import { MeetingStatusBadge } from '../../../components/meeting-status-badge';
 import { Actions } from '../actions';
 

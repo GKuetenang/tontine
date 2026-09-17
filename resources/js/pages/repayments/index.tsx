@@ -1,5 +1,6 @@
 import { Form, Head } from '@inertiajs/react';
 import { SearchIcon } from 'lucide-react';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SortableTableHead } from '@/components/sortable-table-head';

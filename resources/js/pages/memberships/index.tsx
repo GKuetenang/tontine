@@ -1,5 +1,6 @@
 import { Form, Head } from '@inertiajs/react';
 import { PlusIcon, SearchIcon } from 'lucide-react';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { MembershipStatusBadge } from '@/components/membership-status-badge';
@@ -27,6 +28,7 @@ import type {
     PaginatedCollection,
     ResultGroup,
 } from '@/types';
+
 import { Actions } from './actions';
 import { EditMembershipForm } from './form';
 

@@ -1,6 +1,6 @@
+import type { GroupPermission } from './generated/types/App/Enums';
 import type { InertiaLinkProps } from '@inertiajs/react';
 import type { LucideIcon } from 'lucide-react';
-import type { GroupPermission } from './generated/types/App/Enums';
 
 export type BreadcrumbItem = {
     title: string;

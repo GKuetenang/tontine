@@ -9,6 +9,7 @@ import {
     SearchIcon,
     Trash2Icon,
 } from 'lucide-react';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { MeetingStatusBadge } from '@/components/meeting-status-badge';
@@ -32,16 +33,13 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-
 import { useAuthorization } from '@/hooks/use-authorization';
 import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
-
 import { formatDate } from '@/lib';
 import groups from '@/routes/groups';
 import sessions from '@/routes/groups/sessions';
 import meetings from '@/routes/groups/sessions/meetings';
-
 import type {
     BreadcrumbItem,
     Meeting,

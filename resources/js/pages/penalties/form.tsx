@@ -1,7 +1,7 @@
 import { Form } from '@inertiajs/react';
 import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
 import { useState } from 'react';
+
 import { FormField } from '@/components/form-field';
 import type { SelectOption } from '@/components/select-with-items';
 import { SelectWithItems } from '@/components/select-with-items';
@@ -23,6 +23,8 @@ import { UserCombobox } from '@/components/user-combobox';
 import { useTranslation } from '@/hooks/use-translation';
 import penalties from '@/routes/groups/sessions/penalties';
 import type { MemberUser } from '@/types';
+
+import type { ReactElement } from 'react';
 
 type Props = {
     trigger: ReactElement;

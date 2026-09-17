@@ -52,17 +52,24 @@ export default [
         plugins: {
             import: importPlugin,
         },
+
         settings: {
             'import/resolver': {
                 typescript: {
                     alwaysTryTypes: true,
                     project: './tsconfig.json',
                 },
+
                 node: true,
             },
+
+            'import/internal-regex': '^@/',
         },
+
         rules: {
-            '@typescript-eslint/no-explicit-any': 'off',
+            '@typescript-eslint/no-explicit-any':
+                'off',
+
             '@typescript-eslint/consistent-type-imports': [
                 'error',
                 {
@@ -70,6 +77,12 @@ export default [
                     fixStyle: 'separate-type-imports',
                 },
             ],
+
+            'import/consistent-type-specifier-style': [
+                'error',
+                'prefer-top-level',
+            ],
+
             'import/order': [
                 'error',
                 {
@@ -80,13 +93,28 @@ export default [
                         'parent',
                         'sibling',
                         'index',
+                        'type',
                     ],
-                    alphabetize: { order: 'asc', caseInsensitive: true },
+
+                    pathGroups: [
+                        {
+                            pattern: '@/**',
+                            group: 'internal',
+                            position: 'before',
+                        },
+                    ],
+
+                    pathGroupsExcludedImportTypes: [
+                        'builtin',
+                    ],
+
+                    alphabetize: {
+                        order: 'asc',
+                        caseInsensitive: true,
+                    },
+
+                    'newlines-between': 'always',
                 },
-            ],
-            'import/consistent-type-specifier-style': [
-                'error',
-                'prefer-top-level',
             ],
         },
     },

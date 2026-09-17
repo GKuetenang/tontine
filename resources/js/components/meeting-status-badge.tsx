@@ -1,5 +1,4 @@
 import { Badge } from '@/components/ui/badge';
-
 import { useTranslation } from '@/hooks/use-translation';
 import type { Meeting } from '@/types';
 

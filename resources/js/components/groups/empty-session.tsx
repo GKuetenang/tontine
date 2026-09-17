@@ -1,8 +1,10 @@
 import { Link } from '@inertiajs/react';
 import { CalendarDays } from 'lucide-react';
+
 import { useTranslation } from '@/hooks/use-translation';
 import groups from '@/routes/groups';
 import type { Group } from '@/types';
+
 import { Button } from '../ui/button';
 
 export function EmptySessions({ group }: { group: Group }) {

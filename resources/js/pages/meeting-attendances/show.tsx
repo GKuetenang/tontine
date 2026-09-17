@@ -6,9 +6,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-
 import { useAuthorization } from '@/hooks/use-authorization';
-
 import { useTranslation } from '@/hooks/use-translation';
 import type { Meeting, Session, Group } from '@/types';
 

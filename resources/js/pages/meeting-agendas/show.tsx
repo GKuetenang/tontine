@@ -1,4 +1,3 @@
-import type { DragEndEvent } from '@dnd-kit/core';
 import {
     DndContext,
     KeyboardSensor,
@@ -7,21 +6,17 @@ import {
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
-
 import {
     SortableContext,
     arrayMove,
     sortableKeyboardCoordinates,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-
 import { router } from '@inertiajs/react';
-
 import { PlusIcon } from 'lucide-react';
-
 import { useState } from 'react';
-
 import { toast } from 'sonner';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuthorization } from '@/hooks/use-authorization';
@@ -33,6 +28,8 @@ import { AgendaItem } from './agenda-item';
 import { EmptyAgenda } from './empty-agenda';
 import { EditAgendaItemForm } from './form';
 import { SortableAgendaItem } from './sortable-agenda-item';
+
+import type { DragEndEvent } from '@dnd-kit/core';
 
 type Props = {
     group: Group;

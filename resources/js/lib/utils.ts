@@ -1,5 +1,3 @@
-import type { InertiaLinkProps } from '@inertiajs/react';
-import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
 import {
     BriefcaseBusinessIcon,
@@ -18,9 +16,13 @@ import {
     UsersIcon,
 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
+
 import groups from '@/routes/groups';
 import sessions from '@/routes/groups/sessions';
 import type { Group, Meeting, NavItem, Session } from '@/types';
+
+import type { InertiaLinkProps } from '@inertiajs/react';
+import type { ClassValue } from 'clsx';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));

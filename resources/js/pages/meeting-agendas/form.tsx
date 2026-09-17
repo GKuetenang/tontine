@@ -1,7 +1,7 @@
 import { Form, router } from '@inertiajs/react';
 import { SaveIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
 import { useState } from 'react';
+
 import { FormField } from '@/components/form-field';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,11 +16,11 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
-
 import { useTranslation } from '@/hooks/use-translation';
 import agenda from '@/routes/groups/sessions/meetings/agenda';
-
 import type { Meeting, MeetingAgendaItem, Session, Group } from '@/types';
+
+import type { ReactElement } from 'react';
 
 type Props = {
     trigger: ReactElement;

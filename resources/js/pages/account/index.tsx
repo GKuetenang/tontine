@@ -7,6 +7,7 @@ import {
     UsersIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';

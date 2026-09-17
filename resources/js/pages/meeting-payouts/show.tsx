@@ -1,15 +1,12 @@
 import { HandCoinsIcon } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
 import { useAuthorization } from '@/hooks/use-authorization';
-
 import { useTranslation } from '@/hooks/use-translation';
 import type { Meeting, MeetingPayoutContext, Session, Group } from '@/types';
 
 import { CreatePayoutForm } from './form';
-
 import { PayoutItem } from './payout-item';
 import { MeetingPayoutsPlaceholder } from './placeholder';
 

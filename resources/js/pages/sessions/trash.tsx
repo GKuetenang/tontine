@@ -1,6 +1,7 @@
 import { Form, Head, Link } from '@inertiajs/react';
 import { RotateCcwIcon, SearchIcon, Trash2Icon } from 'lucide-react';
 import { toast } from 'sonner';
+
 import { CollectionPagination } from '@/components/collection-pagination';
 import Heading from '@/components/heading';
 import { SessionStatusBadge } from '@/components/session-status-badge';

@@ -1,5 +1,6 @@
 import { Link, router, usePage } from '@inertiajs/react';
 import { Building2Icon, CalendarIcon, LayoutGrid, ListIcon } from 'lucide-react';
+
 import AppLogo from '@/components/app-logo';
 import { NavContext } from '@/components/nav-context';
 import { NavMain } from '@/components/nav-main';
@@ -9,7 +10,6 @@ import {
     
 } from '@/components/sidebar-context-switcher';
 import type {SidebarContextOption} from '@/components/sidebar-context-switcher';
-
 import {
     Sidebar,
     SidebarContent,
@@ -21,11 +21,9 @@ import {
 } from '@/components/ui/sidebar';
 import { useTranslation } from '@/hooks/use-translation';
 import { getSessionNavItems, getGroupNavItems } from '@/lib/utils';
-
 import { dashboard } from '@/routes';
 import groups from '@/routes/groups';
 import sessions from '@/routes/groups/sessions';
-
 import type { NavItem, Session, Group } from '@/types';
 
 type SidebarPageProps = {

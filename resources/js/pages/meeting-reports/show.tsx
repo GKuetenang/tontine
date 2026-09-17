@@ -1,5 +1,6 @@
 import { Head } from '@inertiajs/react';
 import { PrinterIcon } from 'lucide-react';
+
 import { RichTextContent } from '@/components/rich-text-content';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

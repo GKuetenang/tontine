@@ -5,9 +5,11 @@ import {
     LandmarkIcon,
     UsersIcon,
 } from 'lucide-react';
-import type { PropsWithChildren } from 'react';
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import account from '@/routes/account';
+
+import type { PropsWithChildren } from 'react';
 
 const items = [
     {

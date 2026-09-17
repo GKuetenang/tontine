@@ -10,6 +10,7 @@ import {
     ShieldCheck,
     Users,
 } from 'lucide-react';
+
 import DashboardCard from '@/components/dashboard-card';
 import { EmptySessions } from '@/components/groups/empty-session';
 import { InformationRow } from '@/components/groups/information-row';

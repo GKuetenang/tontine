@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import { EllipsisIcon, Pencil, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
+
 import type { SelectOption } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,6 +14,7 @@ import { useAuthorization } from '@/hooks/use-authorization';
 import { useTranslation } from '@/hooks/use-translation';
 import memberships from '@/routes/groups/memberships';
 import type { Membership, ResultGroup } from '@/types';
+
 import { EditMembershipForm } from './form';
 
 type Props = {

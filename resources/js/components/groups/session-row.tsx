@@ -1,8 +1,10 @@
 import { Link } from '@inertiajs/react';
+
 import { useTranslation } from '@/hooks/use-translation';
 import { formatCurrency } from '@/lib/utils';
 import groups from '@/routes/groups';
 import type { Session, Group } from '@/types';
+
 import { SessionStatusBadge } from '../session-status-badge';
 
 export function SessionRow({

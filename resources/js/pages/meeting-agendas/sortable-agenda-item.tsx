@@ -1,8 +1,10 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { GripVerticalIcon } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/hooks/use-translation';
 import type { Meeting, MeetingAgendaItem, Session, Group } from '@/types';
+
 import { AgendaItem } from './agenda-item';
 
 export function SortableAgendaItem({

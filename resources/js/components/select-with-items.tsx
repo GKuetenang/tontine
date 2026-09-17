@@ -1,4 +1,3 @@
-import type { ComponentProps } from 'react';
 import {
     Select,
     SelectContent,
@@ -8,6 +7,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+
+import type { ComponentProps } from 'react';
 
 export type SelectOption = {
     label: string;

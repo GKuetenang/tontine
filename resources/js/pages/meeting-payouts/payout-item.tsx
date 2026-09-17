@@ -1,15 +1,13 @@
 import { Link } from '@inertiajs/react';
 import { CheckIcon, XIcon } from 'lucide-react';
 import { toast } from 'sonner';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-
 import { useAuthorization } from '@/hooks/use-authorization';
-
 import { useTranslation } from '@/hooks/use-translation';
 import { formatCurrency } from '@/lib/utils';
 import payouts from '@/routes/groups/sessions/meetings/payouts';
-
 import type { Meeting, Payout, Session, Group } from '@/types';
 
 type Props = {
