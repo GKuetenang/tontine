@@ -3,17 +3,16 @@ import { format } from 'date-fns';
 import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
 
+import { AppDateTimePicker } from '@/components/app-datetime-picker';
 import { FormField } from '@/components/form-field';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { DateTimePicker } from '@/components/ui/datetime-picker';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { useTranslation } from '@/hooks/use-translation';
 import { withAppLayout } from '@/layouts/app-layout';
-import { getDateFnsLocale } from '@/lib';
 import groups from '@/routes/groups';
 import type { BreadcrumbItem, Group } from '@/types';
 
@@ -33,7 +32,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
-    const { t, locale } = useTranslation();
+    const { t } = useTranslation();
     const [mandateStartsAt, setMandateStartsAt] = useState<Date>();
     const [mandateEndsAt, setMandateEndsAt] = useState<Date>();
     const action = group.id
@@ -266,11 +265,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                                                 : ''
                                                         }
                                                     />
-                                                    <DateTimePicker
-                                                        weekStartsOn={1}
-                                                        locale={getDateFnsLocale(
-                                                            locale,
-                                                        )}
+                                                    <AppDateTimePicker
                                                         granularity="minute"
                                                         value={mandateStartsAt}
                                                         onChange={
@@ -303,11 +298,7 @@ export default withAppLayout<Props>(breadcrumbs, ({ group }) => {
                                                                 : ''
                                                         }
                                                     />
-                                                    <DateTimePicker
-                                                        weekStartsOn={1}
-                                                        locale={getDateFnsLocale(
-                                                            locale,
-                                                        )}
+                                                    <AppDateTimePicker
                                                         granularity="minute"
                                                         value={mandateEndsAt}
                                                         onChange={

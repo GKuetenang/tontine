@@ -3,9 +3,9 @@ import { format } from 'date-fns';
 import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
 
+import { AppDateTimePicker } from '@/components/app-datetime-picker';
 import { FormField } from '@/components/form-field';
 import { Button } from '@/components/ui/button';
-import { DateTimePicker } from '@/components/ui/datetime-picker';
 import {
     Dialog,
     DialogClose,
@@ -146,8 +146,7 @@ export function CreateInsuranceContributionForm({
                                         )}
                                     />
                                 )}
-                                <DateTimePicker
-                                    weekStartsOn={1}
+                                <AppDateTimePicker
                                     granularity="minute"
                                     value={occurredAt}
                                     onChange={setOccurredAt}

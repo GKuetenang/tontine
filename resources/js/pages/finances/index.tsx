@@ -3,11 +3,11 @@ import { format, parseISO } from 'date-fns';
 import { ListFilterIcon } from 'lucide-react';
 import { useState } from 'react';
 
+import { AppDateTimePicker } from '@/components/app-datetime-picker';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { DateTimePicker } from '@/components/ui/datetime-picker';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -219,8 +219,7 @@ export default withAppLayout<Props>(
                                                 : ''
                                         }
                                     />
-                                    <DateTimePicker
-                                        weekStartsOn={1}
+                                    <AppDateTimePicker
                                         granularity="day"
                                         value={from}
                                         onChange={setFrom}
@@ -240,8 +239,7 @@ export default withAppLayout<Props>(
                                             to ? format(to, 'yyyy-MM-dd') : ''
                                         }
                                     />
-                                    <DateTimePicker
-                                        weekStartsOn={1}
+                                    <AppDateTimePicker
                                         granularity="day"
                                         value={to}
                                         onChange={setTo}

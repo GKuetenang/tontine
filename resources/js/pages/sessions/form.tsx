@@ -3,11 +3,11 @@ import { format } from 'date-fns';
 import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
 
+import { AppDateTimePicker } from '@/components/app-datetime-picker';
 import { FormField } from '@/components/form-field';
 import type { SelectOption } from '@/components/select-with-items';
 import { SelectWithItems } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
-import { DateTimePicker } from '@/components/ui/datetime-picker';
 import {
     Dialog,
     DialogClose,
@@ -239,8 +239,7 @@ export function EditSessionForm({
                                             : ''
                                     }
                                 />
-                                <DateTimePicker
-                                    weekStartsOn={1}
+                                <AppDateTimePicker
                                     granularity="minute"
                                     className="text-foreground"
                                     placeholder={t('Choisir une date')}
@@ -254,8 +253,7 @@ export function EditSessionForm({
                                 label={t('Date de fin')}
                                 htmlFor="end_at"
                             >
-                                <DateTimePicker
-                                    weekStartsOn={1}
+                                <AppDateTimePicker
                                     granularity="minute"
                                     className="text-foreground"
                                     placeholder={t('Choisir une date')}

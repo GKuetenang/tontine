@@ -4,12 +4,12 @@ import { CalendarRangeIcon, SaveIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { rrulestr } from 'rrule';
 
+import { AppDateTimePicker } from '@/components/app-datetime-picker';
 import { FormField } from '@/components/form-field';
 import { SearchableSelect } from '@/components/searchable-select';
 import type { SelectOption } from '@/components/select-with-items';
 import { SelectWithItems } from '@/components/select-with-items';
 import { Button } from '@/components/ui/button';
-import { DateTimePicker } from '@/components/ui/datetime-picker';
 import {
     Dialog,
     DialogClose,
@@ -333,8 +333,7 @@ export function MeetingScheduleForm({
                                                 : ''
                                         }
                                     />
-                                    <DateTimePicker
-                                        weekStartsOn={1}
+                                    <AppDateTimePicker
                                         granularity="minute"
                                         className="text-foreground"
                                         value={startsAt}
