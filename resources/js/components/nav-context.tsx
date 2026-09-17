@@ -11,12 +11,11 @@ import { useCurrentUrl } from '@/hooks/use-current-url';
 import type { NavItem } from '@/types';
 
 type NavContextProps = {
-    label: string;
-    title?: string;
     items: NavItem[];
+    children?: React.ReactNode;
 };
 
-export function NavContext({ label, title, items }: NavContextProps) {
+export function NavContext({ items, children }: NavContextProps) {
     const { isCurrentUrl, isCurrentOrParentUrl } = useCurrentUrl();
     const { can } = useAuthorization();
     const authorizedItems = items.filter(
@@ -28,16 +27,12 @@ export function NavContext({ label, title, items }: NavContextProps) {
     }
 
     return (
-        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-            <SidebarGroupLabel className="flex h-auto flex-col items-start py-2">
-                <span className="uppercase">{label}</span>
-
-                {title && (
-                    <span className="truncate text-sm font-semibold text-foreground">
-                        {title}
-                    </span>
-                )}
+        <SidebarGroup>
+            <SidebarGroupLabel className="sr-only">
+                Navigation contextuelle
             </SidebarGroupLabel>
+
+            {children}
 
             <SidebarMenu>
                 {authorizedItems.map((item) => (

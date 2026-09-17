@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Group;
+use App\Models\Session;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -54,8 +55,41 @@ class HandleInertiaRequests extends Middleware
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'translations' => fn(): array => $this->getTranslations(),
             'locale' => fn(): string => app()->getLocale(),
+            'navigation' => fn(): array => $this->navigation($request),
 
         ];
+    }
+
+    private function navigation(Request $request): array
+    {
+        $user = $request->user();
+
+        if ($user === null) {
+            return ['groups' => [], 'sessions' => []];
+        }
+
+        $groups = Group::query()
+            ->accessibleBy($user)
+            ->orderBy('name')
+            ->get(['id', 'name', 'slug'])
+            ->map->only(['id', 'name', 'slug'])
+            ->values()
+            ->all();
+
+        $group = $request->route('group');
+
+        if (! $group instanceof Group || ! $user->can('viewAny', [Session::class, $group])) {
+            return ['groups' => $groups, 'sessions' => []];
+        }
+
+        $sessions = $group->sessions()
+            ->orderBy('name')
+            ->get(['id', 'name', 'slug'])
+            ->map->only(['id', 'name', 'slug'])
+            ->values()
+            ->all();
+
+        return ['groups' => $groups, 'sessions' => $sessions];
     }
 
     private function getTranslations(): array
