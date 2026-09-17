@@ -1,5 +1,5 @@
-import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import {
@@ -62,7 +62,7 @@ export function SidebarContextSwitcher({
                             tooltip={current?.name ?? label}
                             className="data-[state=open]:bg-sidebar-accent"
                         >
-                            <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+                            <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-accent text-sidebar-primary">
                                 <Icon className="size-4" />
                             </div>
                             <div className="grid min-w-0 flex-1 text-left text-sm leading-tight">
